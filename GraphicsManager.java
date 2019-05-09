@@ -14,8 +14,8 @@ class GraphicsManager {
 
 
     // size of the screen
-    int WIDTH = 1024;
-    int HEIGHT = 640;
+    static int WIDTH = 1024;
+    static int HEIGHT = 640;
 
     JFrame frame;
 

@@ -18,9 +18,16 @@ class EnemyShip {
 
 
     // called every tick by the controller
-    public void updateShip() {
+    // returns true if the ship has fallen off the screen and so should be destroyed
+    public boolean updateShip() {
 	xPos -= xSpeed;
 	yPos += ySpeed;
+
+	if(xPos < -20) {
+	    return true;
+	}
+
+	return false;
     }
 }
 	
