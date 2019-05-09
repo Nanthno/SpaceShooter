@@ -9,7 +9,7 @@ class EnemyShip {
     int xSpeed;
     int ySpeed;
 
-    public static EnemyShip(int y, int xSpeed, int ySpeed) {
+    public EnemyShip(int y, int xSpeed, int ySpeed) {
 	yPos = y;
 	this.xSpeed = xSpeed;
 	this.ySpeed = ySpeed;
