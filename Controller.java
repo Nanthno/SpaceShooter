@@ -18,7 +18,7 @@ class Controller {
     public static void main(String[] args) {
 
 	graphicsManager = new GraphicsManager();
-
+	
 	gameLoop();
 
     }
@@ -63,5 +63,9 @@ class Controller {
 	
 	}
 	
+    }
+
+    static ArrayList<EnemyShip> getEnemyArray() {
+	return enemyShips;
     }
 }

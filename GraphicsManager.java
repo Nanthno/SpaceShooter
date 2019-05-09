@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 class GraphicsManager {
 
@@ -21,10 +22,10 @@ class GraphicsManager {
 
     JPanel gamePanel;
 
+    // images
     BufferedImage background;
-
-    // files for the game images
-    File backgroundFile = new File("images/space.png");
+    BufferedImage enemy1;
+    
     
     public GraphicsManager() {
 
@@ -57,16 +58,26 @@ class GraphicsManager {
     private JLabel drawScreenshot() {
 	BufferedImage screenshot = copyImage(background);
 
+	// draw enemy ships
+	ArrayList<EnemyShip> enemyShips = Controller.getEnemyArray();
+	Graphics g = background.getGraphics();
+	for(EnemyShip e : enemyShips) {
+	    g.drawImage(enemy1, e.getx(), e.gety(), null);
+	}
+	g.dispose();
+
+	// at end
 	JLabel screenShotLabel = new JLabel(new ImageIcon(scaleImage(screenshot, WIDTH, HEIGHT)));
 
 	return screenShotLabel;
     }
-
+    
     // loads the images for the game
     void loadImages() {
 	System.out.println("attempting to upload images...");
 
-	background = loadImage(backgroundFile);
+	background = loadImage(new File("images/space.png"));
+	enemy1 = loadImage(new File("images/enemy1.png"));
 
 	System.out.println("success");
 	

@@ -29,6 +29,13 @@ class EnemyShip {
 
 	return false;
     }
+
+    public int getx() {
+	return xPos;
+    }
+    public int gety() {
+	return yPos;
+    }
 }
 	
     
