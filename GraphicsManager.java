@@ -27,6 +27,7 @@ class GraphicsManager {
     BufferedImage enemy1;
     BufferedImage playerImg;
     BufferedImage playerBullet;
+    BufferedImage[] explosion;
     
     
     public GraphicsManager() {
@@ -72,14 +73,21 @@ class GraphicsManager {
 	for(PlayerBullet b : pb) {
 	    g.drawImage(playerBullet, (int)b.getx(), (int)b.gety(), null);
 	}
+
+	// draw explosions
+	ArrayList<Explosion> exp = Controller.getExplosions();
+	for(Explosion e : exp) {
+	    g.drawImage(explosion[e.getStage()], e.getx(), e.gety(), null);
+	}
 	
 	// draw player ship
 	PlayerShip ship = Controller.getPlayerShip();
 	g.drawImage(playerImg, (int)ship.getx(), (int)ship.gety(), null);
+
 	
-	g.dispose();
 
 	// at end
+	g.dispose();
 	JLabel screenShotLabel = new JLabel(new ImageIcon(screenshot));
 
 	return screenShotLabel;
@@ -91,6 +99,11 @@ class GraphicsManager {
 	enemy1 = loadImage(new File("images/enemy1.png"));
 	playerImg = loadImage(new File("images/player.png"));
 	playerBullet = loadImage(new File("images/playerBullet.png"));
+
+	explosion = new BufferedImage[11];
+	for(int i = 0; i < 11; i++) {
+	    explosion[i] = loadImage(new File("images/explosion1/exp"+i+".png"));
+	}
 	
     }
     

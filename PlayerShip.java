@@ -7,7 +7,7 @@ class PlayerShip {
 
 
     // manages how fast the player can fire
-    int maxFire = 10;
+    int maxFire = 15;
     int fire = 0;
 
     Input in;

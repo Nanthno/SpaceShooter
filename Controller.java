@@ -11,6 +11,8 @@ class Controller {
     static PlayerShip player = new PlayerShip();
     static ArrayList<PlayerBullet> playerBullets = new ArrayList<PlayerBullet>();
 
+    static ArrayList<Explosion> explosions = new ArrayList<Explosion>();
+
     static final int updatesPerSecond = 60;
 
     // probability of a spawn occuring on each tick
@@ -60,6 +62,15 @@ class Controller {
 	    enemyShips.add(new EnemyShip(y, xSpeed, ySpeed));
 	}
 
+	// updates explosions
+	for(int i = explosions.size()-1; i >= 0; i--) {
+	    boolean kill = explosions.get(i).update();
+	    if(kill) {
+		explosions.remove(i);
+	    }
+	}
+	    
+
 	checkEnemyBulletCollision();
 	
 	graphicsManager.drawScreen();
@@ -75,37 +86,13 @@ class Controller {
 		
 		if(b.getx() < e.getx()+16 && b.getx() > e.getx()-16 &&
 		   b.gety()-1 < e.gety()+16 && b.gety()+1 > e.gety()-16) {
+		    explosions.add(new Explosion(e.getx(), e.gety()));
 		    playerBullets.remove(i);
 		    enemyShips.remove(j);
+		    
 		}
 	    }
 	}
-	/*
-	int i = 0;
-	int j = 0;
-	while(i < playerBullets.size()) {
-	    PlayerBullet b = playerBullets.get(i);
-	    while(j < enemyShips.size()) {
-		System.out.println(i + " : " + j + ", " + playerBullets.size() + " : " + enemyShips.size());
-		EnemyShip e = enemyShips.get(j);
-		if(b.getx()-3 < e.getx()+16 && b.getx()+3 > e.getx()-16 &&
-		   b.gety()-1 < e.gety()+16 && b.gety()+1 > e.gety()-16) {
-		    playerBullets.remove(i);
-		    enemyShips.remove(j);
-		    if(playerBullets.size() < i) {
-			b = playerBullets.get(i);
-		    }
-		    else {
-			break;
-		    }
-		}
-		else {
-		    j++;
-		}
-	    }
-	    i++;
-	    }*/
-	    
     }
 
     public static void gameLoop() {
@@ -135,5 +122,8 @@ class Controller {
     }
     static ArrayList<PlayerBullet> getPlayerBullets() {
 	return playerBullets;
+    }
+    static ArrayList<Explosion> getExplosions() {
+	return explosions;
     }
 }
