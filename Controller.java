@@ -13,14 +13,12 @@ class Controller {
 
     static final int updatesPerSecond = 60;
 
-    // maximum number of spawns per update
-    static int maxSpawn = 1;
+    // probability of a spawn occuring on each tick
+    static double spawnChance = 0.05;
     
     public static void main(String[] args) {
 
 	graphicsManager = new GraphicsManager();
-
-	playerBullets.add(new PlayerBullet(400, 400, 5, 0));
 	
 	gameLoop();
 
@@ -53,18 +51,61 @@ class Controller {
 
 	// spawns new enemyShips
 	Random rand = new Random();
-	int spawns = rand.nextInt(maxSpawn+1);
+	double spawns = rand.nextDouble();
 	
-	for(int i = 0; i < spawns; i++) {
+        if(spawns < spawnChance) {
 	    int y = rand.nextInt(GraphicsManager.HEIGHT);
 	    int xSpeed = 2;
 	    int ySpeed = 0;
-	    //enemyShips.add(new EnemyShip(y, xSpeed, ySpeed));
-	    }
+	    enemyShips.add(new EnemyShip(y, xSpeed, ySpeed));
+	}
 
-       
+	checkEnemyBulletCollision();
 	
 	graphicsManager.drawScreen();
+    }
+
+    static void checkEnemyBulletCollision() {
+	int collisions = 0;
+
+	for(int i = playerBullets.size()-1; i >= 0; i--) {
+	    PlayerBullet b = playerBullets.get(i);
+	    for(int j = enemyShips.size()-1; j >= 0; j--) {
+		EnemyShip e = enemyShips.get(j);
+		
+		if(b.getx() < e.getx()+16 && b.getx() > e.getx()-16 &&
+		   b.gety()-1 < e.gety()+16 && b.gety()+1 > e.gety()-16) {
+		    playerBullets.remove(i);
+		    enemyShips.remove(j);
+		}
+	    }
+	}
+	/*
+	int i = 0;
+	int j = 0;
+	while(i < playerBullets.size()) {
+	    PlayerBullet b = playerBullets.get(i);
+	    while(j < enemyShips.size()) {
+		System.out.println(i + " : " + j + ", " + playerBullets.size() + " : " + enemyShips.size());
+		EnemyShip e = enemyShips.get(j);
+		if(b.getx()-3 < e.getx()+16 && b.getx()+3 > e.getx()-16 &&
+		   b.gety()-1 < e.gety()+16 && b.gety()+1 > e.gety()-16) {
+		    playerBullets.remove(i);
+		    enemyShips.remove(j);
+		    if(playerBullets.size() < i) {
+			b = playerBullets.get(i);
+		    }
+		    else {
+			break;
+		    }
+		}
+		else {
+		    j++;
+		}
+	    }
+	    i++;
+	    }*/
+	    
     }
 
     public static void gameLoop() {

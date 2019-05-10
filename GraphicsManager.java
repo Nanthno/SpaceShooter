@@ -87,14 +87,10 @@ class GraphicsManager {
     
     // loads the images for the game
     void loadImages() {
-	System.out.println("attempting to upload images...");
-
 	background = loadImage(new File("images/space.png"));
 	enemy1 = loadImage(new File("images/enemy1.png"));
 	playerImg = loadImage(new File("images/player.png"));
 	playerBullet = loadImage(new File("images/playerBullet.png"));
-
-	System.out.println("success");
 	
     }
     
