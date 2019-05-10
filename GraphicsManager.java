@@ -67,6 +67,12 @@ class GraphicsManager {
 	    g.drawImage(enemy1, e.getx(), e.gety(), null);
 	}
 
+	// draw player bullets
+	ArrayList<PlayerBullet> pb = Controller.getPlayerBullets();
+	for(PlayerBullet b : pb) {
+	    g.drawImage(playerBullet, (int)b.getx(), (int)b.gety(), null);
+	}
+	
 	// draw player ship
 	PlayerShip ship = Controller.getPlayerShip();
 	g.drawImage(playerImg, (int)ship.getx(), (int)ship.gety(), null);
@@ -86,7 +92,7 @@ class GraphicsManager {
 	background = loadImage(new File("images/space.png"));
 	enemy1 = loadImage(new File("images/enemy1.png"));
 	playerImg = loadImage(new File("images/player.png"));
-	playerBullet = loadImage(new File("images/bullet.png"));
+	playerBullet = loadImage(new File("images/playerBullet.png"));
 
 	System.out.println("success");
 	

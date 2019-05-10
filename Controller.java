@@ -9,6 +9,7 @@ class Controller {
     static ArrayList<EnemyShip> enemyShips = new ArrayList<EnemyShip>();
 
     static PlayerShip player = new PlayerShip();
+    static ArrayList<PlayerBullet> playerBullets = new ArrayList<PlayerBullet>();
 
     static final int updatesPerSecond = 60;
 
@@ -17,7 +18,10 @@ class Controller {
     
     public static void main(String[] args) {
 
-	graphicsManager = new GraphicsManager();	
+	graphicsManager = new GraphicsManager();
+
+	playerBullets.add(new PlayerBullet(400, 400, 5, 0));
+	
 	gameLoop();
 
     }
@@ -25,6 +29,16 @@ class Controller {
     static void update() {
 	// updates player
 	player.update();
+
+	// updates playerbullets
+	ArrayList<PlayerBullet> newPlayerBullets = new ArrayList<PlayerBullet>();
+	for(PlayerBullet b : playerBullets) {
+	    b.update();
+	    if(b.getx() < 1040) {
+		newPlayerBullets.add(b);
+	    }
+	}
+	playerBullets = newPlayerBullets;
 	
 	// updates enemyShips
 	ArrayList<EnemyShip> newEnemyShips = new ArrayList<EnemyShip>();
@@ -45,8 +59,10 @@ class Controller {
 	    int y = rand.nextInt(GraphicsManager.HEIGHT);
 	    int xSpeed = 2;
 	    int ySpeed = 0;
-	    enemyShips.add(new EnemyShip(y, xSpeed, ySpeed));
+	    //enemyShips.add(new EnemyShip(y, xSpeed, ySpeed));
 	    }
+
+       
 	
 	graphicsManager.drawScreen();
     }
@@ -65,11 +81,18 @@ class Controller {
 	
     }
 
+    static void addBullet(PlayerBullet b) {
+	playerBullets.add(b);
+    }
+
     static ArrayList<EnemyShip> getEnemyArray() {
 	return enemyShips;
     }
 
     static PlayerShip getPlayerShip() {
 	return player;
+    }
+    static ArrayList<PlayerBullet> getPlayerBullets() {
+	return playerBullets;
     }
 }

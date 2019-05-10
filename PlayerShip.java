@@ -5,6 +5,11 @@ class PlayerShip {
     double xSpeed = 3;
     double ySpeed = 3;
 
+
+    // manages how fast the player can fire
+    int maxFire = 10;
+    int fire = 0;
+
     Input in;
     
     public PlayerShip() {
@@ -19,6 +24,8 @@ class PlayerShip {
     }
 
     public void update() {
+	fire--;
+	
 	if(in.up)
 	    yPos -= ySpeed;
 	if(in.down)
@@ -27,5 +34,11 @@ class PlayerShip {
 	    xPos += xSpeed;
 	if(in.left)
 	    xPos -= xSpeed;
+	if(in.fire && fire < 0) {
+	    Controller.addBullet(new PlayerBullet(xPos+5, yPos+7, 5, 0));
+	    fire = maxFire;
+	}
+	
+	    
     }
 }
