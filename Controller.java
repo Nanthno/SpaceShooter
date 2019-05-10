@@ -8,6 +8,8 @@ class Controller {
 
     static ArrayList<EnemyShip> enemyShips = new ArrayList<EnemyShip>();
 
+    static PlayerShip player = new PlayerShip();
+
     static final int updatesPerSecond = 60;
 
     // maximum number of spawns per update
@@ -15,13 +17,15 @@ class Controller {
     
     public static void main(String[] args) {
 
-	graphicsManager = new GraphicsManager();
-	
+	graphicsManager = new GraphicsManager();	
 	gameLoop();
 
     }
 
     static void update() {
+	// updates player
+	player.update();
+	
 	// updates enemyShips
 	ArrayList<EnemyShip> newEnemyShips = new ArrayList<EnemyShip>();
 	for(int i = 0; i < enemyShips.size(); i++) {
@@ -63,5 +67,9 @@ class Controller {
 
     static ArrayList<EnemyShip> getEnemyArray() {
 	return enemyShips;
+    }
+
+    static PlayerShip getPlayerShip() {
+	return player;
     }
 }

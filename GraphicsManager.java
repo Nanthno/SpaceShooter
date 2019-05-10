@@ -26,6 +26,7 @@ class GraphicsManager {
     BufferedImage background;
     BufferedImage enemy1;
     BufferedImage playerImg;
+    BufferedImage playerBullet;
     
     
     public GraphicsManager() {
@@ -65,10 +66,15 @@ class GraphicsManager {
 	for(EnemyShip e : enemyShips) {
 	    g.drawImage(enemy1, e.getx(), e.gety(), null);
 	}
+
+	// draw player ship
+	PlayerShip ship = Controller.getPlayerShip();
+	g.drawImage(playerImg, (int)ship.getx(), (int)ship.gety(), null);
+	
 	g.dispose();
 
 	// at end
-	JLabel screenShotLabel = new JLabel(new ImageIcon(scaleImage(screenshot, WIDTH, HEIGHT)));
+	JLabel screenShotLabel = new JLabel(new ImageIcon(screenshot));
 
 	return screenShotLabel;
     }
@@ -80,6 +86,7 @@ class GraphicsManager {
 	background = loadImage(new File("images/space.png"));
 	enemy1 = loadImage(new File("images/enemy1.png"));
 	playerImg = loadImage(new File("images/player.png"));
+	playerBullet = loadImage(new File("images/bullet.png"));
 
 	System.out.println("success");
 	
@@ -98,10 +105,10 @@ class GraphicsManager {
 	}
     }
 
-    // scales image (img) to width w and height h
-    private Image scaleImage(BufferedImage img, int w, int h) {
-	    return img.getScaledInstance(w, h, Image.SCALE_FAST);
-    }
+    /*// scales image (img) to width w and height h
+    private BufferedImage scaleImage(BufferedImage img, int w, int h) {
+	return img.getScaledInstance(w, h, Image.SCALE_FAST);
+	}*/
 
     // clones an image
     // from https://stackoverflow.com/questions/3514158/how-do-you-clone-a-bufferedimage
