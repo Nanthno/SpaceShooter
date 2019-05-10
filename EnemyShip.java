@@ -9,6 +9,8 @@ class EnemyShip {
     int xSpeed;
     int ySpeed;
 
+    int maxSpeed = 5;
+
     public EnemyShip(int y, int xSpeed, int ySpeed) {
 	yPos = y;
 	this.xSpeed = xSpeed;

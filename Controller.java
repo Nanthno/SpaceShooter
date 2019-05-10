@@ -16,7 +16,7 @@ class Controller {
     static final int updatesPerSecond = 60;
 
     // probability of a spawn occuring on each tick
-    static double spawnChance = 0.05;
+    static double spawnChance = 0.2;
     
     public static void main(String[] args) {
 
@@ -72,18 +72,17 @@ class Controller {
 	    
 
 	checkEnemyBulletCollision();
+	checkEnemyExplosionCollision();
 	
 	graphicsManager.drawScreen();
     }
 
     static void checkEnemyBulletCollision() {
-	int collisions = 0;
-
-	for(int i = playerBullets.size()-1; i >= 0; i--) {
-	    PlayerBullet b = playerBullets.get(i);
-	    for(int j = enemyShips.size()-1; j >= 0; j--) {
-		EnemyShip e = enemyShips.get(j);
+	for(int j = enemyShips.size()-1; j >= 0; j--) {
+	    EnemyShip e = enemyShips.get(j);
 		
+	    for(int i = playerBullets.size()-1; i >= 0; i--) {
+		PlayerBullet b = playerBullets.get(i);
 		if(b.getx() < e.getx()+16 && b.getx() > e.getx()-16 &&
 		   b.gety()-1 < e.gety()+16 && b.gety()+1 > e.gety()-16) {
 		    explosions.add(new Explosion(e.getx(), e.gety()));
@@ -94,6 +93,29 @@ class Controller {
 	    }
 	}
     }
+
+    static void checkEnemyExplosionCollision() {
+	for(int j = enemyShips.size()-1; j >= 0; j--) {
+	    EnemyShip e = enemyShips.get(j);
+	    for(int i = explosions.size()-1; i >= 0; i--) {
+		Explosion b = explosions.get(i);
+		if(b.getStage() > 5 &&
+		   distance(b.getx(), b.gety(), e.getx(), e.gety()) < 32) {
+		    explosions.add(new Explosion(e.getx(), e.gety()));
+		    enemyShips.remove(j);
+		    
+		}
+	    }
+	}
+    }
+
+    static double distance(double x1, double y1, double x2, double y2) {
+	double dx = Math.abs(x1-x2);
+	double dy = Math.abs(y1-y2);
+
+	return Math.sqrt(dx*dx + dy*dy);
+    }
+	
 
     public static void gameLoop() {
 	long time = (new Date()).getTime();
