@@ -6,12 +6,13 @@ class EnemyShip {
     // defined on instantiation by the controller
     int yPos;
 
-    int xSpeed;
-    int ySpeed;
+    double xSpeed;
+    double ySpeed;
 
-    int maxSpeed = 5;
+    static final double maxSpeed = 2.5;
+    static final double minSpeed = 1;
 
-    public EnemyShip(int y, int xSpeed, int ySpeed) {
+    public EnemyShip(int y, double xSpeed, double ySpeed) {
 	yPos = y;
 	this.xSpeed = xSpeed;
 	this.ySpeed = ySpeed;

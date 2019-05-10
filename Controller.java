@@ -57,7 +57,7 @@ class Controller {
 	
         if(spawns < spawnChance) {
 	    int y = rand.nextInt(GraphicsManager.HEIGHT);
-	    int xSpeed = 2;
+	    double xSpeed = rand.nextDouble()*(EnemyShip.maxSpeed-EnemyShip.minSpeed) + EnemyShip.minSpeed;
 	    int ySpeed = 0;
 	    enemyShips.add(new EnemyShip(y, xSpeed, ySpeed));
 	}
@@ -95,11 +95,11 @@ class Controller {
     }
 
     static void checkEnemyExplosionCollision() {
-	for(int j = enemyShips.size()-1; j >= 0; j--) {
-	    EnemyShip e = enemyShips.get(j);
-	    for(int i = explosions.size()-1; i >= 0; i--) {
-		Explosion b = explosions.get(i);
-		if(b.getStage() > 5 &&
+	for(int i = explosions.size()-1; i >= 0; i--) {
+	    Explosion b = explosions.get(i);
+	    for(int j = enemyShips.size()-1; j >= 0; j--) {
+		EnemyShip e = enemyShips.get(j);
+		if(b.getStage() > 3 &&
 		   distance(b.getx(), b.gety(), e.getx(), e.gety()) < 32) {
 		    explosions.add(new Explosion(e.getx(), e.gety()));
 		    enemyShips.remove(j);
