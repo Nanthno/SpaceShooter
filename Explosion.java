@@ -1,7 +1,7 @@
 class Explosion {
 
-    int xPos;
-    int yPos;
+    int xPos = -1;
+    int yPos = -1;
     
     int maxDuration = 45;
     int duration = maxDuration;

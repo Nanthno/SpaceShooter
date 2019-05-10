@@ -13,10 +13,10 @@ class Controller {
 
     static ArrayList<Explosion> explosions = new ArrayList<Explosion>();
 
-    static final int updatesPerSecond = 60;
+    static final int updatesPerSecond = 30;
 
     // probability of a spawn occuring on each tick
-    static double spawnChance = 0.2;
+    static double spawnChance = 0.5;
     
     public static void main(String[] args) {
 

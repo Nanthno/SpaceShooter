@@ -5,6 +5,7 @@ import javax.swing.ImageIcon;
 import javax.imageio.ImageIO;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.Image;
 import java.io.File;
@@ -20,7 +21,7 @@ class GraphicsManager {
 
     JFrame frame;
 
-    JPanel gamePanel;
+    GamePanel gamePanel;
 
     // images
     BufferedImage background;
@@ -40,7 +41,7 @@ class GraphicsManager {
 	frame.setTitle("Space Shooter");
 	frame.setSize(WIDTH, HEIGHT);
 	
-	gamePanel = new JPanel();
+	gamePanel = new GamePanel();
 	frame.add(gamePanel, BorderLayout.CENTER);
 
 	drawScreen();
@@ -50,15 +51,16 @@ class GraphicsManager {
     }
 
     public void drawScreen() {
-	JLabel screenshot = drawScreenshot();
+        BufferedImage screenshot = drawScreenshot();
 
 	gamePanel.removeAll();
-	gamePanel.add(screenshot);
+	//gamePanel.drawImage(screenshot);
+	//gamePanel.add(screenshot);
 	gamePanel.validate();
 	gamePanel.repaint();
     }
 
-    private JLabel drawScreenshot() {
+    private BufferedImage drawScreenshot() {
 	BufferedImage screenshot = copyImage(background);
 
 	// draw enemy ships
@@ -88,9 +90,14 @@ class GraphicsManager {
 
 	// at end
 	g.dispose();
+
+	return screenshot;
+	/*
 	JLabel screenShotLabel = new JLabel(new ImageIcon(screenshot));
 
 	return screenShotLabel;
+	*/
+	
     }
     
     // loads the images for the game
@@ -134,5 +141,57 @@ class GraphicsManager {
         g.dispose();
         return b;
     }
+    
+    class GamePanel extends JPanel {
+	private BufferedImage screenshot;
+
+	@Override
+	protected void paintComponent(Graphics g) {
+	    super.paintComponent(g);
+	    screenshot = drawScreenshot();
+	    g.drawImage(screenshot, 0, 0, this);
+
+	}
+	private BufferedImage drawScreenshot() {
+	    BufferedImage screenshot = copyImage(background);
+
+	    // draw enemy ships
+	    ArrayList<EnemyShip> enemyShips = Controller.getEnemyArray();
+	    Graphics g = screenshot.getGraphics();
+	    for(EnemyShip e : enemyShips) {
+		g.drawImage(enemy1, e.getx(), e.gety(), null);
+	    }
+
+	    // draw player bullets
+	    ArrayList<PlayerBullet> pb = Controller.getPlayerBullets();
+	    for(PlayerBullet b : pb) {
+		g.drawImage(playerBullet, (int)b.getx(), (int)b.gety(), null);
+	    }
+
+	    // draw explosions
+	    ArrayList<Explosion> exp = Controller.getExplosions();
+	    for(int i = 0; i < exp.size(); i++) {
+		Explosion e = exp.get(i);
+		g.drawImage(explosion[e.getStage()], e.getx(), e.gety(), null);
+	    }
+	
+	    // draw player ship
+	    PlayerShip ship = Controller.getPlayerShip();
+	    g.drawImage(playerImg, (int)ship.getx(), (int)ship.gety(), null);
+
+	
+
+	    // at end
+	    g.dispose();
+
+	    return screenshot;
+	/*
+	  JLabel screenShotLabel = new JLabel(new ImageIcon(screenshot));
+
+	  return screenShotLabel;
+	
+	*/
+	 }
 	    
+    }
 }

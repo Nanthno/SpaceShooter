@@ -1,5 +1,8 @@
 class PlayerShip {
 
+    int health = 100;
+    int maxHealth = 100;
+
     double xPos = 30;
     double yPos = GraphicsManager.WIDTH/2;
     double xSpeed = 3;
