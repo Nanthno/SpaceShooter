@@ -25,6 +25,7 @@ class GraphicsManager {
     // images
     BufferedImage background;
     BufferedImage enemy1;
+    BufferedImage playerImg;
     
     
     public GraphicsManager() {
@@ -60,7 +61,7 @@ class GraphicsManager {
 
 	// draw enemy ships
 	ArrayList<EnemyShip> enemyShips = Controller.getEnemyArray();
-	Graphics g = background.getGraphics();
+	Graphics g = screenshot.getGraphics();
 	for(EnemyShip e : enemyShips) {
 	    g.drawImage(enemy1, e.getx(), e.gety(), null);
 	}
@@ -78,6 +79,7 @@ class GraphicsManager {
 
 	background = loadImage(new File("images/space.png"));
 	enemy1 = loadImage(new File("images/enemy1.png"));
+	playerImg = loadImage(new File("images/player.png"));
 
 	System.out.println("success");
 	

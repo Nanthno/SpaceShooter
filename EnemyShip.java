@@ -1,7 +1,7 @@
 class EnemyShip {
 
     // default x position
-    int xPos = 400;
+    int xPos = 820;
 
     // defined on instantiation by the controller
     int yPos;
