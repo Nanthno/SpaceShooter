@@ -44,4 +44,10 @@ class PlayerShip {
 	
 	    
     }
+    int getHealth() {
+	return health;
+    }
+    int getMaxHealth() {
+	return maxHealth;
+    }
 }

@@ -4,10 +4,12 @@ import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.imageio.ImageIO;
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.Image;
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,6 +24,9 @@ class GraphicsManager {
     JFrame frame;
 
     GamePanel gamePanel;
+    // panels for showing the state of the ship, gun overheat, etc
+    JPanel statusPanel;
+    JPanel healthPanel;
 
     // images
     BufferedImage background;
@@ -44,6 +49,15 @@ class GraphicsManager {
 	gamePanel = new GamePanel();
 	frame.add(gamePanel, BorderLayout.CENTER);
 
+	
+	healthPanel = new BarPanel(100, 1, 100, HEIGHT, new Color(240,0,0), new Color(0,240,0));
+	
+	statusPanel = new JPanel();
+	statusPanel.setLayout(new GridLayout(1, 1));
+	statusPanel.add(healthPanel);
+	
+	frame.add(statusPanel, BorderLayout.WEST);
+
 	drawScreen();
 
 	// makes the frame visible
@@ -54,10 +68,12 @@ class GraphicsManager {
         BufferedImage screenshot = drawScreenshot();
 
 	gamePanel.removeAll();
-	//gamePanel.drawImage(screenshot);
-	//gamePanel.add(screenshot);
 	gamePanel.validate();
 	gamePanel.repaint();
+
+	healthPanel.removeAll();
+	healthPanel.validate();
+	healthPanel.repaint();
     }
 
     private BufferedImage drawScreenshot() {
@@ -92,13 +108,11 @@ class GraphicsManager {
 	g.dispose();
 
 	return screenshot;
-	/*
-	JLabel screenShotLabel = new JLabel(new ImageIcon(screenshot));
-
-	return screenShotLabel;
-	*/
 	
     }
+
+	
+	
     
     // loads the images for the game
     void loadImages() {
@@ -127,11 +141,6 @@ class GraphicsManager {
 	}
     }
 
-    /*// scales image (img) to width w and height h
-    private BufferedImage scaleImage(BufferedImage img, int w, int h) {
-	return img.getScaledInstance(w, h, Image.SCALE_FAST);
-	}*/
-
     // clones an image
     // from https://stackoverflow.com/questions/3514158/how-do-you-clone-a-bufferedimage
     public static BufferedImage copyImage(BufferedImage source){
@@ -140,6 +149,52 @@ class GraphicsManager {
         g.drawImage(source, 0, 0, null);
         g.dispose();
         return b;
+    }
+
+    class BarPanel extends JPanel {
+	private BufferedImage bar;
+
+	int maxValue;
+	int barValue;
+
+	int width;
+	int height;
+
+	Color backColor;
+	Color fillColor;
+
+	public BarPanel(int maxBar, int barVal, int w, int h, Color b, Color f) {
+	    this.maxValue = maxBar;
+	    this.barValue = barVal;
+	    width = w;
+	    height = h;
+	    backColor = b;
+	    fillColor = f;
+	}
+
+	void changeValue(int val) {
+	    barValue = val;
+	}
+
+	@Override
+	protected void paintComponent(Graphics g) {
+	    super.paintComponent(g);
+	    bar = drawBar();
+	    g.drawImage(bar, 0, 0, this);
+	}
+
+	private BufferedImage drawBar() {
+	    bar = new BufferedImage(width, maxValue, BufferedImage.TYPE_INT_RGB);
+
+	    Graphics g = bar.getGraphics();
+	    g.setColor(backColor);
+	    g.fillRect(0, 0, width, height);
+	    g.setColor(fillColor);
+	    g.fillRect(0, 10, width, height);
+
+	    g.dispose();
+	    return bar;
+	}
     }
     
     class GamePanel extends JPanel {
@@ -185,12 +240,6 @@ class GraphicsManager {
 	    g.dispose();
 
 	    return screenshot;
-	/*
-	  JLabel screenShotLabel = new JLabel(new ImageIcon(screenshot));
-
-	  return screenShotLabel;
-	
-	*/
 	 }
 	    
     }

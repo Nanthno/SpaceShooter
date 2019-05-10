@@ -56,7 +56,8 @@ class Controller {
 	double spawns = rand.nextDouble();
 	
         if(spawns < spawnChance) {
-	    int y = rand.nextInt(GraphicsManager.HEIGHT);
+	    // randomly chooses a y position for the ship's spawn point with a 32 pixel margin
+	    int y = rand.nextInt(GraphicsManager.HEIGHT-64)+32;
 	    double xSpeed = rand.nextDouble()*(EnemyShip.maxSpeed-EnemyShip.minSpeed) + EnemyShip.minSpeed;
 	    int ySpeed = 0;
 	    enemyShips.add(new EnemyShip(y, xSpeed, ySpeed));
@@ -69,7 +70,6 @@ class Controller {
 		explosions.remove(i);
 	    }
 	}
-	    
 
 	checkEnemyBulletCollision();
 	checkEnemyExplosionCollision();
@@ -147,5 +147,12 @@ class Controller {
     }
     static ArrayList<Explosion> getExplosions() {
 	return explosions;
+    }
+
+    static int getPlayerHealth() {
+	return player.getHealth();
+    }
+    static int getPlayerMaxHealth() {
+	return player.getMaxHealth();
     }
 }

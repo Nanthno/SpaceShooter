@@ -1,7 +1,7 @@
 class PlayerBullet {
 
-    double xPos;
-    double yPos;
+    double xPos = -1;
+    double yPos = -1;
 
     double xSpeed;
     double ySpeed;
@@ -15,7 +15,7 @@ class PlayerBullet {
     
     public void update() {
 	xPos += xSpeed;
-	yPos -= ySpeed;
+	yPos += ySpeed;
     }
     
     public double getx() {
