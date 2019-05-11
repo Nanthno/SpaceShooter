@@ -73,8 +73,9 @@ class Controller {
 
 	checkEnemyBulletCollision();
 	checkEnemyExplosionCollision();
+	checkPlayerEnemyCollision();
 	
-	graphicsManager.drawScreen();
+	graphicsManager.drawScreen(player.getHealth());
     }
 
     static void checkEnemyBulletCollision() {
@@ -108,6 +109,18 @@ class Controller {
 	    }
 	}
     }
+
+    static void checkPlayerEnemyCollision() {
+	for(int i = enemyShips.size()-1; i >= 0; i--) {
+	    EnemyShip e = enemyShips.get(i);
+	    if(distance(e.getx(), e.gety(), player.getx(), player.gety()) < 16) {
+		explosions.add(new Explosion(e.getx(), e.gety()));
+		enemyShips.remove(i);
+		player.shipCollision();
+	    }
+	}
+    }
+						       
 
     static double distance(double x1, double y1, double x2, double y2) {
 	double dx = Math.abs(x1-x2);

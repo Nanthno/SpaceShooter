@@ -26,7 +26,7 @@ class GraphicsManager {
     GamePanel gamePanel;
     // panels for showing the state of the ship, gun overheat, etc
     JPanel statusPanel;
-    JPanel healthPanel;
+    BarPanel healthPanel;
 
     // images
     BufferedImage background;
@@ -50,7 +50,7 @@ class GraphicsManager {
 	frame.add(gamePanel, BorderLayout.CENTER);
 
 	
-	healthPanel = new BarPanel(100, 50, 50, HEIGHT, new Color(240,0,0), new Color(0,240,0));
+	healthPanel = new BarPanel(Controller.getPlayerHealth(), Controller.getPlayerHealth(), 50, HEIGHT, new Color(240,0,0), new Color(0,240,0));
 	
 	statusPanel = new JPanel();
 	statusPanel.setLayout(new GridLayout(1, 1));
@@ -58,19 +58,18 @@ class GraphicsManager {
 	
 	frame.add(statusPanel, BorderLayout.WEST);
 
-	drawScreen();
-
 	// makes the frame visible
 	frame.setVisible(true);
     }
 
-    public void drawScreen() {
+    public void drawScreen(int playerHealth) {
         BufferedImage screenshot = drawScreenshot();
 
 	gamePanel.removeAll();
 	gamePanel.validate();
 	gamePanel.repaint();
-	
+
+	healthPanel.setValue(playerHealth);
 	healthPanel.removeAll();
 	healthPanel.validate();
 	healthPanel.repaint();
@@ -156,6 +155,7 @@ class GraphicsManager {
 
 	int maxValue;
 	int barValue;
+	int displayValue;
 
 	int width;
 	int height;
@@ -166,6 +166,7 @@ class GraphicsManager {
 	public BarPanel(int maxBar, int barVal, int w, int h, Color b, Color f) {
 	    this.maxValue = maxBar;
 	    this.barValue = barVal;
+	    displayValue = barValue;
 	    width = w;
 	    height = h;
 	    backColor = b;
@@ -184,13 +185,17 @@ class GraphicsManager {
 	}
 
 	private BufferedImage drawBar() {
+	    if(displayValue > barValue) {
+		displayValue--;
+	    }
+	    
 	    bar = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
 	    Graphics g = bar.getGraphics();
 	    g.setColor(backColor);
 	    g.fillRect(0, 0, width, height);
 	    g.setColor(fillColor);
-	    g.fillRect(0, (maxValue-barValue)*(height/maxValue), width, height);
+	    g.fillRect(0, (maxValue-displayValue)*(height/maxValue), width, height);
 
 	    g.dispose();
 	    return bar;

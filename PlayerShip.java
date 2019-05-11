@@ -19,13 +19,6 @@ class PlayerShip {
 	in = new Input();
     }
 
-    public double getx() {
-	return xPos;
-    }
-    public double gety() {
-	return yPos;
-    }
-
     public void update() {
 	fire--;
 	
@@ -44,6 +37,19 @@ class PlayerShip {
 	
 	    
     }
+
+    void shipCollision() {
+	health -= 10;
+    }
+    
+
+    public double getx() {
+	return xPos;
+    }
+    public double gety() {
+	return yPos;
+    }
+    
     int getHealth() {
 	return health;
     }
