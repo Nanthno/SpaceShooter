@@ -50,7 +50,7 @@ class GraphicsManager {
 	frame.add(gamePanel, BorderLayout.CENTER);
 
 	
-	healthPanel = new BarPanel(100, 1, 100, HEIGHT, new Color(240,0,0), new Color(0,240,0));
+	healthPanel = new BarPanel(100, 50, 50, HEIGHT, new Color(240,0,0), new Color(0,240,0));
 	
 	statusPanel = new JPanel();
 	statusPanel.setLayout(new GridLayout(1, 1));
@@ -70,7 +70,7 @@ class GraphicsManager {
 	gamePanel.removeAll();
 	gamePanel.validate();
 	gamePanel.repaint();
-
+	
 	healthPanel.removeAll();
 	healthPanel.validate();
 	healthPanel.repaint();
@@ -172,7 +172,7 @@ class GraphicsManager {
 	    fillColor = f;
 	}
 
-	void changeValue(int val) {
+	void setValue(int val) {
 	    barValue = val;
 	}
 
@@ -184,13 +184,13 @@ class GraphicsManager {
 	}
 
 	private BufferedImage drawBar() {
-	    bar = new BufferedImage(width, maxValue, BufferedImage.TYPE_INT_RGB);
+	    bar = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
 	    Graphics g = bar.getGraphics();
 	    g.setColor(backColor);
 	    g.fillRect(0, 0, width, height);
 	    g.setColor(fillColor);
-	    g.fillRect(0, 10, width, height);
+	    g.fillRect(0, (maxValue-barValue)*(height/maxValue), width, height);
 
 	    g.dispose();
 	    return bar;
