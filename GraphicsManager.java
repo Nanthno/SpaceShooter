@@ -280,7 +280,8 @@ class GraphicsManager {
 	    
 	    BufferedImage panelImg = copyImage(statusBars);
 	    Graphics g = panelImg.getGraphics();
-	    
+
+	    // place the health and heat bars on the proper positions on the status panel
 	    BufferedImage healthBar = drawBar(healthWidth, healthHeight, healthFill, healthBack,
 					      maxHealth, healthDisplayValue);
 	    g.drawImage(healthBar, 9, 31, null);
@@ -298,10 +299,10 @@ class GraphicsManager {
 	    BufferedImage bar = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
 	    Graphics g = bar.getGraphics();
-	    g.setColor(backColor);
-	    g.fillRect(0, 0, width, height);
 	    g.setColor(fillColor);
-	    g.fillRect(0, (maxValue-displayValue)*(height/maxValue), width, height);
+	    g.fillRect(0, 0, width, height);
+	    g.setColor(backColor);
+	    g.fillRect(0, 0, width, (int)((maxValue-displayValue)*(height*1.0/maxValue)));
 
 	    g.dispose();
 	    return bar;
