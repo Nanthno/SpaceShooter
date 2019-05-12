@@ -13,6 +13,8 @@ class PlayerShip {
     int maxFire = 60;
     int fire = 0;
 
+    final int radius = 16;
+
     Input in;
     
     public PlayerShip() {
@@ -55,5 +57,8 @@ class PlayerShip {
     }
     int getMaxHealth() {
 	return maxHealth;
+    }
+    int getRadius() {
+	return radius;
     }
 }

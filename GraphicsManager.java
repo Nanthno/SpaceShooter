@@ -95,7 +95,7 @@ class GraphicsManager {
 	// draw explosions
 	ArrayList<Explosion> exp = Controller.getExplosions();
 	for(Explosion e : exp) {
-	    g.drawImage(explosion[e.getStage()], e.getx(), e.gety(), null);
+	    g.drawImage(smallExplosion[e.getStage()], e.getx(), e.gety(), null);
 	}
 	
 	// draw player ship
@@ -128,7 +128,7 @@ class GraphicsManager {
 	}
 	fuelExplosion = new BufferedImage[8];
 	for(int i = 0; i < fuelExplosion.length; i++) {
-	    explosion[i] = loadImage("images/fuelExplosion/exp"+i+".png");
+	    fuelExplosion[i] = loadImage("images/fuelExplosion/exp"+i+".png");
 	}
 	
     }

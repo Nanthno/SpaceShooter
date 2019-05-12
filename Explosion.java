@@ -9,6 +9,8 @@ class Explosion {
     int stage = 0;
     int maxStage = 10;
 
+    int radius = 8;
+
     public Explosion(int x, int y) {
 	xPos = x;
 	yPos = y;
@@ -36,5 +38,8 @@ class Explosion {
     }
     int getStage() {
 	return stage;
+    }
+    int getRadius() {
+	return radius;
     }
 }

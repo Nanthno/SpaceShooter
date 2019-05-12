@@ -8,6 +8,7 @@ class Enemy1 extends EnemyShip {
 	yPos = y;
 	this.xSpeed = xSpeed;
 	shipType = 1;
+	radius = 16;
     }
 
 }

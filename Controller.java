@@ -18,6 +18,12 @@ class Controller {
     // probability of a spawn occuring on each tick
     static double spawnChance0 = 0.5;
     static double spawnChance1 = 0.001;
+
+    int plaryerR = 8;
+    int shipR0 = 8;
+    int shipR1 = 16;
+    int smallExpR = 8;
+    int fuelExpR = 32;
     
     public static void main(String[] args) {
 
@@ -110,7 +116,7 @@ class Controller {
 	    for(int j = enemyShips.size()-1; j >= 0; j--) {
 		EnemyShip e = enemyShips.get(j);
 		if(b.getStage() > 3 &&
-		   distance(b.getx(), b.gety(), e.getx(), e.gety()) < 32) {
+		   distance(b.getx(), b.gety(), b.getRadius(),e.getx(), e.gety(), e.getRadius()) < 32) {
 		    e.killShip();
 		    enemyShips.remove(j);
 		    
@@ -122,7 +128,8 @@ class Controller {
     static void checkPlayerEnemyCollision() {
 	for(int i = enemyShips.size()-1; i >= 0; i--) {
 	    EnemyShip e = enemyShips.get(i);
-	    if(distance(e.getx(), e.gety(), player.getx(), player.gety()) < 16) {
+	    if(distance(e.getx(), e.gety(), e.getRadius(),
+			player.getx(), player.gety(), player.getRadius()) < 16) {
 	        e.killShip();
 		enemyShips.remove(i);
 		player.shipCollision();
@@ -131,7 +138,12 @@ class Controller {
     }
 						       
 
-    static double distance(double x1, double y1, double x2, double y2) {
+    static double distance(double x1, double y1, int r1, double x2, double y2, int r2) {
+	x1 += r1;
+	y1 += r1;
+	x2 += r2;
+	y2 += r2;
+	
 	double dx = Math.abs(x1-x2);
 	double dy = Math.abs(y1-y2);
 

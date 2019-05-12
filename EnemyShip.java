@@ -10,6 +10,7 @@ class EnemyShip {
     double ySpeed;
 
     int shipType;
+    int radius;
 
     // called every tick by the controller
     // returns true if the ship has fallen off the screen and so should be destroyed
@@ -35,6 +36,9 @@ class EnemyShip {
     }
     public int getType() {
 	return shipType;
+    }
+    public int getRadius() {
+	return radius;
     }
 
     
