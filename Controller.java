@@ -58,9 +58,9 @@ class Controller {
         if(spawns < spawnChance) {
 	    // randomly chooses a y position for the ship's spawn point with a 32 pixel margin
 	    int y = rand.nextInt(GraphicsManager.HEIGHT-64)+32;
-	    double xSpeed = rand.nextDouble()*(EnemyShip.maxSpeed-EnemyShip.minSpeed) + EnemyShip.minSpeed;
+	    double xSpeed = rand.nextDouble()*(Enemy1.maxSpeed-Enemy1.minSpeed) + Enemy1.minSpeed;
 	    int ySpeed = 0;
-	    enemyShips.add(new EnemyShip(y, xSpeed, ySpeed));
+	    enemyShips.add(new Enemy1(y, xSpeed));
 	}
 
 	// updates explosions
@@ -102,7 +102,7 @@ class Controller {
 		EnemyShip e = enemyShips.get(j);
 		if(b.getStage() > 3 &&
 		   distance(b.getx(), b.gety(), e.getx(), e.gety()) < 32) {
-		    explosions.add(new Explosion(e.getx(), e.gety()));
+		    e.killShip();
 		    enemyShips.remove(j);
 		    
 		}
@@ -114,7 +114,7 @@ class Controller {
 	for(int i = enemyShips.size()-1; i >= 0; i--) {
 	    EnemyShip e = enemyShips.get(i);
 	    if(distance(e.getx(), e.gety(), player.getx(), player.gety()) < 16) {
-		explosions.add(new Explosion(e.getx(), e.gety()));
+	        e.killShip();
 		enemyShips.remove(i);
 		player.shipCollision();
 	    }
@@ -127,6 +127,10 @@ class Controller {
 	double dy = Math.abs(y1-y2);
 
 	return Math.sqrt(dx*dx + dy*dy);
+    }
+
+    static void spawnExp1(int x, int y) {
+	explosions.add(new Explosion(x, y));
     }
 	
 

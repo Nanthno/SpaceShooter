@@ -219,7 +219,8 @@ class GraphicsManager {
 	    ArrayList<EnemyShip> enemyShips = Controller.getEnemyArray();
 	    Graphics g = screenshot.getGraphics();
 	    for(EnemyShip e : enemyShips) {
-		g.drawImage(enemy1, e.getx(), e.gety(), null);
+		if(e.getType() == 0)
+		    g.drawImage(enemy1, e.getx(), e.gety(), null);
 	    }
 
 	    // draw player bullets

@@ -9,16 +9,7 @@ class EnemyShip {
     double xSpeed;
     double ySpeed;
 
-    static final double maxSpeed = 2.5;
-    static final double minSpeed = 1;
-
-    public EnemyShip(int y, double xSpeed, double ySpeed) {
-	yPos = y;
-	this.xSpeed = xSpeed;
-	this.ySpeed = ySpeed;
-
-    }
-
+    int shipType;
 
     // called every tick by the controller
     // returns true if the ship has fallen off the screen and so should be destroyed
@@ -32,6 +23,9 @@ class EnemyShip {
 
 	return false;
     }
+    void killShip() {
+	Controller.spawnExp1(xPos, yPos);
+    }
 
     public int getx() {
 	return xPos;
@@ -39,6 +33,11 @@ class EnemyShip {
     public int gety() {
 	return yPos;
     }
+    public int getType() {
+	return shipType;
+    }
+
+    
 }
 	
     
