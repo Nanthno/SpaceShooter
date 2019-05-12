@@ -17,7 +17,7 @@ class Controller {
 
     // probability of a spawn occuring on each tick
     static double spawnChance0 = 0.5;
-    static double spawnChance1 = 0.001;
+    static double spawnChance1 = 0.01;
 
     int plaryerR = 8;
     int shipR0 = 8;
@@ -75,7 +75,6 @@ class Controller {
 	    int y = rand.nextInt(GraphicsManager.HEIGHT-64)+32;
 	    double xSpeed = Enemy1.minSpeed + rand.nextDouble()*(Enemy1.maxSpeed-Enemy1.minSpeed);
 	    enemyShips.add(new Enemy1(y, xSpeed));
-	    System.out.println("spawn");
 	}
 
 	// updates explosions
@@ -99,9 +98,12 @@ class Controller {
 		
 	    for(int i = playerBullets.size()-1; i >= 0; i--) {
 		PlayerBullet b = playerBullets.get(i);
-		if(b.getx() < e.getx()+16 && b.getx() > e.getx()-16 &&
-		   b.gety()-1 < e.gety()+16 && b.gety()+1 > e.gety()-16) {
-		    explosions.add(new Explosion(e.getx(), e.gety()));
+		
+		/*if(b.getx() < e.getx()+16 && b.getx() > e.getx()-16 &&
+		  b.gety()-1 < e.gety()+16 && b.gety()+1 > e.gety()-16) {*/
+		if(distance(b.getx(), b.gety(), b.getRadius(),
+			    e.getx(), e.gety(), e.getRadius()) < e.getRadius()+b.getRadius()) {
+		    spawnExp(e.getx(), e.gety(), e.getRadius(), e.getType());
 		    playerBullets.remove(i);
 		    enemyShips.remove(j);
 		    
@@ -116,7 +118,8 @@ class Controller {
 	    for(int j = enemyShips.size()-1; j >= 0; j--) {
 		EnemyShip e = enemyShips.get(j);
 		if(b.getStage() > 3 &&
-		   distance(b.getx(), b.gety(), b.getRadius(),e.getx(), e.gety(), e.getRadius()) < 32) {
+		   distance(b.getx(), b.gety(), b.getRadius(),
+			    e.getx(), e.gety(), e.getRadius()) < 2*(e.getRadius()+b.getRadius())) {
 		    e.killShip();
 		    enemyShips.remove(j);
 		    
@@ -129,7 +132,7 @@ class Controller {
 	for(int i = enemyShips.size()-1; i >= 0; i--) {
 	    EnemyShip e = enemyShips.get(i);
 	    if(distance(e.getx(), e.gety(), e.getRadius(),
-			player.getx(), player.gety(), player.getRadius()) < 16) {
+			player.getx(), player.gety(), player.getRadius()) < e.getRadius()+player.getRadius()) {
 	        e.killShip();
 		enemyShips.remove(i);
 		player.shipCollision();
@@ -150,9 +153,33 @@ class Controller {
 	return Math.sqrt(dx*dx + dy*dy);
     }
 
-    static void spawnExp1(int x, int y) {
-	explosions.add(new Explosion(x, y));
+    static void spawnExp(int x, int y, int shipR, int expType) {
+	// compensates location for ship radius
+	x += shipR;
+	y += shipR;
+	// compensates location for explosion radius
+	x -= Explosion.expRadiusArray[expType];
+	y -= Explosion.expRadiusArray[expType];
+
+	
+	if(expType == 0) {
+	    explosions.add(new SmallExplosion(x, y));
+	}
+	if(expType == 1) {
+	    explosions.add(new FuelExplosion(x, y));
+	}
     }
+    /*
+    static void spawnSmallExp(int x, int y, int r) {
+	x += r;
+	y += r;
+	explosions.add(new SmallExplosion(x, y));
+    }
+    static void spawnFuelExp(int x, int y, int r) {
+	x += r;
+	y += r;
+	explosions.add(new FuelExplosion(x, y));
+	}*/
 	
 
     public static void gameLoop() {

@@ -1,7 +1,7 @@
 class EnemyShip {
 
     // default x position
-    double xPos = 1040;
+    double xPos = 1030;
 
     // defined on instantiation by the controller
     double yPos;
@@ -25,7 +25,7 @@ class EnemyShip {
 	return false;
     }
     void killShip() {
-	Controller.spawnExp1((int)xPos, (int)yPos);
+	Controller.spawnExp((int)xPos, (int)yPos, radius, shipType);
     }
 
     public int getx() {

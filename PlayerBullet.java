@@ -6,6 +6,8 @@ class PlayerBullet {
     double xSpeed;
     double ySpeed;
 
+    int radius = 2;
+
     public PlayerBullet(double x, double y, double dx, double dy) {
 	xPos = x;
 	yPos = y;
@@ -23,5 +25,8 @@ class PlayerBullet {
     }
     public double gety() {
 	return yPos;
+    }
+    public int getRadius() {
+	return radius;
     }
 }

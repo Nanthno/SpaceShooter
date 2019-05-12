@@ -243,7 +243,12 @@ class GraphicsManager {
 	    ArrayList<Explosion> exp = Controller.getExplosions();
 	    for(int i = 0; i < exp.size(); i++) {
 		Explosion e = exp.get(i);
-		g.drawImage(smallExplosion[e.getStage()], e.getx(), e.gety(), null);
+		if(e.expType == 0) {
+		    g.drawImage(smallExplosion[e.getStage()], e.getx(), e.gety(), null);
+		}
+		if(e.expType == 1) {
+		    g.drawImage(fuelExplosion[e.getStage()], e.getx(), e.gety(), null);
+		}
 	    }
 	
 	    // draw player ship

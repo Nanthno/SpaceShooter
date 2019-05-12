@@ -3,18 +3,17 @@ class Explosion {
     int xPos = -1;
     int yPos = -1;
     
-    int maxDuration = 45;
-    int duration = maxDuration;
+    int maxDuration;
+    int duration;
 
     int stage = 0;
-    int maxStage = 10;
+    int maxStage;
 
-    int radius = 8;
+    int radius;
 
-    public Explosion(int x, int y) {
-	xPos = x;
-	yPos = y;
-    }
+    int expType;
+
+    static int[] expRadiusArray = new int[]{8, 32};
 
     // returns true if the explosion should be destroyed
     boolean update() {
