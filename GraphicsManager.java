@@ -30,11 +30,12 @@ class GraphicsManager {
 
     // images
     BufferedImage background;
+    BufferedImage enemy0;
     BufferedImage enemy1;
     BufferedImage playerImg;
     BufferedImage playerBullet;
-    BufferedImage[] explosion;
-    
+    BufferedImage[] smallExplosion;
+    BufferedImage[] fuelExplosion;
     
     public GraphicsManager() {
 
@@ -115,19 +116,26 @@ class GraphicsManager {
     
     // loads the images for the game
     void loadImages() {
-	background = loadImage(new File("images/space.png"));
-	enemy1 = loadImage(new File("images/enemy1.png"));
-	playerImg = loadImage(new File("images/player.png"));
-	playerBullet = loadImage(new File("images/playerBullet.png"));
+	background = loadImage("images/space.png");
+	enemy0 = loadImage("images/enemySwarm.png");
+	enemy1 = loadImage("images/enemyFuelShip.png");
+	playerImg = loadImage("images/player.png");
+	playerBullet = loadImage("images/playerBullet.png");
 
-	explosion = new BufferedImage[11];
-	for(int i = 0; i < 11; i++) {
-	    explosion[i] = loadImage(new File("images/explosion1/exp"+i+".png"));
+	smallExplosion = new BufferedImage[11];
+	for(int i = 0; i < smallExplosion.length; i++) {
+	    smallExplosion[i] = loadImage("images/smallExplosion/exp"+i+".png");
+	}
+	fuelExplosion = new BufferedImage[8];
+	for(int i = 0; i < fuelExplosion.length; i++) {
+	    explosion[i] = loadImage("images/fuelExplosion/exp"+i+".png");
 	}
 	
     }
     
-    static BufferedImage loadImage(File file) {
+    static BufferedImage loadImage(String f) {
+
+	File file = new File(f);
 	BufferedImage img;
 
 	try {
@@ -220,6 +228,8 @@ class GraphicsManager {
 	    Graphics g = screenshot.getGraphics();
 	    for(EnemyShip e : enemyShips) {
 		if(e.getType() == 0)
+		    g.drawImage(enemy0, e.getx(), e.gety(), null);
+		else if(e.getType() == 1)
 		    g.drawImage(enemy1, e.getx(), e.gety(), null);
 	    }
 
@@ -233,7 +243,7 @@ class GraphicsManager {
 	    ArrayList<Explosion> exp = Controller.getExplosions();
 	    for(int i = 0; i < exp.size(); i++) {
 		Explosion e = exp.get(i);
-		g.drawImage(explosion[e.getStage()], e.getx(), e.gety(), null);
+		g.drawImage(smallExplosion[e.getStage()], e.getx(), e.gety(), null);
 	    }
 	
 	    // draw player ship

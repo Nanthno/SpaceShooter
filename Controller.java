@@ -16,7 +16,8 @@ class Controller {
     static final int updatesPerSecond = 30;
 
     // probability of a spawn occuring on each tick
-    static double spawnChance = 0.5;
+    static double spawnChance0 = 0.5;
+    static double spawnChance1 = 0.001;
     
     public static void main(String[] args) {
 
@@ -55,12 +56,20 @@ class Controller {
 	Random rand = new Random();
 	double spawns = rand.nextDouble();
 	
-        if(spawns < spawnChance) {
+        if(spawns < spawnChance0) {
 	    // randomly chooses a y position for the ship's spawn point with a 32 pixel margin
 	    int y = rand.nextInt(GraphicsManager.HEIGHT-64)+32;
-	    double xSpeed = rand.nextDouble()*(Enemy1.maxSpeed-Enemy1.minSpeed) + Enemy1.minSpeed;
-	    int ySpeed = 0;
+	    double xSpeed = rand.nextDouble()*(Enemy0.maxSpeed-Enemy0.minSpeed) + Enemy0.minSpeed;
+	    enemyShips.add(new Enemy0(y, xSpeed));
+	    
+	}
+
+	spawns = rand.nextDouble();
+	if(spawns < spawnChance1) {
+	    int y = rand.nextInt(GraphicsManager.HEIGHT-64)+32;
+	    double xSpeed = Enemy1.minSpeed + rand.nextDouble()*(Enemy1.maxSpeed-Enemy1.minSpeed);
 	    enemyShips.add(new Enemy1(y, xSpeed));
+	    System.out.println("spawn");
 	}
 
 	// updates explosions
