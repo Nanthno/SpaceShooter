@@ -10,6 +10,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.Image;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,19 +19,23 @@ class GraphicsManager {
 
 
     // size of the screen
-    static int WIDTH = 1024;
+    static int GAME_WIDTH = 1024;
+    static int GAME_HEIGHT = 640;
+    static int STATUS_WIDTH = 64;
+    static int WIDTH = GAME_WIDTH + STATUS_WIDTH;
     static int HEIGHT = 640;
 
     JFrame frame;
 
     GamePanel gamePanel;
     // panels for showing the state of the ship, gun overheat, etc
-    JPanel statusPanel;
+    StatusPanel statusPanel;
     BarPanel healthPanel;
     BarPanel heatPanel;
 
     // images
     BufferedImage background;
+    BufferedImage statusBars;
     BufferedImage enemy0;
     BufferedImage enemy1;
     BufferedImage playerImg;
@@ -50,20 +55,23 @@ class GraphicsManager {
 	
 	gamePanel = new GamePanel();
 	frame.add(gamePanel, BorderLayout.CENTER);
-
 	
+	statusPanel = new StatusPanel();
+	statusPanel.setPreferredSize(new Dimension(STATUS_WIDTH, HEIGHT));
+	frame.add(statusPanel, BorderLayout.WEST);
+
+	/*
 	healthPanel = new BarPanel(Controller.getPlayerHealth(), Controller.getPlayerHealth(),
 				   50, HEIGHT/2, new Color(240,0,0), new Color(0,240,0), true);
 	
 	heatPanel = new BarPanel(Controller.getPlayerMaxHeat(), Controller.getPlayerHeat(),
 				   50, HEIGHT/2, new Color(0,240,0), new Color(240,0,0), true);
+	*/
 	
-	statusPanel = new JPanel();
-	statusPanel.setLayout(new GridLayout(1, 2));
-	statusPanel.add(healthPanel);
-	statusPanel.add(heatPanel);
 	
-	frame.add(statusPanel, BorderLayout.WEST);
+	//statusPanel.setLayout(new GridLayout(1, 2));
+	//statusPanel.add(healthPanel);
+	//statusPanel.add(heatPanel);
 
 	// makes the frame visible
 	frame.setVisible(true);
@@ -76,6 +84,11 @@ class GraphicsManager {
 	gamePanel.validate();
 	gamePanel.repaint();
 
+	statusPanel.removeAll();
+	statusPanel.validate();
+	statusPanel.repaint();
+
+	/*
 	heatPanel.setValue(playerHeat);
 	heatPanel.removeAll();
 	heatPanel.validate();
@@ -85,6 +98,7 @@ class GraphicsManager {
 	healthPanel.removeAll();
 	healthPanel.validate();
 	healthPanel.repaint();
+	*/
     }
 
     private BufferedImage drawScreenshot() {
@@ -128,6 +142,7 @@ class GraphicsManager {
     // loads the images for the game
     void loadImages() {
 	background = loadImage("images/space.png");
+	statusBars = loadImage("images/statusPanel.png");
 	enemy0 = loadImage("images/enemySwarm.png");
 	enemy1 = loadImage("images/enemyFuelShip.png");
 	playerImg = loadImage("images/player.png");
@@ -231,14 +246,95 @@ class GraphicsManager {
 	    return bar;
 	}
     }
-    
-    class GamePanel extends JPanel {
-	private BufferedImage screenshot;
+
+    class StatusPanel extends JPanel {
+
+	int healthDisplayValue = 0;
+	int heatDisplayValue = 0;
+
+	int healthWidth = 8;
+	int healthHeight = 170;
+	Color healthFill = new Color(0, 230, 0);
+	Color healthBack = new Color(200, 0, 0);
+	
+	int heatWidth = 8;
+	int heatHeight = 101;
+	Color heatFill = new Color(255, 0, 0);
+	Color heatBack = new Color(0, 200, 255);
 
 	@Override
 	protected void paintComponent(Graphics g) {
 	    super.paintComponent(g);
-	    screenshot = drawScreenshot();
+	    BufferedImage panelImg = drawStatus();
+	    g.drawImage(panelImg, 0, 0, this);
+	}
+
+	private BufferedImage drawStatus() {
+
+	    int health = Controller.getPlayerHealth();
+	    int maxHealth = Controller.getPlayerMaxHealth();
+	    int heat = Controller.getPlayerHeat();
+	    int maxHeat = Controller.getPlayerMaxHeat();
+	    
+	    updateDisplayValues(health, heat);
+	    
+	    BufferedImage panelImg = copyImage(statusBars);
+	    Graphics g = panelImg.getGraphics();
+	    
+	    BufferedImage healthBar = drawBar(healthWidth, healthHeight, healthFill, healthBack,
+					      maxHealth, healthDisplayValue);
+	    g.drawImage(healthBar, 9, 31, null);
+
+	    BufferedImage heatBar = drawBar(heatWidth, heatHeight, heatFill, heatBack,
+					    maxHeat, heatDisplayValue);
+	    g.drawImage(heatBar, 47, 31, null);
+
+	    return panelImg;
+	}
+
+	private BufferedImage drawBar(int width, int height, Color fillColor, Color backColor,
+				      int maxValue, int displayValue) {
+	    
+	    BufferedImage bar = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+
+	    Graphics g = bar.getGraphics();
+	    g.setColor(backColor);
+	    g.fillRect(0, 0, width, height);
+	    g.setColor(fillColor);
+	    g.fillRect(0, (maxValue-displayValue)*(height/maxValue), width, height);
+
+	    g.dispose();
+	    return bar;
+	}
+	
+	private void updateDisplayValues(int health, int heat) {
+	    
+	    if(healthDisplayValue > health) {
+		healthDisplayValue -= 2;
+	    }
+	    else if(healthDisplayValue < health) {
+		healthDisplayValue++;
+	    }
+
+	    heatDisplayValue = heat;
+	    /*
+	    if(heatDisplayValue > heat) {
+		heatDisplayValue--;
+	    }
+	    else if(heatDisplayValue < heat) {
+		heatDisplayValue++;
+		}*/
+	}
+	    
+	    
+    }
+    
+    class GamePanel extends JPanel {
+
+	@Override
+	protected void paintComponent(Graphics g) {
+	    super.paintComponent(g);
+	    BufferedImage screenshot = drawScreenshot();
 	    g.drawImage(screenshot, 0, 0, this);
 
 	}

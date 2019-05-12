@@ -13,9 +13,9 @@ class PlayerShip {
     int maxFire = 10;
     int fire = 0;
     int fireHeat = 50;
-    int overHeat = 60;
-    int cooloff = 20;
-    int heat = 60;
+    int overHeat = 120;
+    int cooloff = 60;
+    int heat = 0;
     boolean overheated = false;
 
     final int radius = 16;
@@ -28,7 +28,11 @@ class PlayerShip {
 
     public void update() {
 	fire--;
-	heat--;
+	if(heat > 0)
+	    heat--;
+
+	System.out.println(heat);
+	
 	if(heat < cooloff) {
 	    overheated = false;
 	}

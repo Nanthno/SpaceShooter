@@ -98,9 +98,7 @@ class Controller {
 		
 	    for(int i = playerBullets.size()-1; i >= 0; i--) {
 		PlayerBullet b = playerBullets.get(i);
-		
-		/*if(b.getx() < e.getx()+16 && b.getx() > e.getx()-16 &&
-		  b.gety()-1 < e.gety()+16 && b.gety()+1 > e.gety()-16) {*/
+	        
 		if(distance(b.getx(), b.gety(), b.getRadius(),
 			    e.getx(), e.gety(), e.getRadius()) < e.getRadius()+b.getRadius()) {
 		    spawnExp(e.getx(), e.gety(), e.getRadius(), e.getType());
