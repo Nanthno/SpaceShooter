@@ -10,8 +10,13 @@ class PlayerShip {
 
 
     // manages how fast the player can fire
-    int maxFire = 60;
+    int maxFire = 10;
     int fire = 0;
+    int fireHeat = 50;
+    int overHeat = 60;
+    int cooloff = 20;
+    int heat = 60;
+    boolean overheated = false;
 
     final int radius = 16;
 
@@ -23,18 +28,26 @@ class PlayerShip {
 
     public void update() {
 	fire--;
+	heat--;
+	if(heat < cooloff) {
+	    overheated = false;
+	}
 	
-	if(in.up)
+	if(in.up && yPos > 0)
 	    yPos -= ySpeed;
-	if(in.down)
+	if(in.down && yPos < GraphicsManager.HEIGHT)
 	    yPos += ySpeed;
-	if(in.right)
+	if(in.right && xPos < GraphicsManager.WIDTH)
 	    xPos += xSpeed;
-	if(in.left)
+	if(in.left && xPos > 0)
 	    xPos -= xSpeed;
-	if(in.fire && fire < 0) {
+	if(in.fire && fire < 0 && !overheated) {
 	    Controller.addBullet(new PlayerBullet(xPos+5, yPos+7, 5, 0));
 	    fire = maxFire;
+	    heat += fireHeat;
+	    if(heat > overHeat) {
+		overheated = true;
+	    }
 	}
 	
 	    
@@ -60,5 +73,11 @@ class PlayerShip {
     }
     int getRadius() {
 	return radius;
+    }
+    int getHeat() {
+	return heat;
+    }
+    int getMaxHeat() {
+	return overHeat;
     }
 }

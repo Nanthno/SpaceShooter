@@ -1,6 +1,29 @@
-graphics manager
-player ship
-enemy ship
--sub types of enemy ships
-controller
+Special actions: special things a player can do once a energy bar charges
+--potentially can charge a few times then use multiple simultaniously
+-missle: explodes either on impact or by pressing the missle button again
+-rail gun: tears through any enemies in the way (isn't destroyed on impact)
+-ramming shield: allows player to ram ships without taking damage
+-deflector shield: absorbs bullets
+
+
+enemy types:
+-shooter: shoots
+-mover: goes up and down
+-armored: immune to explosions
+-armored2: immune to guns (only killable with explosions)
+-armored3: has multiple points of health
+-formation: a group of enemies spawned together
+-figher: intellegent enemy which moves around to stay on screen, not get hit, and shoot at player
+-shielder: shields itself and any ships within range (player must go inside shield to destroy)
+-bosses of various kinds
+
+
+add an overheat bar which indicates when the player can fire
+- maybe make it so the player can fire a series of a few bullets before overheat.
+---Rather than just one-wait-one-wait... would be -fire-fire-fire-wait-fire-fire-fire...
+
+visuals:
+-maybe make the fuel ship less garishly bright
+-make the background scroll
+-- maybe with paralax
 

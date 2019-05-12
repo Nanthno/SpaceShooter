@@ -89,7 +89,7 @@ class Controller {
 	checkEnemyExplosionCollision();
 	checkPlayerEnemyCollision();
 	
-	graphicsManager.drawScreen(player.getHealth());
+	graphicsManager.drawScreen(player.getHealth(), player.getHeat());
     }
 
     static void checkEnemyBulletCollision() {
@@ -219,5 +219,11 @@ class Controller {
     }
     static int getPlayerMaxHealth() {
 	return player.getMaxHealth();
+    }
+    static int getPlayerMaxHeat() {
+	return player.getMaxHeat();
+    }
+    static int getPlayerHeat() {
+	return player.getHeat();
     }
 }

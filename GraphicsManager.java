@@ -27,6 +27,7 @@ class GraphicsManager {
     // panels for showing the state of the ship, gun overheat, etc
     JPanel statusPanel;
     BarPanel healthPanel;
+    BarPanel heatPanel;
 
     // images
     BufferedImage background;
@@ -51,11 +52,16 @@ class GraphicsManager {
 	frame.add(gamePanel, BorderLayout.CENTER);
 
 	
-	healthPanel = new BarPanel(Controller.getPlayerHealth(), Controller.getPlayerHealth(), 50, HEIGHT, new Color(240,0,0), new Color(0,240,0));
+	healthPanel = new BarPanel(Controller.getPlayerHealth(), Controller.getPlayerHealth(),
+				   50, HEIGHT/2, new Color(240,0,0), new Color(0,240,0), true);
+	
+	heatPanel = new BarPanel(Controller.getPlayerMaxHeat(), Controller.getPlayerHeat(),
+				   50, HEIGHT/2, new Color(0,240,0), new Color(240,0,0), true);
 	
 	statusPanel = new JPanel();
-	statusPanel.setLayout(new GridLayout(1, 1));
+	statusPanel.setLayout(new GridLayout(1, 2));
 	statusPanel.add(healthPanel);
+	statusPanel.add(heatPanel);
 	
 	frame.add(statusPanel, BorderLayout.WEST);
 
@@ -63,12 +69,17 @@ class GraphicsManager {
 	frame.setVisible(true);
     }
 
-    public void drawScreen(int playerHealth) {
+    public void drawScreen(int playerHealth, int playerHeat) {
         BufferedImage screenshot = drawScreenshot();
 
 	gamePanel.removeAll();
 	gamePanel.validate();
 	gamePanel.repaint();
+
+	heatPanel.setValue(playerHeat);
+	heatPanel.removeAll();
+	heatPanel.validate();
+	heatPanel.repaint();
 
 	healthPanel.setValue(playerHealth);
 	healthPanel.removeAll();
@@ -171,7 +182,9 @@ class GraphicsManager {
 	Color backColor;
 	Color fillColor;
 
-	public BarPanel(int maxBar, int barVal, int w, int h, Color b, Color f) {
+	boolean vertical;
+
+	public BarPanel(int maxBar, int barVal, int w, int h, Color b, Color f, boolean vert) {
 	    this.maxValue = maxBar;
 	    this.barValue = barVal;
 	    displayValue = barValue;
@@ -179,6 +192,7 @@ class GraphicsManager {
 	    height = h;
 	    backColor = b;
 	    fillColor = f;
+	    vertical = vert;
 	}
 
 	void setValue(int val) {
@@ -196,6 +210,9 @@ class GraphicsManager {
 	    if(displayValue > barValue) {
 		displayValue--;
 	    }
+	    else if(displayValue < barValue) {
+		displayValue++;
+	    }
 	    
 	    bar = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
@@ -203,7 +220,12 @@ class GraphicsManager {
 	    g.setColor(backColor);
 	    g.fillRect(0, 0, width, height);
 	    g.setColor(fillColor);
-	    g.fillRect(0, (maxValue-displayValue)*(height/maxValue), width, height);
+	    if(vertical) {
+		g.fillRect(0, (maxValue-displayValue)*(height/maxValue), width, height);
+	    }
+	    else {
+		g.fillRect((maxValue-displayValue)*(width/maxValue), 0, width, height);
+	    }
 
 	    g.dispose();
 	    return bar;
