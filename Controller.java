@@ -118,7 +118,7 @@ class Controller {
 	    Explosion b = explosions.get(i);
 	    for(int j = enemyShips.size()-1; j >= 0; j--) {
 		EnemyShip e = enemyShips.get(j);
-		if(b.getStage() > 3 &&
+		if(b.getStage() > 2 &&
 		   distance(b.getx(), b.gety(), b.getRadius(),
 			    e.getx(), e.gety(), e.getRadius()) < 2*(e.getRadius()+b.getRadius())) {
 		    e.killShip();

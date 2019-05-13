@@ -5,20 +5,20 @@ class PlayerShip {
 
     double xPos = 30;
     double yPos = GraphicsManager.WIDTH/2;
-    double xSpeed = 3;
-    double ySpeed = 3;
+    double xSpeed = 4;
+    double ySpeed = 4;
 
 
     // manages how fast the player can fire
     int maxFire = 10;
     int fire = 0;
     int fireHeat = 20;
-    int overHeat = 40;
+    int overHeat = 19;
     int cooloff = 1;
     int heat = 70;
     boolean overheated = false;
 
-    final int radius = 16;
+    final int radius = 8;
 
     Input in;
     

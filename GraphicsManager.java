@@ -30,8 +30,8 @@ class GraphicsManager {
     GamePanel gamePanel;
     // panels for showing the state of the ship, gun overheat, etc
     StatusPanel statusPanel;
-    BarPanel healthPanel;
-    BarPanel heatPanel;
+    //BarPanel healthPanel;
+    //BarPanel heatPanel;
 
     // images
     BufferedImage background;
@@ -60,19 +60,6 @@ class GraphicsManager {
 	statusPanel.setPreferredSize(new Dimension(STATUS_WIDTH, HEIGHT));
 	frame.add(statusPanel, BorderLayout.WEST);
 
-	/*
-	healthPanel = new BarPanel(Controller.getPlayerHealth(), Controller.getPlayerHealth(),
-				   50, HEIGHT/2, new Color(240,0,0), new Color(0,240,0), true);
-	
-	heatPanel = new BarPanel(Controller.getPlayerMaxHeat(), Controller.getPlayerHeat(),
-				   50, HEIGHT/2, new Color(0,240,0), new Color(240,0,0), true);
-	*/
-	
-	
-	//statusPanel.setLayout(new GridLayout(1, 2));
-	//statusPanel.add(healthPanel);
-	//statusPanel.add(heatPanel);
-
 	// makes the frame visible
 	frame.setVisible(true);
     }
@@ -88,17 +75,6 @@ class GraphicsManager {
 	statusPanel.validate();
 	statusPanel.repaint();
 
-	/*
-	heatPanel.setValue(playerHeat);
-	heatPanel.removeAll();
-	heatPanel.validate();
-	heatPanel.repaint();
-
-	healthPanel.setValue(playerHealth);
-	healthPanel.removeAll();
-	healthPanel.validate();
-	healthPanel.repaint();
-	*/
     }
 
     private BufferedImage drawScreenshot() {

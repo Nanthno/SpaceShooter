@@ -4,6 +4,8 @@ Special actions: special things a player can do once a energy bar charges
 -rail gun: tears through any enemies in the way (isn't destroyed on impact)
 -ramming shield: allows player to ram ships without taking damage
 -deflector shield: absorbs bullets
+-burst: a blast centered on the player
+-lasers: lasers shoot out either side of the player for a second
 
 
 enemy types:

@@ -3,7 +3,7 @@ class SmallExplosion extends Explosion {
 	xPos = x;
 	yPos = y;
 	maxStage = 10;
-	maxDuration = 45;
+	maxDuration = 35;
 	duration = maxDuration;
 	radius = 8;
 	expType = 0;
