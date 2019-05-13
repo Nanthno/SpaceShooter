@@ -17,11 +17,6 @@ enemy types:
 -shielder: shields itself and any ships within range (player must go inside shield to destroy)
 -bosses of various kinds
 
-
-add an overheat bar which indicates when the player can fire
-- maybe make it so the player can fire a series of a few bullets before overheat.
----Rather than just one-wait-one-wait... would be -fire-fire-fire-wait-fire-fire-fire...
-
 visuals:
 -maybe make the fuel ship less garishly bright
 -make the background scroll

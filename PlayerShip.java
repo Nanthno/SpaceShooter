@@ -12,9 +12,9 @@ class PlayerShip {
     // manages how fast the player can fire
     int maxFire = 10;
     int fire = 0;
-    int fireHeat = 40;
-    int overHeat = 70;
-    int cooloff = 20;
+    int fireHeat = 20;
+    int overHeat = 40;
+    int cooloff = 1;
     int heat = 70;
     boolean overheated = false;
 

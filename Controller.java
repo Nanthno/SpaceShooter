@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 class Controller {
 
@@ -13,10 +15,10 @@ class Controller {
 
     static ArrayList<Explosion> explosions = new ArrayList<Explosion>();
 
-    static final int updatesPerSecond = 30;
+    static final int frameRate = 15;
 
     // probability of a spawn occuring on each tick
-    static double spawnChance0 = 0.5;
+    static double spawnChance0 = 0.4;
     static double spawnChance1 = 0.01;
 
     int plaryerR = 8;
@@ -34,6 +36,7 @@ class Controller {
     }
 
     static void update() {
+	
 	// updates player
 	player.update();
 
@@ -181,7 +184,7 @@ class Controller {
 	
 
     public static void gameLoop() {
-	long time = (new Date()).getTime();
+	/*long time = (new Date()).getTime();
 	long lastTime = time;
 	while(true) {
 	    update();
@@ -190,7 +193,14 @@ class Controller {
 		time = (new Date()).getTime();
 	    }
 	
-	}
+	    }*/
+	Timer t = new Timer();
+	t.schedule(new TimerTask() {
+		@Override
+		public void run() {
+		    update();
+		}
+	    }, 0, frameRate);
 	
     }
 
