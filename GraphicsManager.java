@@ -40,6 +40,7 @@ class GraphicsManager {
     BufferedImage enemy1;
     BufferedImage playerImg;
     BufferedImage playerBullet;
+    BufferedImage laserBlast;
     BufferedImage[] smallExplosion;
     BufferedImage[] fuelExplosion;
     
@@ -63,7 +64,7 @@ class GraphicsManager {
 	// makes the frame visible
 	frame.setVisible(true);
     }
-
+    
     public void drawScreen(int playerHealth, int playerHeat) {
         BufferedImage screenshot = drawScreenshot();
 
@@ -77,6 +78,7 @@ class GraphicsManager {
 
     }
 
+    //UNUSED: USE THE ONE AT THE BOTTOM
     private BufferedImage drawScreenshot() {
 	BufferedImage screenshot = copyImage(background);
 
@@ -98,12 +100,14 @@ class GraphicsManager {
 	for(Explosion e : exp) {
 	    g.drawImage(smallExplosion[e.getStage()], e.getx(), e.gety(), null);
 	}
+
+	
+	
 	
 	// draw player ship
 	PlayerShip ship = Controller.getPlayerShip();
-	g.drawImage(playerImg, (int)ship.getx(), (int)ship.gety(), null);
+	//g.drawImage(playerImg, (int)ship.getx(), (int)ship.gety(), null);
 
-	
 
 	// at end
 	g.dispose();
@@ -111,7 +115,7 @@ class GraphicsManager {
 	return screenshot;
 	
     }
-
+    
 	
 	
     
@@ -123,6 +127,7 @@ class GraphicsManager {
 	enemy1 = loadImage("images/enemyFuelShip.png");
 	playerImg = loadImage("images/player.png");
 	playerBullet = loadImage("images/playerBullet.png");
+	laserBlast = loadImage("images/LaserBlast.png");
 
 	smallExplosion = new BufferedImage[11];
 	for(int i = 0; i < smallExplosion.length; i++) {
@@ -238,6 +243,11 @@ class GraphicsManager {
 	Color heatFill = new Color(255, 0, 0);
 	Color heatBack = new Color(0, 200, 255);
 
+	int chargeWidth = 8;
+	int chargeHeight = 100;
+	Color chargeFill = new Color(0, 200, 255);
+	Color chargeBack = new Color(255, 0, 0);
+
 	@Override
 	protected void paintComponent(Graphics g) {
 	    super.paintComponent(g);
@@ -251,6 +261,9 @@ class GraphicsManager {
 	    int maxHealth = Controller.getPlayerMaxHealth();
 	    int heat = Controller.getPlayerHeat();
 	    int maxHeat = Controller.getPlayerMaxHeat();
+	    int charge = Controller.getCharge();
+	    int maxCharge = Controller.getMaxCharge();
+	    
 	    
 	    updateDisplayValues(health, heat);
 	    
@@ -265,6 +278,10 @@ class GraphicsManager {
 	    BufferedImage heatBar = drawBar(heatWidth, heatHeight, heatFill, heatBack,
 					    maxHeat, heatDisplayValue);
 	    g.drawImage(heatBar, 47, 31, null);
+
+	    BufferedImage chargeBar = drawBar(chargeWidth, chargeHeight, chargeFill, chargeBack,
+					      maxCharge, charge);
+	    g.drawImage(chargeBar, 9, 250, null);
 
 	    return panelImg;
 	}
@@ -345,6 +362,11 @@ class GraphicsManager {
 		    g.drawImage(fuelExplosion[e.getStage()], e.getx(), e.gety(), null);
 		}
 	    }
+
+	    
+	    LaserBlast blast = Controller.getLaserBlast();
+	    if(blast != null) 
+		g.drawImage(laserBlast, blast.getx(), 0, null);
 	
 	    // draw player ship
 	    PlayerShip ship = Controller.getPlayerShip();

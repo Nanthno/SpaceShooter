@@ -4,18 +4,20 @@ import java.awt.event.KeyEvent;
 
 class Input {//implements Runnable {
 
-        // KeyEvents for controlling ship1
-    private static int upke = KeyEvent.VK_W;
-    private static int downke = KeyEvent.VK_S;
-    private static int leftke = KeyEvent.VK_A;
-    private static int rightke = KeyEvent.VK_D;
+    // KeyEvents for controlling ship1
+    private static int upke = KeyEvent.VK_UP;
+    private static int downke = KeyEvent.VK_DOWN;
+    private static int leftke = KeyEvent.VK_LEFT;
+    private static int rightke = KeyEvent.VK_RIGHT;
     private static int fireke = KeyEvent.VK_SPACE;
+    private static int laserBlastke = KeyEvent.VK_Q;
     // booleans for storing if a key is pressed
     static volatile boolean up = false;
     static volatile boolean down = false;
     static volatile boolean left = false;
     static volatile boolean right = false;
     static volatile boolean fire = false;
+    static volatile boolean laserBlast = false;
 
     public Input() {
 	IsKeyPressed.makeKeyboardManager();
@@ -49,6 +51,9 @@ class Input {//implements Runnable {
 				else if (ke.getKeyCode() == fireke){
 				    fire = true;
 				}
+				else if (ke.getKeyCode() == laserBlastke) {
+				    laserBlast = true;
+				}
 
 				break;
 			    
@@ -70,6 +75,9 @@ class Input {//implements Runnable {
 				// firing
 				else if (ke.getKeyCode() == fireke){
 				    fire = false;
+				}
+				else if (ke.getKeyCode() == laserBlastke) {
+				    laserBlast = false;
 				}
 
 				break;

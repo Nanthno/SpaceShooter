@@ -1,15 +1,18 @@
 Special actions: special things a player can do once a energy bar charges
 --potentially can charge a few times then use multiple simultaniously
+--make it fire upon button realease. holding button will show a tracer (e.g. laser blast would show a thin red laser showing where the blast will land)
 -missle: explodes either on impact or by pressing the missle button again
 -rail gun: tears through any enemies in the way (isn't destroyed on impact)
 -ramming shield: allows player to ram ships without taking damage
 -deflector shield: absorbs bullets
 -burst: a blast centered on the player
--lasers: lasers shoot out either side of the player for a second
+-laser blast: lasers shoot out either side of the player for a second
+-Mega burst: sends out a wave of destruction (would require the multiple charge thing and would take multiple charges)
 
 
 enemy types:
 -shooter: shoots
+-spawn ship: spawns ships (probably movers of some type so not all clumped up because that would just result in a massive explosion when the cluster got hit (that could be rather fun though))
 -mover: goes up and down
 -armored: immune to explosions
 -armored2: immune to guns (only killable with explosions)
@@ -21,6 +24,7 @@ enemy types:
 
 visuals:
 -maybe make the fuel ship less garishly bright
+-animate laser blast
 -make the background scroll
 -- maybe with paralax
 

@@ -12,6 +12,7 @@ class Controller {
 
     static PlayerShip player = new PlayerShip();
     static ArrayList<PlayerBullet> playerBullets = new ArrayList<PlayerBullet>();
+    static LaserBlast laserBlast = null;
 
     static ArrayList<Explosion> explosions = new ArrayList<Explosion>();
 
@@ -49,13 +50,23 @@ class Controller {
 	    }
 	}
 	playerBullets = newPlayerBullets;
+
+	if(laserBlast != null) {
+	    boolean destroy = laserBlast.update();
+	    if(destroy) {
+		laserBlast = null;
+	    }
+	}
 	
 	// updates enemyShips
 	ArrayList<EnemyShip> newEnemyShips = new ArrayList<EnemyShip>();
 	for(int i = 0; i < enemyShips.size(); i++) {
 	    EnemyShip e = enemyShips.get(i);
-	    boolean kill = e.updateShip();
-	    if(!kill) {
+	    boolean offScreen = e.updateShip();
+	    if(offScreen) {
+		player.looseHealth(10);
+	    }
+	    else {
 	        newEnemyShips.add(e);
 	    }
 	}
@@ -98,7 +109,18 @@ class Controller {
     static void checkEnemyBulletCollision() {
 	for(int j = enemyShips.size()-1; j >= 0; j--) {
 	    EnemyShip e = enemyShips.get(j);
-		
+
+	    // checks for collision with laser blast
+	    if(laserBlast != null) {
+		int distance = Math.abs(laserBlast.getx() - e.getx());
+		if(distance < e.getRadius()+laserBlast.getRadius()){
+		    spawnExp(e.getx(), e.gety(), e.getRadius(), e.getType());
+		    enemyShips.remove(j);
+		    continue;
+		}
+	    }
+	    
+	    // checks for collision with a player bullet
 	    for(int i = playerBullets.size()-1; i >= 0; i--) {
 		PlayerBullet b = playerBullets.get(i);
 	        
@@ -136,7 +158,7 @@ class Controller {
 			player.getx(), player.gety(), player.getRadius()) < e.getRadius()+player.getRadius()) {
 	        e.killShip();
 		enemyShips.remove(i);
-		player.shipCollision();
+		//player.shipCollision();
 	    }
 	}
     }
@@ -208,6 +230,12 @@ class Controller {
 	playerBullets.add(b);
     }
 
+    static void fireBlast(int x) {
+	if(laserBlast == null) {
+	    laserBlast = new LaserBlast(x);
+	}
+    }
+
     static ArrayList<EnemyShip> getEnemyArray() {
 	return enemyShips;
     }
@@ -217,6 +245,9 @@ class Controller {
     }
     static ArrayList<PlayerBullet> getPlayerBullets() {
 	return playerBullets;
+    }
+    static LaserBlast getLaserBlast() {
+	return laserBlast;
     }
     static ArrayList<Explosion> getExplosions() {
 	return explosions;
@@ -233,5 +264,11 @@ class Controller {
     }
     static int getPlayerHeat() {
 	return player.getHeat();
+    }
+    static int getCharge() {
+	return player.getCharge();
+    }
+    static int getMaxCharge() {
+	return player.getMaxCharge();
     }
 }
