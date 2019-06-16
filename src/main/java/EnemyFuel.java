@@ -1,10 +1,12 @@
-class Enemy1 extends EnemyShip {
+package src.main.java;
+
+class EnemyFuel extends EnemyShip {
 
     
     static final double maxSpeed = 1.5;
     static final double minSpeed = 1;
 
-    public Enemy1(int y, double xSpeed) {
+    public EnemyFuel(int y, double xSpeed) {
 	yPos = y;
 	this.xSpeed = xSpeed;
 	shipType = 1;

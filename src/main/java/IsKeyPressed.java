@@ -1,4 +1,4 @@
-// Code from https://stackoverflow.com/questions/18037576/how-do-i-check-if-the-user-is-pressing-a-key
+package src.main.java;// Code from https://stackoverflow.com/questions/18037576/how-do-i-check-if-the-user-is-pressing-a-key
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
@@ -26,7 +26,7 @@ public class IsKeyPressed {
      /*
     private static volatile boolean wPressed = false;
     public static boolean isWPressed() {
-        synchronized (IsKeyPressed.class) {
+        synchronized (src.main.java.IsKeyPressed.class) {
             return wPressed;
         }
 	}*/

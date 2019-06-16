@@ -1,3 +1,5 @@
+package src.main.java;
+
 class PlayerBullet extends WeaponParent {
 
     public PlayerBullet(double x, double y, double dx, double dy) {

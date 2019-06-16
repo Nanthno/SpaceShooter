@@ -1,3 +1,5 @@
+package src.main.java;
+
 class WeaponParent {
 
     double xPos;

@@ -1,3 +1,5 @@
+package src.main.java;
+
 class FuelExplosion extends Explosion {
 
     public FuelExplosion(int x, int y) {

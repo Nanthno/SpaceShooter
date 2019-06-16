@@ -1,3 +1,5 @@
+package src.main.java;
+
 class PlayerShip {
 
     int health = 100;
@@ -10,11 +12,11 @@ class PlayerShip {
 
 
     // manages how fast the player can fire
-    int maxFire = 7;
+    int maxFire = 3;
     int fire = 0;
     int fireHeat = 20;
     int overHeat = 19;
-    int cooloff = 1;
+    int cooloff = 3;
     int heat = 70;
     boolean overheated = false;
 
@@ -24,7 +26,7 @@ class PlayerShip {
     int chargeCount = 0;
     int maxChargeCount = 1;
 
-    final int radius = 8;
+    final int radius = 12;
 
     Input in;
     
@@ -66,7 +68,7 @@ class PlayerShip {
 	    xPos -= xSpeed;
 	// firing
 	if(in.fire && fire < 0 && !overheated) {
-	    Controller.addBullet(new PlayerBullet(xPos+5, yPos+7, 5, 0));
+	    Controller.addBullet(new PlayerBullet(xPos+5, yPos+radius-1, 5, 0));
 	    fire = maxFire;
 	    heat += fireHeat;
 	    if(heat > overHeat) {

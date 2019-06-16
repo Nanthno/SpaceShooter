@@ -1,3 +1,5 @@
+package src.main.java;
+
 class Explosion {
 
     int xPos = -1;

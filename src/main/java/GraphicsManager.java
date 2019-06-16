@@ -1,14 +1,11 @@
+package src.main.java;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
 import javax.imageio.ImageIO;
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.awt.Image;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.io.File;
@@ -125,7 +122,7 @@ class GraphicsManager {
 	statusBars = loadImage("images/statusPanel.png");
 	enemy0 = loadImage("images/enemySwarm.png");
 	enemy1 = loadImage("images/enemyFuelShip.png");
-	playerImg = loadImage("images/player.png");
+	playerImg = loadImage("images/playerLarge.png");
 	playerBullet = loadImage("images/playerBullet.png");
 	laserBlast = loadImage("images/LaserBlast.png");
 

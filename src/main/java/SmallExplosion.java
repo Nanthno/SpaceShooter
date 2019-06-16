@@ -1,3 +1,5 @@
+package src.main.java;
+
 class SmallExplosion extends Explosion {
     public SmallExplosion(int x, int y) {
 	xPos = x;

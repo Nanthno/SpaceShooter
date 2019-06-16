@@ -1,3 +1,5 @@
+package src.main.java;
+
 class EnemyShip {
 
     // default x position

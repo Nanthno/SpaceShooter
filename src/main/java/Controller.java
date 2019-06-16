@@ -1,5 +1,6 @@
+package src.main.java;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -79,16 +80,16 @@ class Controller {
         if(spawns < spawnChance0) {
 	    // randomly chooses a y position for the ship's spawn point with a 32 pixel margin
 	    int y = rand.nextInt(GraphicsManager.HEIGHT-64)+32;
-	    double xSpeed = rand.nextDouble()*(Enemy0.maxSpeed-Enemy0.minSpeed) + Enemy0.minSpeed;
-	    enemyShips.add(new Enemy0(y, xSpeed));
+	    double xSpeed = rand.nextDouble()*(EnemyBasic.maxSpeed- EnemyBasic.minSpeed) + EnemyBasic.minSpeed;
+	    enemyShips.add(new EnemyBasic(y, xSpeed));
 	    
 	}
 
 	spawns = rand.nextDouble();
 	if(spawns < spawnChance1) {
 	    int y = rand.nextInt(GraphicsManager.HEIGHT-64)+32;
-	    double xSpeed = Enemy1.minSpeed + rand.nextDouble()*(Enemy1.maxSpeed-Enemy1.minSpeed);
-	    enemyShips.add(new Enemy1(y, xSpeed));
+	    double xSpeed = EnemyFuel.minSpeed + rand.nextDouble()*(EnemyFuel.maxSpeed- EnemyFuel.minSpeed);
+	    enemyShips.add(new EnemyFuel(y, xSpeed));
 	}
 
 	// updates explosions
@@ -196,12 +197,12 @@ class Controller {
     static void spawnSmallExp(int x, int y, int r) {
 	x += r;
 	y += r;
-	explosions.add(new SmallExplosion(x, y));
+	explosions.add(new src.main.java.SmallExplosion(x, y));
     }
     static void spawnFuelExp(int x, int y, int r) {
 	x += r;
 	y += r;
-	explosions.add(new FuelExplosion(x, y));
+	explosions.add(new src.main.java.FuelExplosion(x, y));
 	}*/
 	
 
