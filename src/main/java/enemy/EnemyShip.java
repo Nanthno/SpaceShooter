@@ -1,6 +1,8 @@
-package src.main.java;
+package src.main.java.enemy;
 
-class EnemyShip {
+import src.main.java.Controller;
+
+public class EnemyShip {
 
     // default x position
     double xPos = 1030;
@@ -26,7 +28,7 @@ class EnemyShip {
 
 	return false;
     }
-    void killShip() {
+    public void killShip() {
 	Controller.spawnExp((int)xPos, (int)yPos, radius, shipType);
     }
 

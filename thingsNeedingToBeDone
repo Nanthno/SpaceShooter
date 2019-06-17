@@ -1,3 +1,9 @@
+Notes for next time:
+-add toString methods to the spawn classes and test their functionality (specifically SpawnUtil.createSpawnClusters)
+-add pattern files and functionality to read them
+-make the spawn controller be used to spawn enemies rather than the radomized one in controller
+
+
 Special actions: special things a player can do once a energy bar charges
 --potentially can charge a few times then use multiple simultaniously
 --make it fire upon button realease. holding button will show a tracer (e.g. laser blast would show a thin red laser showing where the blast will land)

@@ -1,4 +1,8 @@
-package src.main.java;
+package src.main.java.spawn;
+import src.main.java.enemy.EnemyBasic;
+import src.main.java.enemy.EnemyFuel;
+import src.main.java.enemy.EnemyShip;
+import src.main.java.enemy.EnemyType;
 
 class Spawn {
 
@@ -6,9 +10,17 @@ class Spawn {
     int xPos;
     int yPos;
 
-    int speed;
+    double speed;
 
     EnemyType type;
+
+    public Spawn(int xPos, int yPos, double speed, EnemyType type) {
+        this.xPos = xPos;
+        this.yPos = yPos;
+        this.speed = speed;
+        this.type = type;
+
+    }
 
     EnemyShip makeEnemy(int clusterX, int clusterY) {
         EnemyShip ship = null;

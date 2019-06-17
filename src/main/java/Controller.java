@@ -1,11 +1,15 @@
 package src.main.java;
 
+import src.main.java.enemy.EnemyBasic;
+import src.main.java.enemy.EnemyFuel;
+import src.main.java.enemy.EnemyShip;
+
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-class Controller {
+public class Controller {
 
     static GraphicsManager graphicsManager;
 
@@ -177,7 +181,8 @@ class Controller {
 	return Math.sqrt(dx*dx + dy*dy);
     }
 
-    static void spawnExp(int x, int y, int shipR, int expType) {
+    public static void spawnExp(int x, int y, int shipR, int expType) {
+
 	// compensates location for ship radius
 	x += shipR;
 	y += shipR;

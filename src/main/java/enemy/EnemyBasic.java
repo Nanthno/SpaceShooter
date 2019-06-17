@@ -1,10 +1,10 @@
-package src.main.java;
+package src.main.java.enemy;
 
-class EnemyBasic extends EnemyShip {
+public class EnemyBasic extends EnemyShip {
 
 
-    static final double maxSpeed = 2.5;
-    static final double minSpeed = 1;
+    public static final double maxSpeed = 2.5;
+    public static final double minSpeed = 1;
 
     public EnemyBasic(int y, double xSpeed) {
         yPos = y;

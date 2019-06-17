@@ -1,5 +1,7 @@
 package src.main.java;
 
+import src.main.java.enemy.EnemyShip;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.imageio.ImageIO;
