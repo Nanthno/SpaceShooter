@@ -33,5 +33,11 @@ class Spawn {
         return ship;
     }
 
+    public int getxPos() {
+        return xPos;
+    }
 
+    public int getyPos() {
+        return yPos;
+    }
 }

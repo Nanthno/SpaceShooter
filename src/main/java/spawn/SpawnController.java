@@ -11,10 +11,12 @@ public class SpawnController {
     SpawnPattern[] patterns;
     double[] patternProbability;
 
-    public SpawnController() {
-         HashMap<String, SpawnCluster> clusters = spawnUtil.createSpawnClusters();
+    static HashMap<String, SpawnCluster> allClusters;
 
-        patterns = spawnUtil.createSpawnPatterns(clusters);
+    public SpawnController() {
+        allClusters = spawnUtil.createSpawnClusters();
+
+        patterns = spawnUtil.createSpawnPatterns(allClusters);
 
         patternProbability = new double[patterns.length];
         for(int i = 0; i < patterns.length; i++) {
@@ -22,6 +24,9 @@ public class SpawnController {
         }
     }
 
+    public static SpawnCluster getSpawnCluster(String clusterID) {
+        return allClusters.get(clusterID);
+    }
 
     List<EnemyShip> onTick() {
 

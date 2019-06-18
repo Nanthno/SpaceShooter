@@ -53,8 +53,6 @@ public class spawnUtil {
                     int height = Integer.parseInt(size.substring(marker + 1));
 
                     if (rawClusterData.size() != height + 3) {
-                        System.out.println("Problem with file " + clusterFile.toString()
-                                + ": number of lines is incorrect");
                         continue;
                     }
 
@@ -77,7 +75,10 @@ public class spawnUtil {
                                 cluster.addSpawn(spawn);
 
                             }
-                            if (clusterPoint.length() == 2) {
+                            if (clusterPoint.length() == 2)
+                            {
+                                System.out.println("Issue with " + clusterFile.toString()
+                                        + "The ability to nest clusters has not yet been fully implemented");
                                 cluster.addOtherCluster(y + "," + x, clusterPoint);
                             }
                         }
