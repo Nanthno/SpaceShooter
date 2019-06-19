@@ -2,9 +2,9 @@ package src.main.java.spawn;
 
 import src.main.java.enemy.EnemyShip;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 public class SpawnController {
 
@@ -15,25 +15,21 @@ public class SpawnController {
 
     public SpawnController() {
         allClusters = spawnUtil.createSpawnClusters();
-
-        patterns = spawnUtil.createSpawnPatterns(allClusters);
-
-        patternProbability = new double[patterns.length];
-        for(int i = 0; i < patterns.length; i++) {
-            patternProbability[i] = 0.1;
-        }
     }
 
     public static SpawnCluster getSpawnCluster(String clusterID) {
         return allClusters.get(clusterID);
     }
 
-    List<EnemyShip> onTick() {
+    public List<EnemyShip> onTick() {
 
+        Random rand = new Random();
 
-        return null;
+        int y = rand.nextInt(500);
+
+        return allClusters.get("AA")
+                .makeSpawns(1049, y);
     }
-
 
 
 }

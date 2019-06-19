@@ -47,6 +47,9 @@ class SpawnCluster {
         for (Spawn spawn : spawns) {
             ships.add(spawn.makeEnemy(xPos, yPos));
         }
+
+        ships.addAll(unpackOtherClusters());
+
         return ships;
     }
 
@@ -78,6 +81,10 @@ class SpawnCluster {
         for (Spawn spawn : spawns) {
             ships.add(spawn.makeEnemy(xPos + xOffset, yPos + yOffset));
         }
+
+        ships.addAll(unpackOtherClusters());
+
+        return ships;
 
     }
 

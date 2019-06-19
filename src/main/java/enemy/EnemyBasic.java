@@ -1,5 +1,7 @@
 package src.main.java.enemy;
 
+import src.main.java.Globals;
+
 public class EnemyBasic extends EnemyShip {
 
 
@@ -10,7 +12,7 @@ public class EnemyBasic extends EnemyShip {
         yPos = y;
         this.xSpeed = xSpeed;
         shipType = 0;
-        radius = 8;
+        radius = Globals.enemyBasicRadius;
     }
 
     public EnemyBasic(int x, int y, double xSpeed) {
@@ -18,7 +20,7 @@ public class EnemyBasic extends EnemyShip {
         yPos = y;
         this.xSpeed = xSpeed;
         shipType = 0;
-        radius = 8;
+        radius = Globals.enemyBasicRadius;
     }
 
 }

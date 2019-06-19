@@ -45,21 +45,23 @@ public class spawnUtil {
                             .substring(marker + 1));
                     marker = rawClusterData.get(2).indexOf(":");
                     double speed = Double.parseDouble(rawClusterData.get(2)
-                            .substring(marker));
+                            .substring(marker+1));
                     marker = rawClusterData.get(3).indexOf(":");
                     String size = rawClusterData.get(3).substring(marker + 1);
-                    marker = size.indexOf(",");
+                    /*marker = size.indexOf(",");
                     int width = Integer.parseInt(size.substring(0, marker));
                     int height = Integer.parseInt(size.substring(marker + 1));
 
-                    if (rawClusterData.size() != height + 3) {
+                    if (rawClusterData.size() != height + 4) {
                         continue;
-                    }
+                    }*/
 
+
+                    // processes the grid
                     for (int y = 4; y < rawClusterData.size(); y++) {
                         String line = rawClusterData.get(y);
-                        for (int x = 0; x < line.length(); x++) {
-                            String clusterPoint = line.substring(x * 2, x * 2 + 1).strip();
+                        for (int x = 0; x < line.length(); x+=2) {
+                            String clusterPoint = line.substring(x, x + 1).strip();
                             EnemyType type = null;
                             if (clusterPoint.equals(".")) {
                                 continue;
@@ -107,12 +109,22 @@ public class spawnUtil {
 
     private static boolean clusterFileFormattedCorrectly(List<String> file) {
 
+        boolean correct = file.size() >= 4;
+        correct &= file.get(0).matches("id:[a-zA-Z][a-zA-Z]");
+       correct &= file.get(1).matches("spacing:[0-9]+");
+       correct &= file.get(2).matches("speed:[0-9]+[\\.[0-9]+]?");
+       correct &= file.get(3).matches("size:[0-9]+,[0-9]+");
+
+
+        return correct;
+
+/*
         return file.size() >= 4
                 && file.get(0).matches("id:[a-zA-Z][a-zA-Z]")
                 && file.get(1).matches("spacing:[0-9]+")
-                && file.get(2).matches("speed:[0-9]+[\\?[0-9]*]?")
-                && file.get(2).matches("size:[0-9]+,[0-9]+");
-
+                && file.get(2).matches("speed:[0-9]+[\\.[0-9]+]?")
+                && file.get(3).matches("size:[0-9]+,[0-9]+");
+*/
     }
 
     static SpawnPattern[] createSpawnPatterns(HashMap<String, SpawnCluster> clusters) {

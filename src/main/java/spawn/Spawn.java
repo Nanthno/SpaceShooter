@@ -1,4 +1,5 @@
 package src.main.java.spawn;
+import src.main.java.Globals;
 import src.main.java.enemy.EnemyBasic;
 import src.main.java.enemy.EnemyFuel;
 import src.main.java.enemy.EnemyShip;
@@ -14,7 +15,11 @@ class Spawn {
 
     EnemyType type;
 
-    public Spawn(int xPos, int yPos, double speed, EnemyType type) {
+    public Spawn(int xCenter, int yCenter, double speed, EnemyType type) {
+
+        int xPos = xCenter - Globals.getEnemyShipRadius(type);
+        int yPos = yCenter - Globals.getEnemyShipRadius(type);
+
         this.xPos = xPos;
         this.yPos = yPos;
         this.speed = speed;

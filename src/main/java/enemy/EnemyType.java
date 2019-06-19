@@ -1,5 +1,7 @@
 package src.main.java.enemy;
 
+import src.main.java.Globals;
+
 import java.util.Map;
 
 public enum EnemyType {
