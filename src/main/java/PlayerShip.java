@@ -6,7 +6,7 @@ class PlayerShip {
     int maxHealth = 100;
 
     double xPos = 30;
-    double yPos = GraphicsManager.WIDTH/2;
+    double yPos = GraphicsManager.WIDTH / 2;
     double xSpeed = 4;
     double ySpeed = 4;
 
@@ -29,97 +29,104 @@ class PlayerShip {
     final int radius = 12;
 
     Input in;
-    
+
     public PlayerShip() {
-	in = new Input();
+        in = new Input();
     }
 
     public void update() {
-	fire--;
-	if(heat > 0)
-	    heat--;
-	
-	if(heat < cooloff) {
-	    overheated = false;
-	}
+        fire--;
+        if (heat > 0)
+            heat--;
 
-	// special action charge
-	if(charge < maxCharge) {
-	    charge++;
-	    
-	}
-	
-	if(charge == maxCharge && chargeCount < maxChargeCount) {
-	    chargeCount++;
-	    if(chargeCount < maxChargeCount) {
-		charge = 0;
-	    }
-	}
-	
-	
-	// movement
-	if(in.up && yPos > 0)
-	    yPos -= ySpeed;
-	if(in.down && yPos < GraphicsManager.HEIGHT)
-	    yPos += ySpeed;
-	if(in.right && xPos < GraphicsManager.WIDTH)
-	    xPos += xSpeed;
-	if(in.left && xPos > 0)
-	    xPos -= xSpeed;
-	// firing
-	if(in.fire && fire < 0 && !overheated) {
-	    Controller.addBullet(new PlayerBullet(xPos+5, yPos+radius-1, 5, 0));
-	    fire = maxFire;
-	    heat += fireHeat;
-	    if(heat > overHeat) {
-		overheated = true;
-	    }
-	}
-	if(in.laserBlast && chargeCount > 0) {
-	    Controller.fireBlast((int)xPos+radius/2);
-	    chargeCount--;
-	    charge = 0;
-	}
-	
-	    
+        if (heat < cooloff) {
+            overheated = false;
+        }
+
+        // special action charge
+        if (charge < maxCharge) {
+            charge++;
+
+        }
+
+        if (charge == maxCharge && chargeCount < maxChargeCount) {
+            chargeCount++;
+            if (chargeCount < maxChargeCount) {
+                charge = 0;
+            }
+        }
+
+
+        // movement
+        if (in.up && yPos > 0)
+            yPos -= ySpeed;
+        if (in.down && yPos < GraphicsManager.HEIGHT)
+            yPos += ySpeed;
+        if (in.right && xPos < GraphicsManager.WIDTH)
+            xPos += xSpeed;
+        if (in.left && xPos > 0)
+            xPos -= xSpeed;
+        // firing
+        if (in.fire && fire < 0 && !overheated) {
+            Controller.addBullet(new PlayerBullet(xPos + 5, yPos + radius - 1, 5, 0));
+            fire = maxFire;
+            heat += fireHeat;
+            if (heat > overHeat) {
+                overheated = true;
+            }
+        }
+        if (in.laserBlast && chargeCount > 0) {
+            Controller.fireBlast((int) xPos + radius / 2);
+            chargeCount--;
+            charge = 0;
+        }
+
+
     }
 
     void shipCollision() {
-	health -= 10;
+        health -= 10;
     }
 
     void looseHealth(int healthLoss) {
-	health -= healthLoss;
+        health -= healthLoss;
     }
-	
+
 
     public double getx() {
-	return xPos;
+        return xPos;
     }
+
     public double gety() {
-	return yPos;
+        return yPos;
     }
-    
+
     int getHealth() {
-	return health;
+        return health;
     }
+
     int getMaxHealth() {
-	return maxHealth;
+        return maxHealth;
     }
+
     int getRadius() {
-	return radius;
+        return radius;
     }
+
     int getHeat() {
-	return heat;
+        return heat;
     }
+
     int getMaxHeat() {
-	return overHeat;
+        return overHeat;
     }
+
     int getCharge() {
-	return charge;
+        return charge;
     }
+
     int getMaxCharge() {
-	return maxCharge;
+        return maxCharge;
     }
-    
+
 }

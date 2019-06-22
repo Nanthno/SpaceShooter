@@ -1,6 +1,6 @@
 id is two letters which uniquely identifies the cluster which can be referenced by a pattern file or another cluster file
 spacing is how far apart each point represents
-speed is the default speed of the ships
+speed is the default speed range of the ships (upper/lower range sperated with comma)
 speed override is a boolean. if true, nested clusters' speed = speed
 size is what the dimensions of the grid is
 grid is the way of storing the ships' locations relative to each other.

@@ -22,9 +22,9 @@ public class Controller {
     static final int frameRate = 15;
 
     // probability of a spawn occuring on each tick
-    static double spawnChance0 = 0.04;
-    static double spawnChance1 = 0.001;
-    static double spawnChance2 = 0.01;
+    static double spawnChance0 = 0;
+    static double spawnChance1 = 0;
+    static double spawnChance2 = 1;
 
     static SpawnController spawnController = new SpawnController();
 

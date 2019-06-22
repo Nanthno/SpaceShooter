@@ -9,6 +9,8 @@ class SpawnCluster {
     int xPos;
     int yPos;
     int positionVariance;
+    double minSpeed;
+    double maxSpeed;
 
     List<Spawn> spawns = new ArrayList<>();
 
@@ -44,8 +46,10 @@ class SpawnCluster {
 
         List<EnemyShip> ships = new ArrayList<>();
 
+        double speed = chooseSpeed();
+
         for (Spawn spawn : spawns) {
-            ships.add(spawn.makeEnemy(xPos, yPos));
+            ships.add(spawn.makeEnemy(xPos, yPos, speed));
         }
 
         ships.addAll(unpackOtherClusters());
@@ -78,14 +82,23 @@ class SpawnCluster {
         xOffset += xCenter;
         yOffset += yCenter;
 
+
+        double speed = chooseSpeed();
+
         for (Spawn spawn : spawns) {
-            ships.add(spawn.makeEnemy(xPos + xOffset, yPos + yOffset));
+            ships.add(spawn.makeEnemy(xPos + xOffset, yPos + yOffset, speed));
         }
 
         ships.addAll(unpackOtherClusters());
 
         return ships;
 
+    }
+
+    private double chooseSpeed() {
+        Random rand = new Random();
+        double speed = minSpeed + (rand.nextDouble() * (maxSpeed - minSpeed));
+        return speed;
     }
 
     private List<EnemyShip> unpackOtherClusters() {
@@ -104,5 +117,11 @@ class SpawnCluster {
 
     }
 
+    public void setMinSpeed(double minSpeed) {
+        this.minSpeed = minSpeed;
+    }
 
+    public void setMaxSpeed(double maxSpeed) {
+        this.maxSpeed = maxSpeed;
+    }
 }

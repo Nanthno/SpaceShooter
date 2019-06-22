@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,88 +33,79 @@ public class spawnUtil {
                 return name.toLowerCase().endsWith(".cluster");
             }
         });
+        System.out.println(Arrays.toString(clusterFiles));
 
         for (File clusterFile : clusterFiles) {
+            System.out.println("processing file " + clusterFile.toString());
             try {
                 SpawnCluster cluster = new SpawnCluster();
                 List<String> rawClusterData = Files.readAllLines(clusterFile.toPath());
-                if (clusterFileFormattedCorrectly(rawClusterData)) {
-                    int marker = rawClusterData.get(0).indexOf(":");
-                    String id = rawClusterData.get(0).substring(marker + 1);
-                    marker = rawClusterData.get(1).indexOf(":");
-                    int spacing = Integer.parseInt(rawClusterData.get(1)
-                            .substring(marker + 1));
-                    marker = rawClusterData.get(2).indexOf(":");
-                    double speed = Double.parseDouble(rawClusterData.get(2)
-                            .substring(marker+1));
-                    marker = rawClusterData.get(3).indexOf(":");
-                    String size = rawClusterData.get(3).substring(marker + 1);
-                    /*marker = size.indexOf(",");
-                    int width = Integer.parseInt(size.substring(0, marker));
-                    int height = Integer.parseInt(size.substring(marker + 1));
+                int marker = rawClusterData.get(0).indexOf(":");
+                String id = rawClusterData.get(0).substring(marker + 1);
+                marker = rawClusterData.get(1).indexOf(":");
+                int spacing = Integer.parseInt(rawClusterData.get(1)
+                        .substring(marker + 1));
+                marker = rawClusterData.get(2).indexOf(":");
+                int marker2 = rawClusterData.get(2).indexOf(",");
+                double minSpeed = Double.parseDouble(rawClusterData.get(2)
+                        .substring(marker + 1, marker2));
+                double maxSpeed = Double.parseDouble(rawClusterData.get(2).substring(marker2 + 1));
+                marker = rawClusterData.get(3).indexOf(":");
+                String size = rawClusterData.get(3).substring(marker + 1);
 
-                    if (rawClusterData.size() != height + 4) {
-                        continue;
-                    }*/
+                cluster.setMinSpeed(minSpeed);
+                cluster.setMaxSpeed(maxSpeed);
 
 
-                    // processes the grid
-                    for (int y = 4; y < rawClusterData.size(); y++) {
-                        String line = rawClusterData.get(y);
-                        for (int x = 0; x < line.length(); x+=2) {
-                            String clusterPoint = line.substring(x, x + 1).strip();
-                            EnemyType type = null;
-                            if (clusterPoint.equals(".")) {
-                                continue;
-                            }
-                            if (clusterPoint.length() == 1) {
-                                type = getEnemyType(clusterPoint);
+                // processes the grid
+                for (int y = 4; y < rawClusterData.size(); y++) {
+                    String line = rawClusterData.get(y);
+                    for (int x = 0; x < line.length(); x += 2) {
+                        String clusterPoint = line.substring(x, x + 1).strip();
+                        EnemyType type = null;
+                        if (clusterPoint.equals(".")) {
+                            continue;
+                        }
+                        if (clusterPoint.length() == 1) {
+                            type = getEnemyType(clusterPoint);
 
-                                Spawn spawn = new Spawn(x * spacing,
-                                        y * spacing,
-                                        speed,
-                                        type);
+                            Spawn spawn = new Spawn(x * spacing,
+                                    y * spacing,
+                                    minSpeed,
+                                    maxSpeed,
+                                    type);
 
-                                cluster.addSpawn(spawn);
+                            cluster.addSpawn(spawn);
 
-                            }
-                            if (clusterPoint.length() == 2)
-                            {
-                                System.out.println("Issue with " + clusterFile.toString()
-                                        + "The ability to nest clusters has not yet been fully implemented");
-                                cluster.addOtherCluster(y + "," + x, clusterPoint);
-                            }
+                        }
+                        if (clusterPoint.length() == 2) {
+                            System.out.println("Issue with " + clusterFile.toString()
+                                    + "The ability to nest clusters has not yet been fully implemented");
+                            cluster.addOtherCluster(y + "," + x, clusterPoint);
                         }
                     }
-
-                    clusters.put(id, cluster);
-
-                } else {
-                    System.out.println("Problem reading file: " +
-                            clusterFile.toString()
-                            + ". Improperly formatted");
                 }
+                System.out.println("added cluster " + id);
+
+                clusters.put(id, cluster);
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            return clusters;
-
-
         }
 
 
-        return null;
+        return clusters;
     }
 
     private static boolean clusterFileFormattedCorrectly(List<String> file) {
 
         boolean correct = file.size() >= 4;
         correct &= file.get(0).matches("id:[a-zA-Z][a-zA-Z]");
-       correct &= file.get(1).matches("spacing:[0-9]+");
-       correct &= file.get(2).matches("speed:[0-9]+[\\.[0-9]+]?");
-       correct &= file.get(3).matches("size:[0-9]+,[0-9]+");
+        correct &= file.get(1).matches("spacing:[0-9]+");
+        correct &= file.get(2).matches("speed:[0-9]+[\\.[0-9]+]?,[0-9]+[\\.[0-9]+]?");
+        correct &= file.get(3).matches("size:[0-9]+,[0-9]+");
 
 
         return correct;

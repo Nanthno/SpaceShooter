@@ -11,23 +11,25 @@ class Spawn {
     int xPos;
     int yPos;
 
-    double speed;
+    double minSpeed;
+    double maxSpeed;
 
     EnemyType type;
 
-    public Spawn(int xCenter, int yCenter, double speed, EnemyType type) {
+    public Spawn(int xCenter, int yCenter, double minSpeed, double maxSpeed, EnemyType type) {
 
         int xPos = xCenter - Globals.getEnemyShipRadius(type);
         int yPos = yCenter - Globals.getEnemyShipRadius(type);
 
         this.xPos = xPos;
         this.yPos = yPos;
-        this.speed = speed;
+        this.minSpeed = minSpeed;
+        this.maxSpeed = maxSpeed;
         this.type = type;
 
     }
 
-    EnemyShip makeEnemy(int clusterX, int clusterY) {
+    EnemyShip makeEnemy(int clusterX, int clusterY, double speed) {
         EnemyShip ship = null;
 
         if (type == EnemyType.BASIC)
