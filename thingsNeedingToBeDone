@@ -1,7 +1,6 @@
 Notes for next time:
--add toString methods to the spawn classes and test their functionality (specifically SpawnUtil.createSpawnClusters)
--add pattern files and functionality to read them
--make the spawn controller be used to spawn enemies rather than the radomized one in controller
+-create a timeline file type which dictates when what spawn clusters have what spawn probability
+-make the choose y method in spawn controller account for the size of the spawn cluster such that the cluster does not fall off the edge
 
 
 Special actions: special things a player can do once a energy bar charges

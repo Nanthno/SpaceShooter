@@ -4,6 +4,8 @@ import src.main.java.enemy.EnemyBasic;
 import src.main.java.enemy.EnemyFuel;
 import src.main.java.enemy.EnemyShip;
 import src.main.java.spawn.SpawnController;
+import src.main.java.spawn.TimelineController;
+import src.main.java.spawn.TimeStampEvent;
 
 import java.util.*;
 
@@ -27,6 +29,7 @@ public class Controller {
     static double spawnChance2 = 1;
 
     static SpawnController spawnController = new SpawnController();
+    static TimelineController timelineController = new TimelineController();
 
     int plaryerR = 8;
     int shipR0 = 8;
@@ -37,6 +40,7 @@ public class Controller {
     public static void main(String[] args) {
 
         graphicsManager = new GraphicsManager();
+        timelineController.run();
 
         gameLoop();
 
@@ -83,7 +87,7 @@ public class Controller {
 
         if (spawns < spawnChance0) {
             // randomly chooses a y position for the ship's spawn point with a 32 pixel margin
-            int y = rand.nextInt(GraphicsManager.HEIGHT - 64) + 32;
+            int y = rand.nextInt(Globals.screenHeight - 64) + 32;
             double xSpeed = rand.nextDouble() * (EnemyBasic.maxSpeed - EnemyBasic.minSpeed) + EnemyBasic.minSpeed;
             enemyShips.add(new EnemyBasic(y, xSpeed));
 
@@ -91,7 +95,7 @@ public class Controller {
 
         spawns = rand.nextDouble();
         if (spawns < spawnChance1) {
-            int y = rand.nextInt(GraphicsManager.HEIGHT - 64) + 32;
+            int y = rand.nextInt(Globals.screenHeight- 64) + 32;
             double xSpeed = EnemyFuel.minSpeed + rand.nextDouble() * (EnemyFuel.maxSpeed - EnemyFuel.minSpeed);
             enemyShips.add(new EnemyFuel(y, xSpeed));
         }
@@ -204,30 +208,12 @@ public class Controller {
             explosions.add(new FuelExplosion(x, y));
         }
     }
-    /*
-    static void spawnSmallExp(int x, int y, int r) {
-	x += r;
-	y += r;
-	explosions.add(new src.main.java.SmallExplosion(x, y));
-    }
-    static void spawnFuelExp(int x, int y, int r) {
-	x += r;
-	y += r;
-	explosions.add(new src.main.java.FuelExplosion(x, y));
-	}*/
 
+    public static void updateSpawnProbabilities(TimeStampEvent event) {
+        spawnController.updateSpawnProbabilities(event);
+    }
 
     public static void gameLoop() {
-	/*long time = (new Date()).getTime();
-	long lastTime = time;
-	while(true) {
-	    update();
-	    lastTime = time;
-	    while(updatesPerSecond/1000 < time-lastTime) {
-		time = (new Date()).getTime();
-	    }
-	
-	    }*/
         Timer t = new Timer();
         t.schedule(new TimerTask() {
             @Override

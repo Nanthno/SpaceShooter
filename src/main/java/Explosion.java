@@ -4,7 +4,7 @@ class Explosion {
 
     int xPos = -1;
     int yPos = -1;
-    
+
     int maxDuration;
     int duration;
 
@@ -19,28 +19,31 @@ class Explosion {
 
     // returns true if the explosion should be destroyed
     boolean update() {
-	duration--;
-	stage = stage = maxStage - duration/(maxDuration/maxStage);
-	if(stage < 0) {
-	    stage = 0;
-	}
+        duration--;
+        stage = stage  = maxStage - duration / (maxDuration / maxStage);
+        if (stage < 0) {
+            stage = 0;
+        }
 
-	if(duration < 0) {
-	    return true;
-	}
-	return false;
+        if (duration < 0) {
+            return true;
+        }
+        return false;
     }
 
     int getx() {
-	return xPos;
+        return xPos;
     }
+
     int gety() {
-	return yPos;
+        return yPos;
     }
+
     int getStage() {
-	return stage;
+        return stage;
     }
+
     int getRadius() {
-	return radius;
+        return radius;
     }
 }

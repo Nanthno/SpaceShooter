@@ -1,5 +1,6 @@
 *.class
 *.java~
+.attach*
 #*.java#
 .#*.java#
-out/*
+**/out

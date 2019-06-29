@@ -60,11 +60,11 @@ class PlayerShip {
         // movement
         if (in.up && yPos > 0)
             yPos -= ySpeed;
-        if (in.down && yPos < GraphicsManager.HEIGHT)
+        else if (in.down && yPos < Globals.screenHeight-radius*4) // not really sure why it has to be 4 not 2 but it works
             yPos += ySpeed;
-        if (in.right && xPos < GraphicsManager.WIDTH)
+        if (in.right && xPos < GraphicsManager.WIDTH-radius*4)
             xPos += xSpeed;
-        if (in.left && xPos > 0)
+        else if (in.left && xPos > 0)
             xPos -= xSpeed;
         // firing
         if (in.fire && fire < 0 && !overheated) {

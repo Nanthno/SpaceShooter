@@ -19,10 +19,10 @@ class GraphicsManager {
 
     // size of the screen
     static int GAME_WIDTH = 1024;
-    static int GAME_HEIGHT = 640;
+    static int GAME_HEIGHT = Globals.screenHeight;
     static int STATUS_WIDTH = 64;
     static int WIDTH = GAME_WIDTH + STATUS_WIDTH;
-    static int HEIGHT = 640;
+    static int HEIGHT = Globals.screenHeight;
 
     JFrame frame;
 

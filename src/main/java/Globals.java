@@ -8,6 +8,8 @@ import java.util.Map;
 
 public class Globals {
 
+    public static final int screenHeight = 640;
+
     public static final int enemyBasicRadius = 8;
     public static final int enemyFuelRadius = 16;
 

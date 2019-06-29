@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class spawnUtil {
+public class ClusterUtil {
 
     static File clusterDirectory = new File("src/main/resources/spawn/cluster");
 
@@ -33,10 +33,8 @@ public class spawnUtil {
                 return name.toLowerCase().endsWith(".cluster");
             }
         });
-        System.out.println(Arrays.toString(clusterFiles));
 
         for (File clusterFile : clusterFiles) {
-            System.out.println("processing file " + clusterFile.toString());
             try {
                 SpawnCluster cluster = new SpawnCluster();
                 List<String> rawClusterData = Files.readAllLines(clusterFile.toPath());
@@ -85,7 +83,6 @@ public class spawnUtil {
                         }
                     }
                 }
-                System.out.println("added cluster " + id);
 
                 clusters.put(id, cluster);
 
@@ -110,13 +107,6 @@ public class spawnUtil {
 
         return correct;
 
-/*
-        return file.size() >= 4
-                && file.get(0).matches("id:[a-zA-Z][a-zA-Z]")
-                && file.get(1).matches("spacing:[0-9]+")
-                && file.get(2).matches("speed:[0-9]+[\\.[0-9]+]?")
-                && file.get(3).matches("size:[0-9]+,[0-9]+");
-*/
     }
 
     static SpawnPattern[] createSpawnPatterns(HashMap<String, SpawnCluster> clusters) {
