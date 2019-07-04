@@ -40,6 +40,11 @@ class Spawn {
         return ship;
     }
 
+    public void offset(int x, int y) {
+        xPos -= x;
+        yPos -= y;
+    }
+
     public int getxPos() {
         return xPos;
     }

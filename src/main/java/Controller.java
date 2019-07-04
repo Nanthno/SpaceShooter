@@ -3,9 +3,10 @@ package src.main.java;
 import src.main.java.enemy.EnemyBasic;
 import src.main.java.enemy.EnemyFuel;
 import src.main.java.enemy.EnemyShip;
+import src.main.java.enemy.EnemyType;
 import src.main.java.spawn.SpawnController;
-import src.main.java.spawn.TimelineController;
 import src.main.java.spawn.TimeStampEvent;
+import src.main.java.spawn.TimelineUtil;
 
 import java.util.*;
 
@@ -23,35 +24,39 @@ public class Controller {
 
     static final int frameRate = 15;
 
-    // probability of a spawn occuring on each tick
+    // probability of a spawn occurring on each tick
     static double spawnChance0 = 0;
     static double spawnChance1 = 0;
     static double spawnChance2 = 1;
 
     static SpawnController spawnController = new SpawnController();
-    static TimelineController timelineController = new TimelineController();
+    //static TimelineController timelineController = new TimelineController();
 
-    int plaryerR = 8;
-    int shipR0 = 8;
-    int shipR1 = 16;
-    int smallExpR = 8;
-    int fuelExpR = 32;
+    private static Queue<TimeStampEvent> timeline = null;
+
+    static int score = 0;
+
+    GameState gameState = GameState.MENU;
+    private enum GameState {MENU, PLAYING, HIGHSCORE}
 
     public static void main(String[] args) {
 
         graphicsManager = new GraphicsManager();
-        timelineController.run();
+        //timelineController.run();
+
+        timeline = TimelineUtil.readTimelinesToQueue();
 
         gameLoop();
 
     }
 
     static void update() {
+        if (timeline.size() > 0)
+            timeline = spawnController.updateSpawnProbabilities(timeline);
 
-        // updates player
         player.update();
 
-        // updates playerbullets
+        // updates player bullets
         ArrayList<PlayerBullet> newPlayerBullets = new ArrayList<PlayerBullet>();
         for (PlayerBullet b : playerBullets) {
             b.update();
@@ -95,7 +100,7 @@ public class Controller {
 
         spawns = rand.nextDouble();
         if (spawns < spawnChance1) {
-            int y = rand.nextInt(Globals.screenHeight- 64) + 32;
+            int y = rand.nextInt(Globals.screenHeight - 64) + 32;
             double xSpeed = EnemyFuel.minSpeed + rand.nextDouble() * (EnemyFuel.maxSpeed - EnemyFuel.minSpeed);
             enemyShips.add(new EnemyFuel(y, xSpeed));
         }
@@ -129,7 +134,7 @@ public class Controller {
             if (laserBlast != null) {
                 int distance = Math.abs(laserBlast.getx() - e.getx());
                 if (distance < e.getRadius() + laserBlast.getRadius()) {
-                    spawnExp(e.getx(), e.gety(), e.getRadius(), e.getType());
+                    spawnExp(e.getx(), e.gety(), e.getRadius(), e.getType(), 0);
                     enemyShips.remove(j);
                     continue;
                 }
@@ -141,7 +146,7 @@ public class Controller {
 
                 if (distance(b.getx(), b.gety(), b.getRadius(),
                         e.getx(), e.gety(), e.getRadius()) < e.getRadius() + b.getRadius()) {
-                    spawnExp(e.getx(), e.gety(), e.getRadius(), e.getType());
+                    spawnExp(e.getx(), e.gety(), e.getRadius(), e.getType(), 0);
                     playerBullets.remove(i);
                     enemyShips.remove(j);
 
@@ -152,13 +157,13 @@ public class Controller {
 
     static void checkEnemyExplosionCollision() {
         for (int i = explosions.size() - 1; i >= 0; i--) {
-            Explosion b = explosions.get(i);
+            Explosion explosion = explosions.get(i);
             for (int j = enemyShips.size() - 1; j >= 0; j--) {
-                EnemyShip e = enemyShips.get(j);
-                if (b.getStage() > 2 &&
-                        distance(b.getx(), b.gety(), b.getRadius(),
-                                e.getx(), e.gety(), e.getRadius()) < 2 * (e.getRadius() + b.getRadius())) {
-                    e.killShip();
+                EnemyShip enemy = enemyShips.get(j);
+                if (explosion.getStage() > 2 &&
+                        distance(explosion.getx(), explosion.gety(), explosion.getRadius(),
+                                enemy.getx(), enemy.gety(), enemy.getRadius()) < 2 * (enemy.getRadius() + explosion.getRadius())) {
+                    enemy.killShip(explosion.getCatalystSeparation() + 1);
                     enemyShips.remove(j);
 
                 }
@@ -171,13 +176,12 @@ public class Controller {
             EnemyShip e = enemyShips.get(i);
             if (distance(e.getx(), e.gety(), e.getRadius(),
                     player.getx(), player.gety(), player.getRadius()) < e.getRadius() + player.getRadius()) {
-                e.killShip();
+                e.killShip(0);
                 enemyShips.remove(i);
                 //player.shipCollision();
             }
         }
     }
-
 
     static double distance(double x1, double y1, int r1, double x2, double y2, int r2) {
         x1 += r1;
@@ -191,21 +195,23 @@ public class Controller {
         return Math.sqrt(dx * dx + dy * dy);
     }
 
-    public static void spawnExp(int x, int y, int shipR, int expType) {
+    public static void spawnExp(int x, int y, int shipR, EnemyType enemyType, int catalistSeperation) {
+
+        int explosionType = EnemyType.getExplosionType(enemyType);
 
         // compensates location for ship radius
         x += shipR;
         y += shipR;
         // compensates location for explosion radius
-        x -= Explosion.expRadiusArray[expType];
-        y -= Explosion.expRadiusArray[expType];
+        x -= Explosion.expRadiusArray[explosionType];
+        y -= Explosion.expRadiusArray[explosionType];
 
 
-        if (expType == 0) {
-            explosions.add(new SmallExplosion(x, y));
+        if (explosionType == 0) {
+            explosions.add(new SmallExplosion(x, y, catalistSeperation));
         }
-        if (expType == 1) {
-            explosions.add(new FuelExplosion(x, y));
+        if (explosionType == 1) {
+            explosions.add(new FuelExplosion(x, y, catalistSeperation));
         }
     }
 
@@ -232,6 +238,14 @@ public class Controller {
         if (laserBlast == null) {
             laserBlast = new LaserBlast(x);
         }
+    }
+
+    public static void addKillScore(EnemyType type, int catalistSeperation) {
+        int killPoints = Globals.getEnemyShipPointValue(type);
+        double multiplier = catalistSeperation/2 + 1;
+
+        killPoints *= multiplier;
+        score += killPoints;
     }
 
     static ArrayList<EnemyShip> getEnemyArray() {
@@ -276,5 +290,9 @@ public class Controller {
 
     static int getMaxCharge() {
         return player.getMaxCharge();
+    }
+
+    public static int getScore() {
+        return score;
     }
 }

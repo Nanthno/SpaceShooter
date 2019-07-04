@@ -6,7 +6,14 @@ import java.util.Map;
 public class TimeStampEvent {
 
     Map<String, Double> spawnProbabilityMap = new HashMap<>();
+
+    int triggerTime;
+
     // need to add functionality for specific spawns
+
+    public TimeStampEvent(int time) {
+        triggerTime = time;
+    }
 
     public void addSet(String line) {
         String[] splitLine = line.split(" ");
@@ -22,5 +29,9 @@ public class TimeStampEvent {
 
     public Map<String, Double> getSpawnProbabilityMap() {
         return spawnProbabilityMap;
+    }
+
+    public int getTriggerTime() {
+        return triggerTime;
     }
 }

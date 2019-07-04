@@ -1,10 +1,13 @@
 Notes for next time:
--create a timeline file type which dictates when what spawn clusters have what spawn probability
--make the choose y method in spawn controller account for the size of the spawn cluster such that the cluster does not fall off the edge
+-add laser sight for laser blast
+--triggers when press down 'Q', gone when release
+--make laser blast fire when 'Q' is released rather than pressed
+-add laser sight
 
 
 Special actions: special things a player can do once a energy bar charges
 --potentially can charge a few times then use multiple simultaniously
+--different special actions could require different amounts of charge. MaxCharge value would have to be based on the maximum needed charge amount
 --make it fire upon button realease. holding button will show a tracer (e.g. laser blast would show a thin red laser showing where the blast will land)
 -missle: explodes either on impact or by pressing the missle button again
 -rail gun: tears through any enemies in the way (isn't destroyed on impact)
@@ -36,6 +39,16 @@ visuals:
 -make the background scroll
 -- maybe with paralax
 
+
+Menu Upgrade Selections:
+-could have multiple upgrade options from which the player can choose a limited number for the round
+-could also select which special abilities you want to use
+-upgrade ideas:
+--increased fire rate
+--piercing rounds (ignore shields)
+--cannon: player fires slower but explosive rounds
+--firing laser sight: a laser sight for the front facing gun
+--spread shot: firing shoots a spread of bullets
 
 Mary Feedback:
 -increase fire rate

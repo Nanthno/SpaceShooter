@@ -1,7 +1,7 @@
 package src.main.java;
 
 class SmallExplosion extends Explosion {
-    public SmallExplosion(int x, int y) {
+    public SmallExplosion(int x, int y, int catalistSeperation) {
 	xPos = x;
 	yPos = y;
 	maxStage = 10;
@@ -9,6 +9,7 @@ class SmallExplosion extends Explosion {
 	duration = maxDuration;
 	radius = 8;
 	expType = 0;
+	this.catalystSeparation = catalistSeperation;
     }
     
 }

@@ -1,9 +1,11 @@
 id:AA
-spacing:15
+spacing:5
 speed:1,1.5
-size:2,5
-b .
-. .
-b f
-. .
-b .
+size:3,7
+. b . .
+. . . .
+. . . .
+b . . f
+. . . .
+. . . .
+. b . .

@@ -15,6 +15,8 @@ class Explosion {
 
     int expType;
 
+    int catalystSeparation = 0;
+
     static int[] expRadiusArray = new int[]{8, 32};
 
     // returns true if the explosion should be destroyed
@@ -45,5 +47,9 @@ class Explosion {
 
     int getRadius() {
         return radius;
+    }
+
+    public int getCatalystSeparation() {
+        return catalystSeparation;
     }
 }

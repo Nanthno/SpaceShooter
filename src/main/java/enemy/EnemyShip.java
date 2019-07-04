@@ -13,39 +13,46 @@ public class EnemyShip {
     double xSpeed;
     double ySpeed;
 
-    int shipType;
+    EnemyType shipType;
     int radius;
+
+    int catalistSeperation = 0;
 
     // called every tick by the controller
     // returns true if the ship has fallen off the screen and so should be destroyed
     public boolean updateShip() {
-	xPos -= xSpeed;
-	yPos += ySpeed;
+        xPos -= xSpeed;
+        yPos += ySpeed;
 
-	if(xPos < -20) {
-	    return true;
-	}
+        if (xPos < -20) {
+            return true;
+        }
 
-	return false;
+        return false;
     }
-    public void killShip() {
-	Controller.spawnExp((int)xPos, (int)yPos, radius, shipType);
+
+    public void killShip(int catalistSeperation) {
+        Controller.spawnExp((int) xPos, (int) yPos, radius, shipType, catalistSeperation);
+        Controller.addKillScore(shipType, catalistSeperation);
     }
 
     public int getx() {
-	return (int)xPos;
-    }
-    public int gety() {
-	return (int)yPos;
-    }
-    public int getType() {
-	return shipType;
-    }
-    public int getRadius() {
-	return radius;
+        return (int) xPos;
     }
 
-    
+    public int gety() {
+        return (int) yPos;
+    }
+
+    public EnemyType getType() {
+        return shipType;
+    }
+
+    public int getRadius() {
+        return radius;
+    }
+
+
 }
 	
     

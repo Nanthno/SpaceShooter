@@ -1,15 +1,13 @@
 package src.main.java;
 
 import src.main.java.enemy.EnemyShip;
+import src.main.java.enemy.EnemyType;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.imageio.ImageIO;
-import java.awt.BorderLayout;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,7 +16,7 @@ class GraphicsManager {
 
 
     // size of the screen
-    static int GAME_WIDTH = 1024;
+    static int GAME_WIDTH = Globals.screenWidth;
     static int GAME_HEIGHT = Globals.screenHeight;
     static int STATUS_WIDTH = 64;
     static int WIDTH = GAME_WIDTH + STATUS_WIDTH;
@@ -63,6 +61,7 @@ class GraphicsManager {
         // makes the frame visible
         frame.setVisible(true);
     }
+
 
     public void drawScreen(int playerHealth, int playerHeat) {
         BufferedImage screenshot = drawScreenshot();
@@ -250,6 +249,7 @@ class GraphicsManager {
 
         private BufferedImage drawStatus() {
 
+            int score = Controller.getScore();
             int health = Controller.getPlayerHealth();
             int maxHealth = Controller.getPlayerMaxHealth();
             int heat = Controller.getPlayerHeat();
@@ -276,7 +276,43 @@ class GraphicsManager {
                     maxCharge, charge);
             g.drawImage(chargeBar, 9, 250, null);
 
+            BufferedImage scoreValue = stringToImage(String.valueOf(score));
+            g.drawImage(scoreValue, 7, 600, null);
+
             return panelImg;
+        }
+
+
+        // code from https://stackoverflow.com/questions/18800717/convert-text-content-to-image
+        private BufferedImage stringToImage(String string) {
+            BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2d = img.createGraphics();
+            Font font = new Font("Arial", Font.PLAIN, 14);
+            g2d.setFont(font);
+            FontMetrics fm = g2d.getFontMetrics();
+            int width = fm.stringWidth(string);
+            int height = fm.getHeight();
+            g2d.dispose();
+
+            img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            g2d = img.createGraphics();
+            g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+            g2d.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
+            g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+            g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+            g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+            g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+            g2d.setFont(font);
+            fm = g2d.getFontMetrics();
+            g2d.setColor(chargeFill);
+            g2d.drawString(string, 0, fm.getAscent());
+            g2d.dispose();
+
+
+            return img;
+
         }
 
         private BufferedImage drawBar(int width, int height, Color fillColor, Color backColor,
@@ -331,11 +367,11 @@ class GraphicsManager {
             // draw enemy ships
             ArrayList<EnemyShip> enemyShips = Controller.getEnemyArray();
             Graphics g = screenshot.getGraphics();
-            for (EnemyShip e : enemyShips) {
-                if (e.getType() == 0)
-                    g.drawImage(enemy0, e.getx(), e.gety(), null);
-                else if (e.getType() == 1)
-                    g.drawImage(enemy1, e.getx(), e.gety(), null);
+            for (EnemyShip enemy : enemyShips) {
+                if (enemy.getType() == EnemyType.BASIC)
+                    g.drawImage(enemy0, enemy.getx(), enemy.gety(), null);
+                else if (enemy.getType() == EnemyType.FUEL)
+                    g.drawImage(enemy1, enemy.getx(), enemy.gety(), null);
             }
 
             // draw player bullets

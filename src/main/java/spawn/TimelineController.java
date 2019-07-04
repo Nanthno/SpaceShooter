@@ -23,17 +23,28 @@ public class TimelineController implements Runnable {
 
     public void run() {
 
+
+        if(timelineQueue.size() == 0)
+            return;
+
         long currentTime = System.currentTimeMillis();
 
-        while (timelineQueue.size() > 0) {
-            int nextTimeStamp = timelineQueue.remove();
+        int nextTimeStamp = timelineQueue.remove();
+
+        while (true) {
             long secondsPassed = (currentTime - startTime) / 1000;
 
             if (secondsPassed > nextTimeStamp) {
+                System.out.print(",");
                 Controller.updateSpawnProbabilities(timelineEvents.get(nextTimeStamp));
+
+                if(timelineQueue.size() == 0) {
+                    return;
+                }
+
+                nextTimeStamp = timelineQueue.remove();
             }
         }
     }
-
 
 }

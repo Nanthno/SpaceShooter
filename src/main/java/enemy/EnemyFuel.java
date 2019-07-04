@@ -12,7 +12,7 @@ public class EnemyFuel extends EnemyShip {
         xPos = x;
         yPos = y;
         this.xSpeed = xSpeed;
-        shipType = 1;
+        shipType = EnemyType.FUEL;
         radius = Globals.enemyFuelRadius;
     }
 
@@ -21,7 +21,7 @@ public class EnemyFuel extends EnemyShip {
 
         yPos = y;
         this.xSpeed = xSpeed;
-        shipType = 1;
+        shipType = EnemyType.FUEL;
         radius = Globals.enemyFuelRadius;
     }
 

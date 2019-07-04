@@ -11,7 +11,7 @@ public class EnemyBasic extends EnemyShip {
     public EnemyBasic(int y, double xSpeed) {
         yPos = y;
         this.xSpeed = xSpeed;
-        shipType = 0;
+        shipType = EnemyType.BASIC;
         radius = Globals.enemyBasicRadius;
     }
 
@@ -19,7 +19,7 @@ public class EnemyBasic extends EnemyShip {
         xPos = x;
         yPos = y;
         this.xSpeed = xSpeed;
-        shipType = 0;
+        shipType = EnemyType.BASIC;
         radius = Globals.enemyBasicRadius;
     }
 

@@ -83,8 +83,9 @@ public class ClusterUtil {
                         }
                     }
                 }
-
+                cluster.initialize();
                 clusters.put(id, cluster);
+
 
             } catch (IOException e) {
                 e.printStackTrace();

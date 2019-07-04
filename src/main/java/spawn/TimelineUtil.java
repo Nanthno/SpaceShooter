@@ -3,9 +3,7 @@ package src.main.java.spawn;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.nio.file.Files;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TimelineUtil {
 
@@ -29,6 +27,22 @@ public class TimelineUtil {
         return timeline;
     }
 
+    public static Queue<TimeStampEvent> readTimelinesToQueue() {
+        Map<Integer, TimeStampEvent> timelineMap = readTimelines();
+
+        List<Integer> timePoints = new ArrayList<Integer>();
+        timePoints.addAll(timelineMap.keySet());
+        Collections.sort(timePoints);
+
+        Queue<TimeStampEvent> events = new LinkedList<>();
+
+        for(int i : timePoints) {
+            events.add(timelineMap.get(i));
+        }
+
+        return events;
+    }
+
     private static Map<Integer, TimeStampEvent> unpackFile(File file, Map<Integer, TimeStampEvent> timeline) {
 
         try {
@@ -47,7 +61,7 @@ public class TimelineUtil {
                     if(timeline.containsKey(time))
                         event = timeline.get(time);
                     else
-                        event = new TimeStampEvent();
+                        event = new TimeStampEvent(time);
                     continue;
                 }
 

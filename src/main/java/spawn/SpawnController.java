@@ -1,22 +1,23 @@
 package src.main.java.spawn;
 
+import src.main.java.Globals;
 import src.main.java.enemy.EnemyShip;
 
 import java.util.*;
 
 public class SpawnController {
 
-    static int minY = 100;
-    static int maxY = 425;
-
-    //static float AASpawnChance = 0.01F;
-    //static float ABSpawnChance = 0.04F;
+    static int minY = 32;
+    static int maxY = Globals.screenHeight - 32;
 
     Map<String, Double> spawnProbabilities = new HashMap<>();
 
     static HashMap<String, SpawnCluster> allClusters;
+    private static long startTime = 0;
 
     public SpawnController() {
+        startTime = System.currentTimeMillis();
+
         allClusters = ClusterUtil.createSpawnClusters();
     }
 
@@ -32,19 +33,13 @@ public class SpawnController {
 
         for (String clusterCode : spawnProbabilities.keySet()) {
             if (rand.nextDouble() < spawnProbabilities.get(clusterCode)) {
-                int y = chooseY();
+                //int y = chooseY();
 
-                enemiesToSpawn.addAll(allClusters.get(clusterCode).makeSpawns(1049, y));
+                enemiesToSpawn.addAll(allClusters.get(clusterCode).makeSpawns(minY, maxY));
             }
         }
 
         return enemiesToSpawn;
-    }
-
-    private int chooseY() {
-        Random rand = new Random();
-        int y = rand.nextInt(maxY + minY) - minY;
-        return y;
     }
 
     public void updateSpawnProbabilities(TimeStampEvent event) {
@@ -52,5 +47,17 @@ public class SpawnController {
         for (String clusterCode : newSpawnProbabilities.keySet()) {
             spawnProbabilities.put(clusterCode, newSpawnProbabilities.get(clusterCode));
         }
+    }
+    public Queue<TimeStampEvent> updateSpawnProbabilities(Queue<TimeStampEvent> events) {
+        TimeStampEvent event = events.peek();
+
+        long secondsPassed = (System.currentTimeMillis() - startTime)/1000;
+
+        if(event.getTriggerTime() < secondsPassed) {
+            events.remove();
+
+            updateSpawnProbabilities(event);
+        }
+        return events;
     }
 }
