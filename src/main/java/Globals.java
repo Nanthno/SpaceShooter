@@ -11,6 +11,7 @@ public class Globals {
     public static final int screenWidth = 1024;
 
     public static final int enemyBasicRadius = 8;
+    public static final int enemyAgileRadius = 12;
     public static final int enemyFuelRadius = 16;
 
     static final Map<EnemyType, Integer> enemyShipRadius = Map.of(

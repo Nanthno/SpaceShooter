@@ -16,14 +16,18 @@ public class EnemyShip {
     EnemyType shipType;
     int radius;
 
-    int catalistSeperation = 0;
 
     // called every tick by the controller
     // returns true if the ship has fallen off the screen and so should be destroyed
     public boolean updateShip() {
         xPos -= xSpeed;
-        yPos += ySpeed;
+        yPos -= ySpeed;
 
+        return checkDead();
+
+    }
+
+    protected boolean checkDead() {
         if (xPos < -20) {
             return true;
         }

@@ -33,8 +33,9 @@ class GraphicsManager {
     // images
     BufferedImage background;
     BufferedImage statusBars;
-    BufferedImage enemy0;
-    BufferedImage enemy1;
+    BufferedImage enemyBasicImage;
+    BufferedImage enemyFuelImage;
+    BufferedImage enemyAgileImage;
     BufferedImage playerImg;
     BufferedImage playerBullet;
     BufferedImage laserBlast;
@@ -84,7 +85,7 @@ class GraphicsManager {
         ArrayList<EnemyShip> enemyShips = Controller.getEnemyArray();
         Graphics g = screenshot.getGraphics();
         for (EnemyShip e : enemyShips) {
-            g.drawImage(enemy1, e.getx(), e.gety(), null);
+            g.drawImage(enemyFuelImage, e.getx(), e.gety(), null);
         }
 
         // draw player bullets
@@ -117,8 +118,9 @@ class GraphicsManager {
     void loadImages() {
         background = loadImage("images/space.png");
         statusBars = loadImage("images/statusPanel.png");
-        enemy0 = loadImage("images/enemySwarm.png");
-        enemy1 = loadImage("images/enemyFuelShip.png");
+        enemyBasicImage = loadImage("images/enemySwarm.png");
+        enemyFuelImage = loadImage("images/enemyFuelShip.png");
+        enemyAgileImage = loadImage("images/enemyAgile.png");
         playerImg = loadImage("images/playerLarge.png");
         playerBullet = loadImage("images/playerBullet.png");
         laserBlast = loadImage("images/LaserBlast.png");
@@ -339,13 +341,6 @@ class GraphicsManager {
             }
 
             heatDisplayValue = heat;
-	    /*
-	    if(heatDisplayValue > heat) {
-		heatDisplayValue--;
-	    }
-	    else if(heatDisplayValue < heat) {
-		heatDisplayValue++;
-		}*/
         }
 
 
@@ -369,9 +364,11 @@ class GraphicsManager {
             Graphics g = screenshot.getGraphics();
             for (EnemyShip enemy : enemyShips) {
                 if (enemy.getType() == EnemyType.BASIC)
-                    g.drawImage(enemy0, enemy.getx(), enemy.gety(), null);
+                    g.drawImage(enemyBasicImage, enemy.getx(), enemy.gety(), null);
                 else if (enemy.getType() == EnemyType.FUEL)
-                    g.drawImage(enemy1, enemy.getx(), enemy.gety(), null);
+                    g.drawImage(enemyFuelImage, enemy.getx(), enemy.gety(), null);
+                else if(enemy.getType() == EnemyType.AGILE)
+                    g.drawImage(enemyAgileImage, enemy.getx(), enemy.gety(), null);
             }
 
             // draw player bullets

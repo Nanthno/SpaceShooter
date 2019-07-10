@@ -1,0 +1,9 @@
+the density map is to track where enemy ships are densest to aid in dynamic motion and spawning so that the difficulty can be tweaked
+
+the density map itself is a collection of locations and weights for that location
+the weight for each location is determined by how many ships are within or near exploding radius, the further away the ship is, the less density is added
+Using this method, each enemy ship's location will have a density value
+
+Using the map, a density hole map would be created by finding places where ships are just outside each other's explosion radii
+The weight on the holes would be calculated as a function of the near by ship's densities
+- this can be used by ships like the agile which seek out and move toward holes allowing the player to get larger combos

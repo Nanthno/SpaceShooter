@@ -1,4 +1,5 @@
 Notes for next time:
+-write unit tests for EnemyAgile setVector method
 -add laser sight for laser blast
 --triggers when press down 'Q', gone when release
 --make laser blast fire when 'Q' is released rather than pressed
@@ -6,10 +7,10 @@ Notes for next time:
 
 
 Special actions: special things a player can do once a energy bar charges
---potentially can charge a few times then use multiple simultaniously
+--potentially can charge a few times then use multiple simultaneously
 --different special actions could require different amounts of charge. MaxCharge value would have to be based on the maximum needed charge amount
---make it fire upon button realease. holding button will show a tracer (e.g. laser blast would show a thin red laser showing where the blast will land)
--missle: explodes either on impact or by pressing the missle button again
+--make it fire upon button release. holding button will show a tracer (e.g. laser blast would show a thin red laser showing where the blast will land)
+-missle: explodes either on impact or by pressing the missile button again
 -rail gun: tears through any enemies in the way (isn't destroyed on impact)
 -ramming shield: allows player to ram ships without taking damage
 -deflector shield: absorbs bullets
@@ -19,14 +20,19 @@ Special actions: special things a player can do once a energy bar charges
 
 
 enemy types:
+create a density map which can be used for ship navigation or for weighting spawns either to make it harder or easier
+-Would also need density projection to predict where density will be after a certain amount of time
 -shooter: shoots
 -spawn ship: spawns ships (probably movers of some type so not all clumped up because that would just result in a massive explosion when the cluster got hit (that could be rather fun though))
 -mover: goes up and down
+--could move to a pattern or by choosing the next point to move toward by picking low density holes near high density patches to enable better chains
+---if moved to optomize chains, would need to only do so every few moves else seem to easy
+---or could intentionally pass through those spots rather than going to them to reward foresight
 -armored: immune to explosions
 -armored2: immune to guns (only killable with explosions)
 -armored3: has multiple points of health
 -formation: a group of enemies spawned together
--figher: intellegent enemy which moves around to stay on screen, not get hit, and shoot at player
+-fighter: intelligent enemy which moves around to stay on screen, not get hit, and shoot at player
 -shielder: shields itself and any ships within range (player must go inside shield to destroy)
 -bosses of various kinds
 -health dropping ship
@@ -37,7 +43,7 @@ visuals:
 -maybe make the fuel ship less garishly bright
 -animate laser blast
 -make the background scroll
--- maybe with paralax
+-- maybe with parallax
 
 
 Menu Upgrade Selections:

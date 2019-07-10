@@ -7,11 +7,13 @@ import java.util.Map;
 public enum EnemyType {
 
     BASIC,
-    FUEL;
+    FUEL,
+    AGILE;
 
     Map<String, String> enemyHash = Map.of(
             "b", "BASIC",
-            "f", "FUEL"
+            "f", "FUEL",
+            "a", "AGILE"
     );
 
     static Map<EnemyType, Integer> explosionTypes = Map.of(

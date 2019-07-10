@@ -1,5 +1,6 @@
 package src.main.java;
 
+import src.main.java.density.DensityMap;
 import src.main.java.enemy.EnemyBasic;
 import src.main.java.enemy.EnemyFuel;
 import src.main.java.enemy.EnemyShip;
@@ -22,6 +23,8 @@ public class Controller {
 
     static ArrayList<Explosion> explosions = new ArrayList<Explosion>();
 
+    static DensityMap densityMap;
+
     static final int frameRate = 15;
 
     // probability of a spawn occurring on each tick
@@ -42,7 +45,6 @@ public class Controller {
     public static void main(String[] args) {
 
         graphicsManager = new GraphicsManager();
-        //timelineController.run();
 
         timeline = TimelineUtil.readTimelinesToQueue();
 
@@ -53,6 +55,8 @@ public class Controller {
     static void update() {
         if (timeline.size() > 0)
             timeline = spawnController.updateSpawnProbabilities(timeline);
+
+        densityMap = new DensityMap(enemyShips);
 
         player.update();
 
@@ -250,6 +254,10 @@ public class Controller {
 
     static ArrayList<EnemyShip> getEnemyArray() {
         return enemyShips;
+    }
+
+    public static DensityMap getDensityMap() {
+        return densityMap;
     }
 
     static PlayerShip getPlayerShip() {
