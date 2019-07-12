@@ -12,6 +12,22 @@ public class EnemyAgile extends EnemyShip {
 
     double speed;
 
+    // for testing
+    public static void main(String[] args) {
+        EnemyAgile agile = new EnemyAgile(8, -5, 3);
+        agile.setVector(new int[]{3, -7});
+        System.out.println(agile.xSpeed);
+        System.out.println(agile.ySpeed);
+    }
+
+    public EnemyAgile(int x, int y, double speed) {
+        yPos = y;
+        xPos = x;
+        this.speed = speed;
+        radius = Globals.enemyAgileRadius;
+        shipType = EnemyType.AGILE;
+    }
+
     public EnemyAgile(int y, double speed) {
         yPos = y;
         this.speed = speed;
@@ -26,22 +42,29 @@ public class EnemyAgile extends EnemyShip {
         setVector(targetPos);
 
         xPos -= xSpeed;
-        yPos -= ySpeed;
+        yPos += ySpeed;
+
+        // TODO: could make this more efficient by storing maximum and minimum ship positions in global
+        if(yPos < radius) {
+            yPos = radius;
+        }
+        else if(yPos > Globals.screenHeight-radius) {
+            yPos = Globals.screenHeight-radius;
+        }
 
         return checkDead();
     }
 
-    // write unit tests for this to ensure it will actually work properly
     private void setVector(int[] targetPos) {
 
         // yes, the subtraction reverses
         double xDiff = xPos - targetPos[0];
         double yDiff = targetPos[1] - yPos;
 
-        double bearing = Math.atan(yDiff/xDiff);
+        double bearing = Math.atan(yDiff / xDiff);
 
-        xSpeed = speed*Math.cos(bearing);
-        ySpeed = speed*Math.sin(bearing);
+        xSpeed = speed * Math.cos(bearing);
+        ySpeed = speed * Math.sin(bearing);
     }
 
     private int[] findTargetPos() {
@@ -62,7 +85,7 @@ public class EnemyAgile extends EnemyShip {
             }
         }
         if (targetPosValue == -1) {
-            return new int[]{0, (int)yPos};
+            return new int[]{0, (int) yPos};
         }
         return targetPos;
     }
@@ -92,7 +115,7 @@ public class EnemyAgile extends EnemyShip {
             return -1;
         }
 
-        double dist = distance(pos, new int[]{(int) xPos, (int) yPos});
+        double dist = Globals.distance(pos, new int[]{(int) xPos, (int) yPos});
 
         double posValue = posDensity / dist;
 

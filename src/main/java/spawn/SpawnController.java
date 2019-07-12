@@ -33,8 +33,6 @@ public class SpawnController {
 
         for (String clusterCode : spawnProbabilities.keySet()) {
             if (rand.nextDouble() < spawnProbabilities.get(clusterCode)) {
-                //int y = chooseY();
-
                 enemiesToSpawn.addAll(allClusters.get(clusterCode).makeSpawns(minY, maxY));
             }
         }

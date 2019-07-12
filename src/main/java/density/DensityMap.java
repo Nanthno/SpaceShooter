@@ -5,6 +5,7 @@ import src.main.java.enemy.EnemyShip;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class DensityMap {
 
@@ -17,11 +18,11 @@ public class DensityMap {
         density = new HashMap<>();
         holes = new HashMap<>();
 
-        List<int[]> keys = populateDensity(enemies);
-        populateHoles(keys);
+        populateDensity(enemies);
+        populateHoles();
     }
 
-    private List<int[]> populateDensity(List<EnemyShip> enemies) {
+    private void populateDensity(List<EnemyShip> enemies) {
         List<int[]> densityKeys = new ArrayList<>();
         for (EnemyShip ship : enemies) {
             int x = ship.getx();
@@ -47,22 +48,23 @@ public class DensityMap {
                 }
             }
         }
-        return densityKeys;
     }
 
     static double distance(int[] pointA, int[] pointB) {
         int x1 = pointA[0];
         int y1 = pointA[1];
-        int r1 = pointA[2];
-
+        if (pointA.length > 2) {
+            int r1 = pointA[2];
+            x1 += r1;
+            y1 += r1;
+        }
         int x2 = pointB[0];
         int y2 = pointB[1];
-        int r2 = pointB[2];
-
-        x1 += r1;
-        y1 += r1;
-        x2 += r2;
-        y2 += r2;
+        if (pointB.length > 2) {
+            int r2 = pointB[2];
+            y2 += r2;
+            x2 += r2;
+        }
 
         double dx = Math.abs(x1 - x2);
         double dy = Math.abs(y1 - y2);
@@ -71,27 +73,30 @@ public class DensityMap {
     }
 
     private int[] midPoint(int[] pointA, int[] pointB) {
-        int x = Math.abs(pointA[0] - pointB[0]);
-        int y = Math.abs(pointA[1] - pointB[1]);
+        int x = ((pointA[0]-pointA[2]) + (pointB[0]-pointB[2]))/2;
+        int y = ((pointA[1]-pointA[2]) + (pointB[1]-pointB[2]))/2;
 
         return new int[]{x, y};
     }
 
-    private boolean overlappingShip(int[] pos, List<int[]> keys) {
+    private boolean overlappingShip(int[] pos, int[][] keys) {
         for (int[] key : keys) {
-            if (distance(key, pos) < key[2]) {
+            if (distance(key, pos)*2 < key[2]) {
                 return true;
             }
         }
         return false;
     }
 
-    private void populateHoles(List<int[]> keys) {
+    private void populateHoles() {
         // creates all holes
-        for (int i = 0; i < keys.size(); i++) {
-            int[] key1 = keys.get(i);
-            for (int k = i + 1; k < keys.size(); k++) {
-                int[] key2 = keys.get(k);
+        Set<int[]> keySet = density.keySet();
+        int[][] keys = keySet.stream().toArray(int[][]::new);
+
+        for (int i = 0; i < keys.length; i++) {
+            int[] key1 = keys[i];
+            for (int k = i + 1; k < keys.length; k++) {
+                int[] key2 = keys[k];
 
                 double dist = distance(key1, key2);
 
@@ -117,9 +122,9 @@ public class DensityMap {
         for (int i = 0; i < holeKeys.size(); i++) {
             int[] key1 = holeKeys.get(i);
             for (int k = i + 1; k < holeKeys.size(); k++) {
-                int[] key2 = keys.get(k);
+                int[] key2 = keys[k];
                 double dist = distance(key1, key2);
-                if (dist <= holeRadius) {
+                if (dist <= holeRadius && density.containsKey(key1) && density.containsKey(key2)) { // TODO:the containsKey things shouldn't need to be here but otherwise a null pointer exception is thrown
                     double density1 = density.get(key1);
                     double density2 = density.get(key2);
 
@@ -131,7 +136,6 @@ public class DensityMap {
                 }
             }
         }
-
     }
 
     public HashMap<int[], Double> getDensity() {

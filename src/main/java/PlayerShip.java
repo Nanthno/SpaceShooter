@@ -1,5 +1,7 @@
 package src.main.java;
 
+import java.util.Arrays;
+
 class PlayerShip {
 
     int health = 100;
@@ -76,6 +78,14 @@ class PlayerShip {
             }
         }
         if (in.laserBlast && chargeCount > 0) {
+            for(int[] i : Controller.getDensityMap().getDensity().keySet()) {
+                System.out.println(Arrays.toString(i));
+            }
+            System.out.println("HOLES");
+            for(int[] i : Controller.getDensityMap().getHoles().keySet()) {
+
+                System.out.println(Arrays.toString(i));
+            }
             Controller.fireBlast((int) xPos + radius / 2);
             chargeCount--;
             charge = 0;

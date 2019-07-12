@@ -11,8 +11,11 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 
 class GraphicsManager {
+
+    boolean drawDebug = true;
 
 
     // size of the screen
@@ -41,6 +44,7 @@ class GraphicsManager {
     BufferedImage laserBlast;
     BufferedImage[] smallExplosion;
     BufferedImage[] fuelExplosion;
+    BufferedImage[] mediumExplosion;
 
     public GraphicsManager() {
 
@@ -64,8 +68,7 @@ class GraphicsManager {
     }
 
 
-    public void drawScreen(int playerHealth, int playerHeat) {
-        BufferedImage screenshot = drawScreenshot();
+    public void drawScreen() {
 
         gamePanel.removeAll();
         gamePanel.validate();
@@ -125,15 +128,19 @@ class GraphicsManager {
         playerBullet = loadImage("images/playerBullet.png");
         laserBlast = loadImage("images/LaserBlast.png");
 
-        smallExplosion = new BufferedImage[11];
-        for (int i = 0; i < smallExplosion.length; i++) {
-            smallExplosion[i] = loadImage("images/smallExplosion/exp" + i + ".png");
-        }
-        fuelExplosion = new BufferedImage[8];
-        for (int i = 0; i < fuelExplosion.length; i++) {
-            fuelExplosion[i] = loadImage("images/fuelExplosion/exp" + i + ".png");
+        smallExplosion = loadImageArray("images/smallExplosion", "exp", "png", 11);
+        fuelExplosion = loadImageArray("images/fuelExplosion", "exp", "png", 8);
+        mediumExplosion = loadImageArray("images/mediumExplosion", "exp", "png", 12);
+
+    }
+
+    BufferedImage[] loadImageArray(String directory, String prefix, String extension, int frameCount) {
+        BufferedImage[] animation = new BufferedImage[frameCount];
+        for(int i = 0; i < frameCount; i++) {
+            animation[i] = loadImage(String.format("%s/%s%d.%s", directory, prefix, i, extension));
         }
 
+        return animation;
     }
 
     static BufferedImage loadImage(String f) {
@@ -367,7 +374,7 @@ class GraphicsManager {
                     g.drawImage(enemyBasicImage, enemy.getx(), enemy.gety(), null);
                 else if (enemy.getType() == EnemyType.FUEL)
                     g.drawImage(enemyFuelImage, enemy.getx(), enemy.gety(), null);
-                else if(enemy.getType() == EnemyType.AGILE)
+                else if (enemy.getType() == EnemyType.AGILE)
                     g.drawImage(enemyAgileImage, enemy.getx(), enemy.gety(), null);
             }
 
@@ -387,6 +394,9 @@ class GraphicsManager {
                 if (e.expType == 1) {
                     g.drawImage(fuelExplosion[e.getStage()], e.getx(), e.gety(), null);
                 }
+                if (e.expType == 2) {
+                    g.drawImage(mediumExplosion[e.getStage()], e.getx(), e.gety(), null);
+                }
             }
 
 
@@ -398,11 +408,67 @@ class GraphicsManager {
             PlayerShip ship = Controller.getPlayerShip();
             g.drawImage(playerImg, (int) ship.getx(), (int) ship.gety(), null);
 
+            if (drawDebug) {
+                BufferedImage debugImage = drawDebugOverlay();
+                g.drawImage(debugImage, 0, 0, null);
+            }
 
             // at end
             g.dispose();
 
             return screenshot;
+        }
+
+
+        BufferedImage drawDebugOverlay() {
+            BufferedImage img = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g = img.createGraphics();
+            g.setColor(new Color(0, 0, 0, 0));
+            g.fillRect(0, 0, WIDTH, HEIGHT);
+            Map<int[], Double> holeMap = Controller.getDensityMap().getHoles();
+
+            int gameScreenXOffset = WIDTH - GAME_WIDTH;
+
+            for (int[] i : holeMap.keySet()) {
+                double weight = holeMap.get(i);
+
+                int maxWeight = 1000; // magic number by which weight is scaled into alpha
+
+
+                Color c = new Color(0, 0, 200); //(int)(weight/maxWeight * 255));
+
+                BufferedImage holeOverlay = new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB);
+                Graphics2D overlayG = holeOverlay.createGraphics();
+                overlayG.setStroke(new BasicStroke(10));
+                overlayG.drawOval(0, 0, 20, 20);
+                overlayG.dispose();
+
+                g.drawImage(holeOverlay, i[0] + gameScreenXOffset, i[1], null);
+
+            }
+            Map<int[], Double> densityMap = Controller.getDensityMap().getDensity();
+
+            for (int[] i : densityMap.keySet()) {
+                double weight = densityMap.get(i);
+
+                int maxWeight = 1000; // magic number by which weight is scaled into alpha
+
+
+                Color c = new Color(0, 200, 0); //(int)(weight/maxWeight * 255));
+
+                BufferedImage holeOverlay = new BufferedImage(10, 10, BufferedImage.TYPE_INT_ARGB);
+                Graphics2D overlayG = holeOverlay.createGraphics();
+                overlayG.setStroke(new BasicStroke(10));
+                overlayG.drawOval(0, 0, 20, 20);
+                overlayG.dispose();
+
+                g.drawImage(holeOverlay, i[0] + gameScreenXOffset, i[1], null);
+
+            }
+
+            g.dispose();
+
+            return img;
         }
 
     }

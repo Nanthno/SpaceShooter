@@ -1,9 +1,6 @@
 package src.main.java.spawn;
 import src.main.java.Globals;
-import src.main.java.enemy.EnemyBasic;
-import src.main.java.enemy.EnemyFuel;
-import src.main.java.enemy.EnemyShip;
-import src.main.java.enemy.EnemyType;
+import src.main.java.enemy.*;
 
 class Spawn {
 
@@ -36,6 +33,8 @@ class Spawn {
             ship = new EnemyBasic(clusterX + xPos, clusterY + yPos, speed);
         if (type == EnemyType.FUEL)
             ship = new EnemyFuel(clusterX + xPos, clusterY + yPos, speed);
+        if (type == EnemyType.AGILE)
+            ship = new EnemyAgile(clusterX + xPos, clusterY + yPos, speed);
 
         return ship;
     }

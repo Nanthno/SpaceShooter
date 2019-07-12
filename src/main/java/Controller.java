@@ -127,7 +127,7 @@ public class Controller {
         checkEnemyExplosionCollision();
         checkPlayerEnemyCollision();
 
-        graphicsManager.drawScreen(player.getHealth(), player.getHeat());
+        graphicsManager.drawScreen();
     }
 
     static void checkEnemyBulletCollision() {
@@ -199,8 +199,7 @@ public class Controller {
         return Math.sqrt(dx * dx + dy * dy);
     }
 
-    public static void spawnExp(int x, int y, int shipR, EnemyType enemyType, int catalistSeperation) {
-
+    public static void spawnExp(int x, int y, int shipR, EnemyType enemyType, int catalystSeparation) {
         int explosionType = EnemyType.getExplosionType(enemyType);
 
         // compensates location for ship radius
@@ -212,10 +211,13 @@ public class Controller {
 
 
         if (explosionType == 0) {
-            explosions.add(new SmallExplosion(x, y, catalistSeperation));
+            explosions.add(new SmallExplosion(x, y, catalystSeparation));
         }
         if (explosionType == 1) {
-            explosions.add(new FuelExplosion(x, y, catalistSeperation));
+            explosions.add(new FuelExplosion(x, y, catalystSeparation));
+        }
+        if (explosionType == 2) {
+            explosions.add(new MediumExplosion(x, y, catalystSeparation));
         }
     }
 

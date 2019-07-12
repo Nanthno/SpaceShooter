@@ -18,7 +18,8 @@ public enum EnemyType {
 
     static Map<EnemyType, Integer> explosionTypes = Map.of(
             BASIC, 0,
-            FUEL, 1);
+            FUEL, 1,
+            AGILE, 2);
 
     public EnemyType getType(String e) {
         return this.valueOf(enemyHash.get(e));

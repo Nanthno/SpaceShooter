@@ -17,7 +17,8 @@ public class ClusterUtil {
 
     static Map<String, String> enemyHash = Map.of(
             "b", "BASIC",
-            "f", "FUEL"
+            "f", "FUEL",
+            "a", "AGILE"
     );
 
     public static EnemyType getEnemyType(String e) {

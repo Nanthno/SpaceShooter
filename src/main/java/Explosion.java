@@ -17,7 +17,7 @@ class Explosion {
 
     int catalystSeparation = 0;
 
-    static int[] expRadiusArray = new int[]{8, 32};
+    static int[] expRadiusArray = new int[]{8, 32, 24};
 
     // returns true if the explosion should be destroyed
     boolean update() {
