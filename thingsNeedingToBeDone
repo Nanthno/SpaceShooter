@@ -19,8 +19,7 @@ Notes for next time:
 -- remove Explosion.expRadiusArray or else make that the only spot their stored
 - add try-catches around graphics to prevent an exception from killing the game
 - add a image not found image
-- make medium explosions more vibrant
--- more red-orange like the other ones have
+- remove the need to have so many Controller.get calls by passing the things as arguments
 
 Special actions: special things a player can do once a energy bar charges
 --potentially can charge a few times then use multiple simultaneously

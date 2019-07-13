@@ -1,5 +1,6 @@
-package src.main.java;
+package src.main.java.graphics;
 
+import src.main.java.*;
 import src.main.java.enemy.EnemyShip;
 import src.main.java.enemy.EnemyType;
 
@@ -9,13 +10,12 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 
-class GraphicsManager {
+public class GraphicsManager {
 
     boolean drawDebug = true;
 
@@ -82,163 +82,25 @@ class GraphicsManager {
 
     }
 
-    //UNUSED: USE THE ONE AT THE BOTTOM
-    private BufferedImage drawScreenshot() {
-        BufferedImage screenshot = copyImage(background);
-
-        // draw enemy ships
-        ArrayList<EnemyShip> enemyShips = Controller.getEnemyArray();
-        Graphics g = screenshot.getGraphics();
-        for (EnemyShip e : enemyShips) {
-            g.drawImage(enemyFuelImage, e.getx(), e.gety(), null);
-        }
-
-        // draw player bullets
-        ArrayList<PlayerBullet> pb = Controller.getPlayerBullets();
-        for (PlayerBullet b : pb) {
-            g.drawImage(playerBullet, (int) b.getx(), (int) b.gety(), null);
-        }
-
-        // draw explosions
-        ArrayList<Explosion> exp = Controller.getExplosions();
-        for (Explosion e : exp) {
-            g.drawImage(smallExplosion[e.getStage()], e.getx(), e.gety(), null);
-        }
-
-
-        // draw player ship
-        PlayerShip ship = Controller.getPlayerShip();
-        //g.drawImage(playerImg, (int)ship.getx(), (int)ship.gety(), null);
-
-
-        // at end
-        g.dispose();
-
-        return screenshot;
-
-    }
-
-
     // loads the images for the game
     void loadImages() {
-        background = loadImage("images/space.png");
-        statusBars = loadImage("images/statusPanel.png");
-        enemyBasicImage = loadImage("images/enemySwarm.png");
-        enemyFuelImage = loadImage("images/enemyFuelShip.png");
-        enemyAgileImage = loadImage("images/enemyAgile.png");
-        playerImg = loadImage("images/playerLarge.png");
-        playerBullet = loadImage("images/playerBullet.png");
-        laserBlast = loadImage("images/LaserBlast.png");
-        smallExplosion = loadAnimation("images/smallExplosion");
-        fuelExplosion = loadAnimation("images/fuelExplosion");
-        mediumExplosion = loadAnimation("images/mediumExplosion");
+        background = ImageUtil.loadImage("images/space.png");
+        statusBars = ImageUtil.loadImage("images/statusPanel.png");
+        enemyBasicImage = ImageUtil.loadImage("images/enemySwarm.png");
+        enemyFuelImage = ImageUtil.loadImage("images/enemyFuelShip.png");
+        enemyAgileImage = ImageUtil.loadImage("images/enemyAgile.png");
+        playerImg = ImageUtil.loadImage("images/playerLarge.png");
+        playerBullet = ImageUtil.loadImage("images/playerBullet.png");
+        laserBlast = ImageUtil.loadImage("images/LaserBlast.png");
+        smallExplosion = ImageUtil.loadAnimation("images/smallExplosion");
+        fuelExplosion = ImageUtil.loadAnimation("images/fuelExplosion");
+        mediumExplosion = ImageUtil.loadAnimation("images/mediumExplosion");
 
     }
 
-    BufferedImage[] loadAnimation(String directory) {
-        File folder = new File(directory);
-        File[] frameFiles = folder.listFiles();
 
-        Arrays.sort(frameFiles);
-
-        BufferedImage[] animation = new BufferedImage[frameFiles.length];
-
-        for(int i = 0; i < frameFiles.length; i++) {
-            animation[i] = loadImage(frameFiles[i]);
-        }
-
-        return animation;
-
-    }
-
-    static BufferedImage loadImage(File file) {
-
-        try {
-            BufferedImage img = ImageIO.read(file);
-            return img;
-        } catch (IOException e) {
-            System.out.println("Failed to load image at " + file);
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    static BufferedImage loadImage(String f) {
-
-        File file = new File(f);
-
-        return loadImage(file);
-    }
-
-    // clones an image
-    // from https://stackoverflow.com/questions/3514158/how-do-you-clone-a-bufferedimage
-    public static BufferedImage copyImage(BufferedImage source) {
-        BufferedImage b = new BufferedImage(source.getWidth(), source.getHeight(), source.getType());
-        Graphics g = b.createGraphics();
-        g.drawImage(source, 0, 0, null);
-        g.dispose();
-        return b;
-    }
-
-    class BarPanel extends JPanel {
-        private BufferedImage bar;
-
-        int maxValue;
-        int barValue;
-        int displayValue;
-
-        int width;
-        int height;
-
-        Color backColor;
-        Color fillColor;
-
-        boolean vertical;
-
-        public BarPanel(int maxBar, int barVal, int w, int h, Color b, Color f, boolean vert) {
-            this.maxValue = maxBar;
-            this.barValue = barVal;
-            displayValue = barValue;
-            width = w;
-            height = h;
-            backColor = b;
-            fillColor = f;
-            vertical = vert;
-        }
-
-        void setValue(int val) {
-            barValue = val;
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            bar = drawBar();
-            g.drawImage(bar, 0, 0, this);
-        }
-
-        private BufferedImage drawBar() {
-            if (displayValue > barValue) {
-                displayValue--;
-            } else if (displayValue < barValue) {
-                displayValue++;
-            }
-
-            bar = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-
-            Graphics g = bar.getGraphics();
-            g.setColor(backColor);
-            g.fillRect(0, 0, width, height);
-            g.setColor(fillColor);
-            if (vertical) {
-                g.fillRect(0, (maxValue - displayValue) * (height / maxValue), width, height);
-            } else {
-                g.fillRect((maxValue - displayValue) * (width / maxValue), 0, width, height);
-            }
-
-            g.dispose();
-            return bar;
-        }
+    public static int getWidth() {
+        return WIDTH;
     }
 
     class StatusPanel extends JPanel {
@@ -281,7 +143,7 @@ class GraphicsManager {
 
             updateDisplayValues(health, heat);
 
-            BufferedImage panelImg = copyImage(statusBars);
+            BufferedImage panelImg = ImageUtil.copyImage(statusBars);
             Graphics g = panelImg.getGraphics();
 
             // place the health and heat bars on the proper positions on the status panel
@@ -297,44 +159,14 @@ class GraphicsManager {
                     maxCharge, charge);
             g.drawImage(chargeBar, 9, 250, null);
 
-            BufferedImage scoreValue = stringToImage(String.valueOf(score));
+            BufferedImage scoreValue = ImageUtil.stringToImage(String.valueOf(score), chargeFill);
             g.drawImage(scoreValue, 7, 600, null);
 
             return panelImg;
         }
 
 
-        // code from https://stackoverflow.com/questions/18800717/convert-text-content-to-image
-        private BufferedImage stringToImage(String string) {
-            BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-            Graphics2D g2d = img.createGraphics();
-            Font font = new Font("Arial", Font.PLAIN, 14);
-            g2d.setFont(font);
-            FontMetrics fm = g2d.getFontMetrics();
-            int width = fm.stringWidth(string);
-            int height = fm.getHeight();
-            g2d.dispose();
 
-            img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-            g2d = img.createGraphics();
-            g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
-            g2d.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
-            g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
-            g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-            g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-            g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
-            g2d.setFont(font);
-            fm = g2d.getFontMetrics();
-            g2d.setColor(chargeFill);
-            g2d.drawString(string, 0, fm.getAscent());
-            g2d.dispose();
-
-
-            return img;
-
-        }
 
         private BufferedImage drawBar(int width, int height, Color fillColor, Color backColor,
                                       int maxValue, int displayValue) {
@@ -376,7 +208,7 @@ class GraphicsManager {
         }
 
         private BufferedImage drawScreenshot() {
-            BufferedImage screenshot = copyImage(background);
+            BufferedImage screenshot = ImageUtil.copyImage(background);
 
             // draw enemy ships
             ArrayList<EnemyShip> enemyShips = Controller.getEnemyArray();
@@ -400,13 +232,13 @@ class GraphicsManager {
             ArrayList<Explosion> exp = Controller.getExplosions();
             for (int i = 0; i < exp.size(); i++) {
                 Explosion e = exp.get(i);
-                if (e.expType == 0) {
+                if (e.getExpType() == 0) {
                     g.drawImage(smallExplosion[e.getStage()], e.getx(), e.gety(), null);
                 }
-                if (e.expType == 1) {
+                if (e.getExpType() == 1) {
                     g.drawImage(fuelExplosion[e.getStage()], e.getx(), e.gety(), null);
                 }
-                if (e.expType == 2) {
+                if (e.getExpType() == 2) {
                     g.drawImage(mediumExplosion[e.getStage()], e.getx(), e.gety(), null);
                 }
             }
@@ -420,10 +252,10 @@ class GraphicsManager {
             PlayerShip ship = Controller.getPlayerShip();
             g.drawImage(playerImg, (int) ship.getx(), (int) ship.gety(), null);
 
-            if (drawDebug) {
+            /*if (drawDebug) {
                 BufferedImage debugImage = drawDebugOverlay();
                 g.drawImage(debugImage, 0, 0, null);
-            }
+            }*/
 
             // at end
             g.dispose();
@@ -431,7 +263,7 @@ class GraphicsManager {
             return screenshot;
         }
 
-
+/*
         BufferedImage drawDebugOverlay() {
             BufferedImage img = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
             Graphics2D g = img.createGraphics();
@@ -481,7 +313,9 @@ class GraphicsManager {
             g.dispose();
 
             return img;
-        }
+        }*/
 
     }
+
+
 }

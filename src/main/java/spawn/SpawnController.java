@@ -58,4 +58,8 @@ public class SpawnController {
         }
         return events;
     }
+
+    public static void setStartTime(long startTime) {
+        SpawnController.startTime = startTime;
+    }
 }

@@ -5,6 +5,7 @@ import src.main.java.enemy.EnemyBasic;
 import src.main.java.enemy.EnemyFuel;
 import src.main.java.enemy.EnemyShip;
 import src.main.java.enemy.EnemyType;
+import src.main.java.graphics.GraphicsManager;
 import src.main.java.spawn.SpawnController;
 import src.main.java.spawn.TimeStampEvent;
 import src.main.java.spawn.TimelineUtil;
@@ -39,8 +40,8 @@ public class Controller {
 
     static int score = 0;
 
-    GameState gameState = GameState.MENU;
-    private enum GameState {MENU, PLAYING, HIGHSCORE}
+    private enum GameState {MENU, PLAYING, HIGH_SCORE}
+    static GameState gameState = GameState.PLAYING;
 
     public static void main(String[] args) {
 
@@ -226,13 +227,26 @@ public class Controller {
     }
 
     public static void gameLoop() {
-        Timer t = new Timer();
-        t.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                updateGame();
-            }
-        }, 0, frameRate);
+
+        if(gameState == GameState.MENU) {
+
+        }
+
+        if(gameState == GameState.PLAYING) {
+            spawnController.setStartTime(System.currentTimeMillis());
+
+            Timer t = new Timer();
+            t.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    updateGame();
+                }
+            }, 0, frameRate);
+        }
+
+        if(gameState == GameState.HIGH_SCORE) {
+
+        }
 
     }
 
@@ -254,7 +268,7 @@ public class Controller {
         score += killPoints;
     }
 
-    static ArrayList<EnemyShip> getEnemyArray() {
+    public static ArrayList<EnemyShip> getEnemyArray() {
         return enemyShips;
     }
 
@@ -262,43 +276,43 @@ public class Controller {
         return densityMap;
     }
 
-    static PlayerShip getPlayerShip() {
+    public static PlayerShip getPlayerShip() {
         return player;
     }
 
-    static ArrayList<PlayerBullet> getPlayerBullets() {
+    public static ArrayList<PlayerBullet> getPlayerBullets() {
         return playerBullets;
     }
 
-    static LaserBlast getLaserBlast() {
+    public static LaserBlast getLaserBlast() {
         return laserBlast;
     }
 
-    static ArrayList<Explosion> getExplosions() {
+    public static ArrayList<Explosion> getExplosions() {
         return explosions;
     }
 
-    static int getPlayerHealth() {
+    public static int getPlayerHealth() {
         return player.getHealth();
     }
 
-    static int getPlayerMaxHealth() {
+    public static int getPlayerMaxHealth() {
         return player.getMaxHealth();
     }
 
-    static int getPlayerMaxHeat() {
+    public static int getPlayerMaxHeat() {
         return player.getMaxHeat();
     }
 
-    static int getPlayerHeat() {
+    public static int getPlayerHeat() {
         return player.getHeat();
     }
 
-    static int getCharge() {
+    public static int getCharge() {
         return player.getCharge();
     }
 
-    static int getMaxCharge() {
+    public static int getMaxCharge() {
         return player.getMaxCharge();
     }
 

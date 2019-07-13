@@ -1,6 +1,6 @@
 package src.main.java;
 
-class LaserBlast extends WeaponParent {
+public class LaserBlast extends WeaponParent {
     
     public LaserBlast(int x) {
 	xPos = x;

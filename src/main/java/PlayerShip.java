@@ -1,14 +1,16 @@
 package src.main.java;
 
+import src.main.java.graphics.GraphicsManager;
+
 import java.util.Arrays;
 
-class PlayerShip {
+public class PlayerShip {
 
     int health = 100;
     int maxHealth = 100;
 
     double xPos = 30;
-    double yPos = GraphicsManager.WIDTH / 2;
+    double yPos = GraphicsManager.getWidth() / 2;
     double xSpeed = 4;
     double ySpeed = 4;
 
@@ -64,7 +66,7 @@ class PlayerShip {
             yPos -= ySpeed;
         else if (in.down && yPos < Globals.screenHeight-radius*4) // not really sure why it has to be 4 not 2 but it works
             yPos += ySpeed;
-        if (in.right && xPos < GraphicsManager.WIDTH-radius*4)
+        if (in.right && xPos < GraphicsManager.getWidth()-radius*4)
             xPos += xSpeed;
         else if (in.left && xPos > 0)
             xPos -= xSpeed;

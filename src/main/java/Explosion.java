@@ -1,6 +1,6 @@
 package src.main.java;
 
-class Explosion {
+public class Explosion {
 
     int xPos = -1;
     int yPos = -1;
@@ -33,15 +33,15 @@ class Explosion {
         return false;
     }
 
-    int getx() {
+    public int getx() {
         return xPos;
     }
 
-    int gety() {
+    public int gety() {
         return yPos;
     }
 
-    int getStage() {
+    public int getStage() {
         return stage;
     }
 
@@ -51,5 +51,9 @@ class Explosion {
 
     public int getCatalystSeparation() {
         return catalystSeparation;
+    }
+
+    public int getExpType() {
+        return expType;
     }
 }
