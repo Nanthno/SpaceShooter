@@ -52,7 +52,7 @@ public class Controller {
 
     }
 
-    static void update() {
+    static void updateGame() {
         if (timeline.size() > 0)
             timeline = spawnController.updateSpawnProbabilities(timeline);
 
@@ -230,7 +230,7 @@ public class Controller {
         t.schedule(new TimerTask() {
             @Override
             public void run() {
-                update();
+                updateGame();
             }
         }, 0, frameRate);
 
@@ -304,5 +304,13 @@ public class Controller {
 
     public static int getScore() {
         return score;
+    }
+
+    public GameState getGameState() {
+        return gameState;
+    }
+
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
     }
 }

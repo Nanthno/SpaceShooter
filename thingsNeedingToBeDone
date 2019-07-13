@@ -1,10 +1,9 @@
 Notes for next time:
--write unit tests for EnemyAgile setVector method
 -add laser sight for laser blast
 --triggers when press down 'Q', gone when release
 --make laser blast fire when 'Q' is released rather than pressed
 -add laser sight
--make the cluster files lower maintanence
+-make the cluster files lower maintenance
 --make the name just scraped from the file name rather than in the file
 --remove the size (x by y) and just have the program figure it out
 ---maybe have something (like END) at the end of the file?
@@ -21,7 +20,7 @@ Notes for next time:
 - add try-catches around graphics to prevent an exception from killing the game
 - add a image not found image
 - make medium explosions more vibrant
--- more orange like the other ones have
+-- more red-orange like the other ones have
 
 Special actions: special things a player can do once a energy bar charges
 --potentially can charge a few times then use multiple simultaneously
@@ -43,7 +42,7 @@ create a density map which can be used for ship navigation or for weighting spaw
 -spawn ship: spawns ships (probably movers of some type so not all clumped up because that would just result in a massive explosion when the cluster got hit (that could be rather fun though))
 -mover: goes up and down
 --could move to a pattern or by choosing the next point to move toward by picking low density holes near high density patches to enable better chains
----if moved to optomize chains, would need to only do so every few moves else seem to easy
+---if moved to optimize chains, would need to only do so every few moves else seem to easy
 ---or could intentionally pass through those spots rather than going to them to reward foresight
 -armored: immune to explosions
 -armored2: immune to guns (only killable with explosions)

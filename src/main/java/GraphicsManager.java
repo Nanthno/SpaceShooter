@@ -9,8 +9,10 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 class GraphicsManager {
@@ -127,35 +129,45 @@ class GraphicsManager {
         playerImg = loadImage("images/playerLarge.png");
         playerBullet = loadImage("images/playerBullet.png");
         laserBlast = loadImage("images/LaserBlast.png");
-
-        smallExplosion = loadImageArray("images/smallExplosion", "exp", "png", 11);
-        fuelExplosion = loadImageArray("images/fuelExplosion", "exp", "png", 8);
-        mediumExplosion = loadImageArray("images/mediumExplosion", "exp", "png", 12);
+        smallExplosion = loadAnimation("images/smallExplosion");
+        fuelExplosion = loadAnimation("images/fuelExplosion");
+        mediumExplosion = loadAnimation("images/mediumExplosion");
 
     }
 
-    BufferedImage[] loadImageArray(String directory, String prefix, String extension, int frameCount) {
-        BufferedImage[] animation = new BufferedImage[frameCount];
-        for(int i = 0; i < frameCount; i++) {
-            animation[i] = loadImage(String.format("%s/%s%d.%s", directory, prefix, i, extension));
+    BufferedImage[] loadAnimation(String directory) {
+        File folder = new File(directory);
+        File[] frameFiles = folder.listFiles();
+
+        Arrays.sort(frameFiles);
+
+        BufferedImage[] animation = new BufferedImage[frameFiles.length];
+
+        for(int i = 0; i < frameFiles.length; i++) {
+            animation[i] = loadImage(frameFiles[i]);
         }
 
         return animation;
+
     }
 
-    static BufferedImage loadImage(String f) {
-
-        File file = new File(f);
-        BufferedImage img;
+    static BufferedImage loadImage(File file) {
 
         try {
-            img = ImageIO.read(file);
+            BufferedImage img = ImageIO.read(file);
             return img;
         } catch (IOException e) {
             System.out.println("Failed to load image at " + file);
             e.printStackTrace();
             return null;
         }
+    }
+
+    static BufferedImage loadImage(String f) {
+
+        File file = new File(f);
+
+        return loadImage(file);
     }
 
     // clones an image
