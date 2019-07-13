@@ -40,7 +40,6 @@ public class Controller {
 
     static int score = 0;
 
-    private enum GameState {MENU, PLAYING, HIGH_SCORE}
     static GameState gameState = GameState.PLAYING;
 
     public static void main(String[] args) {
@@ -320,11 +319,11 @@ public class Controller {
         return score;
     }
 
-    public GameState getGameState() {
+    public static GameState getGameState() {
         return gameState;
     }
 
-    public void setGameState(GameState gameState) {
-        this.gameState = gameState;
+    public static void setGameState(GameState newGameState) {
+        gameState = newGameState;
     }
 }
