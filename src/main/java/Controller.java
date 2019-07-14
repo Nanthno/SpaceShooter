@@ -10,7 +10,9 @@ import src.main.java.spawn.SpawnController;
 import src.main.java.spawn.TimeStampEvent;
 import src.main.java.spawn.TimelineUtil;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class Controller {
 
@@ -34,22 +36,32 @@ public class Controller {
     static double spawnChance2 = 1;
 
     static SpawnController spawnController = new SpawnController();
-    //static TimelineController timelineController = new TimelineController();
 
+    private static final Queue<TimeStampEvent> fullTimeline = TimelineUtil.readTimelinesToQueue();
     private static Queue<TimeStampEvent> timeline = null;
 
     static int score = 0;
 
-    static GameState gameState = GameState.PLAYING;
+    static GameState gameState = GameState.MENU;
 
     public static void main(String[] args) {
 
         graphicsManager = new GraphicsManager();
 
-        timeline = TimelineUtil.readTimelinesToQueue();
-
         gameLoop();
 
+    }
+
+    static void resetTimeline() {
+        timeline = new LinkedList<>(fullTimeline);
+    }
+
+    static void update() {
+        if (gameState == GameState.PLAYING) {
+            updateGame();
+        }
+
+        graphicsManager.drawScreen();
     }
 
     static void updateGame() {
@@ -126,8 +138,6 @@ public class Controller {
         checkEnemyBulletCollision();
         checkEnemyExplosionCollision();
         checkPlayerEnemyCollision();
-
-        graphicsManager.drawScreen();
     }
 
     static void checkEnemyBulletCollision() {
@@ -226,27 +236,13 @@ public class Controller {
     }
 
     public static void gameLoop() {
-
-        if(gameState == GameState.MENU) {
-
-        }
-
-        if(gameState == GameState.PLAYING) {
-            spawnController.setStartTime(System.currentTimeMillis());
-
-            Timer t = new Timer();
-            t.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    updateGame();
-                }
-            }, 0, frameRate);
-        }
-
-        if(gameState == GameState.HIGH_SCORE) {
-
-        }
-
+        Timer t = new Timer();
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                update();
+            }
+        }, 0, frameRate);
     }
 
     static void addBullet(PlayerBullet b) {
@@ -265,6 +261,14 @@ public class Controller {
 
         killPoints *= multiplier;
         score += killPoints;
+    }
+
+    public static Point findMousePosition() {
+        Point mousePos = MouseInfo.getPointerInfo().getLocation();
+        Point framePos = graphicsManager.getFramePosition();
+
+        mousePos.translate(-1*framePos.x, -1*framePos.y);
+        return mousePos;
     }
 
     public static ArrayList<EnemyShip> getEnemyArray() {
@@ -324,6 +328,10 @@ public class Controller {
     }
 
     public static void setGameState(GameState newGameState) {
+        if(newGameState == GameState.PLAYING) {
+            SpawnController.setStartTime(System.currentTimeMillis());
+            resetTimeline();
+        }
         gameState = newGameState;
     }
 }

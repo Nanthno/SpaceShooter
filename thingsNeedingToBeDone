@@ -20,6 +20,7 @@ Notes for next time:
 - add try-catches around graphics to prevent an exception from killing the game
 - add a image not found image
 - remove the need to have so many Controller.get calls by passing the things as arguments
+- finish making menuPanel
 
 Special actions: special things a player can do once a energy bar charges
 --potentially can charge a few times then use multiple simultaneously

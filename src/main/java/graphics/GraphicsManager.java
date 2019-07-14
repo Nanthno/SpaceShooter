@@ -1,6 +1,7 @@
 package src.main.java.graphics;
 
 import src.main.java.*;
+
 import javax.swing.JFrame;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -16,10 +17,6 @@ public class GraphicsManager {
     static int HEIGHT = Globals.screenHeight;
 
     JFrame frame;
-
-    GamePanel gamePanel;
-    // panels for showing the state of the ship, gun overheat, etc
-    StatusPanel statusPanel;
     ScreenPanel screenPanel;
 
     // images
@@ -45,12 +42,8 @@ public class GraphicsManager {
         frame.setTitle("Space Shooter");
         frame.setSize(WIDTH, HEIGHT);
 
-        gamePanel = new GamePanel();
-        frame.add(gamePanel, BorderLayout.CENTER);
-
-        statusPanel = new StatusPanel();
-        statusPanel.setPreferredSize(new Dimension(STATUS_WIDTH, HEIGHT));
-        frame.add(statusPanel, BorderLayout.WEST);
+        screenPanel = new ScreenPanel();
+        frame.add(screenPanel, BorderLayout.CENTER);
 
         // makes the frame visible
         frame.setVisible(true);
@@ -59,19 +52,16 @@ public class GraphicsManager {
 
     public void drawScreen() {
 
-        gamePanel.removeAll();
-        gamePanel.validate();
-        gamePanel.repaint();
+        screenPanel.removeAll();
+        screenPanel.validate();
+        screenPanel.repaint();
 
-        statusPanel.removeAll();
-        statusPanel.validate();
-        statusPanel.repaint();
 
     }
 
     // loads the images for the game
     void loadImages() {
-        background = ImageUtil.loadImage("images/space.png");
+        background = ImageUtil.loadImage("images/space3.png");
         statusBars = ImageUtil.loadImage("images/statusPanel.png");
         enemyBasicImage = ImageUtil.loadImage("images/enemySwarm.png");
         enemyFuelImage = ImageUtil.loadImage("images/enemyFuelShip.png");
@@ -85,10 +75,19 @@ public class GraphicsManager {
 
     }
 
+    public Point getFramePosition() {
+        return frame.getLocationOnScreen();
+    }
 
     public static int getWidth() {
         return WIDTH;
     }
 
+    public static int getHeight() {
+        return HEIGHT;
+    }
 
+    protected static BufferedImage getBackgroundImage() {
+        return background;
+    }
 }

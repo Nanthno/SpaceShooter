@@ -29,7 +29,7 @@ public class ScreenPanel extends JPanel {
         BufferedImage screenshot;
         if (state == GameState.MENU)
             screenshot = drawMenuScreen();
-        if (state == GameState.PLAYING)
+        else if (state == GameState.PLAYING)
             screenshot = drawPlayingScreen();
         else
             screenshot = drawHighScoreScreen();
@@ -37,7 +37,7 @@ public class ScreenPanel extends JPanel {
     }
 
     private BufferedImage drawMenuScreen() {
-        return null;
+        return menuPanel.drawScreenshot();
     }
 
     private BufferedImage drawPlayingScreen() {
@@ -49,7 +49,7 @@ public class ScreenPanel extends JPanel {
     }
 
     private BufferedImage drawHighScoreScreen() {
-        return null;
+        return null;//highScorePanel.drawScreenshot();
     }
 }
 
