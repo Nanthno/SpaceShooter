@@ -25,6 +25,41 @@ public class ImageUtil {
 
     }
 
+    static BufferedImage[] loadAnimation(String directory, int alpha) {
+        File folder = new File(directory);
+        File[] frameFiles = folder.listFiles();
+
+        Arrays.sort(frameFiles);
+
+        BufferedImage[] animation = new BufferedImage[frameFiles.length];
+
+        for (int i = 0; i < frameFiles.length; i++) {
+            BufferedImage image = loadImage(frameFiles[i]);
+            image = setAlpha(alpha, image);
+            animation[i] = image;
+        }
+
+        return animation;
+
+    }
+
+    public static BufferedImage setAlpha(int alpha, BufferedImage image) {
+        alpha %= 0xff;
+        for (int cx=0;cx<image.getWidth();cx++) {
+            for (int cy=0;cy<image.getHeight();cy++) {
+                int color = image.getRGB(cx, cy);
+
+                int mc = (alpha << 24) | 0x00ffffff;
+                int newcolor = color & mc;
+                image.setRGB(cx, cy, newcolor);
+
+            }
+
+        }
+
+        return image;
+    }
+
     static BufferedImage loadImage(File file) {
 
         try {

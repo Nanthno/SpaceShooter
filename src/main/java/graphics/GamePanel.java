@@ -29,14 +29,16 @@ class GamePanel extends JPanel {
         for (EnemyShip enemy : enemyShips) {
             BufferedImage shipImage = GraphicsManager.imageNotFound;
             if (enemy.getType() == EnemyType.BASIC)
-                shipImage = GraphicsManager.enemyBasicImage;
+                shipImage = GraphicsManager.enemyBasicImages[enemy.getFrame()];
             else if (enemy.getType() == EnemyType.FUEL)
-                shipImage = GraphicsManager.enemyFuelImage;
+                shipImage = GraphicsManager.enemyFuelImages[enemy.getFrame()];
             else if (enemy.getType() == EnemyType.AGILE)
-                shipImage = GraphicsManager.enemyAgileImage;
+                shipImage = GraphicsManager.enemyAgileImages[enemy.getFrame()];
             else if (enemy.getType() == EnemyType.SHIELDER) {
-                shipImage = GraphicsManager.enemyShielderImage;
+                shipImage = GraphicsManager.enemyShielderImages[enemy.getFrame()];
             }
+            else if(enemy.getType() == EnemyType.SHIELD)
+                shipImage = GraphicsManager.enemyShieldImages[enemy.getFrame()];
 
             g.drawImage(shipImage, enemy.getx(), enemy.gety(), null);
         }
@@ -44,7 +46,7 @@ class GamePanel extends JPanel {
         // draw player bullets
         ArrayList<PlayerBullet> pb = Controller.getPlayerBullets();
         for (PlayerBullet b : pb) {
-            g.drawImage(GraphicsManager.playerBullet, (int) b.getx(), (int) b.gety(), null);
+            g.drawImage(GraphicsManager.playerBulletImages[b.getFrame()], (int) b.getx(), (int) b.gety(), null);
         }
 
         // draw explosions
@@ -52,24 +54,24 @@ class GamePanel extends JPanel {
         for (int i = 0; i < exp.size(); i++) {
             Explosion e = exp.get(i);
             if (e.getExpType() == 0) {
-                g.drawImage(GraphicsManager.smallExplosion[e.getStage()], e.getx(), e.gety(), null);
+                g.drawImage(GraphicsManager.smallExplosionImages[e.getStage()], e.getx(), e.gety(), null);
             }
             if (e.getExpType() == 1) {
-                g.drawImage(GraphicsManager.fuelExplosion[e.getStage()], e.getx(), e.gety(), null);
+                g.drawImage(GraphicsManager.fuelExplosionImages[e.getStage()], e.getx(), e.gety(), null);
             }
             if (e.getExpType() == 2) {
-                g.drawImage(GraphicsManager.mediumExplosion[e.getStage()], e.getx(), e.gety(), null);
+                g.drawImage(GraphicsManager.mediumExplosionImages[e.getStage()], e.getx(), e.gety(), null);
             }
         }
 
 
         LaserBlast blast = Controller.getLaserBlast();
         if (blast != null)
-            g.drawImage(GraphicsManager.laserBlast, blast.getx(), 0, null);
+            g.drawImage(GraphicsManager.laserBlastImages[blast.getFrame()], blast.getx(), 0, null);
 
         // draw player ship
         PlayerShip ship = Controller.getPlayerShip();
-        g.drawImage(GraphicsManager.playerImg, (int) ship.getx(), (int) ship.gety(), null);
+        g.drawImage(GraphicsManager.playerImages[ship.getFrame()], (int) ship.getx(), (int) ship.gety(), null);
 
         // at end
         g.dispose();

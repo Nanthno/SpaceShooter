@@ -2,8 +2,6 @@ package src.main.java;
 
 import src.main.java.graphics.GraphicsManager;
 
-import java.util.Arrays;
-
 public class PlayerShip {
 
     int health = 100;
@@ -34,8 +32,12 @@ public class PlayerShip {
 
     Input in;
 
+    int maxFrames;
+    int currentFrame = 0;
+
     public PlayerShip() {
         in = new Input();
+        maxFrames = Globals.getPlayerMaxFrames();
     }
 
     public void update() {
@@ -64,9 +66,9 @@ public class PlayerShip {
         // movement
         if (in.up && yPos > 0)
             yPos -= ySpeed;
-        else if (in.down && yPos < Globals.screenHeight-radius*4) // not really sure why it has to be 4 not 2 but it works
+        else if (in.down && yPos < Globals.screenHeight - radius * 4) // not really sure why it has to be 4 not 2 but it works
             yPos += ySpeed;
-        if (in.right && xPos < GraphicsManager.getWidth()-radius*4)
+        if (in.right && xPos < GraphicsManager.getWidth() - radius * 4)
             xPos += xSpeed;
         else if (in.left && xPos > 0)
             xPos -= xSpeed;
@@ -131,5 +133,9 @@ public class PlayerShip {
 
     int getMaxCharge() {
         return maxCharge;
+    }
+
+    public int getFrame() {
+        return currentFrame;
     }
 }

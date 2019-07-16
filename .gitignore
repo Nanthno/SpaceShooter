@@ -3,4 +3,5 @@
 .attach*
 #*.java#
 .#*.java#
-/**/out/**
+out
+.idea

@@ -21,11 +21,12 @@ public class EnemyAgile extends EnemyShip {
     }
 
     public EnemyAgile(int x, int y, double speed) {
-        yPos = y;
-        xPos = x;
-        this.speed = speed;
-        radius = Globals.enemyAgileRadius;
-        shipType = EnemyType.AGILE;
+        super(x, y, speed, EnemyType.AGILE);
+    }
+
+    @Override
+    void init() {
+        speed = xSpeed;
     }
 
     @Override

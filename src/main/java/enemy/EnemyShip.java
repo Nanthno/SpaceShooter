@@ -15,15 +15,32 @@ public class EnemyShip {
     double xSpeed;
     double ySpeed;
 
+    int currentFrame = 0;
+    int maxFrame;
+
     EnemyType shipType;
     int radius;
 
+    public EnemyShip(int x, int y, double xSpeed, EnemyType type) {
+        xPos = x;
+        yPos = y;
+        this.xSpeed = xSpeed;
+        radius = Globals.getEnemyShipRadius(type);
+        shipType = type;
+        maxFrame = Globals.getEnemyShipsMaxFrames(type);
+        init();
+    }
+    // this class is to be overridden as necessary
+    void init() {
+    }
 
     // called every tick by the controller
     // returns true if the ship has fallen off the screen and so should be destroyed
     public boolean updateShip() {
         xPos -= xSpeed;
         yPos -= ySpeed;
+
+        currentFrame = (currentFrame + 1) % maxFrame;
 
         return checkDead();
 
@@ -64,7 +81,7 @@ public class EnemyShip {
 
     public boolean collideWithBullet(PlayerBullet b) {
 
-        double dist = distance(b.getx(), b.gety(), b.getRadius(), xPos,yPos, radius);
+        double dist = distance(b.getx(), b.gety(), b.getRadius(), xPos, yPos, radius);
 
         double radiiSum = b.getRadius() + radius;
 
@@ -84,6 +101,13 @@ public class EnemyShip {
         return Math.sqrt(dx * dx + dy * dy);
     }
 
+    public int getFrame() {
+        return currentFrame;
+    }
+
+    public void setMaxFrame(int maxFrame) {
+        this.maxFrame = maxFrame;
+    }
 }
 	
     

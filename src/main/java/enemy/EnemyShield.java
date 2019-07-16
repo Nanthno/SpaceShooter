@@ -1,19 +1,17 @@
 package src.main.java.enemy;
 
-import src.main.java.Globals;
 import src.main.java.PlayerBullet;
+
+import java.util.Random;
 
 public class EnemyShield extends EnemyShip {
 
     double innerRadius = 5;
 
-    protected EnemyShield(int x, int y, double xSpeed) {
-        xPos = x;
-        yPos = y;
-        this.xSpeed = xSpeed;
-        shipType = EnemyType.SHIELD;
-        radius = Globals.enemyShieldRadius;
+    public EnemyShield(int x, int y, double xSpeed) {
+        super(x, y, xSpeed, EnemyType.SHIELD);
         innerRadius = radius - innerRadius;
+        currentFrame = (new Random()).nextInt(maxFrame);
     }
 
     @Override
@@ -33,9 +31,6 @@ public class EnemyShield extends EnemyShip {
 
         boolean insideRadius = dist < radiiSum;
         boolean outsideInnerRadius = dist > innerRadius;
-
-        System.out.printf("%f : %f - %f%n", dist, (double)radius, innerRadius);
-
         return insideRadius && outsideInnerRadius;
     }
 

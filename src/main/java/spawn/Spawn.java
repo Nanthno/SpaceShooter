@@ -1,6 +1,9 @@
 package src.main.java.spawn;
+
 import src.main.java.Globals;
 import src.main.java.enemy.*;
+
+import java.lang.reflect.Constructor;
 
 class Spawn {
 
@@ -29,7 +32,22 @@ class Spawn {
     EnemyShip makeEnemy(int clusterX, int clusterY, double speed) {
         EnemyShip ship = null;
 
-        if (type == EnemyType.BASIC)
+        if (type == EnemyType.AGILE)
+            ship = new EnemyAgile(clusterX + xPos, clusterY + yPos, speed);
+        else if (type == EnemyType.SHIELDER)
+            ship = new EnemyShielder(clusterX + xPos, clusterY + yPos, speed);
+        else
+            ship = new EnemyShip(clusterX + xPos, clusterY + yPos, speed, type);
+/*
+        Class<EnemyShip> shipClass = Globals.getEnemyClass(type);
+        try {
+            Constructor<EnemyShip> constructor = shipClass.getConstructor(Integer.class, Integer.class, Double.class, EnemyType.class);
+            ship = constructor.newInstance(clusterX + xPos, clusterY + yPos, speed, type);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+*/
+        /*if (type == EnemyType.BASIC)
             ship = new EnemyBasic(clusterX + xPos, clusterY + yPos, speed);
         if (type == EnemyType.FUEL)
             ship = new EnemyFuel(clusterX + xPos, clusterY + yPos, speed);
@@ -37,7 +55,7 @@ class Spawn {
             ship = new EnemyAgile(clusterX + xPos, clusterY + yPos, speed);
         if(type == EnemyType.SHIELDER) {
             ship = new EnemyShielder(clusterX + xPos, clusterY + yPos, speed);
-        }
+        }*/
 
         return ship;
     }

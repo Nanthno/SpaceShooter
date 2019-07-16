@@ -45,7 +45,6 @@ public class Controller {
 
     public static void main(String[] args) {
 
-        newEnemyShips.add(new EnemyShielder(Globals.screenWidth, Globals.screenHeight/2, 0.2));
         input = new Input();
         graphicsManager = new GraphicsManager();
 

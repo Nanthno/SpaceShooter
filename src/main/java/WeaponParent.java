@@ -2,6 +2,8 @@ package src.main.java;
 
 class WeaponParent {
 
+    WeaponType type;
+
     double xPos;
     double yPos;
 
@@ -14,6 +16,9 @@ class WeaponParent {
     int effectiveStage;
     int maxStage;
 
+    int currentFrame = 0;
+    int maxFrame;
+
     public int getx() {
 	return (int)xPos;
     }
@@ -22,6 +27,10 @@ class WeaponParent {
     }
     public int getRadius() {
 	return radius;
+    }
+
+    public int getFrame() {
+        return currentFrame;
     }
 	
 }

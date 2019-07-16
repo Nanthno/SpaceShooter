@@ -1,6 +1,7 @@
 package src.main.java.graphics;
 
 import src.main.java.*;
+import src.main.java.enemy.EnemyType;
 
 import javax.swing.JFrame;
 import java.awt.*;
@@ -22,17 +23,17 @@ public class GraphicsManager {
     // images
     static BufferedImage background;
     static BufferedImage statusBars;
-    static BufferedImage enemyBasicImage;
-    static BufferedImage enemyFuelImage;
-    static BufferedImage enemyAgileImage;
-    static BufferedImage enemyShielderImage;
-    static BufferedImage enemyShieldImage;
-    static BufferedImage playerImg;
-    static BufferedImage playerBullet;
-    static BufferedImage laserBlast;
-    static BufferedImage[] smallExplosion;
-    static BufferedImage[] fuelExplosion;
-    static BufferedImage[] mediumExplosion;
+    static BufferedImage[] enemyBasicImages;
+    static BufferedImage[] enemyFuelImages;
+    static BufferedImage[] enemyAgileImages;
+    static BufferedImage[] enemyShielderImages;
+    static BufferedImage[] enemyShieldImages;
+    static BufferedImage[] playerImages;
+    static BufferedImage[] playerBulletImages;
+    static BufferedImage[] laserBlastImages;
+    static BufferedImage[] smallExplosionImages;
+    static BufferedImage[] fuelExplosionImages;
+    static BufferedImage[] mediumExplosionImages;
     static BufferedImage imageNotFound = makeImageNotFound();
 
     public GraphicsManager() {
@@ -67,18 +68,27 @@ public class GraphicsManager {
     void loadImages() {
         background = ImageUtil.loadImage("images/space3.png");
         statusBars = ImageUtil.loadImage("images/statusPanel.png");
-        enemyBasicImage = ImageUtil.loadImage("images/enemySwarm.png");
-        enemyFuelImage = ImageUtil.loadImage("images/enemyFuelShip.png");
-        enemyAgileImage = ImageUtil.loadImage("images/enemyAgile.png");
-        enemyShielderImage = ImageUtil.loadImage("images/enemyShielder.png");
-        playerImg = ImageUtil.loadImage("images/playerLarge.png");
-        playerBullet = ImageUtil.loadImage("images/playerBullet.png");
-        laserBlast = ImageUtil.loadImage("images/LaserBlast.png");
-        smallExplosion = ImageUtil.loadAnimation("images/smallExplosion");
-        fuelExplosion = ImageUtil.loadAnimation("images/fuelExplosion");
-        mediumExplosion = ImageUtil.loadAnimation("images/mediumExplosion");
+        enemyBasicImages = ImageUtil.loadAnimation("images/enemyBasic");
+        enemyFuelImages = ImageUtil.loadAnimation("images/enemyFuel");
+        enemyAgileImages = ImageUtil.loadAnimation("images/enemyAgile");
+        enemyShielderImages = ImageUtil.loadAnimation("images/enemyShielder");
+        enemyShieldImages = ImageUtil.loadAnimation("images/enemyShield", 100);
+        playerImages = ImageUtil.loadAnimation("images/player");
+        playerBulletImages = ImageUtil.loadAnimation("images/playerBullet");
+        laserBlastImages = ImageUtil.loadAnimation("images/laserBlast");
+        smallExplosionImages = ImageUtil.loadAnimation("images/smallExplosion");
+        fuelExplosionImages = ImageUtil.loadAnimation("images/fuelExplosion");
+        mediumExplosionImages = ImageUtil.loadAnimation("images/mediumExplosion");
 
+        Globals.addToEnemyShipMaxFrames(EnemyType.BASIC, enemyBasicImages.length);
+        Globals.addToEnemyShipMaxFrames(EnemyType.FUEL, enemyFuelImages.length);
+        Globals.addToEnemyShipMaxFrames(EnemyType.AGILE, enemyAgileImages.length);
+        Globals.addToEnemyShipMaxFrames(EnemyType.SHIELDER, enemyShielderImages.length);
+        Globals.addToEnemyShipMaxFrames(EnemyType.SHIELD, enemyShieldImages.length);
 
+        Globals.setPlayerMaxFrames(playerImages.length);
+        Globals.addToWeaponMaxFrames(WeaponType.BULLET, playerBulletImages.length);
+        Globals.addToWeaponMaxFrames(WeaponType.LASER_BLAST, laserBlastImages.length);
     }
 
     private static BufferedImage makeImageNotFound() {

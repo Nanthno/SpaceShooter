@@ -1,8 +1,9 @@
 package src.main.java;
 
 
-import src.main.java.enemy.EnemyType;
+import src.main.java.enemy.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Globals {
@@ -29,6 +30,18 @@ public class Globals {
             EnemyType.FUEL, 200,
             EnemyType.AGILE, 300,
             EnemyType.SHIELDER, 400);
+
+    static final Map<EnemyType, Class> enemyTypeClasses = Map.of(
+            EnemyType.BASIC, EnemyBasic.class,
+            EnemyType.FUEL, EnemyFuel.class,
+            EnemyType.AGILE, EnemyAgile.class,
+            EnemyType.SHIELDER, EnemyShielder.class,
+            EnemyType.SHIELD, EnemyShield.class
+    );
+
+    static Map<EnemyType, Integer> enemyShipsMaxFrames = new HashMap<>();
+    static Map<WeaponType, Integer> weaponMaxFrames = new HashMap<>();
+    static int playerMaxFrames;
 
     public static int getEnemyShipRadius(EnemyType type) {
         return enemyShipRadius.get(type);
@@ -66,5 +79,30 @@ public class Globals {
         double dy = Math.abs(y1 - y2);
 
         return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    public static Class getEnemyClass(EnemyType type) {
+        return enemyTypeClasses.get(type);
+    }
+
+    public static void addToEnemyShipMaxFrames(EnemyType type, int maxFramesCount) {
+        enemyShipsMaxFrames.put(type, maxFramesCount);
+    }
+    public static void addToWeaponMaxFrames(WeaponType type, int maxFrameCount) {
+        weaponMaxFrames.put(type, maxFrameCount);
+    }
+
+    public static void setPlayerMaxFrames(int playerMaxFrames) {
+        Globals.playerMaxFrames = playerMaxFrames;
+    }
+
+    public static int getEnemyShipsMaxFrames(EnemyType type) {
+        return enemyShipsMaxFrames.get(type);
+    }
+    public static int getWeaponMaxFrames(WeaponType type) {
+        return weaponMaxFrames.get(type);
+    }
+    public static int getPlayerMaxFrames() {
+        return playerMaxFrames;
     }
 }

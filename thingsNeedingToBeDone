@@ -20,6 +20,8 @@ Notes for next time:
 - make the credits split by line
 - add a speed multiplier to the timestamp events
 - decide if explosions should be able to go through shields
+- make the number of stages in explosions be auto filled like they are for the other animations
+- make the player not loose health for colliding with the shield
 
 Special actions: special things a player can do once a energy bar charges
 --potentially can charge a few times then use multiple simultaneously
