@@ -13,17 +13,22 @@ public class Globals {
     public static final int enemyBasicRadius = 8;
     public static final int enemyAgileRadius = 12;
     public static final int enemyFuelRadius = 16;
+    public static final int enemyShielderRadius = 16;
+    public static final int enemyShieldRadius = 128;
 
     static final Map<EnemyType, Integer> enemyShipRadius = Map.of(
             EnemyType.BASIC, enemyBasicRadius,
             EnemyType.FUEL, enemyFuelRadius,
-            EnemyType.AGILE, enemyAgileRadius);
+            EnemyType.AGILE, enemyAgileRadius,
+            EnemyType.SHIELDER, enemyShielderRadius,
+            EnemyType.SHIELD, enemyShieldRadius);
 
 
     static final Map<EnemyType, Integer> enemyShipPointValue = Map.of(
             EnemyType.BASIC, 100,
             EnemyType.FUEL, 200,
-            EnemyType.AGILE, 300);
+            EnemyType.AGILE, 300,
+            EnemyType.SHIELDER, 400);
 
     public static int getEnemyShipRadius(EnemyType type) {
         return enemyShipRadius.get(type);
@@ -31,6 +36,14 @@ public class Globals {
 
     public static int getEnemyShipPointValue(EnemyType type) {
         return enemyShipPointValue.get(type);
+    }
+
+    public static double distance(double x1, double x2, double y1, double y2) {
+
+        double dx = Math.abs(x1 - x2);
+        double dy = Math.abs(y1 - y2);
+
+        return Math.sqrt(dx * dx + dy * dy);
     }
 
     public static double distance(int[] pointA, int[] pointB) {

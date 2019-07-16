@@ -132,5 +132,4 @@ public class PlayerShip {
     int getMaxCharge() {
         return maxCharge;
     }
-
 }

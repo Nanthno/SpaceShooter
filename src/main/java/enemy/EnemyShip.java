@@ -1,6 +1,8 @@
 package src.main.java.enemy;
 
 import src.main.java.Controller;
+import src.main.java.Globals;
+import src.main.java.PlayerBullet;
 
 public class EnemyShip {
 
@@ -56,6 +58,31 @@ public class EnemyShip {
         return radius;
     }
 
+    public boolean isKillable(Class weapon) {
+        return true;
+    }
+
+    public boolean collideWithBullet(PlayerBullet b) {
+
+        double dist = distance(b.getx(), b.gety(), b.getRadius(), xPos,yPos, radius);
+
+        double radiiSum = b.getRadius() + radius;
+
+        return dist <= radiiSum;
+
+    }
+
+    static double distance(double x1, double y1, int r1, double x2, double y2, int r2) {
+        x1 += r1;
+        y1 += r1;
+        x2 += r2;
+        y2 += r2;
+
+        double dx = Math.abs(x1 - x2);
+        double dy = Math.abs(y1 - y2);
+
+        return Math.sqrt(dx * dx + dy * dy);
+    }
 
 }
 	

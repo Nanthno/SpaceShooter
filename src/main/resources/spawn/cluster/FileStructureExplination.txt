@@ -1,22 +1,21 @@
-id is two letters which uniquely identifies the cluster which can be referenced by a pattern file or another cluster file
+cluster id based on the file name
 spacing is how far apart each point represents
 speed is the default speed range of the ships (upper/lower range sperated with comma)
 speed override is a boolean. if true, nested clusters' speed = speed
-size is what the dimensions of the grid is
 grid is the way of storing the ships' locations relative to each other.
 -each character is separated by a space unless another cluster is being used
 - any nested clusters are centered around the point at which they are placed
+if notes are desired, they can be placed after an optional 'END' line
 Example
 ______________________________________________________________________
-id:AA
 spacing:10
-speed:5
-size:7,5
+speed:5,6
 b . . b . . b
 . . . . . . .
 . . . f . . BB
 . . . . . . .
 b . . b . . b
+END
 ______________________________________________________________________
 
 the above file would create a cluster of ships with a fuel ship in the center with six basic ships flanking it and cluster BB at the back

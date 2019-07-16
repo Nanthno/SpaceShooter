@@ -1,28 +1,31 @@
 package src.main.java.enemy;
 
-import src.main.java.Globals;
-
 import java.util.Map;
 
 public enum EnemyType {
 
     BASIC,
     FUEL,
-    AGILE;
+    AGILE,
+    SHIELD,
+    SHIELDER;
 
-    Map<String, String> enemyHash = Map.of(
+    static Map<String, String> enemyHash = Map.of(
             "b", "BASIC",
             "f", "FUEL",
-            "a", "AGILE"
+            "a", "AGILE",
+            "s", "SHIELDER"
     );
 
     static Map<EnemyType, Integer> explosionTypes = Map.of(
             BASIC, 0,
             FUEL, 1,
-            AGILE, 2);
+            AGILE, 2,
+            SHIELDER, 1,
+            SHIELD, 0);
 
-    public EnemyType getType(String e) {
-        return this.valueOf(enemyHash.get(e));
+    public static EnemyType getType(String e) {
+        return valueOf(enemyHash.get(e));
     }
 
     public static int getExplosionType(EnemyType type) {

@@ -1,8 +1,7 @@
 package src.main.java;
 
 import src.main.java.density.DensityMap;
-import src.main.java.enemy.EnemyBasic;
-import src.main.java.enemy.EnemyFuel;
+import src.main.java.enemy.EnemyShielder;
 import src.main.java.enemy.EnemyShip;
 import src.main.java.enemy.EnemyType;
 import src.main.java.graphics.GraphicsManager;
@@ -11,6 +10,7 @@ import src.main.java.spawn.TimeStampEvent;
 import src.main.java.spawn.TimelineUtil;
 
 import java.awt.*;
+import java.awt.event.MouseListener;
 import java.util.*;
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class Controller {
 
     static GraphicsManager graphicsManager;
 
-    static ArrayList<EnemyShip> enemyShips = new ArrayList<EnemyShip>();
+    static List<EnemyShip> enemyShips = new ArrayList<EnemyShip>();
 
     static PlayerShip player = new PlayerShip();
     static ArrayList<PlayerBullet> playerBullets = new ArrayList<PlayerBullet>();
@@ -30,11 +30,6 @@ public class Controller {
 
     static final int frameRate = 15;
 
-    // probability of a spawn occurring on each tick
-    static double spawnChance0 = 0;
-    static double spawnChance1 = 0;
-    static double spawnChance2 = 1;
-
     static SpawnController spawnController = new SpawnController();
 
     private static final Queue<TimeStampEvent> fullTimeline = TimelineUtil.readTimelinesToQueue();
@@ -44,8 +39,14 @@ public class Controller {
 
     static GameState gameState = GameState.MENU;
 
+    static Input input;
+
+    static List<EnemyShip> newEnemyShips = new ArrayList<>();
+
     public static void main(String[] args) {
 
+        newEnemyShips.add(new EnemyShielder(Globals.screenWidth, Globals.screenHeight/2, 0.2));
+        input = new Input();
         graphicsManager = new GraphicsManager();
 
         gameLoop();
@@ -60,7 +61,6 @@ public class Controller {
         if (gameState == GameState.PLAYING) {
             updateGame();
         }
-
         graphicsManager.drawScreen();
     }
 
@@ -90,42 +90,22 @@ public class Controller {
         }
 
         // updates enemyShips
-        ArrayList<EnemyShip> newEnemyShips = new ArrayList<EnemyShip>();
         for (int i = 0; i < enemyShips.size(); i++) {
             EnemyShip e = enemyShips.get(i);
             boolean offScreen = e.updateShip();
             if (offScreen) {
-                player.looseHealth(10);
+                if (e.getType() != EnemyType.SHIELD)
+                    player.looseHealth(10);
             } else {
                 newEnemyShips.add(e);
             }
         }
         enemyShips = newEnemyShips;
+        newEnemyShips = new ArrayList<>();
 
         // spawns new enemyShips
-        Random rand = new Random();
-        double spawns = rand.nextDouble();
-
-        if (spawns < spawnChance0) {
-            // randomly chooses a y position for the ship's spawn point with a 32 pixel margin
-            int y = rand.nextInt(Globals.screenHeight - 64) + 32;
-            double xSpeed = rand.nextDouble() * (EnemyBasic.maxSpeed - EnemyBasic.minSpeed) + EnemyBasic.minSpeed;
-            enemyShips.add(new EnemyBasic(y, xSpeed));
-
-        }
-
-        spawns = rand.nextDouble();
-        if (spawns < spawnChance1) {
-            int y = rand.nextInt(Globals.screenHeight - 64) + 32;
-            double xSpeed = EnemyFuel.minSpeed + rand.nextDouble() * (EnemyFuel.maxSpeed - EnemyFuel.minSpeed);
-            enemyShips.add(new EnemyFuel(y, xSpeed));
-        }
-
-        spawns = rand.nextDouble();
-        if (spawns < spawnChance2) {
-            List<EnemyShip> shipsSpawning = spawnController.onTick();
-            enemyShips.addAll(shipsSpawning);
-        }
+        List<EnemyShip> shipsSpawning = spawnController.onTick();
+        enemyShips.addAll(shipsSpawning);
 
         // updates explosions
         for (int i = explosions.size() - 1; i >= 0; i--) {
@@ -148,9 +128,11 @@ public class Controller {
             if (laserBlast != null) {
                 int distance = Math.abs(laserBlast.getx() - e.getx());
                 if (distance < e.getRadius() + laserBlast.getRadius()) {
-                    spawnExp(e.getx(), e.gety(), e.getRadius(), e.getType(), 0);
-                    enemyShips.remove(j);
-                    continue;
+                    if (e.isKillable(LaserBlast.class)) {
+                        spawnExp(e.getx(), e.gety(), e.getRadius(), e.getType(), 0);
+                        enemyShips.remove(j);
+                        continue;
+                    }
                 }
             }
 
@@ -158,11 +140,14 @@ public class Controller {
             for (int i = playerBullets.size() - 1; i >= 0; i--) {
                 PlayerBullet b = playerBullets.get(i);
 
-                if (distance(b.getx(), b.gety(), b.getRadius(),
-                        e.getx(), e.gety(), e.getRadius()) < e.getRadius() + b.getRadius()) {
-                    spawnExp(e.getx(), e.gety(), e.getRadius(), e.getType(), 0);
+                //if (distance(b.getx(), b.gety(), b.getRadius(),
+                       // e.getx(), e.gety(), e.getRadius()) < e.getRadius() + b.getRadius()) {
+                if(e.collideWithBullet(b)) {
+                    if (e.isKillable(PlayerBullet.class)) {
+                        spawnExp(e.getx(), e.gety(), e.getRadius(), e.getType(), 0);
+                        enemyShips.remove(j);
+                    }
                     playerBullets.remove(i);
-                    enemyShips.remove(j);
 
                 }
             }
@@ -177,8 +162,10 @@ public class Controller {
                 if (explosion.getStage() > 2 &&
                         distance(explosion.getx(), explosion.gety(), explosion.getRadius(),
                                 enemy.getx(), enemy.gety(), enemy.getRadius()) < 2 * (enemy.getRadius() + explosion.getRadius())) {
-                    enemy.killShip(explosion.getCatalystSeparation() + 1);
-                    enemyShips.remove(j);
+                    if (enemy.isKillable(Explosion.class)) {
+                        enemy.killShip(explosion.getCatalystSeparation() + 1);
+                        enemyShips.remove(j);
+                    }
 
                 }
             }
@@ -190,9 +177,11 @@ public class Controller {
             EnemyShip e = enemyShips.get(i);
             if (distance(e.getx(), e.gety(), e.getRadius(),
                     player.getx(), player.gety(), player.getRadius()) < e.getRadius() + player.getRadius()) {
-                e.killShip(0);
-                enemyShips.remove(i);
-                //player.shipCollision();
+                if (e.isKillable(PlayerShip.class)) {
+                    e.killShip(0);
+                    enemyShips.remove(i);
+                }
+                player.shipCollision();
             }
         }
     }
@@ -257,21 +246,25 @@ public class Controller {
 
     public static void addKillScore(EnemyType type, int catalistSeperation) {
         int killPoints = Globals.getEnemyShipPointValue(type);
-        double multiplier = catalistSeperation/2 + 1;
+        double multiplier = catalistSeperation / 2 + 1;
 
         killPoints *= multiplier;
         score += killPoints;
+    }
+
+    public static void addEnemy(EnemyShip enemy) {
+        newEnemyShips.add(enemy);
     }
 
     public static Point findMousePosition() {
         Point mousePos = MouseInfo.getPointerInfo().getLocation();
         Point framePos = graphicsManager.getFramePosition();
 
-        mousePos.translate(-1*framePos.x, -1*framePos.y);
+        mousePos.translate(-1 * framePos.x, -1 * framePos.y);
         return mousePos;
     }
 
-    public static ArrayList<EnemyShip> getEnemyArray() {
+    public static List<EnemyShip> getEnemyArray() {
         return enemyShips;
     }
 
@@ -327,8 +320,16 @@ public class Controller {
         return gameState;
     }
 
+    public static Input getInput() {
+        return input;
+    }
+
+    public static MouseListener getMouseListener() {
+        return input.getMouseListener();
+    }
+
     public static void setGameState(GameState newGameState) {
-        if(newGameState == GameState.PLAYING) {
+        if (newGameState == GameState.PLAYING) {
             SpawnController.setStartTime(System.currentTimeMillis());
             resetTimeline();
         }

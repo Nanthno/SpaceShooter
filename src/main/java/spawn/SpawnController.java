@@ -33,9 +33,15 @@ public class SpawnController {
 
         for (String clusterCode : spawnProbabilities.keySet()) {
             if (rand.nextDouble() < spawnProbabilities.get(clusterCode)) {
+
                 enemiesToSpawn.addAll(allClusters.get(clusterCode).makeSpawns(minY, maxY));
             }
         }
+        StringBuilder builder = new StringBuilder();
+        for(EnemyShip e : enemiesToSpawn) {
+            builder.append(e.getType() + " : ");
+        }
+        //System.out.println(builder.toString());
 
         return enemiesToSpawn;
     }
@@ -46,12 +52,13 @@ public class SpawnController {
             spawnProbabilities.put(clusterCode, newSpawnProbabilities.get(clusterCode));
         }
     }
+
     public Queue<TimeStampEvent> updateSpawnProbabilities(Queue<TimeStampEvent> events) {
         TimeStampEvent event = events.peek();
 
-        long secondsPassed = (System.currentTimeMillis() - startTime)/1000;
+        long secondsPassed = (System.currentTimeMillis() - startTime) / 1000;
 
-        if(event.getTriggerTime() < secondsPassed) {
+        if (event.getTriggerTime() < secondsPassed) {
             events.remove();
 
             updateSpawnProbabilities(event);

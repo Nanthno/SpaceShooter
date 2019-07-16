@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 
 class GamePanel extends JPanel {
 
@@ -23,15 +24,21 @@ class GamePanel extends JPanel {
         BufferedImage screenshot = ImageUtil.copyImage(GraphicsManager.background);
 
         // draw enemy ships
-        ArrayList<EnemyShip> enemyShips = Controller.getEnemyArray();
+        List<EnemyShip> enemyShips = Controller.getEnemyArray();
         Graphics g = screenshot.getGraphics();
         for (EnemyShip enemy : enemyShips) {
+            BufferedImage shipImage = GraphicsManager.imageNotFound;
             if (enemy.getType() == EnemyType.BASIC)
-                g.drawImage(GraphicsManager.enemyBasicImage, enemy.getx(), enemy.gety(), null);
+                shipImage = GraphicsManager.enemyBasicImage;
             else if (enemy.getType() == EnemyType.FUEL)
-                g.drawImage(GraphicsManager.enemyFuelImage, enemy.getx(), enemy.gety(), null);
+                shipImage = GraphicsManager.enemyFuelImage;
             else if (enemy.getType() == EnemyType.AGILE)
-                g.drawImage(GraphicsManager.enemyAgileImage, enemy.getx(), enemy.gety(), null);
+                shipImage = GraphicsManager.enemyAgileImage;
+            else if (enemy.getType() == EnemyType.SHIELDER) {
+                shipImage = GraphicsManager.enemyShielderImage;
+            }
+
+            g.drawImage(shipImage, enemy.getx(), enemy.gety(), null);
         }
 
         // draw player bullets

@@ -3,8 +3,10 @@ package src.main.java;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-class Input {//implements Runnable {
+public class Input {
 
     // KeyEvents for controlling ship1
     private static int upke = KeyEvent.VK_UP;
@@ -20,9 +22,41 @@ class Input {//implements Runnable {
     static volatile boolean right = false;
     static volatile boolean fire = false;
     static volatile boolean laserBlast = false;
+    static volatile boolean isMouse1Pressed = false;
+    static volatile boolean isMouse1Released = false;
+
+    MouseListener mouseListener;
 
     public Input() {
 	IsKeyPressed.makeKeyboardManager();
+
+		mouseListener = new MouseListener() {
+			@Override
+			public void mouseClicked(MouseEvent mouseEvent) {
+
+			}
+
+			@Override
+			public void mousePressed(MouseEvent mouseEvent) {
+				isMouse1Pressed = true;
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent mouseEvent) {
+				isMouse1Pressed = false;
+				isMouse1Released = true;
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent mouseEvent) {
+
+			}
+
+			@Override
+			public void mouseExited(MouseEvent mouseEvent) {
+
+			}
+		};
 
 	    // Code from https://stackoverflow.com/questions/18037576/how-do-i-check-if-the-user-is-pressing-a-key
 	    // creates input updater
@@ -92,6 +126,20 @@ class Input {//implements Runnable {
 	
 	
     }
-    
+
+    public boolean getIsMouse1Pressed() {
+    	return isMouse1Pressed;
+	}
+	public boolean getIsMouse1Released() {
+    	return isMouse1Released;
+	}
+	public void resetIsMouse1Released() {
+    	isMouse1Released = false;
+	}
+
+	public MouseListener getMouseListener() {
+		return mouseListener;
+	}
+
 }
 

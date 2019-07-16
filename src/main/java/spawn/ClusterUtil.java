@@ -6,24 +6,12 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ClusterUtil {
 
     static File clusterDirectory = new File("src/main/resources/spawn/cluster");
-
-    static Map<String, String> enemyHash = Map.of(
-            "b", "BASIC",
-            "f", "FUEL",
-            "a", "AGILE"
-    );
-
-    public static EnemyType getEnemyType(String e) {
-        return EnemyType.valueOf(enemyHash.get(e));
-    }
 
     static HashMap<String, SpawnCluster> createSpawnClusters() {
         HashMap<String, SpawnCluster> clusters = new HashMap<String, SpawnCluster>();
@@ -39,34 +27,41 @@ public class ClusterUtil {
             try {
                 SpawnCluster cluster = new SpawnCluster();
                 List<String> rawClusterData = Files.readAllLines(clusterFile.toPath());
-                int marker = rawClusterData.get(0).indexOf(":");
-                String id = rawClusterData.get(0).substring(marker + 1);
-                marker = rawClusterData.get(1).indexOf(":");
-                int spacing = Integer.parseInt(rawClusterData.get(1)
+                String id = clusterFile.toString();
+                int marker = id.lastIndexOf('/');
+                int marker2 = id.indexOf(".cluster");
+                id = id.substring(marker+1, marker2);
+
+                marker = rawClusterData.get(0).indexOf(":");
+
+                int spacing = Integer.parseInt(rawClusterData.get(0)
                         .substring(marker + 1));
-                marker = rawClusterData.get(2).indexOf(":");
-                int marker2 = rawClusterData.get(2).indexOf(",");
-                double minSpeed = Double.parseDouble(rawClusterData.get(2)
+
+                marker = rawClusterData.get(1).indexOf(":");
+                marker2 = rawClusterData.get(1).indexOf(",");
+                double minSpeed = Double.parseDouble(rawClusterData.get(1)
                         .substring(marker + 1, marker2));
-                double maxSpeed = Double.parseDouble(rawClusterData.get(2).substring(marker2 + 1));
-                marker = rawClusterData.get(3).indexOf(":");
-                String size = rawClusterData.get(3).substring(marker + 1);
+                double maxSpeed = Double.parseDouble(rawClusterData.get(1).substring(marker2 + 1));
 
                 cluster.setMinSpeed(minSpeed);
                 cluster.setMaxSpeed(maxSpeed);
 
 
                 // processes the grid
-                for (int y = 4; y < rawClusterData.size(); y++) {
+                for (int y = 2; y < rawClusterData.size(); y++) {
                     String line = rawClusterData.get(y);
+                    if(line.equals("END")) {
+                        y = rawClusterData.size();
+                        continue;
+                    }
+
                     for (int x = 0; x < line.length(); x += 2) {
                         String clusterPoint = line.substring(x, x + 1).strip();
-                        EnemyType type = null;
                         if (clusterPoint.equals(".")) {
                             continue;
                         }
                         if (clusterPoint.length() == 1) {
-                            type = getEnemyType(clusterPoint);
+                            EnemyType type = EnemyType.getType(clusterPoint);
 
                             Spawn spawn = new Spawn(x * spacing,
                                     y * spacing,
@@ -84,6 +79,7 @@ public class ClusterUtil {
                         }
                     }
                 }
+
                 cluster.initialize();
                 clusters.put(id, cluster);
 

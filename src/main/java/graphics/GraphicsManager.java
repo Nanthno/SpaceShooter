@@ -20,17 +20,20 @@ public class GraphicsManager {
     ScreenPanel screenPanel;
 
     // images
-    protected static BufferedImage background;
-    protected static BufferedImage statusBars;
-    protected static BufferedImage enemyBasicImage;
-    protected static BufferedImage enemyFuelImage;
-    protected static BufferedImage enemyAgileImage;
-    protected static BufferedImage playerImg;
-    protected static BufferedImage playerBullet;
-    protected static BufferedImage laserBlast;
-    protected static BufferedImage[] smallExplosion;
-    protected static BufferedImage[] fuelExplosion;
-    protected static BufferedImage[] mediumExplosion;
+    static BufferedImage background;
+    static BufferedImage statusBars;
+    static BufferedImage enemyBasicImage;
+    static BufferedImage enemyFuelImage;
+    static BufferedImage enemyAgileImage;
+    static BufferedImage enemyShielderImage;
+    static BufferedImage enemyShieldImage;
+    static BufferedImage playerImg;
+    static BufferedImage playerBullet;
+    static BufferedImage laserBlast;
+    static BufferedImage[] smallExplosion;
+    static BufferedImage[] fuelExplosion;
+    static BufferedImage[] mediumExplosion;
+    static BufferedImage imageNotFound = makeImageNotFound();
 
     public GraphicsManager() {
 
@@ -41,6 +44,7 @@ public class GraphicsManager {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Space Shooter");
         frame.setSize(WIDTH, HEIGHT);
+        frame.addMouseListener(Controller.getMouseListener());
 
         screenPanel = new ScreenPanel();
         frame.add(screenPanel, BorderLayout.CENTER);
@@ -66,6 +70,7 @@ public class GraphicsManager {
         enemyBasicImage = ImageUtil.loadImage("images/enemySwarm.png");
         enemyFuelImage = ImageUtil.loadImage("images/enemyFuelShip.png");
         enemyAgileImage = ImageUtil.loadImage("images/enemyAgile.png");
+        enemyShielderImage = ImageUtil.loadImage("images/enemyShielder.png");
         playerImg = ImageUtil.loadImage("images/playerLarge.png");
         playerBullet = ImageUtil.loadImage("images/playerBullet.png");
         laserBlast = ImageUtil.loadImage("images/LaserBlast.png");
@@ -73,6 +78,16 @@ public class GraphicsManager {
         fuelExplosion = ImageUtil.loadAnimation("images/fuelExplosion");
         mediumExplosion = ImageUtil.loadAnimation("images/mediumExplosion");
 
+
+    }
+
+    private static BufferedImage makeImageNotFound() {
+        BufferedImage img = new BufferedImage(32, 32, BufferedImage.TYPE_INT_RGB);
+        Graphics g = img.createGraphics();
+        g.setColor(new Color(255, 0, 200));
+        g.fillRect(0, 0, 32, 32);
+        g.dispose();
+        return img;
     }
 
     public Point getFramePosition() {
@@ -83,11 +98,11 @@ public class GraphicsManager {
         return WIDTH;
     }
 
-    public static int getHeight() {
+    static int getHeight() {
         return HEIGHT;
     }
 
-    protected static BufferedImage getBackgroundImage() {
+    static BufferedImage getBackgroundImage() {
         return background;
     }
 }
