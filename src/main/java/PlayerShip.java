@@ -7,6 +7,8 @@ public class PlayerShip {
     int health = 100;
     int maxHealth = 100;
 
+    int enemyShipCollisionDamage = 3;
+
     double xPos = 30;
     double yPos = GraphicsManager.getWidth() / 2;
     double xSpeed = 4;
@@ -91,7 +93,7 @@ public class PlayerShip {
     }
 
     void shipCollision() {
-        health -= 10;
+        health -= enemyShipCollisionDamage;
     }
 
     void looseHealth(int healthLoss) {

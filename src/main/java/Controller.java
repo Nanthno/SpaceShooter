@@ -179,8 +179,9 @@ public class Controller {
                 if (e.isKillable(PlayerShip.class)) {
                     e.killShip(0);
                     enemyShips.remove(i);
+                    player.shipCollision();
                 }
-                player.shipCollision();
+
             }
         }
     }
