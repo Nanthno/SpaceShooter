@@ -17,8 +17,8 @@ public class EnemyShielder extends EnemyShip {
     }
 
     private void createShield() {
-        int x = (int)xPos - Globals.enemyShieldRadius + radius;
-        int y = (int)yPos - Globals.enemyShieldRadius + radius;
+        int x = (int)xPos - Globals.getEnemyShipRadius(EnemyType.SHIELD) + radius;
+        int y = (int)yPos - Globals.getEnemyShipRadius(EnemyType.SHIELD) + radius;
 
         Controller.addEnemy(new EnemyShield(x, y, 0));
     }

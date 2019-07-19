@@ -36,6 +36,8 @@ class Spawn {
             ship = new EnemyAgile(clusterX + xPos, clusterY + yPos, speed);
         else if (type == EnemyType.SHIELDER)
             ship = new EnemyShielder(clusterX + xPos, clusterY + yPos, speed);
+        else if (type == EnemyType.ARMORED1)
+            ship = new EnemyArmored1(clusterX + xPos, clusterY + yPos, speed);
         else
             ship = new EnemyShip(clusterX + xPos, clusterY + yPos, speed, type);
 /*

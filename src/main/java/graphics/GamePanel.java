@@ -34,11 +34,12 @@ class GamePanel extends JPanel {
                 shipImage = GraphicsManager.enemyFuelImages[enemy.getFrame()];
             else if (enemy.getType() == EnemyType.AGILE)
                 shipImage = GraphicsManager.enemyAgileImages[enemy.getFrame()];
-            else if (enemy.getType() == EnemyType.SHIELDER) {
+            else if (enemy.getType() == EnemyType.SHIELDER)
                 shipImage = GraphicsManager.enemyShielderImages[enemy.getFrame()];
-            }
             else if(enemy.getType() == EnemyType.SHIELD)
                 shipImage = GraphicsManager.enemyShieldImages[enemy.getFrame()];
+            else if(enemy.getType() == EnemyType.ARMORED1)
+                shipImage = GraphicsManager.enemyArmored1Images[enemy.getFrame()];
 
             g.drawImage(shipImage, enemy.getx(), enemy.gety(), null);
         }

@@ -28,6 +28,7 @@ public class GraphicsManager {
     static BufferedImage[] enemyAgileImages;
     static BufferedImage[] enemyShielderImages;
     static BufferedImage[] enemyShieldImages;
+    static BufferedImage[] enemyArmored1Images;
     static BufferedImage[] playerImages;
     static BufferedImage[] playerBulletImages;
     static BufferedImage[] laserBlastImages;
@@ -73,6 +74,7 @@ public class GraphicsManager {
         enemyAgileImages = ImageUtil.loadAnimation("images/enemyAgile");
         enemyShielderImages = ImageUtil.loadAnimation("images/enemyShielder");
         enemyShieldImages = ImageUtil.loadAnimation("images/enemyShield", 100);
+        enemyArmored1Images = ImageUtil.loadAnimation("images/enemyArmored1");
         playerImages = ImageUtil.loadAnimation("images/player");
         playerBulletImages = ImageUtil.loadAnimation("images/playerBullet");
         laserBlastImages = ImageUtil.loadAnimation("images/laserBlast");
@@ -89,6 +91,7 @@ public class GraphicsManager {
         Globals.addToEnemyShipMaxFrames(EnemyType.AGILE, enemyAgileImages.length);
         Globals.addToEnemyShipMaxFrames(EnemyType.SHIELDER, enemyShielderImages.length);
         Globals.addToEnemyShipMaxFrames(EnemyType.SHIELD, enemyShieldImages.length);
+        Globals.addToEnemyShipMaxFrames(EnemyType.ARMORED1, enemyArmored1Images.length);
 
         Globals.setPlayerMaxFrames(playerImages.length);
         Globals.addToWeaponMaxFrames(WeaponType.BULLET, playerBulletImages.length);

@@ -3,6 +3,7 @@ package src.main.java.enemy;
 import src.main.java.Controller;
 import src.main.java.Globals;
 import src.main.java.PlayerBullet;
+import src.main.java.WeaponParent;
 
 public class EnemyShip {
 

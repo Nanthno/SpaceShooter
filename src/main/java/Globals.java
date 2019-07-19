@@ -11,32 +11,29 @@ public class Globals {
     public static final int screenHeight = 640;
     public static final int screenWidth = 1024;
 
-    public static final int enemyBasicRadius = 8;
-    public static final int enemyAgileRadius = 12;
-    public static final int enemyFuelRadius = 16;
-    public static final int enemyShielderRadius = 16;
-    public static final int enemyShieldRadius = 128;
-
     static final Map<EnemyType, Integer> enemyShipRadius = Map.of(
-            EnemyType.BASIC, enemyBasicRadius,
-            EnemyType.FUEL, enemyFuelRadius,
-            EnemyType.AGILE, enemyAgileRadius,
-            EnemyType.SHIELDER, enemyShielderRadius,
-            EnemyType.SHIELD, enemyShieldRadius);
+            EnemyType.BASIC, 8,
+            EnemyType.FUEL, 12,
+            EnemyType.AGILE, 12,
+            EnemyType.SHIELDER, 16,
+            EnemyType.SHIELD, 128,
+            EnemyType.ARMORED1, 16);
 
 
     static final Map<EnemyType, Integer> enemyShipPointValue = Map.of(
             EnemyType.BASIC, 100,
             EnemyType.FUEL, 200,
             EnemyType.AGILE, 300,
-            EnemyType.SHIELDER, 400);
+            EnemyType.SHIELDER, 400,
+            EnemyType.ARMORED1, 400);
 
     static final Map<EnemyType, Class> enemyTypeClasses = Map.of(
             EnemyType.BASIC, EnemyBasic.class,
             EnemyType.FUEL, EnemyFuel.class,
             EnemyType.AGILE, EnemyAgile.class,
             EnemyType.SHIELDER, EnemyShielder.class,
-            EnemyType.SHIELD, EnemyShield.class
+            EnemyType.SHIELD, EnemyShield.class,
+            EnemyType.ARMORED1, EnemyArmored1.class
     );
 
     static Map<ExplosionType, Integer> explosionTypeMaxFrames = new HashMap<>();
@@ -90,6 +87,7 @@ public class Globals {
     public static void addToExplosionMaxFrames(ExplosionType type, int maxFrames) {
         explosionTypeMaxFrames.put(type, maxFrames);
     }
+
     public static int getExplosionMaxFrame(ExplosionType type) {
         return explosionTypeMaxFrames.get(type);
     }
@@ -97,6 +95,7 @@ public class Globals {
     public static void addToEnemyShipMaxFrames(EnemyType type, int maxFramesCount) {
         enemyShipsMaxFrames.put(type, maxFramesCount);
     }
+
     public static void addToWeaponMaxFrames(WeaponType type, int maxFrameCount) {
         weaponMaxFrames.put(type, maxFrameCount);
     }
@@ -106,11 +105,18 @@ public class Globals {
     }
 
     public static int getEnemyShipsMaxFrames(EnemyType type) {
-        return enemyShipsMaxFrames.get(type);
+        if (enemyShipsMaxFrames.containsKey(type))
+            return enemyShipsMaxFrames.get(type);
+
+        Exception e = new NoSuchFieldException("There is no stored frame count for EnemyType = " + type);
+        e.printStackTrace();
+        return 1;
     }
+
     public static int getWeaponMaxFrames(WeaponType type) {
         return weaponMaxFrames.get(type);
     }
+
     public static int getPlayerMaxFrames() {
         return playerMaxFrames;
     }

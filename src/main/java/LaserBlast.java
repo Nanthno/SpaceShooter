@@ -7,7 +7,7 @@ public class LaserBlast extends WeaponParent {
         type = WeaponType.LASER_BLAST;
         xPos = x;
 
-        radius = 3;
+        radius = 4;
         stage = 0;
         effectiveStage = 2;
         maxStage = 7;

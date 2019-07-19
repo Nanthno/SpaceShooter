@@ -1,6 +1,6 @@
 package src.main.java;
 
-class WeaponParent {
+public class WeaponParent {
 
     WeaponType type;
 

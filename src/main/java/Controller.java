@@ -125,7 +125,7 @@ public class Controller {
 
             // checks for collision with laser blast
             if (laserBlast != null) {
-                int distance = Math.abs(laserBlast.getx() - e.getx());
+                int distance = Math.abs((laserBlast.getx()+laserBlast.getRadius()) - (e.getx()+e.getRadius()));
                 if (distance < e.getRadius() + laserBlast.getRadius()) {
                     if (e.isKillable(LaserBlast.class)) {
                         spawnExp(e.getx(), e.gety(), e.getRadius(), e.getType(), 0);
@@ -138,9 +138,6 @@ public class Controller {
             // checks for collision with a player bullet
             for (int i = playerBullets.size() - 1; i >= 0; i--) {
                 PlayerBullet b = playerBullets.get(i);
-
-                //if (distance(b.getx(), b.gety(), b.getRadius(),
-                       // e.getx(), e.gety(), e.getRadius()) < e.getRadius() + b.getRadius()) {
                 if(e.collideWithBullet(b)) {
                     if (e.isKillable(PlayerBullet.class)) {
                         spawnExp(e.getx(), e.gety(), e.getRadius(), e.getType(), 0);
@@ -179,7 +176,6 @@ public class Controller {
                 if (e.isKillable(PlayerShip.class)) {
                     e.killShip(0);
                     enemyShips.remove(i);
-                    player.shipCollision();
                 }
 
             }
