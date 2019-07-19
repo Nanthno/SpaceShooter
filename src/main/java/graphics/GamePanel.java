@@ -53,14 +53,14 @@ class GamePanel extends JPanel {
         ArrayList<Explosion> exp = Controller.getExplosions();
         for (int i = 0; i < exp.size(); i++) {
             Explosion e = exp.get(i);
-            if (e.getExpType() == 0) {
+            if (e.getExpType() == ExplosionType.SMALL) {
                 g.drawImage(GraphicsManager.smallExplosionImages[e.getStage()], e.getx(), e.gety(), null);
             }
-            if (e.getExpType() == 1) {
-                g.drawImage(GraphicsManager.fuelExplosionImages[e.getStage()], e.getx(), e.gety(), null);
-            }
-            if (e.getExpType() == 2) {
+            if (e.getExpType() == ExplosionType.MEDIUM) {
                 g.drawImage(GraphicsManager.mediumExplosionImages[e.getStage()], e.getx(), e.gety(), null);
+            }
+            if (e.getExpType() == ExplosionType.FUEL) {
+                g.drawImage(GraphicsManager.fuelExplosionImages[e.getStage()], e.getx(), e.gety(), null);
             }
         }
 

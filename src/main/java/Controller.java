@@ -198,24 +198,24 @@ public class Controller {
     }
 
     public static void spawnExp(int x, int y, int shipR, EnemyType enemyType, int catalystSeparation) {
-        int explosionType = EnemyType.getExplosionType(enemyType);
+        ExplosionType explosionType = EnemyType.getExplosionType(enemyType);
 
         // compensates location for ship radius
         x += shipR;
         y += shipR;
         // compensates location for explosion radius
-        x -= Explosion.expRadiusArray[explosionType];
-        y -= Explosion.expRadiusArray[explosionType];
+        x -= Explosion.expRadii.get(explosionType);
+        y -= Explosion.expRadii.get(explosionType);
 
 
-        if (explosionType == 0) {
-            explosions.add(new SmallExplosion(x, y, catalystSeparation));
+        if (explosionType == ExplosionType.SMALL) {
+            explosions.add(new Explosion(x, y, catalystSeparation, ExplosionType.SMALL));
         }
-        if (explosionType == 1) {
-            explosions.add(new FuelExplosion(x, y, catalystSeparation));
+        if (explosionType == ExplosionType.FUEL) {
+            explosions.add(new Explosion(x, y, catalystSeparation, ExplosionType.FUEL));
         }
-        if (explosionType == 2) {
-            explosions.add(new MediumExplosion(x, y, catalystSeparation));
+        if (explosionType == ExplosionType.MEDIUM) {
+            explosions.add(new Explosion(x, y, catalystSeparation, ExplosionType.MEDIUM));
         }
     }
 

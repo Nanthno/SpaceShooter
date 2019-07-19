@@ -39,6 +39,8 @@ public class Globals {
             EnemyType.SHIELD, EnemyShield.class
     );
 
+    static Map<ExplosionType, Integer> explosionTypeMaxFrames = new HashMap<>();
+
     static Map<EnemyType, Integer> enemyShipsMaxFrames = new HashMap<>();
     static Map<WeaponType, Integer> weaponMaxFrames = new HashMap<>();
     static int playerMaxFrames;
@@ -83,6 +85,13 @@ public class Globals {
 
     public static Class getEnemyClass(EnemyType type) {
         return enemyTypeClasses.get(type);
+    }
+
+    public static void addToExplosionMaxFrames(ExplosionType type, int maxFrames) {
+        explosionTypeMaxFrames.put(type, maxFrames);
+    }
+    public static int getExplosionMaxFrame(ExplosionType type) {
+        return explosionTypeMaxFrames.get(type);
     }
 
     public static void addToEnemyShipMaxFrames(EnemyType type, int maxFramesCount) {

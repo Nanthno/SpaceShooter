@@ -1,5 +1,7 @@
 package src.main.java.enemy;
 
+import src.main.java.ExplosionType;
+
 import java.util.Map;
 
 public enum EnemyType {
@@ -17,18 +19,18 @@ public enum EnemyType {
             "s", "SHIELDER"
     );
 
-    static Map<EnemyType, Integer> explosionTypes = Map.of(
-            BASIC, 0,
-            FUEL, 1,
-            AGILE, 2,
-            SHIELDER, 1,
-            SHIELD, 0);
+    static Map<EnemyType, ExplosionType> explosionTypes = Map.of(
+            BASIC, ExplosionType.SMALL,
+            FUEL, ExplosionType.FUEL,
+            AGILE, ExplosionType.MEDIUM,
+            SHIELDER, ExplosionType.MEDIUM,
+            SHIELD, ExplosionType.SMALL);
 
     public static EnemyType getType(String e) {
         return valueOf(enemyHash.get(e));
     }
 
-    public static int getExplosionType(EnemyType type) {
+    public static ExplosionType getExplosionType(EnemyType type) {
         return explosionTypes.get(type);
     }
 

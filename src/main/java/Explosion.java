@@ -1,5 +1,7 @@
 package src.main.java;
 
+import java.util.Map;
+
 public class Explosion {
 
     int xPos = -1;
@@ -13,11 +15,31 @@ public class Explosion {
 
     int radius;
 
-    int expType;
+    ExplosionType expType;
 
     int catalystSeparation = 0;
 
-    static int[] expRadiusArray = new int[]{8, 32, 24};
+    static Map<ExplosionType, Integer> expRadii = Map.of(
+            ExplosionType.SMALL, 8,
+            ExplosionType.MEDIUM, 24,
+            ExplosionType.FUEL, 32
+    );
+    static Map<ExplosionType, Integer> expDuration = Map.of(
+            ExplosionType.SMALL, 35,
+            ExplosionType.MEDIUM, 40,
+            ExplosionType.FUEL, 40
+    );
+
+    public Explosion(int x, int y, int catalistSeperation, ExplosionType type) {
+        xPos = x;
+        yPos = y;
+        expType = type;
+        this.catalystSeparation = catalistSeperation;
+        radius = expRadii.get(type);
+        maxStage = Globals.getExplosionMaxFrame(type);
+        maxDuration = expDuration.get(type);
+        duration = maxDuration;
+    }
 
     // returns true if the explosion should be destroyed
     boolean update() {
@@ -53,7 +75,7 @@ public class Explosion {
         return catalystSeparation;
     }
 
-    public int getExpType() {
+    public ExplosionType getExpType() {
         return expType;
     }
 }

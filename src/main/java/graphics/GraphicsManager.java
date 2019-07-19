@@ -77,8 +77,12 @@ public class GraphicsManager {
         playerBulletImages = ImageUtil.loadAnimation("images/playerBullet");
         laserBlastImages = ImageUtil.loadAnimation("images/laserBlast");
         smallExplosionImages = ImageUtil.loadAnimation("images/smallExplosion");
-        fuelExplosionImages = ImageUtil.loadAnimation("images/fuelExplosion");
         mediumExplosionImages = ImageUtil.loadAnimation("images/mediumExplosion");
+        fuelExplosionImages = ImageUtil.loadAnimation("images/fuelExplosion");
+
+        Globals.addToExplosionMaxFrames(ExplosionType.SMALL, smallExplosionImages.length-1);
+        Globals.addToExplosionMaxFrames(ExplosionType.MEDIUM, mediumExplosionImages.length-1);
+        Globals.addToExplosionMaxFrames(ExplosionType.FUEL, fuelExplosionImages.length-1);
 
         Globals.addToEnemyShipMaxFrames(EnemyType.BASIC, enemyBasicImages.length);
         Globals.addToEnemyShipMaxFrames(EnemyType.FUEL, enemyFuelImages.length);
