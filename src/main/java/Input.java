@@ -14,14 +14,16 @@ public class Input {
     private static int leftke = KeyEvent.VK_LEFT;
     private static int rightke = KeyEvent.VK_RIGHT;
     private static int fireke = KeyEvent.VK_SPACE;
-    private static int laserBlastke = KeyEvent.VK_Q;
+    private static int special1ke = KeyEvent.VK_Q;
+    private static int special2ke = KeyEvent.VK_W;
     // booleans for storing if a key is pressed
     static volatile boolean up = false;
     static volatile boolean down = false;
     static volatile boolean left = false;
     static volatile boolean right = false;
     static volatile boolean fire = false;
-    static volatile boolean laserBlast = false;
+    static volatile boolean special1 = false;
+    static volatile boolean special2 = false;
     static volatile boolean isMouse1Pressed = false;
     static volatile boolean isMouse1Released = false;
 
@@ -87,8 +89,11 @@ public class Input {
 				else if (ke.getKeyCode() == fireke){
 				    fire = true;
 				}
-				else if (ke.getKeyCode() == laserBlastke) {
-				    laserBlast = true;
+				else if (ke.getKeyCode() == special1ke) {
+				    special1 = true;
+				}
+				else if (ke.getKeyCode() == special2ke) {
+					special2 = true;
 				}
 
 				break;
@@ -112,8 +117,11 @@ public class Input {
 				else if (ke.getKeyCode() == fireke){
 				    fire = false;
 				}
-				else if (ke.getKeyCode() == laserBlastke) {
-				    laserBlast = false;
+				else if (ke.getKeyCode() == special1ke) {
+				    special1 = false;
+				}
+				else if (ke.getKeyCode() == special2ke) {
+					special2 = false;
 				}
 
 				break;

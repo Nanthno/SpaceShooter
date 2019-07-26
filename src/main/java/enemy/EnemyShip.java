@@ -2,8 +2,7 @@ package src.main.java.enemy;
 
 import src.main.java.Controller;
 import src.main.java.Globals;
-import src.main.java.PlayerBullet;
-import src.main.java.WeaponParent;
+import src.main.java.PlayerWeaponParent;
 
 public class EnemyShip {
 
@@ -37,7 +36,7 @@ public class EnemyShip {
 
     // called every tick by the controller
     // returns true if the ship has fallen off the screen and so should be destroyed
-    public boolean updateShip() {
+    public boolean update() {
         xPos -= xSpeed;
         yPos -= ySpeed;
 
@@ -80,11 +79,11 @@ public class EnemyShip {
         return true;
     }
 
-    public boolean collideWithBullet(PlayerBullet b) {
+    public boolean collideWithWeapon(PlayerWeaponParent weapon) {
 
-        double dist = distance(b.getx(), b.gety(), b.getRadius(), xPos, yPos, radius);
+        double dist = distance(weapon.getx(), weapon.gety(), weapon.getRadius(), xPos, yPos, radius);
 
-        double radiiSum = b.getRadius() + radius;
+        double radiiSum = weapon.getRadius() + radius;
 
         return dist <= radiiSum;
 
@@ -106,9 +105,11 @@ public class EnemyShip {
         return currentFrame;
     }
 
+
     public void setMaxFrame(int maxFrame) {
         this.maxFrame = maxFrame;
     }
+
 }
 	
     

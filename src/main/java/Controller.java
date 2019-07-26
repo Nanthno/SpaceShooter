@@ -1,7 +1,6 @@
 package src.main.java;
 
 import src.main.java.density.DensityMap;
-import src.main.java.enemy.EnemyShielder;
 import src.main.java.enemy.EnemyShip;
 import src.main.java.enemy.EnemyType;
 import src.main.java.graphics.GraphicsManager;
@@ -18,13 +17,15 @@ public class Controller {
 
     static GraphicsManager graphicsManager;
 
-    static List<EnemyShip> enemyShips = new ArrayList<EnemyShip>();
+    static List<EnemyShip> enemyShips = new ArrayList<>();
 
     static PlayerShip player = new PlayerShip();
-    static ArrayList<PlayerBullet> playerBullets = new ArrayList<PlayerBullet>();
+    static ArrayList<PlayerWeaponParent> playerFiredWeapons = new ArrayList<>();
     static LaserBlast laserBlast = null;
 
-    static ArrayList<Explosion> explosions = new ArrayList<Explosion>();
+    static ArrayList<EnemyWeaponParent> enemyFiredWeapons = new ArrayList<>();
+
+    static ArrayList<Explosion> explosions = new ArrayList<>();
 
     static DensityMap densityMap;
 
@@ -71,15 +72,24 @@ public class Controller {
 
         player.update();
 
-        // updates player bullets
-        ArrayList<PlayerBullet> newPlayerBullets = new ArrayList<PlayerBullet>();
-        for (PlayerBullet b : playerBullets) {
-            b.update();
-            if (b.getx() < 1040) {
-                newPlayerBullets.add(b);
+        // updates weapons
+        ArrayList<PlayerWeaponParent> newPlayerBullets = new ArrayList<>();
+        for (PlayerWeaponParent w : playerFiredWeapons) {
+            w.update();
+            if (w.getx() < 1040) {
+                newPlayerBullets.add(w);
             }
         }
-        playerBullets = newPlayerBullets;
+        playerFiredWeapons = newPlayerBullets;
+
+        ArrayList<EnemyWeaponParent> newEnemyWeapons = new ArrayList<>();
+        for(EnemyWeaponParent w : enemyFiredWeapons) {
+            w.update();
+            if(w.getx() > 0) {
+                newEnemyWeapons.add(w);
+            }
+        }
+        enemyFiredWeapons = newEnemyWeapons;
 
         if (laserBlast != null) {
             boolean destroy = laserBlast.update();
@@ -91,7 +101,7 @@ public class Controller {
         // updates enemyShips
         for (int i = 0; i < enemyShips.size(); i++) {
             EnemyShip e = enemyShips.get(i);
-            boolean offScreen = e.updateShip();
+            boolean offScreen = e.update();
             if (offScreen) {
                 if (e.getType() != EnemyType.SHIELD)
                     player.looseHealth(10);
@@ -117,6 +127,7 @@ public class Controller {
         checkEnemyBulletCollision();
         checkEnemyExplosionCollision();
         checkPlayerEnemyCollision();
+        checkPlayerEnemyWeaponCollision();
     }
 
     static void checkEnemyBulletCollision() {
@@ -125,7 +136,7 @@ public class Controller {
 
             // checks for collision with laser blast
             if (laserBlast != null) {
-                int distance = Math.abs((laserBlast.getx()+laserBlast.getRadius()) - (e.getx()+e.getRadius()));
+                int distance = Math.abs((laserBlast.getx() + laserBlast.getRadius()) - (e.getx() + e.getRadius()));
                 if (distance < e.getRadius() + laserBlast.getRadius()) {
                     if (e.isKillable(LaserBlast.class)) {
                         spawnExp(e.getx(), e.gety(), e.getRadius(), e.getType(), 0);
@@ -136,15 +147,22 @@ public class Controller {
             }
 
             // checks for collision with a player bullet
-            for (int i = playerBullets.size() - 1; i >= 0; i--) {
-                PlayerBullet b = playerBullets.get(i);
-                if(e.collideWithBullet(b)) {
-                    if (e.isKillable(PlayerBullet.class)) {
-                        spawnExp(e.getx(), e.gety(), e.getRadius(), e.getType(), 0);
-                        enemyShips.remove(j);
-                    }
-                    playerBullets.remove(i);
+            for (int i = playerFiredWeapons.size() - 1; i >= 0; i--) {
+                PlayerWeaponParent weapon = playerFiredWeapons.get(i);
+                if (e.collideWithWeapon(weapon)) {
+                    if (weapon.getType() == WeaponType.BULLET) {
+                        PlayerBullet b = (PlayerBullet) weapon;
+                        if (e.isKillable(PlayerBullet.class)) {
+                            spawnExp(e.getx(), e.gety(), e.getRadius(), e.getType(), 0);
+                            enemyShips.remove(j);
+                        }
+                        playerFiredWeapons.remove(i);
 
+                    }
+                    if (weapon.getType() == WeaponType.MISSILE) {
+                        ((Missile)weapon).hitEnemy();
+                        playerFiredWeapons.remove(i);
+                    }
                 }
             }
         }
@@ -155,7 +173,7 @@ public class Controller {
             Explosion explosion = explosions.get(i);
             for (int j = enemyShips.size() - 1; j >= 0; j--) {
                 EnemyShip enemy = enemyShips.get(j);
-                if (explosion.getStage() > 2 &&
+                if (explosion.getStage() > explosion.getEffectiveStage() &&
                         distance(explosion.getx(), explosion.gety(), explosion.getRadius(),
                                 enemy.getx(), enemy.gety(), enemy.getRadius()) < 2 * (enemy.getRadius() + explosion.getRadius())) {
                     if (enemy.isKillable(Explosion.class)) {
@@ -182,6 +200,17 @@ public class Controller {
         }
     }
 
+    static void checkPlayerEnemyWeaponCollision() {
+        for(int i = enemyFiredWeapons.size()-1; i >= 0; i--) {
+            EnemyWeaponParent w = enemyFiredWeapons.get(i);
+            if(distance(w.getx(), w.gety(), w.getRadius(),
+                    player.getx(), player.gety(), player.getRadius()) < w.getRadius() + player.getRadius()) {
+                enemyFiredWeapons.remove(i);
+                player.hitByWeapon(w);
+            }
+        }
+    }
+
     static double distance(double x1, double y1, int r1, double x2, double y2, int r2) {
         x1 += r1;
         y1 += r1;
@@ -197,23 +226,22 @@ public class Controller {
     public static void spawnExp(int x, int y, int shipR, EnemyType enemyType, int catalystSeparation) {
         ExplosionType explosionType = EnemyType.getExplosionType(enemyType);
 
-        // compensates location for ship radius
-        x += shipR;
-        y += shipR;
-        // compensates location for explosion radius
-        x -= Explosion.expRadii.get(explosionType);
-        y -= Explosion.expRadii.get(explosionType);
+        spawnExp(x, y, shipR, explosionType, catalystSeparation);
+    }
 
+    public static void spawnExp(int x, int y, int radius, ExplosionType explosionType, int catalystSeperation) {
+        x += radius;
+        y += radius;
+        int expRadius = Explosion.expRadii.get(explosionType);
+        x -= expRadius;
+        y -= expRadius;
 
-        if (explosionType == ExplosionType.SMALL) {
-            explosions.add(new Explosion(x, y, catalystSeparation, ExplosionType.SMALL));
-        }
-        if (explosionType == ExplosionType.FUEL) {
-            explosions.add(new Explosion(x, y, catalystSeparation, ExplosionType.FUEL));
-        }
-        if (explosionType == ExplosionType.MEDIUM) {
-            explosions.add(new Explosion(x, y, catalystSeparation, ExplosionType.MEDIUM));
-        }
+        explosions.add(new Explosion(x, y, catalystSeperation, explosionType));
+    }
+
+    public static void spawnShooterBullet(int x, int y, double dx) {
+        ShooterBullet bullet = new ShooterBullet(x, y, dx);
+        enemyFiredWeapons.add(bullet);
     }
 
     public static void updateSpawnProbabilities(TimeStampEvent event) {
@@ -231,13 +259,18 @@ public class Controller {
     }
 
     static void addBullet(PlayerBullet b) {
-        playerBullets.add(b);
+        playerFiredWeapons.add(b);
     }
 
     static void fireBlast(int x) {
         if (laserBlast == null) {
             laserBlast = new LaserBlast(x);
         }
+    }
+
+    static void createMissile(int x, int y) {
+        Missile missile = new Missile(x, y);
+        playerFiredWeapons.add(missile);
     }
 
     public static void addKillScore(EnemyType type, int catalistSeperation) {
@@ -272,15 +305,19 @@ public class Controller {
         return player;
     }
 
-    public static ArrayList<PlayerBullet> getPlayerBullets() {
-        return playerBullets;
+    public static List<PlayerWeaponParent> getPlayerFiredWeapons() {
+        return playerFiredWeapons;
+    }
+
+    public static List<EnemyWeaponParent> getEnemyFiredWeapons() {
+        return enemyFiredWeapons;
     }
 
     public static LaserBlast getLaserBlast() {
         return laserBlast;
     }
 
-    public static ArrayList<Explosion> getExplosions() {
+    public static List<Explosion> getExplosions() {
         return explosions;
     }
 

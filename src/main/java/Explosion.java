@@ -11,6 +11,7 @@ public class Explosion {
     int duration;
 
     int stage = 0;
+    int effectiveStage = 2;
     int maxStage;
 
     int radius;
@@ -19,26 +20,34 @@ public class Explosion {
 
     int catalystSeparation = 0;
 
+    static final Map<ExplosionType, Integer> effectiveStageTypes = Map.of(
+        ExplosionType.PROJECTILE, 3
+    );
+
     static Map<ExplosionType, Integer> expRadii = Map.of(
             ExplosionType.SMALL, 8,
             ExplosionType.MEDIUM, 24,
-            ExplosionType.FUEL, 32
+            ExplosionType.FUEL, 32,
+            ExplosionType.PROJECTILE, 48
     );
     static Map<ExplosionType, Integer> expDuration = Map.of(
             ExplosionType.SMALL, 35,
             ExplosionType.MEDIUM, 40,
-            ExplosionType.FUEL, 40
+            ExplosionType.FUEL, 40,
+            ExplosionType.PROJECTILE, 40
     );
 
-    public Explosion(int x, int y, int catalistSeperation, ExplosionType type) {
+    public Explosion(int x, int y, int catalystSeparation, ExplosionType type) {
         xPos = x;
         yPos = y;
         expType = type;
-        this.catalystSeparation = catalistSeperation;
+        this.catalystSeparation = catalystSeparation;
         radius = expRadii.get(type);
         maxStage = Globals.getExplosionMaxFrame(type);
         maxDuration = expDuration.get(type);
         duration = maxDuration;
+        if(effectiveStageTypes.containsKey(type))
+            effectiveStage = effectiveStageTypes.get(type);
     }
 
     // returns true if the explosion should be destroyed
@@ -65,6 +74,10 @@ public class Explosion {
 
     public int getStage() {
         return stage;
+    }
+
+    public int getEffectiveStage() {
+        return effectiveStage;
     }
 
     int getRadius() {

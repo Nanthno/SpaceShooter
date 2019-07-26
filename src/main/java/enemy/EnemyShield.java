@@ -1,15 +1,27 @@
 package src.main.java.enemy;
 
-import src.main.java.PlayerBullet;
+import src.main.java.PlayerWeaponParent;
+import src.main.java.WeaponType;
 
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 public class EnemyShield extends EnemyShip {
 
     double innerRadius = 5;
 
+    static Set<WeaponType> indestructableWeapons;
+
+    private static Set<WeaponType> buildIndestructibleWeaponsSet() {
+        HashSet<WeaponType> output = new HashSet<>();
+        output.add(WeaponType.MISSILE);
+        return output;
+    }
+
     public EnemyShield(int x, int y, double xSpeed) {
         super(x, y, xSpeed, EnemyType.SHIELD);
+        indestructableWeapons = buildIndestructibleWeaponsSet();
         innerRadius = radius - innerRadius;
         currentFrame = (new Random()).nextInt(maxFrame);
     }
@@ -25,12 +37,16 @@ public class EnemyShield extends EnemyShip {
     }
 
     @Override
-    public boolean collideWithBullet(PlayerBullet b) {
-        double dist = distance(b.getx(), b.gety(), b.getRadius(), xPos,yPos, radius);
-        double radiiSum = b.getRadius() + radius;
+    public boolean collideWithWeapon(PlayerWeaponParent weapon) {
+        if(indestructableWeapons.contains(weapon.getType())) {
+            return false;
+        }
+        double dist = distance(weapon.getx(), weapon.gety(), weapon.getRadius(), xPos,yPos, radius);
+        double radiiSum = weapon.getRadius() + radius;
 
         boolean insideRadius = dist < radiiSum;
         boolean outsideInnerRadius = dist > innerRadius;
+
         return insideRadius && outsideInnerRadius;
     }
 

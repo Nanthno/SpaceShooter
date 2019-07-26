@@ -1,6 +1,6 @@
 package src.main.java;
 
-public class PlayerBullet extends WeaponParent {
+public class PlayerBullet extends PlayerWeaponParent {
 
     public PlayerBullet(double x, double y, double dx, double dy) {
         type = WeaponType.BULLET;
@@ -13,11 +13,6 @@ public class PlayerBullet extends WeaponParent {
         radius = 2;
 
         maxStage = Globals.getWeaponMaxFrames(WeaponType.BULLET);
-    }
-
-    public void update() {
-        xPos += xSpeed;
-        yPos += ySpeed;
     }
 
 }

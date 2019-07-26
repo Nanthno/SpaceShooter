@@ -1,6 +1,7 @@
 time 0
-set AA 0 0.01
-set AB 0 0.004
-set OA 0 0.005
-set OS 0 0.002
-set O1 0.005
+set AA 0.01
+set AB 0.004
+set OA 0.005
+set OS 0.002
+set O1 0.001
+set OG 0.02

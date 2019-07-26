@@ -10,10 +10,10 @@ public class EnemyShielder extends EnemyShip {
     }
 
     @Override
-    public boolean updateShip() {
+    public boolean update() {
         createShield();
 
-        return super.updateShip();
+        return super.update();
     }
 
     private void createShield() {

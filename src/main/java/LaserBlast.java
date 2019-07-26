@@ -1,6 +1,6 @@
 package src.main.java;
 
-public class LaserBlast extends WeaponParent {
+public class LaserBlast extends PlayerWeaponParent {
 
 
     public LaserBlast(int x) {
@@ -17,6 +17,7 @@ public class LaserBlast extends WeaponParent {
 
 
     // returns true if the blast should be destroyed
+    @Override
     public boolean update() {
         stage++;
         if (stage == maxStage) {

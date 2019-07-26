@@ -30,7 +30,7 @@ public class EnemyAgile extends EnemyShip {
     }
 
     @Override
-    public boolean updateShip() {
+    public boolean update() {
         int[] targetPos = findTargetPos();
 
         setVector(targetPos);

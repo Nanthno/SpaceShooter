@@ -36,33 +36,54 @@ class GamePanel extends JPanel {
                 shipImage = GraphicsManager.enemyAgileImages[enemy.getFrame()];
             else if (enemy.getType() == EnemyType.SHIELDER)
                 shipImage = GraphicsManager.enemyShielderImages[enemy.getFrame()];
-            else if(enemy.getType() == EnemyType.SHIELD)
+            else if (enemy.getType() == EnemyType.SHIELD)
                 shipImage = GraphicsManager.enemyShieldImages[enemy.getFrame()];
-            else if(enemy.getType() == EnemyType.ARMORED1)
+            else if (enemy.getType() == EnemyType.ARMORED1)
                 shipImage = GraphicsManager.enemyArmored1Images[enemy.getFrame()];
+            else if (enemy.getType() == EnemyType.SHOOTER)
+                shipImage = GraphicsManager.enemyShooterImages[enemy.getFrame()];
 
             g.drawImage(shipImage, enemy.getx(), enemy.gety(), null);
         }
 
-        // draw player bullets
-        ArrayList<PlayerBullet> pb = Controller.getPlayerBullets();
-        for (PlayerBullet b : pb) {
-            g.drawImage(GraphicsManager.playerBulletImages[b.getFrame()], (int) b.getx(), (int) b.gety(), null);
+        // draw player fired weapons
+        List<PlayerWeaponParent> playerWeapons = Controller.getPlayerFiredWeapons();
+        for (PlayerWeaponParent w : playerWeapons) {
+            BufferedImage img = GraphicsManager.imageNotFound;
+            if (w.getType() == WeaponType.BULLET)
+                img = GraphicsManager.playerBulletImages[w.getFrame()];
+            if (w.getType() == WeaponType.MISSILE)
+                img = GraphicsManager.missileImages[w.getFrame()];
+
+            g.drawImage(img, (int) w.getx(), (int) w.gety(), null);
+        }
+
+        // draw enemy fired weapons
+        List<EnemyWeaponParent> enemyWeapons = Controller.getEnemyFiredWeapons();
+        for (EnemyWeaponParent w : enemyWeapons) {
+            BufferedImage img = GraphicsManager.imageNotFound;
+
+            if (w.getType() == WeaponType.SHOOTER_BULLET)
+                img = GraphicsManager.shooterBulletImages[w.getFrame()];
+
+            g.drawImage(img, (int) w.getx(), (int) w.gety(), null);
         }
 
         // draw explosions
-        ArrayList<Explosion> exp = Controller.getExplosions();
+        List<Explosion> exp = Controller.getExplosions();
         for (int i = 0; i < exp.size(); i++) {
             Explosion e = exp.get(i);
-            if (e.getExpType() == ExplosionType.SMALL) {
-                g.drawImage(GraphicsManager.smallExplosionImages[e.getStage()], e.getx(), e.gety(), null);
-            }
-            if (e.getExpType() == ExplosionType.MEDIUM) {
-                g.drawImage(GraphicsManager.mediumExplosionImages[e.getStage()], e.getx(), e.gety(), null);
-            }
-            if (e.getExpType() == ExplosionType.FUEL) {
-                g.drawImage(GraphicsManager.fuelExplosionImages[e.getStage()], e.getx(), e.gety(), null);
-            }
+            BufferedImage img = GraphicsManager.imageNotFound;
+            if (e.getExpType() == ExplosionType.SMALL)
+                img = GraphicsManager.smallExplosionImages[e.getStage()];
+            else if (e.getExpType() == ExplosionType.MEDIUM)
+                img = GraphicsManager.mediumExplosionImages[e.getStage()];
+            else if (e.getExpType() == ExplosionType.FUEL)
+                img = GraphicsManager.fuelExplosionImages[e.getStage()];
+            else if (e.getExpType() == ExplosionType.PROJECTILE)
+                img = GraphicsManager.projectileExplosionImages[e.getStage()];
+
+            g.drawImage(img, e.getx(), e.gety(), null);
         }
 
 

@@ -29,12 +29,20 @@ public class GraphicsManager {
     static BufferedImage[] enemyShielderImages;
     static BufferedImage[] enemyShieldImages;
     static BufferedImage[] enemyArmored1Images;
-    static BufferedImage[] playerImages;
+    static BufferedImage[] enemyShooterImages;
+
     static BufferedImage[] playerBulletImages;
+    static BufferedImage[] missileImages;
     static BufferedImage[] laserBlastImages;
+    static BufferedImage[] shooterBulletImages;
+
     static BufferedImage[] smallExplosionImages;
     static BufferedImage[] fuelExplosionImages;
     static BufferedImage[] mediumExplosionImages;
+    static BufferedImage[] projectileExplosionImages;
+
+    static BufferedImage[] playerImages;
+
     static BufferedImage imageNotFound = makeImageNotFound();
 
     public GraphicsManager() {
@@ -69,22 +77,32 @@ public class GraphicsManager {
     void loadImages() {
         background = ImageUtil.loadImage("images/space3.png");
         statusBars = ImageUtil.loadImage("images/statusPanel.png");
+
         enemyBasicImages = ImageUtil.loadAnimation("images/enemyBasic");
         enemyFuelImages = ImageUtil.loadAnimation("images/enemyFuel");
         enemyAgileImages = ImageUtil.loadAnimation("images/enemyAgile");
         enemyShielderImages = ImageUtil.loadAnimation("images/enemyShielder");
         enemyShieldImages = ImageUtil.loadAnimation("images/enemyShield", 100);
         enemyArmored1Images = ImageUtil.loadAnimation("images/enemyArmored1");
+        enemyShooterImages = ImageUtil.loadAnimation("images/enemyShooter");
+
         playerImages = ImageUtil.loadAnimation("images/player");
+
         playerBulletImages = ImageUtil.loadAnimation("images/playerBullet");
+        missileImages = ImageUtil.loadAnimation("images/missile");
         laserBlastImages = ImageUtil.loadAnimation("images/laserBlast");
+        shooterBulletImages = ImageUtil.loadAnimation("images/shooterBullet");
+
+
         smallExplosionImages = ImageUtil.loadAnimation("images/smallExplosion");
         mediumExplosionImages = ImageUtil.loadAnimation("images/mediumExplosion");
         fuelExplosionImages = ImageUtil.loadAnimation("images/fuelExplosion");
+        projectileExplosionImages = ImageUtil.loadAnimation("images/projectileExplosion");
 
         Globals.addToExplosionMaxFrames(ExplosionType.SMALL, smallExplosionImages.length-1);
         Globals.addToExplosionMaxFrames(ExplosionType.MEDIUM, mediumExplosionImages.length-1);
         Globals.addToExplosionMaxFrames(ExplosionType.FUEL, fuelExplosionImages.length-1);
+        Globals.addToExplosionMaxFrames(ExplosionType.PROJECTILE, projectileExplosionImages.length-1);
 
         Globals.addToEnemyShipMaxFrames(EnemyType.BASIC, enemyBasicImages.length);
         Globals.addToEnemyShipMaxFrames(EnemyType.FUEL, enemyFuelImages.length);
@@ -92,10 +110,13 @@ public class GraphicsManager {
         Globals.addToEnemyShipMaxFrames(EnemyType.SHIELDER, enemyShielderImages.length);
         Globals.addToEnemyShipMaxFrames(EnemyType.SHIELD, enemyShieldImages.length);
         Globals.addToEnemyShipMaxFrames(EnemyType.ARMORED1, enemyArmored1Images.length);
+        Globals.addToEnemyShipMaxFrames(EnemyType.SHOOTER, enemyShooterImages.length);
 
         Globals.setPlayerMaxFrames(playerImages.length);
         Globals.addToWeaponMaxFrames(WeaponType.BULLET, playerBulletImages.length);
         Globals.addToWeaponMaxFrames(WeaponType.LASER_BLAST, laserBlastImages.length);
+        Globals.addToWeaponMaxFrames(WeaponType.MISSILE, missileImages.length);
+        Globals.addToWeaponMaxFrames(WeaponType.SHOOTER_BULLET, shooterBulletImages.length);
     }
 
     private static BufferedImage makeImageNotFound() {

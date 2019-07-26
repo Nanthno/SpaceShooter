@@ -2,5 +2,7 @@ package src.main.java;
 
 public enum WeaponType {
     LASER_BLAST,
-    BULLET
+    BULLET,
+    MISSILE,
+    SHOOTER_BULLET
 }

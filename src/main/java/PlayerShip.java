@@ -37,12 +37,17 @@ public class PlayerShip {
     int maxFrames;
     int currentFrame = 0;
 
+    int immobile = 0;
+    int invinciblePeriod = -10;
+    int empDelay = 30;
+
     public PlayerShip() {
         in = new Input();
         maxFrames = Globals.getPlayerMaxFrames();
     }
 
     public void update() {
+        immobile--;
         fire--;
         if (heat > 0)
             heat--;
@@ -64,32 +69,46 @@ public class PlayerShip {
             }
         }
 
-
-        // movement
-        if (in.up && yPos > 0)
-            yPos -= ySpeed;
-        else if (in.down && yPos < Globals.screenHeight - radius * 4) // not really sure why it has to be 4 not 2 but it works
-            yPos += ySpeed;
-        if (in.right && xPos < GraphicsManager.getWidth() - radius * 4)
-            xPos += xSpeed;
-        else if (in.left && xPos > 0)
-            xPos -= xSpeed;
-        // firing
-        if (in.fire && fire < 0 && !overheated) {
-            Controller.addBullet(new PlayerBullet(xPos + 5, yPos + radius - 1, 5, 0));
-            fire = maxFire;
-            heat += fireHeat;
-            if (heat > overHeat) {
-                overheated = true;
+        if (immobile < 0) {
+            // movement
+            if (in.up && yPos > 0)
+                yPos -= ySpeed;
+            else if (in.down && yPos < Globals.screenHeight - radius * 4) // not really sure why it has to be 4 not 2 but it works
+                yPos += ySpeed;
+            if (in.right && xPos < GraphicsManager.getWidth() - radius * 4)
+                xPos += xSpeed;
+            else if (in.left && xPos > 0)
+                xPos -= xSpeed;
+            // firing
+            if (in.fire && fire < 0 && !overheated) {
+                Controller.addBullet(new PlayerBullet(xPos + 5, yPos + radius - 1, 5, 0));
+                fire = maxFire;
+                heat += fireHeat;
+                if (heat > overHeat) {
+                    overheated = true;
+                }
+            }
+            if (in.special1 && chargeCount > 0) {
+                Controller.fireBlast((int) xPos + radius / 2);
+                chargeCount--;
+                charge = 0;
+            }
+            if (in.special2 && chargeCount > 0) {
+                Controller.createMissile((int) xPos + radius / 2, (int) yPos + radius / 2);
+                chargeCount--;
+                charge = 0;
             }
         }
-        if (in.laserBlast && chargeCount > 0) {
-            Controller.fireBlast((int) xPos + radius / 2);
-            chargeCount--;
-            charge = 0;
+
+    }
+
+    void hitByWeapon(EnemyWeaponParent weapon) {
+        if (weapon.getType() == WeaponType.SHOOTER_BULLET) {
+            if (immobile < invinciblePeriod)
+                immobile = empDelay;
+        } else { // this should never happen
+            System.out.println("WARNING: player hit by weapon " + weapon.getType() + " but not programmed to handle it");
         }
-
-
     }
 
     void shipCollision() {

@@ -19,18 +19,27 @@ public class WeaponParent {
     int currentFrame = 0;
     int maxFrame;
 
+    public boolean update() {
+        xPos += xSpeed;
+        yPos += ySpeed;
+        return false;
+    }
+
     public int getx() {
-	return (int)xPos;
+        return (int)xPos;
     }
     public int gety() {
-	return (int)yPos;
+        return (int)yPos;
     }
     public int getRadius() {
-	return radius;
+        return radius;
     }
 
     public int getFrame() {
         return currentFrame;
     }
-	
+    public WeaponType getType() {
+        return type;
+    }
+
 }
