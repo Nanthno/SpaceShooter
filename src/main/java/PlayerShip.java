@@ -17,6 +17,8 @@ public class PlayerShip {
     double xSpeed = 4;
     double ySpeed = 4;
 
+    double yMove = 0;
+
 
     // manages how fast the player can fire
     int maxFire = 3;
@@ -43,6 +45,10 @@ public class PlayerShip {
     int immobile = 0;
     int invinciblePeriod = -10;
     int empDelay = 30;
+
+    // used to ensure that the player releases the missile fire button before sending a killMissile to Controller
+    //// 0 = no missiles, 1 = missiles exist but not primed, 2 = missiles exist and primed
+    static int missileArmed = 0;
 
     public PlayerShip() {
         in = new Input();
@@ -74,10 +80,17 @@ public class PlayerShip {
 
         if (immobile < 0) {
             // movement
-            if (in.up && yPos > 0)
+            if (in.up && yPos > 0) {
                 yPos -= ySpeed;
-            else if (in.down && yPos < Globals.screenHeight - radius * 4) // not really sure why it has to be 4 not 2 but it works
+                yMove = -1;
+            }
+            else if (in.down && yPos < Globals.screenHeight - radius * 4) { // not really sure why it has to be 4 not 2 but it works
                 yPos += ySpeed;
+                yMove = 1;
+            }
+            else {
+                yMove = 0;
+            }
             if (in.right && xPos < GraphicsManager.getWidth() - radius * 4)
                 xPos += xSpeed;
             else if (in.left && xPos > 0)
@@ -96,10 +109,21 @@ public class PlayerShip {
                 chargeCount--;
                 charge = 0;
             }
-            if (in.special2 && chargeCount > 0) {
-                Controller.createMissile((int) xPos + radius / 2, (int) yPos + radius / 2);
-                chargeCount--;
-                charge = 0;
+            if (in.special2) {
+                if(missileArmed == 2) {
+                    Controller.killMissiles();
+                    missileArmed = 0;
+                }
+
+                if (chargeCount > 0) {
+                    Controller.createMissile((int) xPos + radius / 2, (int) yPos + radius / 2);
+                    chargeCount--;
+                    charge = 0;
+                    missileArmed = 1;
+                }
+            }
+            else if (missileArmed == 1) {
+                missileArmed = 2;
             }
             if (in.special3 && chargeCount > 0) {
                 Controller.createBlast((int) xPos+radius, (int) yPos + radius);

@@ -19,7 +19,8 @@ public class Globals {
             EnemyType.SHIELDER, 16,
             EnemyType.SHIELD, 128,
             EnemyType.ARMORED1, 16,
-            EnemyType.SHOOTER, 12
+            EnemyType.SHOOTER, 12,
+            EnemyType.PILOTED, 12
     );
 
 
@@ -29,7 +30,8 @@ public class Globals {
             EnemyType.AGILE, 300,
             EnemyType.SHIELDER, 400,
             EnemyType.ARMORED1, 400,
-            EnemyType.SHOOTER, 300);
+            EnemyType.SHOOTER, 300,
+            EnemyType.PILOTED, 300);
 
     static final Map<EnemyType, Class> enemyTypeClasses = Map.of(
             EnemyType.BASIC, EnemyBasic.class,
@@ -38,7 +40,8 @@ public class Globals {
             EnemyType.SHIELDER, EnemyShielder.class,
             EnemyType.SHIELD, EnemyShield.class,
             EnemyType.ARMORED1, EnemyArmored1.class,
-            EnemyType.SHOOTER, EnemyShooter.class
+            EnemyType.SHOOTER, EnemyShooter.class,
+            EnemyType.PILOTED, EnemyPiloted.class
     );
 
     static Map<ExplosionType, Integer> explosionTypeMaxFrames = new HashMap<>();

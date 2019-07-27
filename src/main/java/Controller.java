@@ -48,6 +48,8 @@ public class Controller {
 
     static List<EnemyShip> newEnemyShips = new ArrayList<>();
 
+    static boolean killMissiles = false;
+
     public static void main(String[] args) {
 
         input = new Input();
@@ -80,11 +82,15 @@ public class Controller {
         ArrayList<PlayerWeaponParent> newPlayerBullets = new ArrayList<>();
         for (PlayerWeaponParent w : playerFiredWeapons) {
             boolean kill = w.update();
-            if (w.getx() < 1040 && !kill) {
+            if(killMissiles && w.getType() == WeaponType.MISSILE && ((Missile)w).isArmed()) {
+                ((Missile)w).hitEnemy();
+            }
+            else if (w.getx() < 1040 && !kill) {
                 newPlayerBullets.add(w);
             }
         }
         playerFiredWeapons = newPlayerBullets;
+        killMissiles = false;
 
         ArrayList<EnemyWeaponParent> newEnemyWeapons = new ArrayList<>();
         for(EnemyWeaponParent w : enemyFiredWeapons) {
@@ -248,7 +254,7 @@ public class Controller {
     }
 
     public static void spawnShooterBullet(int x, int y, double dx) {
-        ShooterBullet bullet = new ShooterBullet(x, y, dx);
+        ShooterBullet bullet = new ShooterBullet(x, y, -1*dx);
         enemyFiredWeapons.add(bullet);
     }
 
@@ -350,6 +356,10 @@ public class Controller {
         return player.getHeat();
     }
 
+    public static double getPlayerXPos() { return player.getx();}
+    public static double getPlayerYPos() { return player.gety();}
+    public static double getPlayerYSpeed() {return player.ySpeed * player.yMove;}
+
     public static int getCharge() {
         return player.getCharge();
     }
@@ -380,5 +390,8 @@ public class Controller {
             resetTimeline();
         }
         gameState = newGameState;
+    }
+    public static void killMissiles() {
+        killMissiles = true;
     }
 }

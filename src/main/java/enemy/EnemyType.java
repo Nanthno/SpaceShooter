@@ -12,7 +12,8 @@ public enum EnemyType {
     SHIELD,
     SHIELDER,
     ARMORED1,
-    SHOOTER;
+    SHOOTER,
+    PILOTED;
 
     static Map<String, String> enemyHash = Map.of(
             "b", "BASIC",
@@ -20,7 +21,8 @@ public enum EnemyType {
             "a", "AGILE",
             "s", "SHIELDER",
             "1", "ARMORED1",
-            "g", "SHOOTER" // 'g' as in gun
+            "g", "SHOOTER", // 'g' as in gun
+            "p", "PILOTED" // 'p' as in piloted
     );
 
     static Map<EnemyType, ExplosionType> explosionTypes = Map.of(
@@ -30,7 +32,8 @@ public enum EnemyType {
             SHIELDER, ExplosionType.MEDIUM,
             SHIELD, ExplosionType.SMALL,
             ARMORED1, ExplosionType.MEDIUM,
-            SHOOTER, ExplosionType.MEDIUM);
+            SHOOTER, ExplosionType.MEDIUM,
+            PILOTED, ExplosionType.MEDIUM);
 
     public static EnemyType getType(String e) {
         return valueOf(enemyHash.get(e));

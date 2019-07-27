@@ -6,6 +6,20 @@ import src.main.java.weapons.playerWeapons.PlayerWeaponParent;
 
 public class EnemyShip {
 
+    public static void main(String[] args) {
+        int x1 = 5;
+        int y1 = 2;
+
+        int x2 = 8;
+        int y2 = 0;
+
+        EnemyShip e = new EnemyShip(x1, y1, 2, EnemyType.PILOTED);
+
+        e.setVector(x2, y2, 2);
+
+        System.out.println(e.xSpeed + " : " + e.ySpeed);
+    }
+
     // default x position
     double xPos = 1030;
 
@@ -108,6 +122,20 @@ public class EnemyShip {
 
     public void setMaxFrame(int maxFrame) {
         this.maxFrame = maxFrame;
+    }
+
+    protected void setVector(double x, double y, double speed) {
+
+        double xDiff = xPos - x;
+        double yDiff = yPos - y;
+
+        double hyp = Math.sqrt(xPos*xPos + yPos*yPos);
+
+        double frac = speed/hyp;
+
+        xSpeed = frac * xDiff;
+        ySpeed = frac * yDiff;
+
     }
 
 }

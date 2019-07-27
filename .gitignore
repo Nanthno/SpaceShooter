@@ -5,3 +5,5 @@
 .#*.java#
 out
 .idea
+*.webm
+*.mp4

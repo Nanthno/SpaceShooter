@@ -145,4 +145,5 @@ public class DensityMap {
     public HashMap<int[], Double> getHoles() {
         return holes;
     }
+
 }

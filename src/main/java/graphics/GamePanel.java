@@ -45,6 +45,8 @@ class GamePanel extends JPanel {
                 shipImage = GraphicsManager.enemyArmored1Images[enemy.getFrame()];
             else if (enemy.getType() == EnemyType.SHOOTER)
                 shipImage = GraphicsManager.enemyShooterImages[enemy.getFrame()];
+            else if (enemy.getType() == EnemyType.PILOTED)
+                shipImage = GraphicsManager.enemyFighterImages[enemy.getFrame()];
 
             g.drawImage(shipImage, enemy.getx(), enemy.gety(), null);
         }

@@ -31,6 +31,7 @@ public class GraphicsManager {
     static BufferedImage[] enemyShieldImages;
     static BufferedImage[] enemyArmored1Images;
     static BufferedImage[] enemyShooterImages;
+    static BufferedImage[] enemyFighterImages;
 
     static BufferedImage[] playerBulletImages;
     static BufferedImage[] missileImages;
@@ -87,6 +88,8 @@ public class GraphicsManager {
         enemyShieldImages = ImageUtil.loadAnimation("images/enemyShield", 100);
         enemyArmored1Images = ImageUtil.loadAnimation("images/enemyArmored1");
         enemyShooterImages = ImageUtil.loadAnimation("images/enemyShooter");
+        enemyFighterImages = ImageUtil.loadAnimation("images/enemyFighter");
+
 
         playerImages = ImageUtil.loadAnimation("images/player");
 
@@ -114,6 +117,7 @@ public class GraphicsManager {
         Globals.addToEnemyShipMaxFrames(EnemyType.SHIELD, enemyShieldImages.length);
         Globals.addToEnemyShipMaxFrames(EnemyType.ARMORED1, enemyArmored1Images.length);
         Globals.addToEnemyShipMaxFrames(EnemyType.SHOOTER, enemyShooterImages.length);
+        Globals.addToEnemyShipMaxFrames(EnemyType.PILOTED, enemyFighterImages.length);
 
         Globals.setPlayerMaxFrames(playerImages.length);
         Globals.addToWeaponMaxFrames(WeaponType.BULLET, playerBulletImages.length);

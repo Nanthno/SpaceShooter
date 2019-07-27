@@ -12,14 +12,6 @@ public class EnemyAgile extends EnemyShip {
 
     double speed;
 
-    // for testing
-    public static void main(String[] args) {
-        EnemyAgile agile = new EnemyAgile(8, -5, 3);
-        agile.setVector(new int[]{3, -7});
-        System.out.println(agile.xSpeed);
-        System.out.println(agile.ySpeed);
-    }
-
     public EnemyAgile(int x, int y, double speed) {
         super(x, y, speed, EnemyType.AGILE);
     }
@@ -33,10 +25,10 @@ public class EnemyAgile extends EnemyShip {
     public boolean update() {
         int[] targetPos = findTargetPos();
 
-        setVector(targetPos);
+        setVector(targetPos[0], targetPos[1], speed);
 
         xPos -= xSpeed;
-        yPos += ySpeed;
+        yPos -= ySpeed;
 
         // TODO: could make this more efficient by storing maximum and minimum ship positions in global
         if(yPos < radius) {
@@ -47,18 +39,6 @@ public class EnemyAgile extends EnemyShip {
         }
 
         return checkDead();
-    }
-
-    private void setVector(int[] targetPos) {
-
-        // yes, the subtraction reverses
-        double xDiff = xPos - targetPos[0];
-        double yDiff = targetPos[1] - yPos;
-
-        double bearing = Math.atan(yDiff / xDiff);
-
-        xSpeed = speed * Math.cos(bearing);
-        ySpeed = speed * Math.sin(bearing);
     }
 
     private int[] findTargetPos() {

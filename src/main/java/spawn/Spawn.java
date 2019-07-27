@@ -38,6 +38,8 @@ class Spawn {
             ship = new EnemyArmored1(clusterX + xPos, clusterY + yPos, speed);
         else if (type == EnemyType.SHOOTER)
             ship = new EnemyShooter(clusterX + xPos, clusterY + yPos, speed);
+        else if (type == EnemyType.PILOTED)
+            ship = new EnemyPiloted(clusterX + xPos, clusterY + yPos, speed);
         else
             ship = new EnemyShip(clusterX + xPos, clusterY + yPos, speed, type);
 /*

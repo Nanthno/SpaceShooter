@@ -1,0 +1,12 @@
+The piloted enemy will fly around to stay on the screen and attack the player
+
+Movement:
+The ship will pick what position it want to go to then set its speeds accordingly
+Position Picking:
+x: the ship will have an ideal amount of distance between itself and the player with a tolerance so that it doesn't follow the player exactly
+y: the ship will choose the same y as the player if he is not moving; if the player is moving, it will lead ahead of the player
+with those in place, it will check the density map to see if those are away from other ships.
+- if it is too close to another ship, it will change the x position to a more open space  or if necessary the y position
+
+Firing:
+when the ship is within a certain tolerance of it's chosen position, it will open fire with a burst of fire of a few rounds, then a delay, then another burst, etc

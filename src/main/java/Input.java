@@ -71,7 +71,6 @@ public class Input {
 		    public boolean dispatchKeyEvent(KeyEvent ke) {
 			synchronized (IsKeyPressed.class) {
 
-			    // switch-case like a cond!
 			    switch (ke.getID()) {
 			    case KeyEvent.KEY_PRESSED:
 				// movement

@@ -7,20 +7,12 @@ import src.main.java.weapons.WeaponType;
 
 public class Missile extends PlayerWeaponParent {
 
-    private static final double defaultSpeed = 5;
+    private static final double defaultSpeed = 10;
 
-    public Missile(double x, double y, double dx, double dy) {
-        type = WeaponType.MISSILE;
+    private final long spawnTime;
 
-        xPos = x;
-        yPos = y;
-        xSpeed = dx;
-        ySpeed = dy;
-
-        radius = 2;
-
-        maxStage = Globals.getWeaponMaxFrames(WeaponType.MISSILE);
-    }
+    private boolean armed = false;
+    private int armDelay = 50;
 
     public Missile(double x, double y) {
         type = WeaponType.MISSILE;
@@ -32,6 +24,8 @@ public class Missile extends PlayerWeaponParent {
         xSpeed = defaultSpeed;
         radius = 6;
         maxStage = Globals.getWeaponMaxFrames(WeaponType.MISSILE);
+
+        spawnTime = System.currentTimeMillis();
     }
 
     public void hitEnemy() {
@@ -42,7 +36,21 @@ public class Missile extends PlayerWeaponParent {
     public boolean update() {
         xPos += xSpeed;
         yPos += ySpeed;
+
+        if(!armed)
+            arm();
+
         return false;
+    }
+
+    private void arm() {
+        if(System.currentTimeMillis() - spawnTime > armDelay) {
+            armed = true;
+        }
+    }
+
+    public boolean isArmed() {
+        return armed;
     }
 
 }
