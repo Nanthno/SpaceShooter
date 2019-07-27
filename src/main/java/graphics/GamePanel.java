@@ -3,11 +3,14 @@ package src.main.java.graphics;
 import src.main.java.*;
 import src.main.java.enemy.EnemyShip;
 import src.main.java.enemy.EnemyType;
+import src.main.java.weapons.WeaponType;
+import src.main.java.weapons.enemyWeapons.EnemyWeaponParent;
+import src.main.java.weapons.playerWeapons.LaserBlast;
+import src.main.java.weapons.playerWeapons.PlayerWeaponParent;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.List;
 
 class GamePanel extends JPanel {
@@ -52,8 +55,10 @@ class GamePanel extends JPanel {
             BufferedImage img = GraphicsManager.imageNotFound;
             if (w.getType() == WeaponType.BULLET)
                 img = GraphicsManager.playerBulletImages[w.getFrame()];
-            if (w.getType() == WeaponType.MISSILE)
+            else if (w.getType() == WeaponType.MISSILE)
                 img = GraphicsManager.missileImages[w.getFrame()];
+            else if (w.getType() == WeaponType.BLAST)
+                img = GraphicsManager.blastImages[w.getFrame()];
 
             g.drawImage(img, (int) w.getx(), (int) w.gety(), null);
         }

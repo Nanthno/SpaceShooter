@@ -1,4 +1,9 @@
-package src.main.java;
+package src.main.java.weapons.playerWeapons;
+
+import src.main.java.Controller;
+import src.main.java.ExplosionType;
+import src.main.java.Globals;
+import src.main.java.weapons.WeaponType;
 
 public class Missile extends PlayerWeaponParent {
 

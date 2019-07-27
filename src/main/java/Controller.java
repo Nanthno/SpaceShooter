@@ -7,6 +7,10 @@ import src.main.java.graphics.GraphicsManager;
 import src.main.java.spawn.SpawnController;
 import src.main.java.spawn.TimeStampEvent;
 import src.main.java.spawn.TimelineUtil;
+import src.main.java.weapons.WeaponType;
+import src.main.java.weapons.enemyWeapons.EnemyWeaponParent;
+import src.main.java.weapons.enemyWeapons.ShooterBullet;
+import src.main.java.weapons.playerWeapons.*;
 
 import java.awt.*;
 import java.awt.event.MouseListener;
@@ -75,8 +79,8 @@ public class Controller {
         // updates weapons
         ArrayList<PlayerWeaponParent> newPlayerBullets = new ArrayList<>();
         for (PlayerWeaponParent w : playerFiredWeapons) {
-            w.update();
-            if (w.getx() < 1040) {
+            boolean kill = w.update();
+            if (w.getx() < 1040 && !kill) {
                 newPlayerBullets.add(w);
             }
         }
@@ -162,6 +166,10 @@ public class Controller {
                     if (weapon.getType() == WeaponType.MISSILE) {
                         ((Missile)weapon).hitEnemy();
                         playerFiredWeapons.remove(i);
+                    }
+                    if (weapon.getType() == WeaponType.BLAST) {
+                        spawnExp(e.getx(), e.gety(), e.getRadius(), e.getType(), 0);
+                        enemyShips.remove(j);
                     }
                 }
             }
@@ -271,6 +279,11 @@ public class Controller {
     static void createMissile(int x, int y) {
         Missile missile = new Missile(x, y);
         playerFiredWeapons.add(missile);
+    }
+
+    static void createBlast(int x, int y) {
+        Blast blast = new Blast(x - Blast.getMaxRadius(), y - Blast.getMaxRadius());
+        playerFiredWeapons.add(blast);
     }
 
     public static void addKillScore(EnemyType type, int catalistSeperation) {

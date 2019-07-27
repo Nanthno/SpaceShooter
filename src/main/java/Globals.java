@@ -2,6 +2,7 @@ package src.main.java;
 
 
 import src.main.java.enemy.*;
+import src.main.java.weapons.WeaponType;
 
 import java.util.HashMap;
 import java.util.Map;

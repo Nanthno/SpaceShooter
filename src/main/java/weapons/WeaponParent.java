@@ -1,23 +1,22 @@
-package src.main.java;
+package src.main.java.weapons;
 
 public class WeaponParent {
 
-    WeaponType type;
+    protected WeaponType type;
 
-    double xPos;
-    double yPos;
+    protected double xPos;
+    protected double yPos;
 
-    double xSpeed;
-    double ySpeed;
+    protected double xSpeed;
+    protected double ySpeed;
 
-    int radius;
+    protected int radius;
 
-    int stage;
-    int effectiveStage;
-    int maxStage;
+    protected int stage;
+    protected int effectiveStage;
+    protected int maxStage;
 
-    int currentFrame = 0;
-    int maxFrame;
+    protected int currentFrame = 0;
 
     public boolean update() {
         xPos += xSpeed;

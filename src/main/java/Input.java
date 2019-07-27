@@ -16,6 +16,7 @@ public class Input {
     private static int fireke = KeyEvent.VK_SPACE;
     private static int special1ke = KeyEvent.VK_Q;
     private static int special2ke = KeyEvent.VK_W;
+    private static int special3ke = KeyEvent.VK_E;
     // booleans for storing if a key is pressed
     static volatile boolean up = false;
     static volatile boolean down = false;
@@ -24,6 +25,7 @@ public class Input {
     static volatile boolean fire = false;
     static volatile boolean special1 = false;
     static volatile boolean special2 = false;
+    static volatile boolean special3 = false;
     static volatile boolean isMouse1Pressed = false;
     static volatile boolean isMouse1Released = false;
 
@@ -95,6 +97,9 @@ public class Input {
 				else if (ke.getKeyCode() == special2ke) {
 					special2 = true;
 				}
+				else if (ke.getKeyCode() == special3ke) {
+					special3 = true;
+				}
 
 				break;
 			    
@@ -122,6 +127,9 @@ public class Input {
 				}
 				else if (ke.getKeyCode() == special2ke) {
 					special2 = false;
+				}
+				else if (ke.getKeyCode() == special3ke) {
+					special3 = false;
 				}
 
 				break;

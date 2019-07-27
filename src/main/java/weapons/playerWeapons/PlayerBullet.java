@@ -1,4 +1,7 @@
-package src.main.java;
+package src.main.java.weapons.playerWeapons;
+
+import src.main.java.Globals;
+import src.main.java.weapons.WeaponType;
 
 public class PlayerBullet extends PlayerWeaponParent {
 

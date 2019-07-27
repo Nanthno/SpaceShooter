@@ -1,7 +1,7 @@
 package src.main.java.enemy;
 
-import src.main.java.PlayerWeaponParent;
-import src.main.java.WeaponType;
+import src.main.java.weapons.playerWeapons.PlayerWeaponParent;
+import src.main.java.weapons.WeaponType;
 
 import java.util.HashSet;
 import java.util.Random;

@@ -1,6 +1,9 @@
 package src.main.java;
 
 import src.main.java.graphics.GraphicsManager;
+import src.main.java.weapons.WeaponType;
+import src.main.java.weapons.enemyWeapons.EnemyWeaponParent;
+import src.main.java.weapons.playerWeapons.PlayerBullet;
 
 public class PlayerShip {
 
@@ -95,6 +98,11 @@ public class PlayerShip {
             }
             if (in.special2 && chargeCount > 0) {
                 Controller.createMissile((int) xPos + radius / 2, (int) yPos + radius / 2);
+                chargeCount--;
+                charge = 0;
+            }
+            if (in.special3 && chargeCount > 0) {
+                Controller.createBlast((int) xPos+radius, (int) yPos + radius);
                 chargeCount--;
                 charge = 0;
             }

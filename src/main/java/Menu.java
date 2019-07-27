@@ -1,5 +1,7 @@
 package src.main.java;
 
+import src.main.java.weapons.playerWeapons.SpecialWeapon;
+
 public class Menu {
 
     String[] instructions;

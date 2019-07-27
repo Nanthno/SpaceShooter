@@ -2,6 +2,7 @@ package src.main.java.graphics;
 
 import src.main.java.*;
 import src.main.java.enemy.EnemyType;
+import src.main.java.weapons.WeaponType;
 
 import javax.swing.JFrame;
 import java.awt.*;
@@ -34,6 +35,7 @@ public class GraphicsManager {
     static BufferedImage[] playerBulletImages;
     static BufferedImage[] missileImages;
     static BufferedImage[] laserBlastImages;
+    static BufferedImage[] blastImages;
     static BufferedImage[] shooterBulletImages;
 
     static BufferedImage[] smallExplosionImages;
@@ -91,6 +93,7 @@ public class GraphicsManager {
         playerBulletImages = ImageUtil.loadAnimation("images/playerBullet");
         missileImages = ImageUtil.loadAnimation("images/missile");
         laserBlastImages = ImageUtil.loadAnimation("images/laserBlast");
+        blastImages = ImageUtil.loadAnimation("images/blast");
         shooterBulletImages = ImageUtil.loadAnimation("images/shooterBullet");
 
 
@@ -116,6 +119,7 @@ public class GraphicsManager {
         Globals.addToWeaponMaxFrames(WeaponType.BULLET, playerBulletImages.length);
         Globals.addToWeaponMaxFrames(WeaponType.LASER_BLAST, laserBlastImages.length);
         Globals.addToWeaponMaxFrames(WeaponType.MISSILE, missileImages.length);
+        Globals.addToWeaponMaxFrames(WeaponType.BLAST, blastImages.length);
         Globals.addToWeaponMaxFrames(WeaponType.SHOOTER_BULLET, shooterBulletImages.length);
     }
 

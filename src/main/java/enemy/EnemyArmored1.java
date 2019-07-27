@@ -1,6 +1,6 @@
 package src.main.java.enemy;
 
-import src.main.java.PlayerBullet;
+import src.main.java.weapons.playerWeapons.PlayerBullet;
 
 public class EnemyArmored1 extends EnemyShip {
 

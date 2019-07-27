@@ -1,4 +1,7 @@
-package src.main.java;
+package src.main.java.weapons.enemyWeapons;
+
+import src.main.java.Globals;
+import src.main.java.weapons.WeaponType;
 
 public class ShooterBullet extends EnemyWeaponParent {
 

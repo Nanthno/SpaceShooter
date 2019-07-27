@@ -2,7 +2,7 @@ package src.main.java.enemy;
 
 import src.main.java.Controller;
 import src.main.java.Globals;
-import src.main.java.PlayerWeaponParent;
+import src.main.java.weapons.playerWeapons.PlayerWeaponParent;
 
 public class EnemyShip {
 
