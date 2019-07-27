@@ -2,7 +2,7 @@ package src.main.java;
 
 public class ShooterBullet extends EnemyWeaponParent {
 
-    private static final int baseXSpeed = 3;
+    private static final int baseXSpeed = 4;
 
     public ShooterBullet(double x, double y, double dx) {
         type = WeaponType.SHOOTER_BULLET;
@@ -16,7 +16,5 @@ public class ShooterBullet extends EnemyWeaponParent {
 
         maxStage = Globals.getWeaponMaxFrames(type);
     }
-
-
 
 }

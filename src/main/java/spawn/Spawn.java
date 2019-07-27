@@ -3,8 +3,6 @@ package src.main.java.spawn;
 import src.main.java.Globals;
 import src.main.java.enemy.*;
 
-import java.lang.reflect.Constructor;
-
 class Spawn {
 
     // these positions are relative to the spawn cluster position

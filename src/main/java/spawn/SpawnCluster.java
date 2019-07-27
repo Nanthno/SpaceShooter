@@ -9,7 +9,6 @@ class SpawnCluster {
 
     int xPos;
     int yPos;
-    int positionVariance;
     double minSpeed;
     double maxSpeed;
     int height;

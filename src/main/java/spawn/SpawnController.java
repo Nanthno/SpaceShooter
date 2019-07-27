@@ -33,7 +33,6 @@ public class SpawnController {
 
         for (String clusterCode : spawnProbabilities.keySet()) {
             if (rand.nextDouble() < spawnProbabilities.get(clusterCode)) {
-
                 enemiesToSpawn.addAll(allClusters.get(clusterCode).makeSpawns(minY, maxY));
             }
         }
@@ -41,8 +40,6 @@ public class SpawnController {
         for(EnemyShip e : enemiesToSpawn) {
             builder.append(e.getType() + " : ");
         }
-        //System.out.println(builder.toString());
-
         return enemiesToSpawn;
     }
 

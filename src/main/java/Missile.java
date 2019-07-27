@@ -2,7 +2,7 @@ package src.main.java;
 
 public class Missile extends PlayerWeaponParent {
 
-    private static final double defaultSpeed = 3;
+    private static final double defaultSpeed = 5;
 
     public Missile(double x, double y, double dx, double dy) {
         type = WeaponType.MISSILE;
