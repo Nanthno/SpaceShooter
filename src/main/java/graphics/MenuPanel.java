@@ -83,7 +83,7 @@ public class MenuPanel extends JPanel {
 
         Graphics g = screenshot.createGraphics();
 
-        g.drawImage(GraphicsManager.getBackgroundImage(), 0, 0, null);
+        //g.drawImage(GraphicsManager.getBackgroundImage(), 0, 0, null);
 
         Point mousePoint = Controller.findMousePosition();
 

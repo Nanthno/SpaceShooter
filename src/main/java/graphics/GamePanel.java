@@ -24,7 +24,7 @@ class GamePanel extends JPanel {
     }
 
     protected BufferedImage drawGameScreenShot() {
-        BufferedImage screenshot = ImageUtil.copyImage(GraphicsManager.background);
+        BufferedImage screenshot = new BufferedImage(GraphicsManager.getWidth(), GraphicsManager.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
         // draw enemy ships
         List<EnemyShip> enemyShips = Controller.getEnemyArray();

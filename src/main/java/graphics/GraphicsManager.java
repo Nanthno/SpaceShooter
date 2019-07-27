@@ -77,7 +77,7 @@ public class GraphicsManager {
 
     // loads the images for the game
     void loadImages() {
-        background = ImageUtil.loadImage("images/space3.png");
+        background = ImageUtil.loadImage("images/spaceLong.png");
         statusBars = ImageUtil.loadImage("images/statusPanel.png");
 
         enemyBasicImages = ImageUtil.loadAnimation("images/enemyBasic");
