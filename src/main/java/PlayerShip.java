@@ -97,7 +97,7 @@ public class PlayerShip {
                 xPos -= xSpeed;
             // firing
             if (in.fire && fire < 0 && !overheated) {
-                Controller.addBullet(new PlayerBullet(xPos + 5, yPos + radius - 1, 5, 0));
+                Controller.firePlayerBullet(new PlayerBullet(xPos + 5, yPos + radius - 1, 5, 0));
                 fire = maxFire;
                 heat += fireHeat;
                 if (heat > overHeat) {

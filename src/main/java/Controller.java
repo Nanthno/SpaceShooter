@@ -4,6 +4,8 @@ import src.main.java.density.DensityMap;
 import src.main.java.enemy.EnemyShip;
 import src.main.java.enemy.EnemyType;
 import src.main.java.graphics.GraphicsManager;
+import src.main.java.audio.AudioManager;
+import src.main.java.audio.AudioFiles;
 import src.main.java.spawn.SpawnController;
 import src.main.java.spawn.TimeStampEvent;
 import src.main.java.spawn.TimelineUtil;
@@ -20,8 +22,9 @@ import java.util.List;
 public class Controller {
 
     static GraphicsManager graphicsManager;
+    static AudioManager audioManager;
 
-    static List<EnemyShip> enemyShips = new ArrayList<>();
+    static volatile List<EnemyShip> enemyShips = new ArrayList<>();
 
     static PlayerShip player = new PlayerShip();
     static ArrayList<PlayerWeaponParent> playerFiredWeapons = new ArrayList<>();
@@ -54,6 +57,14 @@ public class Controller {
 
         input = new Input();
         graphicsManager = new GraphicsManager();
+        audioManager = new AudioManager();
+
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+            public void run() {
+                System.out.println("In shutdown hook");
+                Controller.shutdown();
+            }
+        }, "Shutdown-thread"));
 
         gameLoop();
 
@@ -272,8 +283,9 @@ public class Controller {
         }, 0, frameRate);
     }
 
-    static void addBullet(PlayerBullet b) {
+    static void firePlayerBullet(PlayerBullet b) {
         playerFiredWeapons.add(b);
+        audioManager.playSound(AudioFiles.PLAYER_GUN);
     }
 
     static void fireBlast(int x) {
@@ -310,6 +322,10 @@ public class Controller {
 
         mousePos.translate(-1 * framePos.x, -1 * framePos.y);
         return mousePos;
+    }
+
+    public static void shutdown() {
+        audioManager.shutdown();
     }
 
     public static List<EnemyShip> getEnemyArray() {
