@@ -126,7 +126,7 @@ public class PlayerShip {
                 missileArmed = 2;
             }
             if (in.special3 && chargeCount > 0) {
-                Controller.createBlast((int) xPos+radius, (int) yPos + radius);
+                Controller.createBurst((int) xPos+radius, (int) yPos + radius);
                 chargeCount--;
                 charge = 0;
             }
@@ -135,7 +135,7 @@ public class PlayerShip {
     }
 
     void hitByWeapon(EnemyWeaponParent weapon) {
-        if (weapon.getType() == WeaponType.SHOOTER_BULLET) {
+        if (weapon.getType() == WeaponType.ENEMY_EMP) {
             if (immobile < invinciblePeriod)
                 immobile = empDelay;
         } else { // this should never happen

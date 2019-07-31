@@ -1,9 +1,9 @@
 package src.main.java.weapons;
 
 public enum WeaponType {
-    LASER_BLAST,
-    BULLET,
-    MISSILE,
-    SHOOTER_BULLET,
-    BLAST
+    PLAYER_LASER_BLAST,
+    PLAYER_BULLET,
+    PLAYER_MISSILE,
+    PLAYER_BURST,
+    ENEMY_EMP
 }

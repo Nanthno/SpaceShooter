@@ -1,7 +1,7 @@
 Notes for next time:
--add laser sight for laser blast
+-add laser sight for laser burst
 --triggers when press down 'Q', gone when release
---make laser blast fire when 'Q' is released rather than pressed
+--make laser burst fire when 'Q' is released rather than pressed
 -add laser sight
 - make the player loose some small amount of health per collision but small enough that ramming occasionally is a valid choice
 - add critical strikes which cause the explosion of the ship to be larger (both with graphics and with radius)
@@ -22,13 +22,13 @@ Notes for next time:
 Special actions: special things a player can do once a energy bar charges
 --potentially can charge a few times then use multiple simultaneously
 --different special actions could require different amounts of charge. MaxCharge value would have to be based on the maximum needed charge amount
---make it fire upon button release. holding button will show a tracer (e.g. laser blast would show a thin red laser showing where the blast will land)
+--make it fire upon button release. holding button will show a tracer (e.g. laser burst would show a thin red laser showing where the burst will land)
 -missile: explodes either on impact or by pressing the missile button again
 -rail gun: tears through any enemies in the way (isn't destroyed on impact)
 -ramming shield: allows player to ram ships without taking damage
 -deflector shield: absorbs bullets
--burst: a blast centered on the player
--laser blast: lasers shoot out either side of the player for a second
+-burst: a burst centered on the player
+-laser burst: lasers shoot out either side of the player for a second
 -Mega burst: sends out a wave of destruction (would require the multiple charge thing and would take multiple charges)
 -wave burst: sends a burst all the way across the screen pushing everything it touches away
 -- would give the player a bit of extra time
@@ -58,7 +58,7 @@ create a density map which can be used for ship navigation or for weighting spaw
 
 visuals:
 -maybe make the fuel ship less garishly bright
--animate laser blast
+-animate laser burst
 -make the background scroll
 -- maybe with parallax
 

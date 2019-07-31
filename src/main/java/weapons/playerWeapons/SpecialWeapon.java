@@ -7,7 +7,7 @@ public enum SpecialWeapon {
     LASER_BLAST;
 
     static Map<SpecialWeapon, String> weaponDescriptions = Map.of(
-            LASER_BLAST, "Laser Blast: fires a laser from top to bottom of the screen destroying anything in its path"
+            LASER_BLAST, "Laser Burst: fires a laser from top to bottom of the screen destroying anything in its path"
     );
 
 }

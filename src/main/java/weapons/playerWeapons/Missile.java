@@ -15,7 +15,7 @@ public class Missile extends PlayerWeaponParent {
     private int armDelay = 50;
 
     public Missile(double x, double y) {
-        type = WeaponType.MISSILE;
+        type = WeaponType.PLAYER_MISSILE;
 
         xPos = x;
         yPos = y;
@@ -23,7 +23,7 @@ public class Missile extends PlayerWeaponParent {
         ySpeed = 0;
         xSpeed = defaultSpeed;
         radius = 6;
-        maxStage = Globals.getWeaponMaxFrames(WeaponType.MISSILE);
+        maxStage = Globals.getWeaponMaxFrames(WeaponType.PLAYER_MISSILE);
 
         spawnTime = System.currentTimeMillis();
     }

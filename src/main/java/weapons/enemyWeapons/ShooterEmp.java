@@ -3,12 +3,12 @@ package src.main.java.weapons.enemyWeapons;
 import src.main.java.Globals;
 import src.main.java.weapons.WeaponType;
 
-public class ShooterBullet extends EnemyWeaponParent {
+public class ShooterEmp extends EnemyWeaponParent {
 
     private static final int baseXSpeed = 4;
 
-    public ShooterBullet(double x, double y, double dx) {
-        type = WeaponType.SHOOTER_BULLET;
+    public ShooterEmp(double x, double y, double dx) {
+        type = WeaponType.ENEMY_EMP;
 
         xPos = x;
         yPos = y;

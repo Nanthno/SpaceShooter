@@ -55,11 +55,11 @@ class GamePanel extends JPanel {
         List<PlayerWeaponParent> playerWeapons = Controller.getPlayerFiredWeapons();
         for (PlayerWeaponParent w : playerWeapons) {
             BufferedImage img = GraphicsManager.imageNotFound;
-            if (w.getType() == WeaponType.BULLET)
+            if (w.getType() == WeaponType.PLAYER_BULLET)
                 img = GraphicsManager.playerBulletImages[w.getFrame()];
-            else if (w.getType() == WeaponType.MISSILE)
+            else if (w.getType() == WeaponType.PLAYER_MISSILE)
                 img = GraphicsManager.missileImages[w.getFrame()];
-            else if (w.getType() == WeaponType.BLAST)
+            else if (w.getType() == WeaponType.PLAYER_BURST)
                 img = GraphicsManager.blastImages[w.getFrame()];
 
             g.drawImage(img, (int) w.getx(), (int) w.gety(), null);
@@ -70,7 +70,7 @@ class GamePanel extends JPanel {
         for (EnemyWeaponParent w : enemyWeapons) {
             BufferedImage img = GraphicsManager.imageNotFound;
 
-            if (w.getType() == WeaponType.SHOOTER_BULLET)
+            if (w.getType() == WeaponType.ENEMY_EMP)
                 img = GraphicsManager.shooterBulletImages[w.getFrame()];
 
             g.drawImage(img, (int) w.getx(), (int) w.gety(), null);

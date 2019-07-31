@@ -15,7 +15,7 @@ public class EnemyShield extends EnemyShip {
 
     private static Set<WeaponType> buildIndestructibleWeaponsSet() {
         HashSet<WeaponType> output = new HashSet<>();
-        output.add(WeaponType.MISSILE);
+        output.add(WeaponType.PLAYER_MISSILE);
         return output;
     }
 

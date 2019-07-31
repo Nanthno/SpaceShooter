@@ -1,19 +1,19 @@
 package src.main.java.audio;
 
 
-
 import kuusisto.tinysound.Sound;
 import kuusisto.tinysound.TinySound;
 
 import java.util.Map;
+import java.util.Random;
 
 public class AudioManager {
 
     TinySound tinySound;
 
-    boolean experientialSound = true;
+    boolean experientialSound = false;
 
-    private static Map<AudioFiles, Sound> soundClips;
+    private static Map<AudioClipType, Sound[]> soundClips;
 
     public AudioManager() {
         tinySound = new TinySound();
@@ -27,23 +27,27 @@ public class AudioManager {
     }
 
     private void loadAudioMap() {
-        if (experientialSound) {
-            soundClips = Map.of(
-                    AudioFiles.PLAYER_GUN, TinySound.loadSound("src/main/resources/sound/Pew.wav")
-            );
+        soundClips = AudioUtil.loadSounds(experientialSound);
+    }
+
+    public void playSound(AudioClipType audio) {
+        if(soundClips.containsKey(audio)) {
+            chooseClip(soundClips.get(audio)).play();
+        }
+        else {
+            System.out.println(String.format("WARN: sound %s was played but is not defined", audio.toString()));
         }
     }
 
-    public void playSound(AudioFiles audio) {
-        if(experientialSound) {
-            soundClips.get(audio).play();
-        }
+    private static Sound chooseClip(Sound[] sounds) {
+        Random rand = new Random();
+        int selection = rand.nextInt(sounds.length);
+        return sounds[selection];
     }
 
     public void shutdown() {
         tinySound.shutdown();
     }
-
 
 
 }

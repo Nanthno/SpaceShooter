@@ -5,13 +5,12 @@ import src.main.java.enemy.EnemyShip;
 import src.main.java.enemy.EnemyType;
 import src.main.java.graphics.GraphicsManager;
 import src.main.java.audio.AudioManager;
-import src.main.java.audio.AudioFiles;
 import src.main.java.spawn.SpawnController;
 import src.main.java.spawn.TimeStampEvent;
 import src.main.java.spawn.TimelineUtil;
 import src.main.java.weapons.WeaponType;
 import src.main.java.weapons.enemyWeapons.EnemyWeaponParent;
-import src.main.java.weapons.enemyWeapons.ShooterBullet;
+import src.main.java.weapons.enemyWeapons.ShooterEmp;
 import src.main.java.weapons.playerWeapons.*;
 
 import java.awt.*;
@@ -93,7 +92,7 @@ public class Controller {
         ArrayList<PlayerWeaponParent> newPlayerBullets = new ArrayList<>();
         for (PlayerWeaponParent w : playerFiredWeapons) {
             boolean kill = w.update();
-            if(killMissiles && w.getType() == WeaponType.MISSILE && ((Missile)w).isArmed()) {
+            if(killMissiles && w.getType() == WeaponType.PLAYER_MISSILE && ((Missile)w).isArmed()) {
                 ((Missile)w).hitEnemy();
             }
             else if (w.getx() < 1040 && !kill) {
@@ -171,7 +170,7 @@ public class Controller {
             for (int i = playerFiredWeapons.size() - 1; i >= 0; i--) {
                 PlayerWeaponParent weapon = playerFiredWeapons.get(i);
                 if (e.collideWithWeapon(weapon)) {
-                    if (weapon.getType() == WeaponType.BULLET) {
+                    if (weapon.getType() == WeaponType.PLAYER_BULLET) {
                         PlayerBullet b = (PlayerBullet) weapon;
                         if (e.isKillable(PlayerBullet.class)) {
                             spawnExp(e.getx(), e.gety(), e.getRadius(), e.getType(), 0);
@@ -180,11 +179,11 @@ public class Controller {
                         playerFiredWeapons.remove(i);
 
                     }
-                    if (weapon.getType() == WeaponType.MISSILE) {
+                    if (weapon.getType() == WeaponType.PLAYER_MISSILE) {
                         ((Missile)weapon).hitEnemy();
                         playerFiredWeapons.remove(i);
                     }
-                    if (weapon.getType() == WeaponType.BLAST) {
+                    if (weapon.getType() == WeaponType.PLAYER_BURST) {
                         spawnExp(e.getx(), e.gety(), e.getRadius(), e.getType(), 0);
                         enemyShips.remove(j);
                     }
@@ -262,10 +261,12 @@ public class Controller {
         y -= expRadius;
 
         explosions.add(new Explosion(x, y, catalystSeperation, explosionType));
+
+        audioManager.playSound(Globals.getExplosionAudioClipType(explosionType));
     }
 
     public static void spawnShooterBullet(int x, int y, double dx) {
-        ShooterBullet bullet = new ShooterBullet(x, y, -1*dx);
+        ShooterEmp bullet = new ShooterEmp(x, y, -1*dx);
         enemyFiredWeapons.add(bullet);
     }
 
@@ -285,23 +286,30 @@ public class Controller {
 
     static void firePlayerBullet(PlayerBullet b) {
         playerFiredWeapons.add(b);
-        audioManager.playSound(AudioFiles.PLAYER_GUN);
+        playWeaponSound(WeaponType.PLAYER_BULLET);
     }
 
     static void fireBlast(int x) {
         if (laserBlast == null) {
             laserBlast = new LaserBlast(x);
+            playWeaponSound(WeaponType.PLAYER_LASER_BLAST);
         }
     }
 
     static void createMissile(int x, int y) {
         Missile missile = new Missile(x, y);
         playerFiredWeapons.add(missile);
+        playWeaponSound(WeaponType.PLAYER_MISSILE);
     }
 
-    static void createBlast(int x, int y) {
-        Blast blast = new Blast(x - Blast.getMaxRadius(), y - Blast.getMaxRadius());
-        playerFiredWeapons.add(blast);
+    static void createBurst(int x, int y) {
+        Burst burst = new Burst(x - Burst.getMaxRadius(), y - Burst.getMaxRadius());
+        playerFiredWeapons.add(burst);
+        playWeaponSound(WeaponType.PLAYER_BURST);
+    }
+
+    static void playWeaponSound(WeaponType type) {
+        audioManager.playSound(Globals.getWeaponAudioClipType(type));
     }
 
     public static void addKillScore(EnemyType type, int catalistSeperation) {

@@ -120,11 +120,11 @@ public class GraphicsManager {
         Globals.addToEnemyShipMaxFrames(EnemyType.PILOTED, enemyFighterImages.length);
 
         Globals.setPlayerMaxFrames(playerImages.length);
-        Globals.addToWeaponMaxFrames(WeaponType.BULLET, playerBulletImages.length);
-        Globals.addToWeaponMaxFrames(WeaponType.LASER_BLAST, laserBlastImages.length);
-        Globals.addToWeaponMaxFrames(WeaponType.MISSILE, missileImages.length);
-        Globals.addToWeaponMaxFrames(WeaponType.BLAST, blastImages.length);
-        Globals.addToWeaponMaxFrames(WeaponType.SHOOTER_BULLET, shooterBulletImages.length);
+        Globals.addToWeaponMaxFrames(WeaponType.PLAYER_BULLET, playerBulletImages.length);
+        Globals.addToWeaponMaxFrames(WeaponType.PLAYER_LASER_BLAST, laserBlastImages.length);
+        Globals.addToWeaponMaxFrames(WeaponType.PLAYER_MISSILE, missileImages.length);
+        Globals.addToWeaponMaxFrames(WeaponType.PLAYER_BURST, blastImages.length);
+        Globals.addToWeaponMaxFrames(WeaponType.ENEMY_EMP, shooterBulletImages.length);
     }
 
     private static BufferedImage makeImageNotFound() {

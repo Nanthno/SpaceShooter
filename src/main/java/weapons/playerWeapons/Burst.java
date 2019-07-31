@@ -3,7 +3,7 @@ package src.main.java.weapons.playerWeapons;
 import src.main.java.Globals;
 import src.main.java.weapons.WeaponType;
 
-public class Blast extends PlayerWeaponParent {
+public class Burst extends PlayerWeaponParent {
 
     static final int startRadius = 4;
     static final int maxRadius = 128;
@@ -16,13 +16,13 @@ public class Blast extends PlayerWeaponParent {
 
     static final int expansionRate = (maxRadius-startRadius)/duration;
 
-    public Blast (double x, double y) {
-        type = WeaponType.BLAST;
+    public Burst(double x, double y) {
+        type = WeaponType.PLAYER_BURST;
 
         xPos = x;
         yPos = y;
 
-        maxFrames = Globals.getWeaponMaxFrames(WeaponType.BLAST);
+        maxFrames = Globals.getWeaponMaxFrames(WeaponType.PLAYER_BURST);
 
         radius = startRadius;
     }

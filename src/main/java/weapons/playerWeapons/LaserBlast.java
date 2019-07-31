@@ -8,7 +8,7 @@ public class LaserBlast extends PlayerWeaponParent {
     int maxFrames;
 
     public LaserBlast(int x) {
-        type = WeaponType.LASER_BLAST;
+        type = WeaponType.PLAYER_LASER_BLAST;
         xPos = x;
 
         radius = 4;
@@ -16,7 +16,7 @@ public class LaserBlast extends PlayerWeaponParent {
         effectiveStage = 2;
         maxStage = 7;
 
-        maxFrames = Globals.getWeaponMaxFrames(WeaponType.LASER_BLAST);
+        maxFrames = Globals.getWeaponMaxFrames(WeaponType.PLAYER_LASER_BLAST);
     }
 
 

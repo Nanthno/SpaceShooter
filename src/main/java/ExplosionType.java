@@ -5,7 +5,6 @@ public enum ExplosionType {
     SMALL,
     MEDIUM,
     FUEL,
-    SHIELD,
     PROJECTILE
 
 }

@@ -1,11 +1,15 @@
 package src.main.java;
 
 
+import src.main.java.audio.AudioClipType;
 import src.main.java.enemy.*;
 import src.main.java.weapons.WeaponType;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Globals {
 
@@ -44,11 +48,49 @@ public class Globals {
             EnemyType.PILOTED, EnemyPiloted.class
     );
 
+    static final Map<ExplosionType, AudioClipType> explosionAudioClips = makeExplosionAudioClipsMap();
+    static final Map<WeaponType, AudioClipType> weaponAudioClips = makeWeaponAudioClipsMap();
+
     static Map<ExplosionType, Integer> explosionTypeMaxFrames = new HashMap<>();
 
     static Map<EnemyType, Integer> enemyShipsMaxFrames = new HashMap<>();
     static Map<WeaponType, Integer> weaponMaxFrames = new HashMap<>();
     static int playerMaxFrames;
+
+    private static Map<WeaponType, AudioClipType> makeWeaponAudioClipsMap() {
+        Map<WeaponType, AudioClipType> clipsMap = new HashMap<>();
+
+        Set<String> audioClipStrings = Arrays.stream(AudioClipType.values()).map(c -> c.toString()).collect(Collectors.toSet());
+
+        for (WeaponType weaponType : WeaponType.values()) {
+            String clipName = weaponType.toString() + "_FIRED";
+            if (audioClipStrings.contains(clipName)) {
+                clipsMap.put(weaponType, AudioClipType.valueOf(clipName));
+            } else {
+                System.out.println(String.format("WARN: explosion %s does not have a matching AudioClipType of %s", weaponType, clipName));
+            }
+        }
+
+        return clipsMap;
+    }
+
+    private static Map<ExplosionType, AudioClipType> makeExplosionAudioClipsMap() {
+
+        Map<ExplosionType, AudioClipType> clipsMap = new HashMap<>();
+
+        Set<String> audioClipStrings = Arrays.stream(AudioClipType.values()).map(c -> c.toString()).collect(Collectors.toSet());
+
+        for (ExplosionType expType : ExplosionType.values()) {
+            String clipName = expType.toString() + "_EXPLOSION";
+            if (audioClipStrings.contains(clipName)) {
+                clipsMap.put(expType, AudioClipType.valueOf(clipName));
+            } else {
+                System.out.println(String.format("WARN: explosion %s does not have a matching AudioClipType of %s", expType, clipName));
+            }
+        }
+
+        return clipsMap;
+    }
 
     public static int getEnemyShipRadius(EnemyType type) {
         return enemyShipRadius.get(type);
@@ -128,5 +170,13 @@ public class Globals {
 
     public static int getPlayerMaxFrames() {
         return playerMaxFrames;
+    }
+
+    public static AudioClipType getExplosionAudioClipType(ExplosionType explosionType) {
+        return explosionAudioClips.get(explosionType);
+    }
+
+    public static AudioClipType getWeaponAudioClipType(WeaponType weaponType) {
+        return weaponAudioClips.get(weaponType);
     }
 }
