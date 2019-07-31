@@ -69,8 +69,8 @@ public class EnemyPiloted extends EnemyShip {
     }
 
     private void fire() {
-        Controller.spawnShooterBullet((int)xPos, (int)yPos + 2, xSpeed);
-        Controller.spawnShooterBullet((int)xPos, (int)yPos + radius*2 - 2, xSpeed);
+        Controller.spawnShooterEmp((int)xPos, (int)yPos + 2, xSpeed);
+        Controller.spawnShooterEmp((int)xPos, (int)yPos + radius*2 - 2, xSpeed);
     }
 
 }

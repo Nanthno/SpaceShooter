@@ -47,7 +47,7 @@ public class EnemyShooter extends EnemyShip {
     }
 
     private void fireBullet() {
-        Controller.spawnShooterBullet((int)xPos + radius - 2, (int)yPos + radius + 2, xSpeed);
+        Controller.spawnShooterEmp((int)xPos + radius - 2, (int)yPos + radius + 2, xSpeed);
     }
 
 }

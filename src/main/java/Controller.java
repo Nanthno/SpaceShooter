@@ -265,10 +265,7 @@ public class Controller {
         audioManager.playSound(Globals.getExplosionAudioClipType(explosionType));
     }
 
-    public static void spawnShooterBullet(int x, int y, double dx) {
-        ShooterEmp bullet = new ShooterEmp(x, y, -1*dx);
-        enemyFiredWeapons.add(bullet);
-    }
+
 
     public static void updateSpawnProbabilities(TimeStampEvent event) {
         spawnController.updateSpawnProbabilities(event);
@@ -308,6 +305,12 @@ public class Controller {
         playWeaponSound(WeaponType.PLAYER_BURST);
     }
 
+    public static void spawnShooterEmp(int x, int y, double dx) {
+        ShooterEmp bullet = new ShooterEmp(x, y, -1*dx);
+        enemyFiredWeapons.add(bullet);
+
+        playWeaponSound(WeaponType.ENEMY_EMP);
+    }
     static void playWeaponSound(WeaponType type) {
         audioManager.playSound(Globals.getWeaponAudioClipType(type));
     }
