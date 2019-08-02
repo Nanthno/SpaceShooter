@@ -1,10 +1,11 @@
 package src.main.java;
 
+import src.main.java.audio.AudioManager;
+import src.main.java.audio.MusicType;
 import src.main.java.density.DensityMap;
 import src.main.java.enemy.EnemyShip;
 import src.main.java.enemy.EnemyType;
 import src.main.java.graphics.GraphicsManager;
-import src.main.java.audio.AudioManager;
 import src.main.java.spawn.SpawnController;
 import src.main.java.spawn.TimeStampEvent;
 import src.main.java.spawn.TimelineUtil;
@@ -15,8 +16,9 @@ import src.main.java.weapons.playerWeapons.*;
 
 import java.awt.*;
 import java.awt.event.MouseListener;
-import java.util.*;
 import java.util.List;
+import java.util.Queue;
+import java.util.*;
 
 public class Controller {
 
@@ -44,13 +46,15 @@ public class Controller {
 
     static int score = 0;
 
-    static GameState gameState = GameState.MENU;
+    static GameState gameState;
 
     static Input input;
 
     static List<EnemyShip> newEnemyShips = new ArrayList<>();
 
     static boolean killMissiles = false;
+
+    static long frameCount = 0;
 
     public static void main(String[] args) {
 
@@ -64,6 +68,8 @@ public class Controller {
                 Controller.shutdown();
             }
         }, "Shutdown-thread"));
+
+        setGameState(GameState.MENU);
 
         gameLoop();
 
@@ -81,6 +87,8 @@ public class Controller {
     }
 
     static void updateGame() {
+        frameCount++;
+
         if (timeline.size() > 0)
             timeline = spawnController.updateSpawnProbabilities(timeline);
 
@@ -92,10 +100,9 @@ public class Controller {
         ArrayList<PlayerWeaponParent> newPlayerBullets = new ArrayList<>();
         for (PlayerWeaponParent w : playerFiredWeapons) {
             boolean kill = w.update();
-            if(killMissiles && w.getType() == WeaponType.PLAYER_MISSILE && ((Missile)w).isArmed()) {
-                ((Missile)w).hitEnemy();
-            }
-            else if (w.getx() < 1040 && !kill) {
+            if (killMissiles && w.getType() == WeaponType.PLAYER_MISSILE && ((Missile) w).isArmed()) {
+                ((Missile) w).hitEnemy();
+            } else if (w.getx() < 1040 && !kill) {
                 newPlayerBullets.add(w);
             }
         }
@@ -103,9 +110,9 @@ public class Controller {
         killMissiles = false;
 
         ArrayList<EnemyWeaponParent> newEnemyWeapons = new ArrayList<>();
-        for(EnemyWeaponParent w : enemyFiredWeapons) {
+        for (EnemyWeaponParent w : enemyFiredWeapons) {
             w.update();
-            if(w.getx() > 0) {
+            if (w.getx() > 0) {
                 newEnemyWeapons.add(w);
             }
         }
@@ -148,6 +155,9 @@ public class Controller {
         checkEnemyExplosionCollision();
         checkPlayerEnemyCollision();
         checkPlayerEnemyWeaponCollision();
+
+        if (frameCount % 2 == 0)
+            audioManager.playSoundFrame();
     }
 
     static void checkEnemyBulletCollision() {
@@ -180,7 +190,7 @@ public class Controller {
 
                     }
                     if (weapon.getType() == WeaponType.PLAYER_MISSILE) {
-                        ((Missile)weapon).hitEnemy();
+                        ((Missile) weapon).hitEnemy();
                         playerFiredWeapons.remove(i);
                     }
                     if (weapon.getType() == WeaponType.PLAYER_BURST) {
@@ -225,9 +235,9 @@ public class Controller {
     }
 
     static void checkPlayerEnemyWeaponCollision() {
-        for(int i = enemyFiredWeapons.size()-1; i >= 0; i--) {
+        for (int i = enemyFiredWeapons.size() - 1; i >= 0; i--) {
             EnemyWeaponParent w = enemyFiredWeapons.get(i);
-            if(distance(w.getx(), w.gety(), w.getRadius(),
+            if (distance(w.getx(), w.gety(), w.getRadius(),
                     player.getx(), player.gety(), player.getRadius()) < w.getRadius() + player.getRadius()) {
                 enemyFiredWeapons.remove(i);
                 player.hitByWeapon(w);
@@ -262,9 +272,8 @@ public class Controller {
 
         explosions.add(new Explosion(x, y, catalystSeperation, explosionType));
 
-        audioManager.playSound(Globals.getExplosionAudioClipType(explosionType));
+        audioManager.addSoundToFrame(Globals.getExplosionAudioClipType(explosionType));
     }
-
 
 
     public static void updateSpawnProbabilities(TimeStampEvent event) {
@@ -306,13 +315,14 @@ public class Controller {
     }
 
     public static void spawnShooterEmp(int x, int y, double dx) {
-        ShooterEmp bullet = new ShooterEmp(x, y, -1*dx);
+        ShooterEmp bullet = new ShooterEmp(x, y, -1 * dx);
         enemyFiredWeapons.add(bullet);
 
         playWeaponSound(WeaponType.ENEMY_EMP);
     }
+
     static void playWeaponSound(WeaponType type) {
-        audioManager.playSound(Globals.getWeaponAudioClipType(type));
+        audioManager.addSoundToFrame(Globals.getWeaponAudioClipType(type));
     }
 
     public static void addKillScore(EnemyType type, int catalistSeperation) {
@@ -383,9 +393,17 @@ public class Controller {
         return player.getHeat();
     }
 
-    public static double getPlayerXPos() { return player.getx();}
-    public static double getPlayerYPos() { return player.gety();}
-    public static double getPlayerYSpeed() {return player.ySpeed * player.yMove;}
+    public static double getPlayerXPos() {
+        return player.getx();
+    }
+
+    public static double getPlayerYPos() {
+        return player.gety();
+    }
+
+    public static double getPlayerYSpeed() {
+        return player.ySpeed * player.yMove;
+    }
 
     public static int getCharge() {
         return player.getCharge();
@@ -415,9 +433,17 @@ public class Controller {
         if (newGameState == GameState.PLAYING) {
             SpawnController.setStartTime(System.currentTimeMillis());
             resetTimeline();
+            audioManager.playMusic(MusicType.GAME);
         }
+        if (newGameState == GameState.MENU) {
+            audioManager.playMusic(MusicType.MENU);
+        }
+        if (newGameState == GameState.HIGH_SCORE)
+            audioManager.playMusic(MusicType.HIGHSCORE);
+
         gameState = newGameState;
     }
+
     public static void killMissiles() {
         killMissiles = true;
     }

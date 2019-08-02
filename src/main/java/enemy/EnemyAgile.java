@@ -11,6 +11,7 @@ import java.util.Map;
 public class EnemyAgile extends EnemyShip {
 
     double speed;
+    private static final int pointOfNoReturn = 50;
 
     public EnemyAgile(int x, int y, double speed) {
         super(x, y, speed, EnemyType.AGILE);
@@ -24,13 +25,18 @@ public class EnemyAgile extends EnemyShip {
     @Override
     public boolean update() {
         int[] targetPos = findTargetPos();
+        if(xPos < pointOfNoReturn) {
+            xSpeed = speed;
+            ySpeed = 0;
+        }
+        else {
 
-        setVector(targetPos[0], targetPos[1], speed);
+            setVector(targetPos[0], targetPos[1], speed);
+        }
 
         xPos -= xSpeed;
         yPos -= ySpeed;
 
-        // TODO: could make this more efficient by storing maximum and minimum ship positions in global
         if(yPos < radius) {
             yPos = radius;
         }
