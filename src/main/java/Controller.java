@@ -25,6 +25,8 @@ public class Controller {
     static GraphicsManager graphicsManager;
     static AudioManager audioManager;
 
+    static boolean isSoundExperiential = false;
+
     static volatile List<EnemyShip> enemyShips = new ArrayList<>();
 
     static PlayerShip player = new PlayerShip();
@@ -427,6 +429,15 @@ public class Controller {
 
     public static MouseListener getMouseListener() {
         return input.getMouseListener();
+    }
+
+    public static boolean getIsSoundExperiential() {
+        return isSoundExperiential;
+    }
+
+    public static void toggleSoundMode() {
+        isSoundExperiential = !isSoundExperiential;
+        audioManager.setSoundType(isSoundExperiential);
     }
 
     public static void setGameState(GameState newGameState) {

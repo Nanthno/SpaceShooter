@@ -1,9 +1,6 @@
 package src.main.java.graphics;
 
-import src.main.java.Controller;
-import src.main.java.FileUtil;
-import src.main.java.GameState;
-import src.main.java.Input;
+import src.main.java.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,6 +17,7 @@ public class MenuPanel extends JPanel {
     private static final BufferedImage[] backButton = ImageUtil.loadAnimation("images/backButton");
     private static final BufferedImage[] playButton = ImageUtil.loadAnimation("images/buttonPlay");
     private static final BufferedImage[] creditsButton = ImageUtil.loadAnimation("images/buttonCredits");
+    private static final BufferedImage[] soundModeButtons = ImageUtil.loadAnimation("images/audioSelectorButtons");
     private Map<Button, BufferedImage[]> buttonMap = Map.of(
             Button.PLAY, playButton,
             Button.CREDITS, creditsButton,
@@ -40,13 +38,21 @@ public class MenuPanel extends JPanel {
     private final int backButtonWidth = backButton[0].getWidth();
     private final int backButtonHeight = backButton[0].getHeight();
 
+    // for sound selection
+    private final int soundButtonOriginX = Globals.screenWidth-250;
+    private final int soundButtonOriginY = Globals.screenHeight-100;
+    private final int soundButtonWidth = soundModeButtons[0].getWidth();
+    private final int soundButtonHeight = soundModeButtons[0].getHeight();
+
     Button currentClick = Button.NONE;
 
     private enum Button {
         NONE,
         PLAY,
         CREDITS,
-        BACK
+        BACK,
+        SOUND_SELECTION
+
     }
 
     private enum MenuStatus {
@@ -82,8 +88,6 @@ public class MenuPanel extends JPanel {
         BufferedImage screenshot = new BufferedImage(GraphicsManager.getWidth(), GraphicsManager.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
         Graphics g = screenshot.createGraphics();
-
-        //g.drawImage(GraphicsManager.getBackgroundImage(), 0, 0, null);
 
         Point mousePoint = Controller.findMousePosition();
 
@@ -135,27 +139,34 @@ public class MenuPanel extends JPanel {
     }
 
     private BufferedImage drawButtons(Point mousePoint) {
-        BufferedImage buttons = new BufferedImage(buttonWidth,
-                (buttonHeight + buttonYOffset) * buttonOrder.length, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage buttons = new BufferedImage(Globals.screenWidth,
+                Globals.screenHeight,
+                BufferedImage.TYPE_INT_ARGB);
 
         Graphics g = buttons.createGraphics();
 
         boolean mouseStillOnCurrentClick = false;
 
+        int buttonNumber = getButtonNumber(soundButtonOriginX, soundButtonOriginY+soundButtonHeight, soundButtonWidth, soundButtonHeight,
+                mousePoint, Button.SOUND_SELECTION);
 
         for (int i = 0; i < buttonOrder.length; i++) {
             Button currentButton = buttonOrder[i];
             BufferedImage[] buttonImages = buttonMap.get(currentButton);
             int yPos = i * (buttonYOffset + buttonHeight);
 
-            int buttonNumber = getButtonNumber(buttonOriginX, yPos + buttonOriginY + buttonYOffset, buttonWidth, buttonHeight,
-                    mousePoint, currentButton);
             if (buttonNumber == 2) {
                 mouseStillOnCurrentClick = true;
             }
+            buttonNumber = getButtonNumber(buttonOriginX, yPos + buttonOriginY + buttonYOffset, buttonWidth, buttonHeight,
+                    mousePoint, currentButton);
             g.drawImage(buttonImages[buttonNumber], 0, yPos, null);
 
         }
+
+        g.drawImage(soundModeButtons[Controller.getIsSoundExperiential() ? 1  : 0],
+                soundButtonOriginX, soundButtonOriginY,
+                null);
 
         if (mouseStillOnCurrentClick == false) {
             currentClick = Button.NONE;
@@ -186,6 +197,9 @@ public class MenuPanel extends JPanel {
                     currentClick = Button.NONE;
                 } else if (button == Button.BACK) {
                     menuStatus = MenuStatus.MAIN;
+                    currentClick = Button.NONE;
+                } else if (button == Button.SOUND_SELECTION) {
+                    Controller.toggleSoundMode();
                     currentClick = Button.NONE;
                 }
 
