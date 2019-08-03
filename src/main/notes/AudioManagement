@@ -7,5 +7,5 @@ since many ships can be destroyed with one explosion (and thus, in one frame), t
 2) audio frame reduction
 it only plays the collapsed audio file every other frame in the game
 3) repetition delay
-whenever a sound is played, it sets its corosponding map value to the frame upon which is was played. Whenever a new play request comes in, it first checks to see if that clip has been played recently and if so, it skips it
+whenever a sound is played, it sets its corresponding map value to the frame upon which is was played. Whenever a new play request comes in, it first checks to see if that clip has been played recently and if so, it skips it
 This reduces the number of total clips playing thus improving performance and reducing chaos in the soundscape

@@ -27,9 +27,8 @@ class GamePanel extends JPanel {
         BufferedImage screenshot = new BufferedImage(GraphicsManager.getWidth(), GraphicsManager.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
         // draw enemy ships
-        List<EnemyShip> enemyShips = Controller.getEnemyArray();
         Graphics g = screenshot.getGraphics();
-        for (EnemyShip enemy : enemyShips) {
+        for (EnemyShip enemy : Controller.getEnemyArray()) {
             BufferedImage shipImage = GraphicsManager.imageNotFound;
             if (enemy.getType() == EnemyType.BASIC)
                 shipImage = GraphicsManager.enemyBasicImages[enemy.getFrame()];

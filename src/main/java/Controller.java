@@ -58,6 +58,10 @@ public class Controller {
 
     static long frameCount = 0;
 
+    static double escapingEnemyTracker = 0;
+    static double escapingEnemyPerFrameReduction = 0.1;
+    static int defaultHealthLossPerEnemy = 10;
+
     // used to prevent an update from running if another update is currently running
     static boolean isUpdating = false;
 
@@ -85,7 +89,7 @@ public class Controller {
     }
 
     static void update() {
-        if(!isUpdating) {
+        if (!isUpdating) {
             isUpdating = true;
             if (gameState == GameState.PLAYING) {
                 updateGame();
@@ -97,6 +101,10 @@ public class Controller {
 
     static void updateGame() {
         frameCount++;
+        if (escapingEnemyTracker > escapingEnemyPerFrameReduction)
+            escapingEnemyTracker -= escapingEnemyPerFrameReduction;
+        else
+            escapingEnemyTracker = 0;
 
         if (timeline.size() > 0)
             timeline = spawnController.updateSpawnProbabilities(timeline);
@@ -140,7 +148,7 @@ public class Controller {
             boolean offScreen = e.update();
             if (offScreen) {
                 if (e.getType() != EnemyType.SHIELD)
-                    player.looseHealth(10);
+                    shipEscaped();
             } else {
                 newEnemyShips.add(e);
             }
@@ -167,6 +175,12 @@ public class Controller {
 
         if (frameCount % 2 == 0)
             audioManager.playSoundFrame(frameCount);
+    }
+
+    static void shipEscaped() {
+        escapingEnemyTracker++;
+        int healthLoss = (int)Math.pow(defaultHealthLossPerEnemy, 1/escapingEnemyTracker);
+        player.looseHealth(healthLoss);
     }
 
     static void checkEnemyBulletCollision() {
