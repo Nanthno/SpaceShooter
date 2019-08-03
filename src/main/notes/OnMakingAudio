@@ -1,0 +1,10 @@
+All of the audio in default audio is based on clips found online at freesound.org or opengameart.org. The sound in experiential is vocal.
+
+In default, every clip (at least at the time of writing this) was modified in some way by clipping, noise reduction, overlaying, or other audio effects in Audacity
+-this has the advantage of my learning audio and by setting my game's audio apart from games that use audio off the shelf and thus sound same-y to other games
+
+
+An idea I had regarding future game development:
+On any game project, start by making vocal audio effects. That way, you are forced to decide what you want rather than finding something that works
+If the final audio is contracted out, this would reduce the total amount of time needed to make it as the designer could have something to design off of
+It also makes it low time investment to get some audio in at the start so audio can be an ongoing part of development rather than something added at the and and you can also figure out what parts of gameplay should be emphasized through audio.

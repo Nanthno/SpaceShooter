@@ -1,0 +1,11 @@
+This system uses the TinyAudio package
+
+Java does not handle audio very well and so I had to use a few tricks to reduce the amount of audio played at any given moment.
+
+1) audio collapsing
+since many ships can be destroyed with one explosion (and thus, in one frame), the system counts the number of times a given sound is played per frame and thus doesn't play the same clip several times simultaneously. Instead, it collects them and plays them as a group (potentially with a proportional volume boost)
+2) audio frame reduction
+it only plays the collapsed audio file every other frame in the game
+3) repetition delay
+whenever a sound is played, it sets its corosponding map value to the frame upon which is was played. Whenever a new play request comes in, it first checks to see if that clip has been played recently and if so, it skips it
+This reduces the number of total clips playing thus improving performance and reducing chaos in the soundscape

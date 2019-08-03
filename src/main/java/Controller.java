@@ -58,6 +58,9 @@ public class Controller {
 
     static long frameCount = 0;
 
+    // used to prevent an update from running if another update is currently running
+    static boolean isUpdating = false;
+
     public static void main(String[] args) {
 
         input = new Input();
@@ -82,10 +85,14 @@ public class Controller {
     }
 
     static void update() {
-        if (gameState == GameState.PLAYING) {
-            updateGame();
+        if(!isUpdating) {
+            isUpdating = true;
+            if (gameState == GameState.PLAYING) {
+                updateGame();
+            }
+            graphicsManager.drawScreen();
+            isUpdating = false;
         }
-        graphicsManager.drawScreen();
     }
 
     static void updateGame() {
@@ -159,7 +166,7 @@ public class Controller {
         checkPlayerEnemyWeaponCollision();
 
         if (frameCount % 2 == 0)
-            audioManager.playSoundFrame();
+            audioManager.playSoundFrame(frameCount);
     }
 
     static void checkEnemyBulletCollision() {

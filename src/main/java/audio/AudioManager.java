@@ -21,11 +21,23 @@ public class AudioManager {
 
     private static Music currentPlayingMusic;
     Map<AudioClipType, Integer> soundFrame = new HashMap<>();
+    Map<AudioClipType, Long> lastPlayed;
+    int playDelay = 10;
+
 
     public AudioManager() {
         tinySound = new TinySound();
         tinySound.init();
         loadAudioMaps();
+        lastPlayed = primeLastPlayed();
+    }
+
+    private Map<AudioClipType, Long> primeLastPlayed() {
+        Map<AudioClipType, Long> lastPlayed = new HashMap<>();
+        for(AudioClipType audio : AudioClipType.values()) {
+            lastPlayed.put(audio, 0L);
+        }
+        return lastPlayed;
     }
 
     public void setSoundType(boolean isExperiencial) {
@@ -39,15 +51,19 @@ public class AudioManager {
     }
 
     public void addSoundToFrame(AudioClipType audio) {
-        if(!soundFrame.containsKey(audio))
+        if (!soundFrame.containsKey(audio))
             soundFrame.put(audio, 1);
         else
-            soundFrame.put(audio, soundFrame.get(audio)+1);
+            soundFrame.put(audio, soundFrame.get(audio) + 1);
     }
 
-    public void playSoundFrame() {
-        for(AudioClipType audio : soundFrame.keySet()) {
-            playClip(audio, soundFrame.get(audio));
+    public void playSoundFrame(long frame) {
+        for (AudioClipType audio : soundFrame.keySet()) {
+            long timeSinceLastPlayed = frame - lastPlayed.get(audio);
+            if (timeSinceLastPlayed > playDelay) {
+                playClip(audio, soundFrame.get(audio));
+                lastPlayed.put(audio, frame);
+            }
         }
 
         soundFrame = new HashMap<>();
@@ -55,24 +71,22 @@ public class AudioManager {
 
     private void playClip(AudioClipType audio, int clipCount) {
 
-        if(soundClips.containsKey(audio)) {
+        if (soundClips.containsKey(audio)) {
             chooseClip(soundClips.get(audio)).play();//Math.pow(clipCount, 0.25));
-        }
-        else {
+        } else {
             System.out.println(String.format("WARN: sound %s was played but is not defined", audio.toString()));
         }
     }
 
     public void playMusic(MusicType music) {
-        if(currentPlayingMusic != null) {
+        if (currentPlayingMusic != null) {
             currentPlayingMusic.stop();
         }
 
-        if(musicClips.containsKey(music)) {
+        if (musicClips.containsKey(music)) {
             currentPlayingMusic = musicClips.get(music)[0];
             currentPlayingMusic.play(true, 0.3);
-        }
-        else {
+        } else {
             System.out.println(String.format("WARN: music %s was played but is not defined", music.toString()));
             currentPlayingMusic = null;
         }
