@@ -5,7 +5,7 @@ import src.main.java.enemy.EnemyShip;
 
 import java.util.*;
 
-class SpawnCluster {
+public class SpawnCluster {
 
     int xPos;
     int yPos;
@@ -71,7 +71,7 @@ class SpawnCluster {
         spawns.add(spawn);
     }
 
-    List<EnemyShip> makeSpawns() {
+    protected List<EnemyShip> makeSpawns() {
 
         List<EnemyShip> ships = new ArrayList<>();
 

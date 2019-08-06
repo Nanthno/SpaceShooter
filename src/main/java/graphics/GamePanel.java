@@ -15,15 +15,8 @@ import java.util.List;
 
 class GamePanel extends JPanel {
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        BufferedImage screenshot = drawGameScreenShot();
-        g.drawImage(screenshot, 0, 0, this);
 
-    }
-
-    protected BufferedImage drawGameScreenShot() {
+    protected BufferedImage drawGameScreenShot(int[] playerShake) {
         BufferedImage screenshot = new BufferedImage(GraphicsManager.getWidth(), GraphicsManager.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
         // draw enemy ships
@@ -99,7 +92,7 @@ class GamePanel extends JPanel {
 
         // draw player ship
         PlayerShip ship = Controller.getPlayerShip();
-        g.drawImage(GraphicsManager.playerImages[ship.getFrame()], (int) ship.getx(), (int) ship.gety(), null);
+        g.drawImage(GraphicsManager.playerImages[ship.getFrame()], (int) ship.getx() + playerShake[0], (int) ship.gety() + playerShake[1], null);
 
         // at end
         g.dispose();

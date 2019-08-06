@@ -62,6 +62,14 @@ public class Controller {
     static double escapingEnemyPerFrameReduction = 0.1;
     static int defaultHealthLossPerEnemy = 10;
 
+    static final int laserBlastShake = 2;
+    static final Map<ExplosionType, Integer> explosionShake = Map.of(
+            ExplosionType.SMALL, 0,
+            ExplosionType.MEDIUM, 3,
+            ExplosionType.FUEL, 5,
+            ExplosionType.PROJECTILE, 4
+    );
+
     // used to prevent an update from running if another update is currently running
     static boolean isUpdating = false;
 
@@ -179,7 +187,7 @@ public class Controller {
 
     static void shipEscaped() {
         escapingEnemyTracker++;
-        int healthLoss = (int)Math.pow(defaultHealthLossPerEnemy, 1/escapingEnemyTracker);
+        int healthLoss = (int) Math.pow(defaultHealthLossPerEnemy, 1 / escapingEnemyTracker);
         player.looseHealth(healthLoss);
     }
 
@@ -296,6 +304,10 @@ public class Controller {
         explosions.add(new Explosion(x, y, catalystSeperation, explosionType));
 
         audioManager.addSoundToFrame(Globals.getExplosionAudioClipType(explosionType));
+
+        int[] shake = makeShake(x, y, explosionShake.get(explosionType));
+
+        graphicsManager.addScreenShake(shake);
     }
 
 
@@ -322,6 +334,9 @@ public class Controller {
         if (laserBlast == null) {
             laserBlast = new LaserBlast(x);
             playWeaponSound(WeaponType.PLAYER_LASER_BLAST);
+            Random rand = new Random();
+            graphicsManager.addScreenShake(0,
+                    (rand.nextInt(2) == 0 ? laserBlastShake : -1 * laserBlastShake));
         }
     }
 
@@ -329,6 +344,8 @@ public class Controller {
         Missile missile = new Missile(x, y);
         playerFiredWeapons.add(missile);
         playWeaponSound(WeaponType.PLAYER_MISSILE);
+        graphicsManager.addScreenShake(2, 0);
+        graphicsManager.addPlayerShake(-8, 0);
     }
 
     static void createBurst(int x, int y) {
@@ -366,6 +383,35 @@ public class Controller {
 
         mousePos.translate(-1 * framePos.x, -1 * framePos.y);
         return mousePos;
+    }
+
+    private static int[] makeShake(double x, double y, double shake) {
+/*
+        double xPos = player.xPos;
+        double yPos = player.yPos;
+
+        double xDiff = xPos - x;
+        double yDiff = yPos - y;
+
+        double total = xDiff + yDiff;
+
+        double xFrac = xDiff/total;
+        double yFrac = yDiff/total;
+
+        int xShake = (int)(shake * xFrac);
+        int yShake = (int)(shake * yFrac);
+
+        */
+        Random rand = new Random();
+        double xFrac = rand.nextDouble() * 2;
+        int xDirection = rand.nextInt(2) == 0 ? 1 : -1;
+        int yDirection = rand.nextInt(2) == 0 ? 1 : -1;
+
+        int xShake = xDirection * (int) (xFrac * shake);
+        int yShake = yDirection * (int) ((1 - xFrac) * shake);
+
+        return new int[]{xShake, yShake};
+
     }
 
     public static void shutdown() {

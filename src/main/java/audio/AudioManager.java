@@ -24,6 +24,8 @@ public class AudioManager {
     Map<AudioClipType, Long> lastPlayed;
     int playDelay = 10;
 
+    boolean mute = true;
+
 
     public AudioManager() {
         tinySound = new TinySound();
@@ -34,7 +36,7 @@ public class AudioManager {
 
     private Map<AudioClipType, Long> primeLastPlayed() {
         Map<AudioClipType, Long> lastPlayed = new HashMap<>();
-        for(AudioClipType audio : AudioClipType.values()) {
+        for (AudioClipType audio : AudioClipType.values()) {
             lastPlayed.put(audio, 0L);
         }
         return lastPlayed;
@@ -58,15 +60,17 @@ public class AudioManager {
     }
 
     public void playSoundFrame(long frame) {
-        for (AudioClipType audio : soundFrame.keySet()) {
-            long timeSinceLastPlayed = frame - lastPlayed.get(audio);
-            if (timeSinceLastPlayed > playDelay) {
-                playClip(audio, soundFrame.get(audio));
-                lastPlayed.put(audio, frame);
+        if (!mute) {
+            for (AudioClipType audio : soundFrame.keySet()) {
+                long timeSinceLastPlayed = frame - lastPlayed.get(audio);
+                if (timeSinceLastPlayed > playDelay) {
+                    playClip(audio, soundFrame.get(audio));
+                    lastPlayed.put(audio, frame);
+                }
             }
-        }
 
-        soundFrame = new HashMap<>();
+            soundFrame = new HashMap<>();
+        }
     }
 
     private void playClip(AudioClipType audio, int clipCount) {
@@ -79,16 +83,18 @@ public class AudioManager {
     }
 
     public void playMusic(MusicType music) {
-        if (currentPlayingMusic != null) {
-            currentPlayingMusic.stop();
-        }
+        if (!mute) {
+            if (currentPlayingMusic != null) {
+                currentPlayingMusic.stop();
+            }
 
-        if (musicClips.containsKey(music)) {
-            currentPlayingMusic = musicClips.get(music)[0];
-            currentPlayingMusic.play(true, 0.3);
-        } else {
-            System.out.println(String.format("WARN: music %s was played but is not defined", music.toString()));
-            currentPlayingMusic = null;
+            if (musicClips.containsKey(music)) {
+                currentPlayingMusic = musicClips.get(music)[0];
+                currentPlayingMusic.play(true, 0.3);
+            } else {
+                System.out.println(String.format("WARN: music %s was played but is not defined", music.toString()));
+                currentPlayingMusic = null;
+            }
         }
     }
 
