@@ -1,5 +1,8 @@
 package src.main.java;
 
+import src.main.java.enemy.EnemyShip;
+import src.main.java.enemy.EnemyType;
+
 import java.util.Map;
 
 public class Explosion {
@@ -37,6 +40,7 @@ public class Explosion {
             ExplosionType.PROJECTILE, 40
     );
 
+    //TODO: migrate instantiaion to the other constructor
     public Explosion(int x, int y, int catalystSeparation, ExplosionType type) {
         xPos = x;
         yPos = y;
@@ -48,6 +52,19 @@ public class Explosion {
         duration = maxDuration;
         if(effectiveStageTypes.containsKey(type))
             effectiveStage = effectiveStageTypes.get(type);
+    }
+
+    public Explosion(EnemyShip ship, int catalystSeparation) {
+        xPos = ship.getx();
+        yPos = ship.gety();
+        expType = EnemyType.getExplosionType(ship.getType());
+        this.catalystSeparation = catalystSeparation;
+        radius = expRadii.get(expType);
+        maxStage = Globals.getExplosionMaxFrame(expType);
+        maxDuration = expDuration.get(expType);
+        duration = maxDuration;
+        if(effectiveStageTypes.containsKey(expType))
+            effectiveStage = effectiveStageTypes.get(expType);
     }
 
     // returns true if the explosion should be destroyed

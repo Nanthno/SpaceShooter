@@ -148,7 +148,13 @@ public class GraphicsManager {
         return HEIGHT;
     }
 
-    static BufferedImage getBackgroundImage() {
-        return background;
+    public void addScreenShake(int x, int y) {
+       screenPanel.addScreenShake(x, y);
+    }
+    public void addScreenShake(int[] pos) {
+        addScreenShake(pos[0], pos[1]);
+    }
+    public void addPlayerShake(int x, int y) {
+        screenPanel.addPlayerShake(x, y);
     }
 }

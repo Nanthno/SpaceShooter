@@ -1,0 +1,23 @@
+The idea is to make the game a challenge for the player without overwhelming him
+
+Factors that affect difficulty
+Number of ships:
+this is on a bell curve because at a certain point the number of enemies simply make for screen clearing catalysts
+Density:
+how close the enemies are. the lower the distance, the easier catalysts are
+Speed:
+The faster the enemies are, the less time the player has to destroy them
+
+Per cluster difficulty:
+Each predefined cluster would have a difficulty based on how hard that cluster would be alone
+
+Assigning cluster difficult:
+difficulty would be based on two factors: accuracy required and key targets
+key targets are determined in a simulation with a breadth first search.
+-in each layer of depth on the search, it destroys one ship (selected only from ships which can be hit by the player [i.e. not blocked by another ship in the cluster]) and simulates the catalyst from that, saving the remaining ships for the next layer
+-- rather than ending whenever the solution is found, it would finish the current round to find all minimum hit solutions
+-whatever ships are the minimum requirements to destroy the entire cluster are designated as key targets
+-- if there are multiple solutions, each sequence would be saved separately
+accuracy: once the key targets are found, accuracy required would be the sum of accuracy required for each ship individually.
+- accuracy is based on the height of the ship compared to some predefined number
+Difficulty would be the lowest accuracy required for all possible annihilation sequences
