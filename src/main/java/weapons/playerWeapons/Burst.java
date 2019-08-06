@@ -22,7 +22,7 @@ public class Burst extends PlayerWeaponParent {
         xPos = x;
         yPos = y;
 
-        maxFrames = Globals.getWeaponMaxFrames(WeaponType.PLAYER_BURST);
+        maxFrames = Globals.getWeaponMaxFrames(WeaponType.PLAYER_BURST)-1;
 
         radius = startRadius;
     }

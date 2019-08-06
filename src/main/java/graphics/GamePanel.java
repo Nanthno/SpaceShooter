@@ -22,23 +22,7 @@ class GamePanel extends JPanel {
         // draw enemy ships
         Graphics g = screenshot.getGraphics();
         for (EnemyShip enemy : Controller.getEnemyArray()) {
-            BufferedImage shipImage = GraphicsManager.imageNotFound;
-            if (enemy.getType() == EnemyType.BASIC)
-                shipImage = GraphicsManager.enemyBasicImages[enemy.getFrame()];
-            else if (enemy.getType() == EnemyType.FUEL)
-                shipImage = GraphicsManager.enemyFuelImages[enemy.getFrame()];
-            else if (enemy.getType() == EnemyType.AGILE)
-                shipImage = GraphicsManager.enemyAgileImages[enemy.getFrame()];
-            else if (enemy.getType() == EnemyType.SHIELDER)
-                shipImage = GraphicsManager.enemyShielderImages[enemy.getFrame()];
-            else if (enemy.getType() == EnemyType.SHIELD)
-                shipImage = GraphicsManager.enemyShieldImages[enemy.getFrame()];
-            else if (enemy.getType() == EnemyType.ARMORED1)
-                shipImage = GraphicsManager.enemyArmored1Images[enemy.getFrame()];
-            else if (enemy.getType() == EnemyType.SHOOTER)
-                shipImage = GraphicsManager.enemyShooterImages[enemy.getFrame()];
-            else if (enemy.getType() == EnemyType.PILOTED)
-                shipImage = GraphicsManager.enemyFighterImages[enemy.getFrame()];
+            BufferedImage shipImage = GraphicsManager.getFrame(enemy.getType(), enemy.getFrame());
 
             g.drawImage(shipImage, enemy.getx(), enemy.gety(), null);
         }
@@ -46,13 +30,7 @@ class GamePanel extends JPanel {
         // draw player fired weapons
         List<PlayerWeaponParent> playerWeapons = Controller.getPlayerFiredWeapons();
         for (PlayerWeaponParent w : playerWeapons) {
-            BufferedImage img = GraphicsManager.imageNotFound;
-            if (w.getType() == WeaponType.PLAYER_BULLET)
-                img = GraphicsManager.playerBulletImages[w.getFrame()];
-            else if (w.getType() == WeaponType.PLAYER_MISSILE)
-                img = GraphicsManager.missileImages[w.getFrame()];
-            else if (w.getType() == WeaponType.PLAYER_BURST)
-                img = GraphicsManager.blastImages[w.getFrame()];
+            BufferedImage img = GraphicsManager.getFrame(w.getType(), w.getFrame());
 
             g.drawImage(img, (int) w.getx(), (int) w.gety(), null);
         }
@@ -60,10 +38,7 @@ class GamePanel extends JPanel {
         // draw enemy fired weapons
         List<EnemyWeaponParent> enemyWeapons = Controller.getEnemyFiredWeapons();
         for (EnemyWeaponParent w : enemyWeapons) {
-            BufferedImage img = GraphicsManager.imageNotFound;
-
-            if (w.getType() == WeaponType.ENEMY_EMP)
-                img = GraphicsManager.shooterBulletImages[w.getFrame()];
+            BufferedImage img = GraphicsManager.getFrame(w.getType(), w.getFrame());
 
             g.drawImage(img, (int) w.getx(), (int) w.gety(), null);
         }
@@ -72,15 +47,7 @@ class GamePanel extends JPanel {
         List<Explosion> exp = Controller.getExplosions();
         for (int i = 0; i < exp.size(); i++) {
             Explosion e = exp.get(i);
-            BufferedImage img = GraphicsManager.imageNotFound;
-            if (e.getExpType() == ExplosionType.SMALL)
-                img = GraphicsManager.smallExplosionImages[e.getStage()];
-            else if (e.getExpType() == ExplosionType.MEDIUM)
-                img = GraphicsManager.mediumExplosionImages[e.getStage()];
-            else if (e.getExpType() == ExplosionType.FUEL)
-                img = GraphicsManager.fuelExplosionImages[e.getStage()];
-            else if (e.getExpType() == ExplosionType.PROJECTILE)
-                img = GraphicsManager.projectileExplosionImages[e.getStage()];
+            BufferedImage img = GraphicsManager.getFrame(e.getExpType(), e.getStage());
 
             g.drawImage(img, e.getx(), e.gety(), null);
         }
@@ -88,7 +55,7 @@ class GamePanel extends JPanel {
 
         LaserBlast blast = Controller.getLaserBlast();
         if (blast != null)
-            g.drawImage(GraphicsManager.laserBlastImages[blast.getFrame()], blast.getx(), 0, null);
+            g.drawImage(GraphicsManager.getFrame(WeaponType.PLAYER_LASER_BLAST, blast.getFrame()), blast.getx(), 0, null);
 
         // draw player ship
         PlayerShip ship = Controller.getPlayerShip();

@@ -9,10 +9,12 @@ import java.util.Arrays;
 
 public class ImageUtil {
 
-    static BufferedImage[] loadAnimation(String directory) {
+    static BufferedImage[] loadAnimation(String directory) throws NullPointerException{
         File folder = new File(directory);
         File[] frameFiles = folder.listFiles();
-
+        if(frameFiles == null) {
+            throw new NullPointerException("tried to load animation from " + directory + " but does not exist");
+        }
         Arrays.sort(frameFiles);
 
         BufferedImage[] animation = new BufferedImage[frameFiles.length];

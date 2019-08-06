@@ -1,12 +1,16 @@
 package src.main.java.graphics;
 
-import src.main.java.*;
+import src.main.java.Controller;
+import src.main.java.ExplosionType;
+import src.main.java.Globals;
 import src.main.java.enemy.EnemyType;
 import src.main.java.weapons.WeaponType;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GraphicsManager {
 
@@ -18,35 +22,22 @@ public class GraphicsManager {
     static int WIDTH = GAME_WIDTH + STATUS_WIDTH;
     static int HEIGHT = Globals.screenHeight;
 
+    static final String imageFolderPath = "src/main/resources/images/";
+
     JFrame frame;
     ScreenPanel screenPanel;
 
     // images
     static BufferedImage background;
     static BufferedImage statusBars;
-    static BufferedImage[] enemyBasicImages;
-    static BufferedImage[] enemyFuelImages;
-    static BufferedImage[] enemyAgileImages;
-    static BufferedImage[] enemyShielderImages;
-    static BufferedImage[] enemyShieldImages;
-    static BufferedImage[] enemyArmored1Images;
-    static BufferedImage[] enemyShooterImages;
-    static BufferedImage[] enemyFighterImages;
-
-    static BufferedImage[] playerBulletImages;
-    static BufferedImage[] missileImages;
-    static BufferedImage[] laserBlastImages;
-    static BufferedImage[] blastImages;
-    static BufferedImage[] shooterBulletImages;
-
-    static BufferedImage[] smallExplosionImages;
-    static BufferedImage[] fuelExplosionImages;
-    static BufferedImage[] mediumExplosionImages;
-    static BufferedImage[] projectileExplosionImages;
+    static Map<EnemyType, BufferedImage[]> enemyImages;
+    static Map<WeaponType, BufferedImage[]> weaponImages;
+    static Map<ExplosionType, BufferedImage[]> explosionImages;
 
     static BufferedImage[] playerImages;
 
     static BufferedImage imageNotFound = makeImageNotFound();
+    static BufferedImage[] animationNotFound = new BufferedImage[]{imageNotFound};
 
     public GraphicsManager() {
 
@@ -68,63 +59,76 @@ public class GraphicsManager {
 
 
     public void drawScreen() {
-
         screenPanel.removeAll();
         screenPanel.validate();
         screenPanel.repaint();
+    }
 
+    public static BufferedImage[] getAnimation(Object type) {
+        if(type instanceof EnemyType)
+            return enemyImages.get(type);
 
+        if(type instanceof WeaponType)
+            return weaponImages.get(type);
+
+        if(type instanceof ExplosionType)
+            return explosionImages.get(type);
+
+        return animationNotFound;
+    }
+    public static BufferedImage getFrame(Object type, int frame) {
+        BufferedImage[] animation = getAnimation(type);
+        if(animation.length <= frame) {
+            return imageNotFound;
+        }
+
+        return animation[frame];
     }
 
     // loads the images for the game
     void loadImages() {
-        background = ImageUtil.loadImage("images/spaceLong.png");
-        statusBars = ImageUtil.loadImage("images/statusPanel.png");
+        background = ImageUtil.loadImage("src/main/resources/images/spaceLong.png");
+        statusBars = ImageUtil.loadImage("src/main/resources/images/statusPanel.png");
 
-        enemyBasicImages = ImageUtil.loadAnimation("images/enemyBasic");
-        enemyFuelImages = ImageUtil.loadAnimation("images/enemyFuel");
-        enemyAgileImages = ImageUtil.loadAnimation("images/enemyAgile");
-        enemyShielderImages = ImageUtil.loadAnimation("images/enemyShielder");
-        enemyShieldImages = ImageUtil.loadAnimation("images/enemyShield", 100);
-        enemyArmored1Images = ImageUtil.loadAnimation("images/enemyArmored1");
-        enemyShooterImages = ImageUtil.loadAnimation("images/enemyShooter");
-        enemyFighterImages = ImageUtil.loadAnimation("images/enemyFighter");
+        playerImages = ImageUtil.loadAnimation("src/main/resources/images/player");
 
+        enemyImages = loadEnemyImages();
+        weaponImages = loadWeaponImages();
+        explosionImages = loadExplosionImages();
+    }
 
-        playerImages = ImageUtil.loadAnimation("images/player");
+    private static Map<EnemyType, BufferedImage[]> loadEnemyImages() {
+        Map<EnemyType, BufferedImage[]> imageMap = new HashMap<>();
 
-        playerBulletImages = ImageUtil.loadAnimation("images/playerBullet");
-        missileImages = ImageUtil.loadAnimation("images/missile");
-        laserBlastImages = ImageUtil.loadAnimation("images/laserBlast");
-        blastImages = ImageUtil.loadAnimation("images/blast");
-        shooterBulletImages = ImageUtil.loadAnimation("images/shooterBullet");
+        for(EnemyType type : EnemyType.values()) {
+            BufferedImage[] animation = ImageUtil.loadAnimation(imageFolderPath + "enemy_" + type.toString().toLowerCase());
+            imageMap.put(type, animation);
+            Globals.addToEnemyShipMaxFrames(type, animation.length);
+        }
 
+        return imageMap;
+    }
+    private static Map<WeaponType, BufferedImage[]> loadWeaponImages() {
+        Map<WeaponType, BufferedImage[]> imageMap = new HashMap<>();
 
-        smallExplosionImages = ImageUtil.loadAnimation("images/smallExplosion");
-        mediumExplosionImages = ImageUtil.loadAnimation("images/mediumExplosion");
-        fuelExplosionImages = ImageUtil.loadAnimation("images/fuelExplosion");
-        projectileExplosionImages = ImageUtil.loadAnimation("images/projectileExplosion");
+        for(WeaponType type : WeaponType.values()) {
+            BufferedImage[] animation = ImageUtil.loadAnimation(imageFolderPath + "weapon_" + type.toString().toLowerCase());
+            imageMap.put(type, animation);
+            Globals.addToWeaponMaxFrames(type, animation.length);
+        }
 
-        Globals.addToExplosionMaxFrames(ExplosionType.SMALL, smallExplosionImages.length-1);
-        Globals.addToExplosionMaxFrames(ExplosionType.MEDIUM, mediumExplosionImages.length-1);
-        Globals.addToExplosionMaxFrames(ExplosionType.FUEL, fuelExplosionImages.length-1);
-        Globals.addToExplosionMaxFrames(ExplosionType.PROJECTILE, projectileExplosionImages.length-1);
+        return imageMap;
+    }
+    private static Map<ExplosionType, BufferedImage[]> loadExplosionImages() {
+        Map<ExplosionType, BufferedImage[]> imageMap = new HashMap<>();
 
-        Globals.addToEnemyShipMaxFrames(EnemyType.BASIC, enemyBasicImages.length);
-        Globals.addToEnemyShipMaxFrames(EnemyType.FUEL, enemyFuelImages.length);
-        Globals.addToEnemyShipMaxFrames(EnemyType.AGILE, enemyAgileImages.length);
-        Globals.addToEnemyShipMaxFrames(EnemyType.SHIELDER, enemyShielderImages.length);
-        Globals.addToEnemyShipMaxFrames(EnemyType.SHIELD, enemyShieldImages.length);
-        Globals.addToEnemyShipMaxFrames(EnemyType.ARMORED1, enemyArmored1Images.length);
-        Globals.addToEnemyShipMaxFrames(EnemyType.SHOOTER, enemyShooterImages.length);
-        Globals.addToEnemyShipMaxFrames(EnemyType.PILOTED, enemyFighterImages.length);
+        for(ExplosionType type : ExplosionType.values()) {
+            BufferedImage[] animation = ImageUtil.loadAnimation(imageFolderPath + "explosion_" + type.toString().toLowerCase());
+            imageMap.put(type, animation);
+            Globals.addToExplosionMaxFrames(type, animation.length);
+        }
 
-        Globals.setPlayerMaxFrames(playerImages.length);
-        Globals.addToWeaponMaxFrames(WeaponType.PLAYER_BULLET, playerBulletImages.length);
-        Globals.addToWeaponMaxFrames(WeaponType.PLAYER_LASER_BLAST, laserBlastImages.length);
-        Globals.addToWeaponMaxFrames(WeaponType.PLAYER_MISSILE, missileImages.length);
-        Globals.addToWeaponMaxFrames(WeaponType.PLAYER_BURST, blastImages.length);
-        Globals.addToWeaponMaxFrames(WeaponType.ENEMY_EMP, shooterBulletImages.length);
+        return imageMap;
     }
 
     private static BufferedImage makeImageNotFound() {
@@ -149,11 +153,13 @@ public class GraphicsManager {
     }
 
     public void addScreenShake(int x, int y) {
-       screenPanel.addScreenShake(x, y);
+        screenPanel.addScreenShake(x, y);
     }
+
     public void addScreenShake(int[] pos) {
         addScreenShake(pos[0], pos[1]);
     }
+
     public void addPlayerShake(int x, int y) {
         screenPanel.addPlayerShake(x, y);
     }

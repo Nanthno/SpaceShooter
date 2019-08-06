@@ -14,10 +14,10 @@ public class MenuPanel extends JPanel {
     int creditsX = GraphicsManager.getWidth()/2 - credits.getWidth()/2;
     int creditsY = 100;
 
-    private static final BufferedImage[] backButton = ImageUtil.loadAnimation("images/backButton");
-    private static final BufferedImage[] playButton = ImageUtil.loadAnimation("images/buttonPlay");
-    private static final BufferedImage[] creditsButton = ImageUtil.loadAnimation("images/buttonCredits");
-    private static final BufferedImage[] soundModeButtons = ImageUtil.loadAnimation("images/audioSelectorButtons");
+    private static final BufferedImage[] backButton = ImageUtil.loadAnimation(GraphicsManager.imageFolderPath + "backButton");
+    private static final BufferedImage[] playButton = ImageUtil.loadAnimation(GraphicsManager.imageFolderPath + "buttonPlay");
+    private static final BufferedImage[] creditsButton = ImageUtil.loadAnimation(GraphicsManager.imageFolderPath + "buttonCredits");
+    private static final BufferedImage[] soundModeButtons = ImageUtil.loadAnimation(GraphicsManager.imageFolderPath + "audioSelectorButtons");
     private Map<Button, BufferedImage[]> buttonMap = Map.of(
             Button.PLAY, playButton,
             Button.CREDITS, creditsButton,

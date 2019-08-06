@@ -24,7 +24,7 @@ public class AudioManager {
     Map<AudioClipType, Long> lastPlayed;
     int playDelay = 10;
 
-    boolean mute = true;
+    boolean mute = false;
 
 
     public AudioManager() {

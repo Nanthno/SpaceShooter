@@ -47,7 +47,7 @@ public class Explosion {
         expType = type;
         this.catalystSeparation = catalystSeparation;
         radius = expRadii.get(type);
-        maxStage = Globals.getExplosionMaxFrame(type);
+        maxStage = Globals.getExplosionMaxFrame(type)-1;
         maxDuration = expDuration.get(type);
         duration = maxDuration;
         if(effectiveStageTypes.containsKey(type))
@@ -60,7 +60,7 @@ public class Explosion {
         expType = EnemyType.getExplosionType(ship.getType());
         this.catalystSeparation = catalystSeparation;
         radius = expRadii.get(expType);
-        maxStage = Globals.getExplosionMaxFrame(expType);
+        maxStage = Globals.getExplosionMaxFrame(expType)-1;
         maxDuration = expDuration.get(expType);
         duration = maxDuration;
         if(effectiveStageTypes.containsKey(expType))
@@ -70,7 +70,7 @@ public class Explosion {
     // returns true if the explosion should be destroyed
     boolean update() {
         duration--;
-        stage = stage  = maxStage - duration / (maxDuration / maxStage);
+        stage = maxStage - duration / (maxDuration / maxStage);
         if (stage < 0) {
             stage = 0;
         }

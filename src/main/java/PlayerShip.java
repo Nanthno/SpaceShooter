@@ -46,7 +46,7 @@ public class PlayerShip {
     int invinciblePeriod = -10;
     int empDelay = 30;
 
-    // used to ensure that the player releases the missile fire button before sending a killMissile to Controller
+    // used to ensure that the player releases the weapon_player_missile fire button before sending a killMissile to Controller
     //// 0 = no missiles, 1 = missiles exist but not primed, 2 = missiles exist and primed
     static int missileArmed = 0;
 
