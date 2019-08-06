@@ -1,6 +1,7 @@
 package src.main.java.density;
 
 import src.main.java.enemy.EnemyShip;
+import src.main.java.enemy.EnemyType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +26,8 @@ public class DensityMap {
     private void populateDensity(List<EnemyShip> enemies) {
         List<int[]> densityKeys = new ArrayList<>();
         for (EnemyShip ship : enemies) {
+            if(ship.getType() == EnemyType.AGILE)
+                continue;
             int x = ship.getx();
             int y = ship.gety();
             int radius = ship.getRadius();
