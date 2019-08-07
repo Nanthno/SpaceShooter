@@ -1,8 +1,9 @@
 package src.main.java.graphics;
 
-import src.main.java.*;
+import src.main.java.Controller;
+import src.main.java.Explosion;
+import src.main.java.PlayerShip;
 import src.main.java.enemy.EnemyShip;
-import src.main.java.enemy.EnemyType;
 import src.main.java.weapons.WeaponType;
 import src.main.java.weapons.enemyWeapons.EnemyWeaponParent;
 import src.main.java.weapons.playerWeapons.LaserBlast;
@@ -32,7 +33,7 @@ class GamePanel extends JPanel {
         for (PlayerWeaponParent w : playerWeapons) {
             BufferedImage img = GraphicsManager.getFrame(w.getType(), w.getFrame());
 
-            g.drawImage(img, (int) w.getx(), (int) w.gety(), null);
+            g.drawImage(img, w.getx(), w.gety(), null);
         }
 
         // draw enemy fired weapons

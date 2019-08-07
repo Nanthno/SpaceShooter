@@ -7,13 +7,10 @@ import src.main.java.weapons.playerWeapons.PlayerBullet;
 
 public class PlayerShip {
 
-    int health = 100;
-    int maxHealth = 100;
-
     int enemyShipCollisionDamage = 3;
 
-    double xPos = 30;
-    double yPos = GraphicsManager.getWidth() / 2;
+    double xPos = 64;
+    double yPos = GraphicsManager.getHeight() / 2;
     double xSpeed = 4;
     double ySpeed = 4;
 
@@ -143,14 +140,6 @@ public class PlayerShip {
         }
     }
 
-    void shipCollision() {
-        health -= enemyShipCollisionDamage;
-    }
-
-    void looseHealth(int healthLoss) {
-        health -= healthLoss;
-    }
-
 
     public double getx() {
         return xPos;
@@ -158,14 +147,6 @@ public class PlayerShip {
 
     public double gety() {
         return yPos;
-    }
-
-    int getHealth() {
-        return health;
-    }
-
-    int getMaxHealth() {
-        return maxHealth;
     }
 
     int getRadius() {

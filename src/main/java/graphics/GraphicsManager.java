@@ -148,7 +148,7 @@ public class GraphicsManager {
         return WIDTH;
     }
 
-    static int getHeight() {
+    public static int getHeight() {
         return HEIGHT;
     }
 

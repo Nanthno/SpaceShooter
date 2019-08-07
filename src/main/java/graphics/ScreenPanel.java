@@ -15,13 +15,22 @@ public class ScreenPanel extends JPanel {
     MenuPanel menuPanel;
     HighScorePanel highScorePanel;
 
+    private enum Button {
+        NONE,
+        PLAY,
+        CREDITS,
+        BACK,
+        SOUND_SELECTION,
+        MENU
+    }
+
     int currentBackgroundX = 0;
     private static final int backgroundScrollRate = 1;
     int backgroundImgWidth;
 
     int screenXShake = 0;
     int screenYShake = 0;
-    int maxScreenShake = 50;
+    int maxScreenShake = 12;
 
     int[] playerShake = new int[]{0,0};
     int maxPlayerShake = 10;
@@ -78,7 +87,7 @@ public class ScreenPanel extends JPanel {
     }
 
     private BufferedImage drawHighScoreScreen() {
-        return null;//highScorePanel.drawScreenshot();
+        return highScorePanel.drawScreenshot();
     }
 
     private BufferedImage makeBackground() {
@@ -139,5 +148,6 @@ public class ScreenPanel extends JPanel {
     void addPlayerShake(int x, int y) {
         playerShake = new int[]{playerShake[0]+x, playerShake[1]+y};
     }
+
 }
 

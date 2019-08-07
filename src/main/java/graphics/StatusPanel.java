@@ -36,8 +36,8 @@ class StatusPanel extends JPanel {
     protected BufferedImage drawStatus() {
 
         int score = Controller.getScore();
-        int health = Controller.getPlayerHealth();
-        int maxHealth = Controller.getPlayerMaxHealth();
+        int health = Controller.getHealth();
+        int maxHealth = Controller.getMaxHealth();
         int heat = Controller.getPlayerHeat();
         int maxHeat = Controller.getPlayerMaxHeat();
         int charge = Controller.getCharge();

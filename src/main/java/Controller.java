@@ -6,6 +6,8 @@ import src.main.java.density.DensityMap;
 import src.main.java.enemy.EnemyShip;
 import src.main.java.enemy.EnemyType;
 import src.main.java.graphics.GraphicsManager;
+import src.main.java.graphics.HighScorePanel;
+import src.main.java.graphics.ScreenPanel;
 import src.main.java.spawn.SpawnController;
 import src.main.java.spawn.TimeStampEvent;
 import src.main.java.spawn.TimelineUtil;
@@ -21,6 +23,11 @@ import java.util.Queue;
 import java.util.*;
 
 public class Controller {
+
+
+
+    static int health = -1;
+    static int maxHealth = 100;
 
     static GraphicsManager graphicsManager;
     static AudioManager audioManager;
@@ -59,15 +66,15 @@ public class Controller {
     static long frameCount = 0;
 
     static double escapingEnemyTracker = 0;
-    static double escapingEnemyPerFrameReduction = 0.1;
-    static int defaultHealthLossPerEnemy = 10;
+    static final double escapingEnemyPerFrameReduction = 0.1;
+    static final int defaultHealthLossPerEnemy = 10;
 
     static final int laserBlastShake = 2;
     static final Map<ExplosionType, Integer> explosionShake = Map.of(
-            ExplosionType.SMALL, 0,
-            ExplosionType.MEDIUM, 3,
-            ExplosionType.FUEL, 5,
-            ExplosionType.PROJECTILE, 4
+            ExplosionType.SMALL, 2,
+            ExplosionType.MEDIUM, 5,
+            ExplosionType.FUEL, 6,
+            ExplosionType.PROJECTILE, 8
     );
 
     // used to prevent an update from running if another update is currently running
@@ -79,6 +86,10 @@ public class Controller {
         graphicsManager = new GraphicsManager();
         audioManager = new AudioManager();
 
+        setGameState(GameState.MENU);
+        resetGame();
+
+
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
             public void run() {
                 System.out.println("In shutdown hook");
@@ -86,10 +97,17 @@ public class Controller {
             }
         }, "Shutdown-thread"));
 
-        setGameState(GameState.MENU);
 
         gameLoop();
 
+    }
+
+    static void resetGame() {
+        health = maxHealth;
+        enemyShips = new ArrayList<>();
+        enemyFiredWeapons = new ArrayList<>();
+        playerFiredWeapons = new ArrayList<>();
+        player = new PlayerShip();
     }
 
     static void resetTimeline() {
@@ -108,6 +126,9 @@ public class Controller {
     }
 
     static void updateGame() {
+        if(health < 0)
+            setGameState(GameState.HIGH_SCORE);
+
         frameCount++;
         if (escapingEnemyTracker > escapingEnemyPerFrameReduction)
             escapingEnemyTracker -= escapingEnemyPerFrameReduction;
@@ -188,7 +209,7 @@ public class Controller {
     static void shipEscaped() {
         escapingEnemyTracker++;
         int healthLoss = (int) Math.pow(defaultHealthLossPerEnemy, 1 / escapingEnemyTracker);
-        player.looseHealth(healthLoss);
+        health -= healthLoss;
     }
 
     static void checkEnemyBulletCollision() {
@@ -259,6 +280,7 @@ public class Controller {
                 if (e.isKillable(PlayerShip.class)) {
                     e.killShip(0);
                     enemyShips.remove(i);
+                    health -= 3;
                 }
 
             }
@@ -386,22 +408,6 @@ public class Controller {
     }
 
     private static int[] makeShake(double x, double y, double shake) {
-/*
-        double xPos = player.xPos;
-        double yPos = player.yPos;
-
-        double xDiff = xPos - x;
-        double yDiff = yPos - y;
-
-        double total = xDiff + yDiff;
-
-        double xFrac = xDiff/total;
-        double yFrac = yDiff/total;
-
-        int xShake = (int)(shake * xFrac);
-        int yShake = (int)(shake * yFrac);
-
-        */
         Random rand = new Random();
         double xFrac = rand.nextDouble() * 2;
         int xDirection = rand.nextInt(2) == 0 ? 1 : -1;
@@ -446,12 +452,12 @@ public class Controller {
         return explosions;
     }
 
-    public static int getPlayerHealth() {
-        return player.getHealth();
+    public static int getHealth() {
+        return health;
     }
 
-    public static int getPlayerMaxHealth() {
-        return player.getMaxHealth();
+    public static int getMaxHealth() {
+        return maxHealth;
     }
 
     public static int getPlayerMaxHeat() {
@@ -510,14 +516,17 @@ public class Controller {
     public static void setGameState(GameState newGameState) {
         if (newGameState == GameState.PLAYING) {
             SpawnController.setStartTime(System.currentTimeMillis());
+            resetGame();
             resetTimeline();
             audioManager.playMusic(MusicType.GAME);
         }
         if (newGameState == GameState.MENU) {
             audioManager.playMusic(MusicType.MENU);
         }
-        if (newGameState == GameState.HIGH_SCORE)
+        if (newGameState == GameState.HIGH_SCORE) {
             audioManager.playMusic(MusicType.HIGHSCORE);
+            HighScorePanel.loadScores();
+        }
 
         gameState = newGameState;
     }

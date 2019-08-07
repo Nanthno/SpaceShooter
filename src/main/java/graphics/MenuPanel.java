@@ -11,7 +11,7 @@ public class MenuPanel extends JPanel {
 
     String creditsFile = "src/main/resources/misc/credits";
     BufferedImage credits = ImageUtil.stringToImage(FileUtil.readFileToString(creditsFile), new Color(255, 255, 255));
-    int creditsX = GraphicsManager.getWidth()/2 - credits.getWidth()/2;
+    int creditsX = GraphicsManager.getWidth() / 2 - credits.getWidth() / 2;
     int creditsY = 100;
 
     private static final BufferedImage[] backButton = ImageUtil.loadAnimation(GraphicsManager.imageFolderPath + "backButton");
@@ -39,8 +39,8 @@ public class MenuPanel extends JPanel {
     private final int backButtonHeight = backButton[0].getHeight();
 
     // for sound selection
-    private final int soundButtonOriginX = Globals.screenWidth-250;
-    private final int soundButtonOriginY = Globals.screenHeight-100;
+    private final int soundButtonOriginX = Globals.screenWidth - 250;
+    private final int soundButtonOriginY = Globals.screenHeight - 100;
     private final int soundButtonWidth = soundModeButtons[0].getWidth();
     private final int soundButtonHeight = soundModeButtons[0].getHeight();
 
@@ -104,10 +104,10 @@ public class MenuPanel extends JPanel {
     }
 
     private BufferedImage drawCredits(BufferedImage screenshot, Graphics g, Point mousePoint) {
-        int buttonValue = getButtonNumber(backButtonOriginX, backButtonOriginY, backButtonWidth, backButtonHeight, mousePoint, Button.BACK);
+        int buttonValue = getButtonFrame(backButtonOriginX, backButtonOriginY, backButtonWidth, backButtonHeight, mousePoint, Button.BACK);
         BufferedImage backButtonImg = backButton[buttonValue];
 
-        g.drawImage(backButtonImg, backButtonOriginX, backButtonOriginY, null);
+        g.drawImage(backButtonImg, backButtonOriginX, backButtonOriginY - 24, null);
         if (buttonValue != 2) {
             currentClick = Button.NONE;
         }
@@ -119,23 +119,12 @@ public class MenuPanel extends JPanel {
     }
 
     private BufferedImage drawMainMenu(BufferedImage screenshot, Graphics g, Point mousePoint) {
-
-        BufferedImage specialWeapons = drawSpecialWeapons(mousePoint);
-        BufferedImage instructionsBox = drawInstructionsBox();
         BufferedImage buttons = drawButtons(mousePoint);
         g.drawImage(buttons, buttonOriginX, buttonOriginY, null);
 
         g.dispose();
 
         return screenshot;
-    }
-
-    private BufferedImage drawSpecialWeapons(Point mousePoint) {
-        return null;
-    }
-
-    private BufferedImage drawInstructionsBox() {
-        return null;
     }
 
     private BufferedImage drawButtons(Point mousePoint) {
@@ -147,7 +136,7 @@ public class MenuPanel extends JPanel {
 
         boolean mouseStillOnCurrentClick = false;
 
-        int buttonNumber = getButtonNumber(soundButtonOriginX, soundButtonOriginY+soundButtonHeight, soundButtonWidth, soundButtonHeight,
+        int buttonNumber = getButtonFrame(soundButtonOriginX, soundButtonOriginY + soundButtonHeight, soundButtonWidth, soundButtonHeight,
                 mousePoint, Button.SOUND_SELECTION);
 
         for (int i = 0; i < buttonOrder.length; i++) {
@@ -158,13 +147,13 @@ public class MenuPanel extends JPanel {
             if (buttonNumber == 2) {
                 mouseStillOnCurrentClick = true;
             }
-            buttonNumber = getButtonNumber(buttonOriginX, yPos + buttonOriginY + buttonYOffset, buttonWidth, buttonHeight,
+            buttonNumber = getButtonFrame(buttonOriginX, yPos + buttonOriginY + buttonYOffset, buttonWidth, buttonHeight,
                     mousePoint, currentButton);
             g.drawImage(buttonImages[buttonNumber], 0, yPos, null);
 
         }
 
-        g.drawImage(soundModeButtons[Controller.getIsSoundExperiential() ? 1  : 0],
+        g.drawImage(soundModeButtons[Controller.getIsSoundExperiential() ? 1 : 0],
                 soundButtonOriginX, soundButtonOriginY,
                 null);
 
@@ -174,7 +163,34 @@ public class MenuPanel extends JPanel {
         return buttons;
     }
 
-    private int getButtonNumber(int xPos, int yPos, int width, int height, Point mousePoint, Button
+    private int getButtonFrame(int xPos, int yPos, int width, int height, Point mousePoint, Button button) {
+        if (mouseOverlap(mousePoint, xPos, yPos, width, height)) {
+            if (input.getIsMouse1Pressed()) {
+                if (input.getIsMouse1Released()) {
+                    if (button == Button.PLAY) {
+                        Controller.setGameState(GameState.PLAYING);
+                        currentClick = Button.NONE;
+                    } else if (button == Button.CREDITS) {
+                        menuStatus = MenuStatus.CREDITS;
+                        currentClick = Button.NONE;
+                    } else if (button == Button.BACK) {
+                        menuStatus = MenuStatus.MAIN;
+                        currentClick = Button.NONE;
+                    } else if (button == Button.SOUND_SELECTION) {
+                        Controller.toggleSoundMode();
+                        currentClick = Button.NONE;
+                    }
+                    input.resetIsMouse1Released();
+                }
+                return 2;
+            }
+            return 1;
+        }
+        return 0;
+
+    }
+
+    /*private int getButtonFrame(int xPos, int yPos, int width, int height, Point mousePoint, Button
             button) {
 
         if (mouseOverlap(mousePoint, xPos, yPos, width, height)) {
@@ -210,7 +226,7 @@ public class MenuPanel extends JPanel {
 
         return 0;
 
-    }
+    }*/
 
     private static boolean mouseOverlap(Point mousePoint, int x, int y, int width, int height) {
         int mouseX = (int) mousePoint.getX();
