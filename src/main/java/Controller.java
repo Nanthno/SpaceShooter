@@ -7,7 +7,6 @@ import src.main.java.enemy.EnemyShip;
 import src.main.java.enemy.EnemyType;
 import src.main.java.graphics.GraphicsManager;
 import src.main.java.graphics.HighScorePanel;
-import src.main.java.graphics.ScreenPanel;
 import src.main.java.spawn.SpawnController;
 import src.main.java.spawn.TimeStampEvent;
 import src.main.java.spawn.TimelineUtil;
@@ -26,7 +25,7 @@ public class Controller {
 
 
 
-    static int health = -1;
+    static int health = 100;
     static int maxHealth = 100;
 
     static GraphicsManager graphicsManager;
@@ -108,6 +107,7 @@ public class Controller {
         enemyFiredWeapons = new ArrayList<>();
         playerFiredWeapons = new ArrayList<>();
         player = new PlayerShip();
+        score = 0;
     }
 
     static void resetTimeline() {
@@ -126,9 +126,11 @@ public class Controller {
     }
 
     static void updateGame() {
-        if(health < 0)
+       // health -= 10;
+        if(health < 0) {
             setGameState(GameState.HIGH_SCORE);
-
+            HighScorePanel.addScore(score);
+        }
         frameCount++;
         if (escapingEnemyTracker > escapingEnemyPerFrameReduction)
             escapingEnemyTracker -= escapingEnemyPerFrameReduction;

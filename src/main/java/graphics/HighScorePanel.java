@@ -1,16 +1,18 @@
 // code credit to https://stackoverflow.com/questions/20307754/save-data-from-linkedlist-in-java
+// and https://stackoverflow.com/questions/18800717/convert-text-content-to-image
 
 package src.main.java.graphics;
 
 
 import src.main.java.Controller;
 import src.main.java.GameState;
+import src.main.java.Globals;
 import src.main.java.Input;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.LinkedList;
+import java.util.Arrays;
 
 public class HighScorePanel {
 
@@ -18,18 +20,25 @@ public class HighScorePanel {
 
     private static BufferedImage[] menuButton = ImageUtil.loadAnimation("src/main/resources/images/buttonMenu");
 
-    static LinkedList<String[]> scores;
+    static String[][] scores;
+
+    static final int textSize = 12;
+    static final int scoreYSpacing = 20;
+    static final int scoreboardWidth = 200;
+    static final int scoreboardXOrigin = Globals.screenWidth/2 - scoreboardWidth/2;
+    static final int scoreboardYOrigin = 100;
+    static final Color textColor = new Color(100,50,200);
+    static final Font font = new Font("Monospaced Bold", Font.PLAIN, textSize);
 
     private enum Button {
         NONE,
         MENU
     }
 
-    private static Button currentClick = Button.NONE;
     private static Input input = Controller.getInput();
 
-    private static final int menuButtonOriginX = 128;
-    private static final int menuButtonOriginY = 128;
+    private static final int menuButtonOriginX = 64;
+    private static final int menuButtonOriginY = 64;
     private static final int menuButtonWidth = menuButton[0].getWidth();
     private static final int menuButtonHeight = menuButton[0].getHeight();
 
@@ -42,17 +51,88 @@ public class HighScorePanel {
         int menuButtonFrame = getButtonFrame(menuButtonOriginX, menuButtonOriginY, menuButtonWidth, menuButtonHeight, mousePoint, Button.MENU);
         g.drawImage(menuButton[menuButtonFrame], menuButtonOriginX, menuButtonOriginY - 24, null);
 
+        BufferedImage scoreImg = drawScores();
+        g.drawImage(scoreImg, scoreboardXOrigin, scoreboardYOrigin, null);
+
         g.dispose();
 
         return screenshot;
+    }
+
+    private static BufferedImage drawScores() {
+        int currentYPos = 0;
+        int lineSize = textSize+scoreYSpacing;
+        BufferedImage img = new BufferedImage(scoreboardWidth,scores.length*lineSize,BufferedImage.TYPE_INT_ARGB);
+        Graphics g = img.getGraphics();
+
+        for(int i = 0; i < scores.length; i++) {
+            String[] score = scores[i];
+            BufferedImage playerNameImg = drawWord((i+1) + ". " + score[0]);
+            g.drawImage(playerNameImg, 0, currentYPos, null);
+
+            BufferedImage scoreImg = drawWord(score[1]);
+            g.drawImage(scoreImg, scoreboardWidth-scoreImg.getWidth(), currentYPos, null);
+
+            currentYPos += lineSize;
+        }
+        g.dispose();
+
+        return img;
+    }
+    private static BufferedImage drawWord(String word) {
+        BufferedImage img = new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB);
+        Graphics g = img.getGraphics();
+        g.setFont(font);
+        FontMetrics fm = g.getFontMetrics();
+        int width = fm.stringWidth(word);
+        int height = fm.getHeight();
+        g.dispose();
+
+        img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        g = img.getGraphics();
+        g.setFont(font);
+        g.setColor(textColor);
+        g.drawString(word, 0, fm.getAscent());
+        g.dispose();
+
+        return img;
+    }
+
+    public static void addScore(int score) {
+        String[] scoreNode = new String[]{"<Player>", String.valueOf(score)};
+
+        int placing = -1;
+        for(int i = 0; i < 10; i++) {
+            String[] compNode = scores[i];
+            System.out.println(Arrays.toString(compNode) + " : " + score);
+            if(compNode[1] == null || score > Integer.parseInt(compNode[1])) {
+                System.out.println("placing = " + i);
+                placing = i;
+                break;
+            }
+        }
+
+        if(placing == -1)
+            return;
+
+        String[] storedNode = scoreNode;
+        String[] moveNode;
+        for(int i = placing; i < 10; i++) {
+            moveNode = scores[i];
+            scores[i] = storedNode;
+            storedNode = moveNode;
+            if(storedNode == null)
+                return;
+        }
+
+        saveScores();
     }
 
     public static void loadScores() {
         try {
             FileInputStream fin = new FileInputStream(scoreFileLocation);
             ObjectInputStream in = new ObjectInputStream(fin);
-            scores = (LinkedList<String[]>) in.readObject();
-            return;
+            scores = (String[][]) in.readObject();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -61,8 +141,21 @@ public class HighScorePanel {
             e.printStackTrace();
         }
 
-        // if there is an issue reading the file:
-        scores = new LinkedList<>();
+        scores = populateEmptyScore(scores);
+        return;
+    }
+
+    public static String[][] populateEmptyScore(String[][] array) {
+        System.out.println("Thing");
+        if(array == null)
+            array = new String[10][2];
+
+        for(int i = 0; i < array.length; i++) {
+            if(array[i] == null || array[i][0] == null || array[i][1] == null)
+                array[i] = new String[]{"<PLAYER>", "0"};
+        }
+
+        return array;
     }
 
     public static void saveScores() {
@@ -84,8 +177,10 @@ public class HighScorePanel {
         if (mouseOverlap(mousePoint, xPos, yPos, width, height)) {
             if (input.getIsMouse1Pressed()) {
                 if (input.getIsMouse1Released()) {
-                    if (button == Button.MENU)
+                    if (button == Button.MENU) {
                         Controller.setGameState(GameState.MENU);
+                        saveScores();
+                    }
 
                     input.resetIsMouse1Released();
                 }
