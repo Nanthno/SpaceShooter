@@ -15,6 +15,11 @@ public class SpawnController {
     static HashMap<String, SpawnCluster> allClusters;
     private static long startTime = 0;
 
+    // in milliseconds
+    private static int shieldSpawnMinDelay = 1000;
+    private static long lastShieldSpawn;
+    private static String shieldClusterCode = "OS";
+
     public SpawnController() {
         startTime = System.currentTimeMillis();
 
@@ -27,19 +32,27 @@ public class SpawnController {
 
     public List<EnemyShip> onTick() {
 
+        Long time = System.currentTimeMillis();
+
         List<EnemyShip> enemiesToSpawn = new ArrayList<>();
 
         Random rand = new Random();
 
         for (String clusterCode : spawnProbabilities.keySet()) {
             if (rand.nextDouble() < spawnProbabilities.get(clusterCode)) {
+                if (clusterCode.equals(shieldClusterCode)) {
+                    if (time - shieldSpawnMinDelay > lastShieldSpawn)
+                        continue;
+
+                    lastShieldSpawn = time;
+                }
                 enemiesToSpawn.addAll(allClusters.get(clusterCode).makeSpawns(minY, maxY));
             }
         }
-        StringBuilder builder = new StringBuilder();
+        /*StringBuilder builder = new StringBuilder();
         for(EnemyShip e : enemiesToSpawn) {
             builder.append(e.getType() + " : ");
-        }
+        }*/
         return enemiesToSpawn;
     }
 

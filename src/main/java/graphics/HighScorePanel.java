@@ -21,13 +21,15 @@ public class HighScorePanel {
     private static BufferedImage[] menuButton = ImageUtil.loadAnimation("src/main/resources/images/buttonMenu");
 
     static String[][] scores;
+    static int currentRunPlace = -1;
 
     static final int textSize = 12;
     static final int scoreYSpacing = 20;
     static final int scoreboardWidth = 200;
-    static final int scoreboardXOrigin = Globals.screenWidth/2 - scoreboardWidth/2;
+    static final int scoreboardXOrigin = Globals.screenWidth / 2 - scoreboardWidth / 2;
     static final int scoreboardYOrigin = 100;
-    static final Color textColor = new Color(100,50,200);
+    static final Color textColor = new Color(100, 50, 200);
+    static final Color currentRunTextColor = new Color(0, 150, 255);
     static final Font font = new Font("Monospaced Bold", Font.PLAIN, textSize);
 
     private enum Button {
@@ -61,17 +63,18 @@ public class HighScorePanel {
 
     private static BufferedImage drawScores() {
         int currentYPos = 0;
-        int lineSize = textSize+scoreYSpacing;
-        BufferedImage img = new BufferedImage(scoreboardWidth,scores.length*lineSize,BufferedImage.TYPE_INT_ARGB);
+        int lineSize = textSize + scoreYSpacing;
+        BufferedImage img = new BufferedImage(scoreboardWidth, scores.length * lineSize, BufferedImage.TYPE_INT_ARGB);
         Graphics g = img.getGraphics();
 
-        for(int i = 0; i < scores.length; i++) {
+        for (int i = 0; i < scores.length; i++) {
+            Color scoreColor = i == currentRunPlace ? currentRunTextColor : textColor;
             String[] score = scores[i];
-            BufferedImage playerNameImg = drawWord((i+1) + ". " + score[0]);
+            BufferedImage playerNameImg = drawWord((i + 1) + ". " + score[0], scoreColor);
             g.drawImage(playerNameImg, 0, currentYPos, null);
 
-            BufferedImage scoreImg = drawWord(score[1]);
-            g.drawImage(scoreImg, scoreboardWidth-scoreImg.getWidth(), currentYPos, null);
+            BufferedImage scoreImg = drawWord(score[1], scoreColor);
+            g.drawImage(scoreImg, scoreboardWidth - scoreImg.getWidth(), currentYPos, null);
 
             currentYPos += lineSize;
         }
@@ -79,8 +82,9 @@ public class HighScorePanel {
 
         return img;
     }
-    private static BufferedImage drawWord(String word) {
-        BufferedImage img = new BufferedImage(1,1,BufferedImage.TYPE_INT_ARGB);
+
+    private static BufferedImage drawWord(String word, Color color) {
+        BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
         Graphics g = img.getGraphics();
         g.setFont(font);
         FontMetrics fm = g.getFontMetrics();
@@ -91,7 +95,7 @@ public class HighScorePanel {
         img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         g = img.getGraphics();
         g.setFont(font);
-        g.setColor(textColor);
+        g.setColor(color);
         g.drawString(word, 0, fm.getAscent());
         g.dispose();
 
@@ -99,33 +103,33 @@ public class HighScorePanel {
     }
 
     public static void addScore(int score) {
+        currentRunPlace = -1;
         String[] scoreNode = new String[]{"<Player>", String.valueOf(score)};
 
         int placing = -1;
-        for(int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             String[] compNode = scores[i];
-            System.out.println(Arrays.toString(compNode) + " : " + score);
-            if(compNode[1] == null || score > Integer.parseInt(compNode[1])) {
-                System.out.println("placing = " + i);
+            if (compNode[1] == null || score > Integer.parseInt(compNode[1])) {
                 placing = i;
                 break;
             }
         }
 
-        if(placing == -1)
+        if (placing == -1)
             return;
 
         String[] storedNode = scoreNode;
         String[] moveNode;
-        for(int i = placing; i < 10; i++) {
+        for (int i = placing; i < 10; i++) {
             moveNode = scores[i];
             scores[i] = storedNode;
             storedNode = moveNode;
-            if(storedNode == null)
+            if (storedNode == null)
                 return;
         }
 
         saveScores();
+        currentRunPlace = placing;
     }
 
     public static void loadScores() {
@@ -146,12 +150,11 @@ public class HighScorePanel {
     }
 
     public static String[][] populateEmptyScore(String[][] array) {
-        System.out.println("Thing");
-        if(array == null)
+        if (array == null)
             array = new String[10][2];
 
-        for(int i = 0; i < array.length; i++) {
-            if(array[i] == null || array[i][0] == null || array[i][1] == null)
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] == null || array[i][0] == null || array[i][1] == null)
                 array[i] = new String[]{"<PLAYER>", "0"};
         }
 

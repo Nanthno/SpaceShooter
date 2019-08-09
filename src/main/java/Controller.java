@@ -1,5 +1,6 @@
 package src.main.java;
 
+import src.main.java.audio.AudioClipType;
 import src.main.java.audio.AudioManager;
 import src.main.java.audio.MusicType;
 import src.main.java.density.DensityMap;
@@ -296,6 +297,7 @@ public class Controller {
                     player.getx(), player.gety(), player.getRadius()) < w.getRadius() + player.getRadius()) {
                 enemyFiredWeapons.remove(i);
                 player.hitByWeapon(w);
+                audioManager.addSoundToFrame(AudioClipType.ENEMY_EMP_HIT);
             }
         }
     }
