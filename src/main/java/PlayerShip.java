@@ -5,9 +5,9 @@ import src.main.java.weapons.WeaponType;
 import src.main.java.weapons.enemyWeapons.EnemyWeaponParent;
 import src.main.java.weapons.playerWeapons.PlayerBullet;
 
-public class PlayerShip {
+import java.util.Random;
 
-    int enemyShipCollisionDamage = 3;
+public class PlayerShip {
 
     double xPos = 64;
     double yPos = GraphicsManager.getHeight() / 2;
@@ -94,7 +94,7 @@ public class PlayerShip {
                 xPos -= xSpeed;
             // firing
             if (in.fire && fire < 0 && !overheated) {
-                Controller.firePlayerBullet(new PlayerBullet(xPos + 5, yPos + radius - 1, 5, 0));
+                Controller.firePlayerBullet(new PlayerBullet(xPos + 5, yPos + radius - 1, fire < -40));
                 fire = maxFire;
                 heat += fireHeat;
                 if (heat > overHeat) {
