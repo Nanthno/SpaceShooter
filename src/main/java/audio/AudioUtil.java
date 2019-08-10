@@ -3,6 +3,8 @@ package src.main.java.audio;
 import kuusisto.tinysound.Music;
 import kuusisto.tinysound.Sound;
 import kuusisto.tinysound.TinySound;
+import src.main.java.Globals;
+import src.main.java.ResourceFileType;
 
 import java.io.File;
 import java.util.*;
@@ -94,7 +96,7 @@ public class AudioUtil {
     }
 
     private static String makeFileLocation(boolean isExperiential) {
-        String location = "src/main/resources/sound/";
+        String location = Globals.getResourceFile(ResourceFileType.SOUND);
         if(isExperiential) {
             location += "experiential/";
         }

@@ -1,5 +1,7 @@
 package src.main.java.spawn;
 
+import src.main.java.Globals;
+import src.main.java.ResourceFileType;
 import src.main.java.enemy.EnemyType;
 
 import java.io.File;
@@ -11,7 +13,7 @@ import java.util.List;
 
 public class ClusterUtil {
 
-    static File clusterDirectory = new File("src/main/resources/spawn/cluster");
+    static File clusterDirectory = new File(Globals.getResourceFile(ResourceFileType.CLUSTER));
 
     static HashMap<String, SpawnCluster> createSpawnClusters() {
         HashMap<String, SpawnCluster> clusters = new HashMap<String, SpawnCluster>();

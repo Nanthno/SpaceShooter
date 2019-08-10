@@ -512,6 +512,14 @@ public class Controller {
         return isSoundExperiential;
     }
 
+    public static boolean isAudioMuted() {
+        return audioManager.isMuted();
+    }
+
+    public static void toggleMute() {
+        audioManager.toggleMute();
+    }
+
     public static void toggleSoundMode() {
         isSoundExperiential = !isSoundExperiential;
         audioManager.setSoundType(isSoundExperiential);

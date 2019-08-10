@@ -5,6 +5,7 @@ import src.main.java.audio.AudioClipType;
 import src.main.java.enemy.*;
 import src.main.java.weapons.WeaponType;
 
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +13,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Globals {
+
+    private static final boolean buildForJar = false;
 
     public static final int screenHeight = 640;
     public static final int screenWidth = 1024;
@@ -47,6 +50,14 @@ public class Globals {
             EnemyType.SHOOTER, EnemyShooter.class,
             EnemyType.PILOTED, EnemyPiloted.class
     );
+
+    static final Map<ResourceFileType, String> resourceFileMap = Map.of(
+            ResourceFileType.IMAGE, "src/main/resources/images/",
+            ResourceFileType.SOUND, "src/main/resources/sound/",
+            ResourceFileType.CLUSTER, "src/main/resources/spawn/cluster/",
+            ResourceFileType.TIMELINE, "src/main/resources/spawn/timeline/",
+            ResourceFileType.MISC, "src/main/resources/misc/"
+            );
 
     static final Map<ExplosionType, AudioClipType> explosionAudioClips = makeExplosionAudioClipsMap();
     static final Map<WeaponType, AudioClipType> weaponAudioClips = makeWeaponAudioClipsMap();
@@ -178,5 +189,10 @@ public class Globals {
 
     public static AudioClipType getWeaponAudioClipType(WeaponType weaponType) {
         return weaponAudioClips.get(weaponType);
+    }
+
+    public static String getResourceFile(ResourceFileType type) {
+        String output = (buildForJar ? "SpaceShooter/" : "") + resourceFileMap.get(type);
+        return output;
     }
 }

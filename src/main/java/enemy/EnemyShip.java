@@ -61,11 +61,7 @@ public class EnemyShip {
     }
 
     protected boolean checkDead() {
-        if (xPos < -20) {
-            return true;
-        }
-
-        return false;
+        return xPos < -1*radius;
     }
 
     public void killShip(int catalistSeperation) {

@@ -7,6 +7,7 @@ import src.main.java.Globals;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ConcurrentModificationException;
 
 public class ScreenPanel extends JPanel {
 
@@ -32,7 +33,7 @@ public class ScreenPanel extends JPanel {
     int screenYShake = 0;
     int maxScreenShake = 12;
 
-    int[] playerShake = new int[]{0,0};
+    int[] playerShake = new int[]{0, 0};
     int maxPlayerShake = 10;
 
     public ScreenPanel() {
@@ -52,9 +53,20 @@ public class ScreenPanel extends JPanel {
         if (state == GameState.MENU)
             screenshot = drawMenuScreen();
         else if (state == GameState.PLAYING)
-            screenshot = drawPlayingScreen();
+
+            // see this? That try-catch below, that... that is awful. However, we are doing it anyway because it only exists to stop a pesky exception from
+            // being printed sooo much. I'm sorry to anyone who reads this code, and to future me, for causing you pain.
+            try {
+                screenshot = drawPlayingScreen();
+            } catch (ConcurrentModificationException e) {
+                screenshot = drawPlayingScreen();
+            }
         else
-            screenshot = drawHighScoreScreen();
+            try {
+                screenshot = drawHighScoreScreen();
+            } catch (NullPointerException e) {
+                screenshot = new BufferedImage(1,1, BufferedImage.TYPE_INT_ARGB);
+            } // no clue why this throws a null pointer exception at startup but eh
         g.drawImage(screenshot, 0, 0, null);
     }
 
@@ -74,11 +86,11 @@ public class ScreenPanel extends JPanel {
         BufferedImage game = gamePanel.drawGameScreenShot(playerShake);
         //BufferedImage mergedImages = ImageUtil.joinImages(status, game);
 
-        BufferedImage mergedImages = new BufferedImage(Globals.screenWidth+status.getWidth(),Globals.screenHeight, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage mergedImages = new BufferedImage(Globals.screenWidth + status.getWidth(), Globals.screenHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics g = mergedImages.getGraphics();
 
-        g.drawImage(game, screenXShake +status.getWidth(), screenYShake, null);
-        g.drawImage(status, 0,0, null);
+        g.drawImage(game, screenXShake + status.getWidth(), screenYShake, null);
+        g.drawImage(status, 0, 0, null);
 
         g.dispose();
 
@@ -145,8 +157,9 @@ public class ScreenPanel extends JPanel {
         screenXShake += x;
         screenYShake += y;
     }
+
     void addPlayerShake(int x, int y) {
-        playerShake = new int[]{playerShake[0]+x, playerShake[1]+y};
+        playerShake = new int[]{playerShake[0] + x, playerShake[1] + y};
     }
 
 }

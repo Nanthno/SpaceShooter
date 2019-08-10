@@ -1,5 +1,8 @@
 package src.main.java.spawn;
 
+import src.main.java.Globals;
+import src.main.java.ResourceFileType;
+
 import java.io.File;
 import java.io.FilenameFilter;
 import java.nio.file.Files;
@@ -7,7 +10,7 @@ import java.util.*;
 
 public class TimelineUtil {
 
-    static final File timelineDirectory = new File("src/main/resources/spawn/timeline");
+    static final File timelineDirectory = new File(Globals.getResourceFile(ResourceFileType.TIMELINE));
 
 
     public static Map<Integer, TimeStampEvent> readTimelines() {

@@ -1,15 +1,17 @@
 package src.main.java.graphics;
 
 import src.main.java.*;
+import src.main.java.audio.AudioManager;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ConcurrentModificationException;
 import java.util.Map;
 
 public class MenuPanel extends JPanel {
 
-    String creditsFile = "src/main/resources/misc/credits";
+    String creditsFile = Globals.getResourceFile(ResourceFileType.MISC) + "credits";
     BufferedImage credits = ImageUtil.stringToImage(FileUtil.readFileToString(creditsFile), new Color(255, 255, 255));
     int creditsX = GraphicsManager.getWidth() / 2 - credits.getWidth() / 2;
     int creditsY = 100;
@@ -18,10 +20,12 @@ public class MenuPanel extends JPanel {
     private static final BufferedImage[] playButton = ImageUtil.loadAnimation(GraphicsManager.imageFolderPath + "buttonPlay");
     private static final BufferedImage[] creditsButton = ImageUtil.loadAnimation(GraphicsManager.imageFolderPath + "buttonCredits");
     private static final BufferedImage[] soundModeButtons = ImageUtil.loadAnimation(GraphicsManager.imageFolderPath + "audioSelectorButtons");
+    private static final BufferedImage[] muteButton = ImageUtil.loadAnimation(GraphicsManager.imageFolderPath + "buttonMute");
     private Map<Button, BufferedImage[]> buttonMap = Map.of(
             Button.PLAY, playButton,
             Button.CREDITS, creditsButton,
-            Button.BACK, backButton
+            Button.BACK, backButton,
+            Button.MUTE, muteButton
     );
 
     // for main
@@ -44,6 +48,12 @@ public class MenuPanel extends JPanel {
     private final int soundButtonWidth = soundModeButtons[0].getWidth();
     private final int soundButtonHeight = soundModeButtons[0].getHeight();
 
+    // for mute button
+    private final int muteButtonOriginX = Globals.screenWidth - 350;
+    private final int muteButtonOriginY = Globals.screenHeight - 80;
+    private final int muteButtonWidth = muteButton[0].getWidth();
+    private final int muteButtonHeight = muteButton[0].getHeight();
+
     Button currentClick = Button.NONE;
 
     private enum Button {
@@ -51,7 +61,8 @@ public class MenuPanel extends JPanel {
         PLAY,
         CREDITS,
         BACK,
-        SOUND_SELECTION
+        SOUND_SELECTION,
+        MUTE
 
     }
 
@@ -157,6 +168,13 @@ public class MenuPanel extends JPanel {
                 soundButtonOriginX, soundButtonOriginY,
                 null);
 
+
+        getButtonFrame(muteButtonOriginX, muteButtonOriginY + muteButtonHeight*2, muteButtonWidth, muteButtonHeight,
+                mousePoint, Button.MUTE);
+        g.drawImage(muteButton[Controller.isAudioMuted() ? 1 : 0],
+                muteButtonOriginX, muteButtonOriginY,
+                null);
+
         if (mouseStillOnCurrentClick == false) {
             currentClick = Button.NONE;
         }
@@ -179,6 +197,9 @@ public class MenuPanel extends JPanel {
                     } else if (button == Button.SOUND_SELECTION) {
                         Controller.toggleSoundMode();
                         currentClick = Button.NONE;
+                    } else if (button == Button.MUTE) {
+                        Controller.toggleMute();
+                        System.out.println("muteClicked");
                     }
                     input.resetIsMouse1Released();
                 }
@@ -189,44 +210,6 @@ public class MenuPanel extends JPanel {
         return 0;
 
     }
-
-    /*private int getButtonFrame(int xPos, int yPos, int width, int height, Point mousePoint, Button
-            button) {
-
-        if (mouseOverlap(mousePoint, xPos, yPos, width, height)) {
-            if (input.getIsMouse1Pressed()) {
-                if (button == currentClick || currentClick == Button.NONE) {
-                    currentClick = button;
-                    return 2;
-                } else
-                    return 0;
-            } else if (button == currentClick) {
-                return 1;
-            }
-            if (input.getIsMouse1Released()) {
-                input.resetIsMouse1Released();
-                if (button == Button.PLAY) {
-                    Controller.setGameState(GameState.PLAYING);
-                    currentClick = Button.NONE;
-                } else if (button == Button.CREDITS) {
-                    menuStatus = MenuStatus.CREDITS;
-                    currentClick = Button.NONE;
-                } else if (button == Button.BACK) {
-                    menuStatus = MenuStatus.MAIN;
-                    currentClick = Button.NONE;
-                } else if (button == Button.SOUND_SELECTION) {
-                    Controller.toggleSoundMode();
-                    currentClick = Button.NONE;
-                }
-
-            } else {
-                return 1;
-            }
-        }
-
-        return 0;
-
-    }*/
 
     private static boolean mouseOverlap(Point mousePoint, int x, int y, int width, int height) {
         int mouseX = (int) mousePoint.getX();

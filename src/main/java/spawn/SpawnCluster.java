@@ -128,7 +128,7 @@ public class SpawnCluster {
 
         List<EnemyShip> ships = new ArrayList<>();
 
-        int xOrigin = Globals.screenWidth+42; // addition prevents ships appearing partially on screen
+        int xOrigin = Globals.screenWidth+64; // addition prevents ships appearing partially on screen
         int yOrigin = chooseY(minY, maxY);
 
         double speed = chooseSpeed();

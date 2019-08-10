@@ -20,6 +20,7 @@ public class AudioManager {
     private static Map<MusicType, Music[]> musicClips;
 
     private static Music currentPlayingMusic;
+    private static double musicVolume = 0.3;
     Map<AudioClipType, Integer> soundFrame = new HashMap<>();
     Map<AudioClipType, Long> lastPlayed;
     int playDelay = 10;
@@ -83,18 +84,16 @@ public class AudioManager {
     }
 
     public void playMusic(MusicType music) {
-        if (!mute) {
-            if (currentPlayingMusic != null) {
-                currentPlayingMusic.stop();
-            }
+        if (currentPlayingMusic != null) {
+            currentPlayingMusic.stop();
+        }
 
-            if (musicClips.containsKey(music)) {
-                currentPlayingMusic = musicClips.get(music)[0];
-                currentPlayingMusic.play(true, 0.3);
-            } else {
-                System.out.println(String.format("WARN: music %s was played but is not defined", music.toString()));
-                currentPlayingMusic = null;
-            }
+        if (musicClips.containsKey(music)) {
+            currentPlayingMusic = musicClips.get(music)[0];
+            currentPlayingMusic.play(true, musicVolume);
+        } else {
+            System.out.println(String.format("WARN: music %s was played but is not defined", music.toString()));
+            currentPlayingMusic = null;
         }
     }
 
@@ -109,5 +108,16 @@ public class AudioManager {
         tinySound.shutdown();
     }
 
+    public boolean isMuted() {
+        return mute;
+    }
+
+    public void toggleMute() {
+        mute = !mute;
+        if (mute)
+            currentPlayingMusic.setVolume(0);
+        else
+            currentPlayingMusic.setVolume(musicVolume);
+    }
 
 }

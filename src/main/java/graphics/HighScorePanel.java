@@ -4,21 +4,17 @@
 package src.main.java.graphics;
 
 
-import src.main.java.Controller;
-import src.main.java.GameState;
-import src.main.java.Globals;
-import src.main.java.Input;
+import src.main.java.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.Arrays;
 
 public class HighScorePanel {
 
-    private static final String scoreFileLocation = "src/main/resources/misc/highscores.data";
+    private static final String scoreFileLocation = Globals.getResourceFile(ResourceFileType.IMAGE) + "highscores.data";
 
-    private static BufferedImage[] menuButton = ImageUtil.loadAnimation("src/main/resources/images/buttonMenu");
+    private static BufferedImage[] menuButton = ImageUtil.loadAnimation(Globals.getResourceFile(ResourceFileType.IMAGE) + "buttonMenu");
 
     static String[][] scores;
     static int currentRunPlace = -1;
@@ -64,7 +60,9 @@ public class HighScorePanel {
     private static BufferedImage drawScores() {
         int currentYPos = 0;
         int lineSize = textSize + scoreYSpacing;
-        BufferedImage img = new BufferedImage(scoreboardWidth, scores.length * lineSize, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage img = new BufferedImage(scoreboardWidth,
+                scores.length * lineSize,
+                BufferedImage.TYPE_INT_ARGB);
         Graphics g = img.getGraphics();
 
         for (int i = 0; i < scores.length; i++) {
@@ -138,7 +136,7 @@ public class HighScorePanel {
             ObjectInputStream in = new ObjectInputStream(fin);
             scores = (String[][]) in.readObject();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("The highscore file does not exist. Creating new one...");
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

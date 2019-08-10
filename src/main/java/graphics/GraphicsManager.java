@@ -3,6 +3,7 @@ package src.main.java.graphics;
 import src.main.java.Controller;
 import src.main.java.ExplosionType;
 import src.main.java.Globals;
+import src.main.java.ResourceFileType;
 import src.main.java.enemy.EnemyType;
 import src.main.java.weapons.WeaponType;
 
@@ -22,7 +23,7 @@ public class GraphicsManager {
     static int WIDTH = GAME_WIDTH + STATUS_WIDTH;
     static int HEIGHT = Globals.screenHeight;
 
-    static final String imageFolderPath = "src/main/resources/images/";
+    static final String imageFolderPath = Globals.getResourceFile(ResourceFileType.IMAGE);
 
     JFrame frame;
     ScreenPanel screenPanel;
@@ -87,10 +88,10 @@ public class GraphicsManager {
 
     // loads the images for the game
     void loadImages() {
-        background = ImageUtil.loadImage("src/main/resources/images/spaceLong.png");
-        statusBars = ImageUtil.loadImage("src/main/resources/images/statusPanel.png");
+        background = ImageUtil.loadImage(Globals.getResourceFile(ResourceFileType.IMAGE) + "spaceLong.png");
+        statusBars = ImageUtil.loadImage(Globals.getResourceFile(ResourceFileType.IMAGE) + "statusPanel.png");
 
-        playerImages = ImageUtil.loadAnimation("src/main/resources/images/player");
+        playerImages = ImageUtil.loadAnimation(Globals.getResourceFile(ResourceFileType.IMAGE) + "player");
 
         enemyImages = loadEnemyImages();
         weaponImages = loadWeaponImages();

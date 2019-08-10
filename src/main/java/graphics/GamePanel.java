@@ -12,12 +12,14 @@ import src.main.java.weapons.playerWeapons.PlayerWeaponParent;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ConcurrentModificationException;
 import java.util.List;
+import java.util.Random;
 
 class GamePanel extends JPanel {
 
 
-    protected BufferedImage drawGameScreenShot(int[] playerShake) {
+    protected BufferedImage drawGameScreenShot(int[] playerShake) throws ConcurrentModificationException {
         BufferedImage screenshot = new BufferedImage(GraphicsManager.getWidth(), GraphicsManager.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
         // draw enemy ships
@@ -45,11 +47,18 @@ class GamePanel extends JPanel {
         }
 
         // draw explosions
+        Random rand = new Random();
+
         List<Explosion> exp = Controller.getExplosions();
         for (int i = 0; i < exp.size(); i++) {
             Explosion e = exp.get(i);
             BufferedImage img = GraphicsManager.getFrame(e.getExpType(), e.getStage());
+            Graphics2D g2d = img.createGraphics();
 
+            int rotation = rand.nextInt(3);
+
+            g2d.rotate((Math.PI / 2)*rotation, img.getHeight() / 2, img.getWidth() / 2);
+            g2d.dispose();
             g.drawImage(img, e.getx(), e.gety(), null);
         }
 

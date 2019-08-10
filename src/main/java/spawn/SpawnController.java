@@ -41,18 +41,14 @@ public class SpawnController {
         for (String clusterCode : spawnProbabilities.keySet()) {
             if (rand.nextDouble() < spawnProbabilities.get(clusterCode)) {
                 if (clusterCode.equals(shieldClusterCode)) {
-                    if (time - shieldSpawnMinDelay > lastShieldSpawn)
-                        continue;
+                if (lastShieldSpawn - shieldSpawnMinDelay < lastShieldSpawn)
+                    continue;
 
-                    lastShieldSpawn = time;
-                }
+                lastShieldSpawn = time;
+            }
                 enemiesToSpawn.addAll(allClusters.get(clusterCode).makeSpawns(minY, maxY));
             }
         }
-        /*StringBuilder builder = new StringBuilder();
-        for(EnemyShip e : enemiesToSpawn) {
-            builder.append(e.getType() + " : ");
-        }*/
         return enemiesToSpawn;
     }
 
