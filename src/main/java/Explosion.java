@@ -4,6 +4,7 @@ import src.main.java.enemy.EnemyShip;
 import src.main.java.enemy.EnemyType;
 
 import java.util.Map;
+import java.util.Random;
 
 public class Explosion {
 
@@ -18,6 +19,8 @@ public class Explosion {
     int maxStage;
 
     int radius;
+
+    int rotation = -1;
 
     ExplosionType expType;
 
@@ -107,5 +110,23 @@ public class Explosion {
 
     public ExplosionType getExpType() {
         return expType;
+    }
+
+    public int getRotation() {
+        if(expType == ExplosionType.MEDIUM) {
+            if(rotation == -1) {
+                Random rand = new Random();
+                rotation = rand.nextInt(3);
+            }
+            return rotation;
+        }
+
+        if(expType == ExplosionType.SMALL) {
+            Random rand = new Random();
+            rotation = rand.nextInt(3);
+            return rotation;
+        }
+
+        return 0;
     }
 }

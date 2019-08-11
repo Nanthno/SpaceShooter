@@ -47,19 +47,20 @@ class GamePanel extends JPanel {
         }
 
         // draw explosions
-        Random rand = new Random();
-
         List<Explosion> exp = Controller.getExplosions();
         for (int i = 0; i < exp.size(); i++) {
             Explosion e = exp.get(i);
             BufferedImage img = GraphicsManager.getFrame(e.getExpType(), e.getStage());
-            Graphics2D g2d = img.createGraphics();
-
-            int rotation = rand.nextInt(3);
-
-            g2d.rotate((Math.PI / 2)*rotation, img.getHeight() / 2, img.getWidth() / 2);
+            int height = img.getHeight();
+            int width = img.getWidth();
+            BufferedImage drawnImg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2d = drawnImg.createGraphics();
+            g2d.translate((height - width) / 2, (height - width) / 2);
+            int rotation = e.getRotation();
+            g2d.rotate((Math.PI / 2) * rotation, img.getHeight() / 2, img.getWidth() / 2);
+            g2d.drawRenderedImage(img, null);
             g2d.dispose();
-            g.drawImage(img, e.getx(), e.gety(), null);
+            g.drawImage(drawnImg, e.getx(), e.gety(), null);
         }
 
 
