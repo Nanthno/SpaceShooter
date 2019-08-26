@@ -16,6 +16,16 @@ public class ScreenPanel extends JPanel {
     MenuPanel menuPanel;
     HighScorePanel highScorePanel;
 
+    final static int gameWidth = GraphicsManager.getWidth();
+    final static int gameHeight = GraphicsManager.getHeight();
+    double gameScale = 1;
+    int frameWidth = 0;
+    int frameHeight = 0;
+    int gameXOrigin = 0;
+    int gameYOrigin = 0;
+
+    boolean frameSizeChange = false;
+
     private enum Button {
         NONE,
         PLAY,
@@ -45,17 +55,19 @@ public class ScreenPanel extends JPanel {
     }
 
     @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
+    protected void paintComponent(Graphics gameGraphics) {
+        super.paintComponent(gameGraphics);
+
         GameState state = Controller.getGameState();
+
+        BufferedImage backgroundImage = makeBackground();
         BufferedImage screenshot;
-        g.drawImage(makeBackground(), 0, 0, null);
         if (state == GameState.MENU)
             screenshot = drawMenuScreen();
         else if (state == GameState.PLAYING)
 
             // see this? That try-catch below, that... that is awful. However, we are doing it anyway because it only exists to stop a pesky exception from
-            // being printed sooo much. I'm sorry to anyone who reads this code, and to future me, for causing you pain.
+            // being printed a lot. I'm sorry to anyone who reads this code, including future me, for causing you pain.
             try {
                 screenshot = drawPlayingScreen();
             } catch (ConcurrentModificationException e) {
@@ -65,9 +77,33 @@ public class ScreenPanel extends JPanel {
             try {
                 screenshot = drawHighScoreScreen();
             } catch (NullPointerException e) {
-                screenshot = new BufferedImage(1,1, BufferedImage.TYPE_INT_ARGB);
+                screenshot = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
             } // no clue why this throws a null pointer exception at startup but eh
+        Graphics g = backgroundImage.getGraphics();
         g.drawImage(screenshot, 0, 0, null);
+        g.dispose();
+        if (frameSizeChange) {
+            double xScale = frameWidth * 1.0 / gameWidth;
+            double yScale = frameHeight * 1.0 / gameHeight;
+            gameScale = xScale < yScale ? xScale : yScale;
+
+            double drawGameWidth = gameWidth * gameScale;
+            double drawGameHeight = gameHeight * gameScale;
+
+            double xScaleDiff = frameWidth - drawGameWidth;
+            double yScaleDiff = frameHeight - drawGameHeight;
+
+            gameXOrigin = (int) (xScaleDiff / 2);
+            gameYOrigin = (int) (yScaleDiff / 2);
+            frameSizeChange = false;
+        }
+
+        BufferedImage scaledScreenshot = new BufferedImage((int) (gameWidth * gameScale), (int) (gameHeight * gameScale), BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2d = scaledScreenshot.createGraphics();
+        g2d.drawImage(backgroundImage, 0, 0, (int) gameScale * gameWidth, (int) gameScale * gameHeight, null);
+        g2d.dispose();
+
+        gameGraphics.drawImage(scaledScreenshot, 0, 0, null);//gameXOrigin, gameYOrigin, null);
     }
 
     private BufferedImage drawMenuScreen() {
@@ -103,8 +139,10 @@ public class ScreenPanel extends JPanel {
     }
 
     private BufferedImage makeBackground() {
-        BufferedImage newBackground = new BufferedImage(GraphicsManager.getWidth(), GraphicsManager.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        BufferedImage newBackground = new BufferedImage((int) (gameWidth * gameScale), (int) (gameHeight * gameScale), BufferedImage.TYPE_INT_ARGB);
         Graphics g = newBackground.getGraphics();
+        g.setColor(new Color(168, 168, 168));
+        g.drawRect(0, 0, frameWidth, frameHeight);
 
         currentBackgroundX -= backgroundScrollRate;
         if (currentBackgroundX <= -1 * backgroundImgWidth) {
@@ -113,7 +151,7 @@ public class ScreenPanel extends JPanel {
 
         g.drawImage(GraphicsManager.background, currentBackgroundX, 0, null);
 
-        if (backgroundImgWidth + currentBackgroundX <= GraphicsManager.getWidth()) {
+        if (backgroundImgWidth + currentBackgroundX <= gameWidth) {
             g.drawImage(GraphicsManager.background, backgroundImgWidth + currentBackgroundX, 0, null);
         }
 
@@ -162,5 +200,20 @@ public class ScreenPanel extends JPanel {
         playerShake = new int[]{playerShake[0] + x, playerShake[1] + y};
     }
 
+
+    // these are supposed to be used for scaling up the frame size but the scaling thing doesn't work
+    public void setFrameHeight(int frameHeight) {
+        if (frameHeight != this.frameHeight) {
+            frameSizeChange = true;
+            this.frameHeight = frameHeight;
+        }
+    }
+
+    public void setFrameWidth(int frameWidth) {
+        if (frameWidth != this.frameWidth) {
+            frameSizeChange = true;
+            this.frameWidth = frameWidth;
+        }
+    }
 }
 

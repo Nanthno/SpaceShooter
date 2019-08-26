@@ -48,7 +48,7 @@ public class GraphicsManager {
         frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Space Shooter");
-        frame.setSize(WIDTH, HEIGHT);
+        frame.setSize(WIDTH, HEIGHT + 16); // without the +16, it cuts off the bottom of the screen
         frame.addMouseListener(Controller.getMouseListener());
 
         screenPanel = new ScreenPanel();
@@ -60,26 +60,30 @@ public class GraphicsManager {
 
 
     public void drawScreen() {
+        //screenPanel.setFrameHeight(frame.getHeight());
+        //screenPanel.setFrameWidth(frame.getWidth());
+
         screenPanel.removeAll();
         screenPanel.validate();
         screenPanel.repaint();
     }
 
     public static BufferedImage[] getAnimation(Object type) {
-        if(type instanceof EnemyType)
+        if (type instanceof EnemyType)
             return enemyImages.get(type);
 
-        if(type instanceof WeaponType)
+        if (type instanceof WeaponType)
             return weaponImages.get(type);
 
-        if(type instanceof ExplosionType)
+        if (type instanceof ExplosionType)
             return explosionImages.get(type);
 
         return animationNotFound;
     }
+
     public static BufferedImage getFrame(Object type, int frame) {
         BufferedImage[] animation = getAnimation(type);
-        if(animation.length <= frame) {
+        if (animation.length <= frame) {
             return imageNotFound;
         }
 
@@ -88,10 +92,15 @@ public class GraphicsManager {
 
     // loads the images for the game
     void loadImages() {
-        background = ImageUtil.loadImage(Globals.getResourceFile(ResourceFileType.IMAGE) + "spaceLong.png");
-        statusBars = ImageUtil.loadImage(Globals.getResourceFile(ResourceFileType.IMAGE) + "statusPanel.png");
 
-        playerImages = ImageUtil.loadAnimation(Globals.getResourceFile(ResourceFileType.IMAGE) + "player");
+        String imageFile = Globals.getResourceFile(ResourceFileType.IMAGE);
+
+        System.out.println("loading images from " + imageFile);
+
+        background = ImageUtil.loadImage(imageFile + "spaceLong.png");
+        statusBars = ImageUtil.loadImage(imageFile + "statusPanel.png");
+
+        playerImages = ImageUtil.loadAnimation(imageFile + "player");
 
         enemyImages = loadEnemyImages();
         weaponImages = loadWeaponImages();
@@ -101,7 +110,7 @@ public class GraphicsManager {
     private static Map<EnemyType, BufferedImage[]> loadEnemyImages() {
         Map<EnemyType, BufferedImage[]> imageMap = new HashMap<>();
 
-        for(EnemyType type : EnemyType.values()) {
+        for (EnemyType type : EnemyType.values()) {
             BufferedImage[] animation = ImageUtil.loadAnimation(imageFolderPath + "enemy_" + type.toString().toLowerCase());
             imageMap.put(type, animation);
             Globals.addToEnemyShipMaxFrames(type, animation.length);
@@ -109,10 +118,11 @@ public class GraphicsManager {
 
         return imageMap;
     }
+
     private static Map<WeaponType, BufferedImage[]> loadWeaponImages() {
         Map<WeaponType, BufferedImage[]> imageMap = new HashMap<>();
 
-        for(WeaponType type : WeaponType.values()) {
+        for (WeaponType type : WeaponType.values()) {
             BufferedImage[] animation = ImageUtil.loadAnimation(imageFolderPath + "weapon_" + type.toString().toLowerCase());
             imageMap.put(type, animation);
             Globals.addToWeaponMaxFrames(type, animation.length);
@@ -120,10 +130,11 @@ public class GraphicsManager {
 
         return imageMap;
     }
+
     private static Map<ExplosionType, BufferedImage[]> loadExplosionImages() {
         Map<ExplosionType, BufferedImage[]> imageMap = new HashMap<>();
 
-        for(ExplosionType type : ExplosionType.values()) {
+        for (ExplosionType type : ExplosionType.values()) {
             BufferedImage[] animation = ImageUtil.loadAnimation(imageFolderPath + "explosion_" + type.toString().toLowerCase());
             imageMap.put(type, animation);
             Globals.addToExplosionMaxFrames(type, animation.length);

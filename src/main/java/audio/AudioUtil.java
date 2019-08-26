@@ -17,6 +17,8 @@ public class AudioUtil {
         String fileNotFoundBase = makeFileNotFoundBase(isExperiential);
         String location = makeFileLocation(isExperiential);
 
+        System.out.println("loading sfx from " + location);
+
         AudioClipType[] audioClips = AudioClipType.values();
 
         Map<AudioClipType, Sound[]> soundMap = new HashMap<>();
@@ -51,6 +53,8 @@ public class AudioUtil {
     protected  static Map<MusicType, Music[]> loadMusic(boolean isExperiential) {
         String fileNotFoundBase = makeFileNotFoundBase(isExperiential);
         String location = makeFileLocation(isExperiential);
+
+        System.out.println("loading music from " + location);
 
         MusicType[] musicClips = MusicType.values();
 

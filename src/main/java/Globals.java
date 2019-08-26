@@ -32,13 +32,13 @@ public class Globals {
 
 
     static final Map<EnemyType, Integer> enemyShipPointValue = Map.of(
-            EnemyType.BASIC, 100,
-            EnemyType.FUEL, 200,
-            EnemyType.AGILE, 300,
-            EnemyType.SHIELDER, 400,
-            EnemyType.ARMORED1, 400,
-            EnemyType.SHOOTER, 300,
-            EnemyType.PILOTED, 300);
+            EnemyType.BASIC, 11,
+            EnemyType.FUEL, 20,
+            EnemyType.AGILE, 30,
+            EnemyType.SHIELDER, 32,
+            EnemyType.ARMORED1, 35,
+            EnemyType.SHOOTER, 40,
+            EnemyType.PILOTED, 30);
 
     static final Map<EnemyType, Class> enemyTypeClasses = Map.of(
             EnemyType.BASIC, EnemyBasic.class,

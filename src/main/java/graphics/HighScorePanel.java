@@ -12,7 +12,7 @@ import java.io.*;
 
 public class HighScorePanel {
 
-    private static final String scoreFileLocation = Globals.getResourceFile(ResourceFileType.IMAGE) + "highscores.data";
+    private static final String scoreFileLocation = Globals.getResourceFile(ResourceFileType.MISC) + "highscores.data";
 
     private static BufferedImage[] menuButton = ImageUtil.loadAnimation(Globals.getResourceFile(ResourceFileType.IMAGE) + "buttonMenu");
 

@@ -16,7 +16,7 @@ public class ClusterUtil {
     static File clusterDirectory = new File(Globals.getResourceFile(ResourceFileType.CLUSTER));
 
     static HashMap<String, SpawnCluster> createSpawnClusters() {
-        HashMap<String, SpawnCluster> clusters = new HashMap<String, SpawnCluster>();
+        HashMap<String, SpawnCluster> clusters = new HashMap<>();
 
         File[] clusterFiles = clusterDirectory.listFiles(new FilenameFilter() {
             @Override
@@ -24,6 +24,8 @@ public class ClusterUtil {
                 return name.toLowerCase().endsWith(".cluster");
             }
         });
+
+        System.out.println("Loading cluster data from " + clusterDirectory);
 
         for (File clusterFile : clusterFiles) {
             try {

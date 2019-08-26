@@ -20,13 +20,13 @@ public class AudioManager {
     private static Map<MusicType, Music[]> musicClips;
 
     private static Music currentPlayingMusic;
-    private static double maxMusicVolume = 0.3;
+    private static double maxMusicVolume = 0.4;
     private static double currentMusicVolume;
     Map<AudioClipType, Integer> soundFrame = new HashMap<>();
     Map<AudioClipType, Long> lastPlayed;
     int playDelay = 10;
 
-    boolean mute = true;
+    boolean mute = false;
 
 
     public AudioManager() {
