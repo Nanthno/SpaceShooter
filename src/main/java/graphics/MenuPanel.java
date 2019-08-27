@@ -1,18 +1,16 @@
 package src.main.java.graphics;
 
 import src.main.java.*;
-import src.main.java.audio.AudioManager;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ConcurrentModificationException;
 import java.util.Map;
 
 public class MenuPanel extends JPanel {
 
     String creditsFile = Globals.getResourceFile(ResourceFileType.MISC) + "credits";
-    BufferedImage credits = ImageUtil.stringToImage(FileUtil.readFileToString(creditsFile), new Color(255, 255, 255));
+    BufferedImage credits = drawCreditsImage();
     int creditsX = GraphicsManager.getWidth() / 2 - credits.getWidth() / 2;
     int creditsY = 100;
 
@@ -41,6 +39,8 @@ public class MenuPanel extends JPanel {
     private final int backButtonOriginY = 64;
     private final int backButtonWidth = backButton[0].getWidth();
     private final int backButtonHeight = backButton[0].getHeight();
+    private final int creditsLineSplit = 16;
+    private final Color creditsColor = new Color(255,255,255);
 
     // for sound selection
     private final int soundButtonOriginX = Globals.screenWidth - 250;
@@ -114,6 +114,22 @@ public class MenuPanel extends JPanel {
         return screenshot;
     }
 
+    private BufferedImage drawCreditsImage() {
+        String creditsString = FileUtil.readFileToString(creditsFile);
+        String[] creditsLines = creditsString.split("\\n");
+        BufferedImage creditsImage = new BufferedImage(Globals.screenWidth, creditsLines.length*creditsLineSplit, BufferedImage.TYPE_INT_ARGB);
+        Graphics g = creditsImage.getGraphics();
+
+        for(int i = 0; i < creditsLines.length; i++) {
+            g.drawImage(ImageUtil.stringToImage(creditsLines[i], creditsColor),
+                    0, i*creditsLineSplit, null);
+        }
+
+        g.dispose();
+
+        return creditsImage;
+    }
+
     private BufferedImage drawCredits(BufferedImage screenshot, Graphics g, Point mousePoint) {
         int buttonValue = getButtonFrame(backButtonOriginX, backButtonOriginY, backButtonWidth, backButtonHeight, mousePoint, Button.BACK);
         BufferedImage backButtonImg = backButton[buttonValue];
@@ -169,7 +185,7 @@ public class MenuPanel extends JPanel {
                 null);
 
 
-        getButtonFrame(muteButtonOriginX, muteButtonOriginY + muteButtonHeight*2, muteButtonWidth, muteButtonHeight,
+        getButtonFrame(muteButtonOriginX, muteButtonOriginY + muteButtonHeight * 2, muteButtonWidth, muteButtonHeight,
                 mousePoint, Button.MUTE);
         g.drawImage(muteButton[Controller.isAudioMuted() ? 1 : 0],
                 muteButtonOriginX, muteButtonOriginY,

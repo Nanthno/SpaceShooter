@@ -113,17 +113,11 @@ public class Explosion {
     }
 
     public int getRotation() {
-        if(expType == ExplosionType.MEDIUM) {
+        if(expType == ExplosionType.MEDIUM || expType == ExplosionType.SMALL) {
             if(rotation == -1) {
                 Random rand = new Random();
                 rotation = rand.nextInt(3);
             }
-            return rotation;
-        }
-
-        if(expType == ExplosionType.SMALL) {
-            Random rand = new Random();
-            rotation = rand.nextInt(3);
             return rotation;
         }
 
