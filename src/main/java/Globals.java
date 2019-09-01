@@ -5,7 +5,6 @@ import src.main.java.audio.AudioClipType;
 import src.main.java.enemy.*;
 import src.main.java.weapons.WeaponType;
 
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,45 +18,46 @@ public class Globals {
     public static final int screenHeight = 640;
     public static final int screenWidth = 1024;
 
-    static final Map<EnemyType, Integer> enemyShipRadius = Map.of(
-            EnemyType.BASIC, 8,
-            EnemyType.FUEL, 12,
-            EnemyType.AGILE, 12,
-            EnemyType.SHIELDER, 16,
-            EnemyType.SHIELD, 128,
-            EnemyType.ARMORED1, 16,
-            EnemyType.SHOOTER, 12,
-            EnemyType.PILOTED, 12
-    );
+    static final Map<EnemyType, Integer> enemyShipRadius = new HashMap<EnemyType, Integer>() {{
+        put(EnemyType.BASIC, 8);
+        put(EnemyType.FUEL, 12);
+        put(EnemyType.AGILE, 12);
+        put(EnemyType.SHIELDER, 16);
+        put(EnemyType.SHIELD, 128);
+        put(EnemyType.ARMORED1, 16);
+        put(EnemyType.SHOOTER, 12);
+        put(EnemyType.PILOTED, 12);
+    }};
 
 
-    static final Map<EnemyType, Integer> enemyShipPointValue = Map.of(
-            EnemyType.BASIC, 11,
-            EnemyType.FUEL, 20,
-            EnemyType.AGILE, 30,
-            EnemyType.SHIELDER, 32,
-            EnemyType.ARMORED1, 35,
-            EnemyType.SHOOTER, 40,
-            EnemyType.PILOTED, 30);
+    static final Map<EnemyType, Integer> enemyShipPointValue = new HashMap<EnemyType, Integer>() {{
+        put(EnemyType.BASIC, 11);
+        put(EnemyType.FUEL, 20);
+        put(EnemyType.AGILE, 30);
+        put(EnemyType.SHIELDER, 32);
+        put(EnemyType.ARMORED1, 35);
+        put(EnemyType.SHOOTER, 40);
+        put(EnemyType.PILOTED, 30);
+    }};
+    static final Map<EnemyType, Class> enemyTypeClasses = new HashMap<EnemyType, Class>() {{
+        put(EnemyType.BASIC, EnemyBasic.class);
+        put(EnemyType.FUEL, EnemyFuel.class);
+        put(EnemyType.AGILE, EnemyAgile.class);
+        put(EnemyType.SHIELDER, EnemyShielder.class);
+        put(EnemyType.SHIELD, EnemyShield.class);
+        put(EnemyType.ARMORED1, EnemyArmored1.class);
+        put(EnemyType.SHOOTER, EnemyShooter.class);
+        put(EnemyType.PILOTED, EnemyPiloted.class);
+    }};
 
-    static final Map<EnemyType, Class> enemyTypeClasses = Map.of(
-            EnemyType.BASIC, EnemyBasic.class,
-            EnemyType.FUEL, EnemyFuel.class,
-            EnemyType.AGILE, EnemyAgile.class,
-            EnemyType.SHIELDER, EnemyShielder.class,
-            EnemyType.SHIELD, EnemyShield.class,
-            EnemyType.ARMORED1, EnemyArmored1.class,
-            EnemyType.SHOOTER, EnemyShooter.class,
-            EnemyType.PILOTED, EnemyPiloted.class
-    );
+    static final Map<ResourceFileType, String> resourceFileMap = new HashMap<ResourceFileType, String>() {{
+        put(ResourceFileType.IMAGE, "src/main/resources/images/");
+        put(ResourceFileType.SOUND, "src/main/resources/sound/");
+        put(ResourceFileType.CLUSTER, "src/main/resources/spawn/cluster/");
+        put(ResourceFileType.TIMELINE, "src/main/resources/spawn/timeline/");
+        put(ResourceFileType.MISC, "src/main/resources/misc/");
 
-    static final Map<ResourceFileType, String> resourceFileMap = Map.of(
-            ResourceFileType.IMAGE, "src/main/resources/images/",
-            ResourceFileType.SOUND, "src/main/resources/sound/",
-            ResourceFileType.CLUSTER, "src/main/resources/spawn/cluster/",
-            ResourceFileType.TIMELINE, "src/main/resources/spawn/timeline/",
-            ResourceFileType.MISC, "src/main/resources/misc/"
-            );
+    }};
 
     static final Map<ExplosionType, AudioClipType> explosionAudioClips = makeExplosionAudioClipsMap();
     static final Map<WeaponType, AudioClipType> weaponAudioClips = makeWeaponAudioClipsMap();

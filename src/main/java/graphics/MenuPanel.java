@@ -5,13 +5,14 @@ import src.main.java.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 import java.util.Map;
 
 public class MenuPanel extends JPanel {
 
     String creditsFile = Globals.getResourceFile(ResourceFileType.MISC) + "credits";
     BufferedImage credits = drawCreditsImage();
-    int creditsX = GraphicsManager.getWidth() / 2 - credits.getWidth() / 2;
+    int creditsX = 50;
     int creditsY = 100;
 
     private static final BufferedImage[] backButton = ImageUtil.loadAnimation(GraphicsManager.imageFolderPath + "backButton");
@@ -19,12 +20,13 @@ public class MenuPanel extends JPanel {
     private static final BufferedImage[] creditsButton = ImageUtil.loadAnimation(GraphicsManager.imageFolderPath + "buttonCredits");
     private static final BufferedImage[] soundModeButtons = ImageUtil.loadAnimation(GraphicsManager.imageFolderPath + "audioSelectorButtons");
     private static final BufferedImage[] muteButton = ImageUtil.loadAnimation(GraphicsManager.imageFolderPath + "buttonMute");
-    private Map<Button, BufferedImage[]> buttonMap = Map.of(
-            Button.PLAY, playButton,
-            Button.CREDITS, creditsButton,
-            Button.BACK, backButton,
-            Button.MUTE, muteButton
-    );
+    private Map<Button, BufferedImage[]> buttonMap = new HashMap<Button, BufferedImage[]>() {{
+        put(Button.PLAY, playButton);
+        put(Button.CREDITS, creditsButton);
+        put(Button.BACK, backButton);
+        put(Button.MUTE, muteButton);
+
+    }};
 
     // for main
     private final Button[] buttonOrder = new Button[]{Button.PLAY, Button.CREDITS};
@@ -40,7 +42,7 @@ public class MenuPanel extends JPanel {
     private final int backButtonWidth = backButton[0].getWidth();
     private final int backButtonHeight = backButton[0].getHeight();
     private final int creditsLineSplit = 16;
-    private final Color creditsColor = new Color(255,255,255);
+    private final Color creditsColor = new Color(255, 255, 255);
 
     // for sound selection
     private final int soundButtonOriginX = Globals.screenWidth - 250;
@@ -117,12 +119,14 @@ public class MenuPanel extends JPanel {
     private BufferedImage drawCreditsImage() {
         String creditsString = FileUtil.readFileToString(creditsFile);
         String[] creditsLines = creditsString.split("\\n");
-        BufferedImage creditsImage = new BufferedImage(Globals.screenWidth, creditsLines.length*creditsLineSplit, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage creditsImage = new BufferedImage(1000, creditsLines.length * creditsLineSplit, BufferedImage.TYPE_INT_ARGB);
         Graphics g = creditsImage.getGraphics();
 
-        for(int i = 0; i < creditsLines.length; i++) {
+        for (int i = 0; i < creditsLines.length; i++) {
+            if (creditsLines[i].equals(""))
+                creditsLines[i] = " ";
             g.drawImage(ImageUtil.stringToImage(creditsLines[i], creditsColor),
-                    0, i*creditsLineSplit, null);
+                    0, i * creditsLineSplit, null);
         }
 
         g.dispose();

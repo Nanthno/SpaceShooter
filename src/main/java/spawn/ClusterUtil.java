@@ -60,7 +60,7 @@ public class ClusterUtil {
                     }
 
                     for (int x = 0; x < line.length(); x += 2) {
-                        String clusterPoint = line.substring(x, x + 1).strip();
+                        String clusterPoint = line.substring(x, x + 1).trim();
                         if (clusterPoint.equals(".")) {
                             continue;
                         }

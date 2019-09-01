@@ -25,7 +25,6 @@ import java.util.*;
 public class Controller {
 
 
-
     static int health = 100;
     static int maxHealth = 100;
 
@@ -70,12 +69,12 @@ public class Controller {
     static final int defaultHealthLossPerEnemy = 10;
 
     static final int laserBlastShake = 2;
-    static final Map<ExplosionType, Integer> explosionShake = Map.of(
-            ExplosionType.SMALL, 2,
-            ExplosionType.MEDIUM, 5,
-            ExplosionType.FUEL, 6,
-            ExplosionType.PROJECTILE, 8
-    );
+    static final Map<ExplosionType, Integer> explosionShake = new HashMap<ExplosionType, Integer>() {{
+        put(ExplosionType.SMALL, 2);
+        put(ExplosionType.MEDIUM, 5);
+        put(ExplosionType.FUEL, 6);
+        put(ExplosionType.PROJECTILE, 8);
+    }};
 
     // used to prevent an update from running if another update is currently running
     static boolean isUpdating = false;
@@ -127,8 +126,8 @@ public class Controller {
     }
 
     static void updateGame() {
-       // health -= 10;
-        if(health < 0) {
+        // health -= 10;
+        if (health < 0) {
             setGameState(GameState.HIGH_SCORE);
             HighScorePanel.addScore(score);
         }

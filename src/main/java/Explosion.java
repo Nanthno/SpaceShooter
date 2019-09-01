@@ -3,6 +3,7 @@ package src.main.java;
 import src.main.java.enemy.EnemyShip;
 import src.main.java.enemy.EnemyType;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -26,34 +27,34 @@ public class Explosion {
 
     int catalystSeparation = 0;
 
-    static final Map<ExplosionType, Integer> effectiveStageTypes = Map.of(
-        ExplosionType.PROJECTILE, 3
-    );
+    static final Map<ExplosionType, Integer> effectiveStageTypes = new HashMap<ExplosionType, Integer>() {{
+        put(ExplosionType.PROJECTILE, 3);
+    }};
 
-    static Map<ExplosionType, Integer> expRadii = Map.of(
-            ExplosionType.SMALL, 8,
-            ExplosionType.MEDIUM, 24,
-            ExplosionType.FUEL, 32,
-            ExplosionType.PROJECTILE, 48
-    );
-    static Map<ExplosionType, Integer> expDuration = Map.of(
-            ExplosionType.SMALL, 35,
-            ExplosionType.MEDIUM, 40,
-            ExplosionType.FUEL, 40,
-            ExplosionType.PROJECTILE, 40
-    );
+    static Map<ExplosionType, Integer> expRadii = new HashMap<ExplosionType, Integer>() {{
+        put(ExplosionType.SMALL, 8);
+        put(ExplosionType.MEDIUM, 24);
+        put(ExplosionType.FUEL, 32);
+        put(ExplosionType.PROJECTILE, 48);
+    }};
+    static Map<ExplosionType, Integer> expDuration = new HashMap<ExplosionType, Integer>() {{
+        put(ExplosionType.SMALL, 35);
+        put(ExplosionType.MEDIUM, 40);
+        put(ExplosionType.FUEL, 40);
+        put(ExplosionType.PROJECTILE, 40);
+    }};
 
-    //TODO: migrate instantiaion to the other constructor
+    //TODO: migrate instantiation to the other constructor
     public Explosion(int x, int y, int catalystSeparation, ExplosionType type) {
         xPos = x;
         yPos = y;
         expType = type;
         this.catalystSeparation = catalystSeparation;
         radius = expRadii.get(type);
-        maxStage = Globals.getExplosionMaxFrame(type)-1;
+        maxStage = Globals.getExplosionMaxFrame(type) - 1;
         maxDuration = expDuration.get(type);
         duration = maxDuration;
-        if(effectiveStageTypes.containsKey(type))
+        if (effectiveStageTypes.containsKey(type))
             effectiveStage = effectiveStageTypes.get(type);
     }
 
@@ -63,10 +64,10 @@ public class Explosion {
         expType = EnemyType.getExplosionType(ship.getType());
         this.catalystSeparation = catalystSeparation;
         radius = expRadii.get(expType);
-        maxStage = Globals.getExplosionMaxFrame(expType)-1;
+        maxStage = Globals.getExplosionMaxFrame(expType) - 1;
         maxDuration = expDuration.get(expType);
         duration = maxDuration;
-        if(effectiveStageTypes.containsKey(expType))
+        if (effectiveStageTypes.containsKey(expType))
             effectiveStage = effectiveStageTypes.get(expType);
     }
 
@@ -113,8 +114,8 @@ public class Explosion {
     }
 
     public int getRotation() {
-        if(expType == ExplosionType.MEDIUM || expType == ExplosionType.SMALL) {
-            if(rotation == -1) {
+        if (expType == ExplosionType.MEDIUM || expType == ExplosionType.SMALL) {
+            if (rotation == -1) {
                 Random rand = new Random();
                 rotation = rand.nextInt(3);
             }

@@ -1,3 +1,9 @@
+Needed to finish the game:
+- make more spawn patterns
+- add various difficulty modes
+- add speed multiplier to timeline so ships go faster as time goes on
+- make shield graphics better
+
 Notes for next time:
 -add laser sight for laser burst
 --triggers when press down 'Q', gone when release
@@ -11,13 +17,7 @@ Notes for next time:
 - add try-catches around graphics to prevent an exception from killing the game
 -- when the image is not found, set it to image not found image
 - remove the need to have so many Controller.get calls by passing the things as arguments
-- finish making menuPanel
 - transfer all file reading tasks to FileUtil
-- make the credits split by line
-- add a speed multiplier to the timestamp events
-- decide if explosions should be able to go through shields
-- make the number of stages in explosions be auto filled like they are for the other animations
-- make the player not loose health for colliding with the shield
 
 Special actions: special things a player can do once a energy bar charges
 --potentially can charge a few times then use multiple simultaneously
