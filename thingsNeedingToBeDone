@@ -3,6 +3,9 @@ Needed to finish the game:
 - add various difficulty modes
 - add speed multiplier to timeline so ships go faster as time goes on
 - make shield graphics better
+- fix the button issue (probably by switching to using jbutton)
+- fix screen size
+- clear out the TO-DO items
 
 Notes for next time:
 -add laser sight for laser burst

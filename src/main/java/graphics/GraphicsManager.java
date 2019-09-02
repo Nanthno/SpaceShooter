@@ -46,15 +46,31 @@ public class GraphicsManager {
         loadImages();
 
         frame = new JFrame();
+        frame.setLayout(new BorderLayout());
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setTitle("Space Shooter");
+        frame.setTitle("Catalyst");
         frame.setSize(WIDTH, HEIGHT + 16); // without the +16, it cuts off the bottom of the screen
         frame.addMouseListener(Controller.getMouseListener());
 
         screenPanel = new ScreenPanel();
-        frame.add(screenPanel, BorderLayout.CENTER);
+/*
+        JPanel masterPanel = new JPanel();
+        masterPanel.setLayout(new OverlayLayout(masterPanel));
 
-        // makes the frame visible
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(null);
+        for (AbstractButton b : screenPanel.getButtons()) {
+            buttonPanel.add(b);
+        }
+        buttonPanel.setOpaque(false);
+
+        masterPanel.add(buttonPanel);
+        //masterPanel.add(screenPanel);
+
+*/
+        frame.add(screenPanel);
+
         frame.setVisible(true);
     }
 
@@ -153,7 +169,7 @@ public class GraphicsManager {
     }
 
     public Point getFramePosition() {
-        return frame.getLocationOnScreen();
+        return screenPanel.getLocationOnScreen();
     }
 
     public static int getWidth() {

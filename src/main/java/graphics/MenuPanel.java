@@ -2,29 +2,31 @@ package src.main.java.graphics;
 
 import src.main.java.*;
 
-import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MenuPanel extends JPanel {
+public class MenuPanel implements ActionListener {
 
     String creditsFile = Globals.getResourceFile(ResourceFileType.MISC) + "credits";
     BufferedImage credits = drawCreditsImage();
     int creditsX = 50;
     int creditsY = 100;
 
-    private static final BufferedImage[] backButton = ImageUtil.loadAnimation(GraphicsManager.imageFolderPath + "backButton");
-    private static final BufferedImage[] playButton = ImageUtil.loadAnimation(GraphicsManager.imageFolderPath + "buttonPlay");
-    private static final BufferedImage[] creditsButton = ImageUtil.loadAnimation(GraphicsManager.imageFolderPath + "buttonCredits");
-    private static final BufferedImage[] soundModeButtons = ImageUtil.loadAnimation(GraphicsManager.imageFolderPath + "audioSelectorButtons");
-    private static final BufferedImage[] muteButton = ImageUtil.loadAnimation(GraphicsManager.imageFolderPath + "buttonMute");
+    private static final BufferedImage[] backButtonImages = ImageUtil.loadAnimation(GraphicsManager.imageFolderPath + "backButton");
+    private static final BufferedImage[] playButtonImages = ImageUtil.loadAnimation(GraphicsManager.imageFolderPath + "buttonPlay");
+    private static final BufferedImage[] creditsButtonImages = ImageUtil.loadAnimation(GraphicsManager.imageFolderPath + "buttonCredits");
+    private static final BufferedImage[] soundModeButtonImages = ImageUtil.loadAnimation(GraphicsManager.imageFolderPath + "audioSelectorButtons");
+    private static final BufferedImage[] muteButtonImages = ImageUtil.loadAnimation(GraphicsManager.imageFolderPath + "buttonMute");
+
     private Map<Button, BufferedImage[]> buttonMap = new HashMap<Button, BufferedImage[]>() {{
-        put(Button.PLAY, playButton);
-        put(Button.CREDITS, creditsButton);
-        put(Button.BACK, backButton);
-        put(Button.MUTE, muteButton);
+        put(Button.PLAY, playButtonImages);
+        put(Button.CREDITS, creditsButtonImages);
+        put(Button.BACK, backButtonImages);
+        put(Button.MUTE, muteButtonImages);
 
     }};
 
@@ -39,24 +41,31 @@ public class MenuPanel extends JPanel {
     // for credits
     private final int backButtonOriginX = 64;
     private final int backButtonOriginY = 64;
-    private final int backButtonWidth = backButton[0].getWidth();
-    private final int backButtonHeight = backButton[0].getHeight();
+    private final int backButtonWidth = backButtonImages[0].getWidth();
+    private final int backButtonHeight = backButtonImages[0].getHeight();
     private final int creditsLineSplit = 16;
     private final Color creditsColor = new Color(255, 255, 255);
 
     // for sound selection
     private final int soundButtonOriginX = Globals.screenWidth - 250;
     private final int soundButtonOriginY = Globals.screenHeight - 100;
-    private final int soundButtonWidth = soundModeButtons[0].getWidth();
-    private final int soundButtonHeight = soundModeButtons[0].getHeight();
+    private final int soundButtonWidth = soundModeButtonImages[0].getWidth();
+    private final int soundButtonHeight = soundModeButtonImages[0].getHeight();
 
     // for mute button
     private final int muteButtonOriginX = Globals.screenWidth - 350;
     private final int muteButtonOriginY = Globals.screenHeight - 80;
-    private final int muteButtonWidth = muteButton[0].getWidth();
-    private final int muteButtonHeight = muteButton[0].getHeight();
+    private final int muteButtonWidth = muteButtonImages[0].getWidth();
+    private final int muteButtonHeight = muteButtonImages[0].getHeight();
 
     Button currentClick = Button.NONE;
+
+    // JButtons
+    /*JButton playButton;
+    JButton backButton;
+    JButton creditsButton;
+    JToggleButton muteButton;
+    JToggleButton soundModeButton;*/
 
     private enum Button {
         NONE,
@@ -78,6 +87,8 @@ public class MenuPanel extends JPanel {
     private MenuStatus menuStatus = MenuStatus.MAIN;
 
     protected MenuPanel() {
+        // setupButtons();
+
         input = Controller.getInput();
 
         int largestWidth = 0;
@@ -94,8 +105,99 @@ public class MenuPanel extends JPanel {
         buttonHeight = largestHeight;
         buttonWidth = largestWidth;
 
+
+    }
+/*
+    private void setupButtons() {
+        int width = playButtonImages[0].getWidth();
+        int height = playButtonImages[0].getHeight();
+        System.out.println(width);
+        int x = 50;
+        int y = 50;
+        playButton = makeButton(playButtonImages, "play", x, y, width, height);
+        playButton.setOpaque(false);
+
+        width = creditsButtonImages[0].getWidth();
+        height = creditsButtonImages[0].getHeight();
+        x = 50;
+        y = 100;
+        creditsButton = makeButton(creditsButtonImages, "credits", x, y, width, height);
+
+        width = backButtonImages[0].getWidth();
+        height = backButtonImages[0].getHeight();
+        x = 50;
+        y = 50;
+        backButton = makeButton(backButtonImages, "back", x, y, width, height);
+
+        width = muteButtonImages[0].getWidth();
+        height = muteButtonImages[0].getHeight();
+        x = 500;
+        y = 500;
+        muteButton = makeToggleButton(muteButtonImages, "mute", x, y,  width,  height);
+
+        width = soundModeButtonImages[0].getWidth();
+        height = soundModeButtonImages[0].getHeight();
+        x = 700;
+        y = 500;
+        soundModeButton = makeToggleButton(soundModeButtonImages, "soundMode", x, y,  width, height);
     }
 
+    private JToggleButton makeToggleButton(BufferedImage[] images, String actionCommand, int x, int y, int width, int height) {
+        JToggleButton button = new JToggleButton(new ImageIcon(images[0]));
+        button.setActionCommand(actionCommand);
+        button.addActionListener(this);
+        button.setBounds(x, y, width, height);
+
+        button.setSelectedIcon(new ImageIcon(images[1]));
+
+        return button;
+    }
+
+    private JButton makeButton(BufferedImage[] images, String actionCommand, int x, int y, int width, int height) {
+        JButton button = new JButton(new ImageIcon(images[0]));
+        button.setActionCommand(actionCommand);
+        button.addActionListener(this);
+        button.setBounds(x, y, width, height);
+
+        button.setRolloverIcon(new ImageIcon(images[1]));
+        button.setPressedIcon(new ImageIcon(images[2]));
+
+        return button;
+    }
+
+    private void setButtonStatus(MenuStatus status) {
+        if (status == MenuStatus.MAIN) {
+            playButton.setVisible(true);
+            playButton.setEnabled(true);
+
+            creditsButton.setVisible(true);
+            creditsButton.setEnabled(true);
+
+            muteButton.setVisible(true);
+            muteButton.setEnabled(true);
+
+            soundModeButton.setVisible(true);
+            soundModeButton.setEnabled(true);
+
+            backButton.setVisible(false);
+            backButton.setEnabled(false);
+        } else if (status == MenuStatus.CREDITS) {
+            playButton.setVisible(false);
+            playButton.setEnabled(false);
+
+            creditsButton.setVisible(false);
+            creditsButton.setEnabled(false);
+
+            muteButton.setVisible(false);
+            muteButton.setEnabled(false);
+
+            soundModeButton.setVisible(false);
+            soundModeButton.setEnabled(false);
+
+            backButton.setVisible(true);
+            backButton.setEnabled(true);
+        }
+    }*/
 
     protected BufferedImage drawScreenshot() {
         BufferedImage screenshot = new BufferedImage(GraphicsManager.getWidth(), GraphicsManager.getHeight(), BufferedImage.TYPE_INT_ARGB);
@@ -104,6 +206,7 @@ public class MenuPanel extends JPanel {
 
         Point mousePoint = Controller.findMousePosition();
 
+        //setButtonStatus(menuStatus); // TODO: would ideally only call this whenever the menustatus is changed
 
         if (menuStatus == MenuStatus.MAIN)
             screenshot = drawMainMenu(screenshot, g, mousePoint);
@@ -136,9 +239,9 @@ public class MenuPanel extends JPanel {
 
     private BufferedImage drawCredits(BufferedImage screenshot, Graphics g, Point mousePoint) {
         int buttonValue = getButtonFrame(backButtonOriginX, backButtonOriginY, backButtonWidth, backButtonHeight, mousePoint, Button.BACK);
-        BufferedImage backButtonImg = backButton[buttonValue];
+        BufferedImage backButtonImg = backButtonImages[buttonValue];
 
-        g.drawImage(backButtonImg, backButtonOriginX, backButtonOriginY - 24, null);
+        g.drawImage(backButtonImg, backButtonOriginX, backButtonOriginY, null);
         if (buttonValue != 2) {
             currentClick = Button.NONE;
         }
@@ -167,7 +270,7 @@ public class MenuPanel extends JPanel {
 
         boolean mouseStillOnCurrentClick = false;
 
-        int buttonNumber = getButtonFrame(soundButtonOriginX, soundButtonOriginY + soundButtonHeight, soundButtonWidth, soundButtonHeight,
+        int buttonNumber = getButtonFrame(soundButtonOriginX+24, soundButtonOriginY + soundButtonHeight, soundButtonWidth+24, soundButtonHeight,
                 mousePoint, Button.SOUND_SELECTION);
 
         for (int i = 0; i < buttonOrder.length; i++) {
@@ -178,20 +281,20 @@ public class MenuPanel extends JPanel {
             if (buttonNumber == 2) {
                 mouseStillOnCurrentClick = true;
             }
-            buttonNumber = getButtonFrame(buttonOriginX, yPos + buttonOriginY + buttonYOffset, buttonWidth, buttonHeight,
+            buttonNumber = getButtonFrame(buttonOriginX, yPos + buttonOriginY, buttonWidth, buttonHeight,
                     mousePoint, currentButton);
             g.drawImage(buttonImages[buttonNumber], 0, yPos, null);
 
         }
 
-        g.drawImage(soundModeButtons[Controller.getIsSoundExperiential() ? 1 : 0],
+        g.drawImage(soundModeButtonImages[Controller.getIsSoundExperiential() ? 1 : 0],
                 soundButtonOriginX, soundButtonOriginY,
                 null);
 
 
-        getButtonFrame(muteButtonOriginX, muteButtonOriginY + muteButtonHeight * 2, muteButtonWidth, muteButtonHeight,
+        getButtonFrame(muteButtonOriginX+32, muteButtonOriginY+muteButtonHeight, muteButtonWidth, muteButtonHeight+5,
                 mousePoint, Button.MUTE);
-        g.drawImage(muteButton[Controller.isAudioMuted() ? 1 : 0],
+        g.drawImage(muteButtonImages[Controller.isAudioMuted() ? 1 : 0],
                 muteButtonOriginX, muteButtonOriginY,
                 null);
 
@@ -219,7 +322,6 @@ public class MenuPanel extends JPanel {
                         currentClick = Button.NONE;
                     } else if (button == Button.MUTE) {
                         Controller.toggleMute();
-                        System.out.println("muteClicked");
                     }
                     input.resetIsMouse1Released();
                 }
@@ -240,4 +342,13 @@ public class MenuPanel extends JPanel {
         return onButton;
     }
 
+    /*
+        public AbstractButton[] getButtons() {
+            return new AbstractButton[]{playButton, creditsButton, backButton, muteButton, soundModeButton};
+        }
+    */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        System.out.println(e);
+    }
 }

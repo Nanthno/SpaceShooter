@@ -52,6 +52,7 @@ public class ScreenPanel extends JPanel {
         menuPanel = new MenuPanel();
         highScorePanel = new HighScorePanel();
         backgroundImgWidth = GraphicsManager.background.getWidth();
+
     }
 
     @Override
@@ -103,7 +104,8 @@ public class ScreenPanel extends JPanel {
         g2d.drawImage(backgroundImage, 0, 0, (int) gameScale * gameWidth, (int) gameScale * gameHeight, null);
         g2d.dispose();
 
-        gameGraphics.drawImage(scaledScreenshot, 0, 0, null);//gameXOrigin, gameYOrigin, null);
+        gameGraphics.drawImage(scaledScreenshot, 0, 0, null);
+
     }
 
     private BufferedImage drawMenuScreen() {
