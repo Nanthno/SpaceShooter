@@ -143,11 +143,6 @@ public class Globals {
         return Math.sqrt(dx * dx + dy * dy);
     }
 
-    // TODO Remove this method
-    public static Class getEnemyClass(EnemyType type) {
-        return enemyTypeClasses.get(type);
-    }
-
     public static void addToExplosionMaxFrames(ExplosionType type, int maxFrames) {
         explosionTypeMaxFrames.put(type, maxFrames);
     }

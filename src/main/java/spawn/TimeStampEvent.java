@@ -5,17 +5,19 @@ import java.util.Map;
 
 public class TimeStampEvent {
 
-    Map<String, Double> spawnProbabilityMap = new HashMap<>();
+    private Map<String, Double> spawnProbabilityMap = new HashMap<>();
 
-    int triggerTime;
+    private int triggerTime;
+
+    private double speedMultiplier = 1;
 
     // need to add functionality for specific spawns
 
-    public TimeStampEvent(int time) {
+    TimeStampEvent(int time) {
         triggerTime = time;
     }
 
-    public void addSet(String line) {
+    void addSet(String line) {
         String[] splitLine = line.split(" ");
 
         String clusterCode = splitLine[1];
@@ -23,15 +25,23 @@ public class TimeStampEvent {
         spawnProbabilityMap.put(clusterCode, spawnProbability);
     }
 
-    public void addSpawn(String line) {
+    void addSpawn(String line) {
         System.out.println("WARNING: timeline does not yet support spawns");
     }
 
-    public Map<String, Double> getSpawnProbabilityMap() {
+    Map<String, Double> getSpawnProbabilityMap() {
         return spawnProbabilityMap;
     }
 
-    public int getTriggerTime() {
+    int getTriggerTime() {
         return triggerTime;
+    }
+
+    protected void setSpeed(double speed) {
+        speedMultiplier = speed;
+    }
+
+    double getSpeedMultiplier() {
+        return speedMultiplier;
     }
 }

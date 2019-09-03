@@ -127,7 +127,7 @@ public class DensityMap {
             for (int k = i + 1; k < holeKeys.size(); k++) {
                 int[] key2 = holeKeys.get(k);
                 double dist = distance(key1, key2);
-                if (dist <= holeRadius && density.containsKey(key1) && density.containsKey(key2)) { // TODO:the containsKey things shouldn't need to be here but otherwise a null pointer exception is thrown
+                if (dist <= holeRadius && density.containsKey(key1) && density.containsKey(key2)) {
                     double density1 = density.get(key1);
                     double density2 = density.get(key2);
 

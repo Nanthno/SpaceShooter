@@ -12,6 +12,9 @@ public class Explosion {
     int xPos = -1;
     int yPos = -1;
 
+    double xSpeed;
+    double ySpeed;
+
     int maxDuration;
     int duration;
 
@@ -45,9 +48,11 @@ public class Explosion {
     }};
 
     //TODO: migrate instantiation to the other constructor
-    public Explosion(int x, int y, int catalystSeparation, ExplosionType type) {
+    public Explosion(int x, int y, double xSpeed, double ySpeed, int catalystSeparation, ExplosionType type) {
         xPos = x;
         yPos = y;
+        this.xSpeed = xSpeed;
+        this.ySpeed = ySpeed;
         expType = type;
         this.catalystSeparation = catalystSeparation;
         radius = expRadii.get(type);
@@ -59,20 +64,18 @@ public class Explosion {
     }
 
     public Explosion(EnemyShip ship, int catalystSeparation) {
-        xPos = ship.getX();
-        yPos = ship.getY();
-        expType = EnemyType.getExplosionType(ship.getType());
-        this.catalystSeparation = catalystSeparation;
-        radius = expRadii.get(expType);
-        maxStage = Globals.getExplosionMaxFrame(expType) - 1;
-        maxDuration = expDuration.get(expType);
-        duration = maxDuration;
-        if (effectiveStageTypes.containsKey(expType))
-            effectiveStage = effectiveStageTypes.get(expType);
+        double[] speed = ship.getSpeed();
+        new Explosion(ship.getX(), ship.getY(), speed[0], speed[1], catalystSeparation, EnemyType.getExplosionType(ship.getType()));
     }
 
     // returns true if the explosion should be destroyed
     boolean update() {
+        xPos -= xSpeed;
+        yPos -= ySpeed;
+
+        xSpeed /= 2;
+        ySpeed /= 4;
+
         duration--;
         stage = maxStage - duration / (maxDuration / maxStage);
         if (stage < 0) {

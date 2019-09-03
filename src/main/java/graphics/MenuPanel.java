@@ -60,12 +60,6 @@ public class MenuPanel implements ActionListener {
 
     Button currentClick = Button.NONE;
 
-    // JButtons
-    /*JButton playButton;
-    JButton backButton;
-    JButton creditsButton;
-    JToggleButton muteButton;
-    JToggleButton soundModeButton;*/
 
     private enum Button {
         NONE,
@@ -107,97 +101,7 @@ public class MenuPanel implements ActionListener {
 
 
     }
-/*
-    private void setupButtons() {
-        int width = playButtonImages[0].getWidth();
-        int height = playButtonImages[0].getHeight();
-        System.out.println(width);
-        int x = 50;
-        int y = 50;
-        playButton = makeButton(playButtonImages, "play", x, y, width, height);
-        playButton.setOpaque(false);
 
-        width = creditsButtonImages[0].getWidth();
-        height = creditsButtonImages[0].getHeight();
-        x = 50;
-        y = 100;
-        creditsButton = makeButton(creditsButtonImages, "credits", x, y, width, height);
-
-        width = backButtonImages[0].getWidth();
-        height = backButtonImages[0].getHeight();
-        x = 50;
-        y = 50;
-        backButton = makeButton(backButtonImages, "back", x, y, width, height);
-
-        width = muteButtonImages[0].getWidth();
-        height = muteButtonImages[0].getHeight();
-        x = 500;
-        y = 500;
-        muteButton = makeToggleButton(muteButtonImages, "mute", x, y,  width,  height);
-
-        width = soundModeButtonImages[0].getWidth();
-        height = soundModeButtonImages[0].getHeight();
-        x = 700;
-        y = 500;
-        soundModeButton = makeToggleButton(soundModeButtonImages, "soundMode", x, y,  width, height);
-    }
-
-    private JToggleButton makeToggleButton(BufferedImage[] images, String actionCommand, int x, int y, int width, int height) {
-        JToggleButton button = new JToggleButton(new ImageIcon(images[0]));
-        button.setActionCommand(actionCommand);
-        button.addActionListener(this);
-        button.setBounds(x, y, width, height);
-
-        button.setSelectedIcon(new ImageIcon(images[1]));
-
-        return button;
-    }
-
-    private JButton makeButton(BufferedImage[] images, String actionCommand, int x, int y, int width, int height) {
-        JButton button = new JButton(new ImageIcon(images[0]));
-        button.setActionCommand(actionCommand);
-        button.addActionListener(this);
-        button.setBounds(x, y, width, height);
-
-        button.setRolloverIcon(new ImageIcon(images[1]));
-        button.setPressedIcon(new ImageIcon(images[2]));
-
-        return button;
-    }
-
-    private void setButtonStatus(MenuStatus status) {
-        if (status == MenuStatus.MAIN) {
-            playButton.setVisible(true);
-            playButton.setEnabled(true);
-
-            creditsButton.setVisible(true);
-            creditsButton.setEnabled(true);
-
-            muteButton.setVisible(true);
-            muteButton.setEnabled(true);
-
-            soundModeButton.setVisible(true);
-            soundModeButton.setEnabled(true);
-
-            backButton.setVisible(false);
-            backButton.setEnabled(false);
-        } else if (status == MenuStatus.CREDITS) {
-            playButton.setVisible(false);
-            playButton.setEnabled(false);
-
-            creditsButton.setVisible(false);
-            creditsButton.setEnabled(false);
-
-            muteButton.setVisible(false);
-            muteButton.setEnabled(false);
-
-            soundModeButton.setVisible(false);
-            soundModeButton.setEnabled(false);
-
-            backButton.setVisible(true);
-            backButton.setEnabled(true);
-        }
-    }*/
 
     protected BufferedImage drawScreenshot() {
         BufferedImage screenshot = new BufferedImage(GraphicsManager.getWidth(), GraphicsManager.getHeight(), BufferedImage.TYPE_INT_ARGB);
@@ -342,11 +246,6 @@ public class MenuPanel implements ActionListener {
         return onButton;
     }
 
-    /*
-        public AbstractButton[] getButtons() {
-            return new AbstractButton[]{playButton, creditsButton, backButton, muteButton, soundModeButton};
-        }
-    */
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println(e);

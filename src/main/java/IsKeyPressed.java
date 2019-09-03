@@ -25,13 +25,6 @@ public class IsKeyPressed {
     static volatile boolean left2 = false;
     static volatile boolean right2 = false;
 
-    /*
-   private static volatile boolean wPressed = false;
-   public static boolean isWPressed() {
-       synchronized (src.main.java.IsKeyPressed.class) {
-           return wPressed;
-       }
-   }*/
     public static boolean getUp1() {
         synchronized (IsKeyPressed.class) {
             return up1;

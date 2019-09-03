@@ -12,6 +12,7 @@ public class EnemyAgile extends EnemyShip {
 
     double speed;
     private static final int pointOfNoReturn = 50;
+    private static int initialMovement = 100;
 
     public EnemyAgile(int x, int y, double speed) {
         super(x, y, speed, EnemyType.AGILE);
@@ -25,11 +26,12 @@ public class EnemyAgile extends EnemyShip {
     @Override
     public boolean update() {
         int[] targetPos = findTargetPos();
-        if (xPos < pointOfNoReturn) {
+        if (xPos < pointOfNoReturn || initialMovement > 0) {
             xSpeed = speed;
             ySpeed = 0;
-        } else {
 
+            initialMovement -= speed;
+        } else {
             setVector(targetPos[0], targetPos[1], speed);
         }
 
@@ -78,6 +80,11 @@ public class EnemyAgile extends EnemyShip {
         double posValue = posDensity / dist;
 
         return posValue;
+    }
+
+    @Override
+    public double[] getSpeed() {
+        return new double[]{0, 0};
     }
 
 }

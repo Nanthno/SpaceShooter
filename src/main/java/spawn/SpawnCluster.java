@@ -123,14 +123,14 @@ public class SpawnCluster {
 
     }
 
-    List<EnemyShip> makeSpawns(int minY, int maxY) {
+    List<EnemyShip> makeSpawns(int minY, int maxY, double speedMultiplier) {
 
         List<EnemyShip> ships = new ArrayList<>();
 
         int xOrigin = Globals.screenWidth + 32;
         int yOrigin = chooseY(minY, maxY);
 
-        double speed = chooseSpeed();
+        double speed = chooseSpeed()*speedMultiplier;
 
         for (Spawn spawn : spawns) {
             ships.add(spawn.makeEnemy(xPos + xOrigin, yPos + yOrigin, speed));

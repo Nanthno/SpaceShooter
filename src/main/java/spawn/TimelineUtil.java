@@ -76,6 +76,15 @@ public class TimelineUtil {
                     event.addSpawn(document[i]);
                     continue;
                 }
+                if(document[i].startsWith("speed")) {
+                    try {
+                        double speed = Double.parseDouble(document[i].substring(5));
+                        event.setSpeed(speed);
+                    } catch(Exception e) {
+                        System.out.println("Could not parse speed in timeline at line " + i);
+                        e.printStackTrace();
+                    }
+                }
 
             }
             if (time != -1) {

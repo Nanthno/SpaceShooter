@@ -3,3 +3,5 @@ Each section is headed with a time which is the number of seconds after the star
 each line contains one action which can be a set probability or a spawn
 set: "set [cluster] [spawn probability]" eg "set AA 0.04"
 spawn: "spawn [cluster] x:[x position] y:[y position] speed:[speed]" eg "spawn AA x:1049 y:500 speed:3"
+speed: speed multiplier to all ship speeds eg "speed 1.25"
+- if there are multiple speed entries for a given time stamp, it will use the last one

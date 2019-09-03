@@ -1,11 +1,16 @@
 Needed to finish the game:
 - make more spawn patterns
 - add various difficulty modes
-- add speed multiplier to timeline so ships go faster as time goes on
 - make shield graphics better
-- fix the button issue (probably by switching to using jbutton)
 - fix screen size
 - clear out the TO-DO items
+- make menu better
+-- add the title of the game
+-- add highscore button
+- add zapped animation to player ship
+
+Nice to have
+- rework the density map so that it works using a grid rather than the mess of math that it currently is
 
 Notes for next time:
 -add laser sight for laser burst

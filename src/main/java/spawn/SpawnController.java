@@ -20,6 +20,8 @@ public class SpawnController {
     private static long lastShieldSpawn;
     private static String shieldClusterCode = "OS";
 
+    private double speedMultiplier = 1;
+
     public SpawnController() {
         startTime = System.currentTimeMillis();
 
@@ -46,7 +48,7 @@ public class SpawnController {
 
                     lastShieldSpawn = time;
                 }
-                enemiesToSpawn.addAll(allClusters.get(clusterCode).makeSpawns(minY, maxY));
+                enemiesToSpawn.addAll(allClusters.get(clusterCode).makeSpawns(minY, maxY, speedMultiplier));
             }
         }
         return enemiesToSpawn;
@@ -57,6 +59,8 @@ public class SpawnController {
         for (String clusterCode : newSpawnProbabilities.keySet()) {
             spawnProbabilities.put(clusterCode, newSpawnProbabilities.get(clusterCode));
         }
+
+        speedMultiplier = event.getSpeedMultiplier();
     }
 
     public Queue<TimeStampEvent> updateSpawnProbabilities(Queue<TimeStampEvent> events) {

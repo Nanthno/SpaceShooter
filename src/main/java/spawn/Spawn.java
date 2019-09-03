@@ -42,24 +42,6 @@ class Spawn {
             ship = new EnemyPiloted(clusterX + xPos, clusterY + yPos, speed);
         else
             ship = new EnemyShip(clusterX + xPos, clusterY + yPos, speed, type);
-/*
-        Class<EnemyShip> shipClass = Globals.getEnemyClass(type);
-        try {
-            Constructor<EnemyShip> constructor = shipClass.getConstructor(Integer.class, Integer.class, Double.class, EnemyType.class);
-            ship = constructor.newInstance(clusterX + xPos, clusterY + yPos, speed, type);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-*/
-        /*if (type == EnemyType.BASIC)
-            ship = new EnemyBasic(clusterX + xPos, clusterY + yPos, speed);
-        if (type == EnemyType.FUEL)
-            ship = new EnemyFuel(clusterX + xPos, clusterY + yPos, speed);
-        if (type == EnemyType.AGILE)
-            ship = new EnemyAgile(clusterX + xPos, clusterY + yPos, speed);
-        if(type == EnemyType.SHIELDER) {
-            ship = new EnemyShielder(clusterX + xPos, clusterY + yPos, speed);
-        }*/
 
         return ship;
     }

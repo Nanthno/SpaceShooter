@@ -10,6 +10,8 @@ public class TimelineController implements Runnable {
     Queue<Integer> timelineQueue;
     long startTime;
 
+    double speedMultiplier = 1;
+
     public TimelineController() {
         timelineEvents = TimelineUtil.readTimelines();
 

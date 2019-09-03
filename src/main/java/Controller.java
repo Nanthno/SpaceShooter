@@ -223,7 +223,8 @@ public class Controller {
                 int distance = Math.abs((laserBlast.getX() + laserBlast.getRadius()) - (e.getX() + e.getRadius()));
                 if (distance < e.getRadius() + laserBlast.getRadius()) {
                     if (e.isKillable(LaserBlast.class)) {
-                        spawnExp(e.getX(), e.getY(), e.getRadius(), e.getType(), 0);
+                        double[] speed = e.getSpeed();
+                        spawnExp(e.getX(), e.getY(), speed[0], speed[1], e.getRadius(), e.getType(), 0);
                         enemyShips.remove(j);
                         continue;
                     }
@@ -237,7 +238,8 @@ public class Controller {
                     if (weapon.getType() == WeaponType.PLAYER_BULLET) {
                         PlayerBullet b = (PlayerBullet) weapon;
                         if (e.isKillable(PlayerBullet.class)) {
-                            spawnExp(e.getX(), e.getY(), e.getRadius(), e.getType(), 0);
+                            double[] speed = e.getSpeed();
+                            spawnExp(e.getX(), e.getY(), speed[0], speed[1], e.getRadius(), e.getType(), 0);
                             enemyShips.remove(j);
                         }
                         playerFiredWeapons.remove(i);
@@ -248,7 +250,8 @@ public class Controller {
                         playerFiredWeapons.remove(i);
                     }
                     if (weapon.getType() == WeaponType.PLAYER_BURST) {
-                        spawnExp(e.getX(), e.getY(), e.getRadius(), e.getType(), 0);
+                        double[] speed = e.getSpeed();
+                        spawnExp(e.getX(), e.getY(), speed[0], speed[1], e.getRadius(), e.getType(), 0);
                         enemyShips.remove(j);
                     }
                 }
@@ -313,20 +316,20 @@ public class Controller {
         return Math.sqrt(dx * dx + dy * dy);
     }
 
-    public static void spawnExp(int x, int y, int shipR, EnemyType enemyType, int catalystSeparation) {
+    public static void spawnExp(int x, int y, double xSpeed, double ySpeed, int shipR, EnemyType enemyType, int catalystSeparation) {
         ExplosionType explosionType = EnemyType.getExplosionType(enemyType);
 
-        spawnExp(x, y, shipR, explosionType, catalystSeparation);
+        spawnExp(x, y, xSpeed, ySpeed, shipR, explosionType, catalystSeparation);
     }
 
-    public static void spawnExp(int x, int y, int radius, ExplosionType explosionType, int catalystSeparation) {
+    public static void spawnExp(int x, int y, double xSpeed, double ySpeed, int radius, ExplosionType explosionType, int catalystSeparation) {
         x += radius;
         y += radius;
         int expRadius = Explosion.expRadii.get(explosionType);
         x -= expRadius;
         y -= expRadius;
 
-        explosions.add(new Explosion(x, y, catalystSeparation, explosionType));
+        explosions.add(new Explosion(x, y, xSpeed, ySpeed, catalystSeparation, explosionType));
 
         audioManager.addSoundToFrame(Globals.getExplosionAudioClipType(explosionType));
 

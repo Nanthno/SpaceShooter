@@ -4,21 +4,9 @@ import src.main.java.Controller;
 import src.main.java.Globals;
 import src.main.java.weapons.playerWeapons.PlayerWeaponParent;
 
+import java.awt.*;
+
 public class EnemyShip {
-
-    public static void main(String[] args) {
-        int x1 = 5;
-        int y1 = 2;
-
-        int x2 = 8;
-        int y2 = 0;
-
-        EnemyShip e = new EnemyShip(x1, y1, 2, EnemyType.PILOTED);
-
-        e.setVector(x2, y2, 2);
-
-        System.out.println(e.xSpeed + " : " + e.ySpeed);
-    }
 
     // default x position
     double xPos = 1030;
@@ -66,7 +54,7 @@ public class EnemyShip {
     }
 
     public void killShip(int catalystSeparation) {
-        Controller.spawnExp((int) xPos, (int) yPos, radius, shipType, catalystSeparation);
+        Controller.spawnExp((int) xPos, (int) yPos, xSpeed, ySpeed, radius, shipType, catalystSeparation);
         Controller.addKillScore(shipType, catalystSeparation);
     }
 
@@ -133,6 +121,10 @@ public class EnemyShip {
         xSpeed = fraction * xDiff;
         ySpeed = fraction * yDiff;
 
+    }
+
+    public double[] getSpeed() {
+        return new double[]{xSpeed, ySpeed};
     }
 
 }

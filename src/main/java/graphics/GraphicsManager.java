@@ -46,6 +46,7 @@ public class GraphicsManager {
         loadImages();
 
         frame = new JFrame();
+        frame.setResizable(false);
         frame.setLayout(new BorderLayout());
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,21 +54,7 @@ public class GraphicsManager {
         frame.addMouseListener(Controller.getMouseListener());
 
         screenPanel = new ScreenPanel();
-/*
-        JPanel masterPanel = new JPanel();
-        masterPanel.setLayout(new OverlayLayout(masterPanel));
 
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(null);
-        for (AbstractButton b : screenPanel.getButtons()) {
-            buttonPanel.add(b);
-        }
-        buttonPanel.setOpaque(false);
-
-        masterPanel.add(buttonPanel);
-        //masterPanel.add(screenPanel);
-
-*/
         frame.add(screenPanel);
         frame.pack();
 
@@ -76,9 +63,6 @@ public class GraphicsManager {
 
 
     public void drawScreen() {
-        //screenPanel.setFrameHeight(frame.getHeight());
-        //screenPanel.setFrameWidth(frame.getWidth());
-
         screenPanel.removeAll();
         screenPanel.validate();
         screenPanel.repaint();

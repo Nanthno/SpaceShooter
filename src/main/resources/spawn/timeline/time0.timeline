@@ -1,10 +1,11 @@
 time 0
 set AA 0.01
 set AB 0.004
-set OA 0.005
+set OA 0.01
 set OS 0.002
 set O1 0.001
 set OG 0.006
 set AS 0.005
 set F1 0.005
 set OP 0.007
+speed 1

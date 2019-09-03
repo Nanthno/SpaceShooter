@@ -29,7 +29,7 @@ public class Missile extends PlayerWeaponParent {
     }
 
     public void hitEnemy() {
-        Controller.spawnExp((int) xPos, (int) yPos, radius, ExplosionType.PROJECTILE, 0);
+        Controller.spawnExp((int) xPos, (int) yPos, 0, 0, radius, ExplosionType.PROJECTILE, 0);
     }
 
     @Override
