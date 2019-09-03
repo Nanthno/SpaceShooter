@@ -14,7 +14,7 @@ public class Burst extends PlayerWeaponParent {
 
     int currentState = 0;
 
-    static final int expansionRate = (maxRadius-startRadius)/duration;
+    static final int expansionRate = (maxRadius - startRadius) / duration;
 
     public Burst(double x, double y) {
         type = WeaponType.PLAYER_BURST;
@@ -22,15 +22,15 @@ public class Burst extends PlayerWeaponParent {
         xPos = x;
         yPos = y;
 
-        maxFrames = Globals.getWeaponMaxFrames(WeaponType.PLAYER_BURST)-1;
+        maxFrames = Globals.getWeaponMaxFrames(WeaponType.PLAYER_BURST) - 1;
 
         radius = startRadius;
     }
 
     public boolean update() {
         currentState++;
-        radius = expansionRate*currentState + startRadius;
-        currentFrame = (int)(currentState * maxFrames/(duration*1.0));
+        radius = expansionRate * currentState + startRadius;
+        currentFrame = (int) (currentState * maxFrames / (duration * 1.0));
 
         return currentState > duration;
     }

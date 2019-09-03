@@ -1,7 +1,6 @@
 package src.main.java;
 
-import java.awt.KeyEventDispatcher;
-import java.awt.KeyboardFocusManager;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -9,11 +8,11 @@ import java.awt.event.MouseListener;
 public class Input {
 
     // KeyEvents for controlling ship1
-    private static int upke = KeyEvent.VK_UP;
-    private static int downke = KeyEvent.VK_DOWN;
-    private static int leftke = KeyEvent.VK_LEFT;
-    private static int rightke = KeyEvent.VK_RIGHT;
-    private static int fireke = KeyEvent.VK_SPACE;
+    private static int upKey = KeyEvent.VK_UP;
+    private static int downKey = KeyEvent.VK_DOWN;
+    private static int leftKey = KeyEvent.VK_LEFT;
+    private static int rightKey = KeyEvent.VK_RIGHT;
+    private static int fireKey = KeyEvent.VK_SPACE;
     private static int special1ke = KeyEvent.VK_Q;
     private static int special2ke = KeyEvent.VK_W;
     private static int special3ke = KeyEvent.VK_E;
@@ -32,129 +31,119 @@ public class Input {
     MouseListener mouseListener;
 
     public Input() {
-	IsKeyPressed.makeKeyboardManager();
+        IsKeyPressed.makeKeyboardManager();
 
-		mouseListener = new MouseListener() {
-			@Override
-			public void mouseClicked(MouseEvent mouseEvent) {
+        mouseListener = new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent mouseEvent) {
 
-			}
+            }
 
-			@Override
-			public void mousePressed(MouseEvent mouseEvent) {
-				isMouse1Pressed = true;
-			}
+            @Override
+            public void mousePressed(MouseEvent mouseEvent) {
+                isMouse1Pressed = true;
+            }
 
-			@Override
-			public void mouseReleased(MouseEvent mouseEvent) {
-				isMouse1Pressed = false;
-				isMouse1Released = true;
-			}
+            @Override
+            public void mouseReleased(MouseEvent mouseEvent) {
+                isMouse1Pressed = false;
+                isMouse1Released = true;
+            }
 
-			@Override
-			public void mouseEntered(MouseEvent mouseEvent) {
+            @Override
+            public void mouseEntered(MouseEvent mouseEvent) {
 
-			}
+            }
 
-			@Override
-			public void mouseExited(MouseEvent mouseEvent) {
+            @Override
+            public void mouseExited(MouseEvent mouseEvent) {
 
-			}
-		};
+            }
+        };
 
-	    // Code from https://stackoverflow.com/questions/18037576/how-do-i-check-if-the-user-is-pressing-a-key
-	    // creates input updater
-	KeyboardFocusManager.getCurrentKeyboardFocusManager()
-	    .addKeyEventDispatcher(new KeyEventDispatcher() {
+        // Code from https://stackoverflow.com/questions/18037576/how-do-i-check-if-the-user-is-pressing-a-key
+        // creates input updater
+        KeyboardFocusManager.getCurrentKeyboardFocusManager()
+                .addKeyEventDispatcher(new KeyEventDispatcher() {
 
-		    @Override
-		    public boolean dispatchKeyEvent(KeyEvent ke) {
-			synchronized (IsKeyPressed.class) {
+                                           @Override
+                                           public boolean dispatchKeyEvent(KeyEvent ke) {
+                                               synchronized (IsKeyPressed.class) {
 
-			    switch (ke.getID()) {
-			    case KeyEvent.KEY_PRESSED:
-				// movement
-				if (ke.getKeyCode() == upke) {
-				    up = true;
-				}
-				else if (ke.getKeyCode() == downke) {
-				    down = true;
-				}
-				else if (ke.getKeyCode() == leftke) {
-				    left = true;
-				}
-				else if (ke.getKeyCode() == rightke) {
-				    right = true;
-				}
-				// firing
-				else if (ke.getKeyCode() == fireke){
-				    fire = true;
-				}
-				else if (ke.getKeyCode() == special1ke) {
-				    special1 = true;
-				}
-				else if (ke.getKeyCode() == special2ke) {
-					special2 = true;
-				}
-				else if (ke.getKeyCode() == special3ke) {
-					special3 = true;
-				}
+                                                   switch (ke.getID()) {
+                                                       case KeyEvent.KEY_PRESSED:
+                                                           // movement
+                                                           if (ke.getKeyCode() == upKey) {
+                                                               up = true;
+                                                           } else if (ke.getKeyCode() == downKey) {
+                                                               down = true;
+                                                           } else if (ke.getKeyCode() == leftKey) {
+                                                               left = true;
+                                                           } else if (ke.getKeyCode() == rightKey) {
+                                                               right = true;
+                                                           }
+                                                           // firing
+                                                           else if (ke.getKeyCode() == fireKey) {
+                                                               fire = true;
+                                                           } else if (ke.getKeyCode() == special1ke) {
+                                                               special1 = true;
+                                                           } else if (ke.getKeyCode() == special2ke) {
+                                                               special2 = true;
+                                                           } else if (ke.getKeyCode() == special3ke) {
+                                                               special3 = true;
+                                                           }
 
-				break;
-			    
+                                                           break;
 
-			    case KeyEvent.KEY_RELEASED:
-				// movement
-				if (ke.getKeyCode() == upke) {
-				    up = false;
-				}
-				else if (ke.getKeyCode() == downke) {
-				    down = false;
-				}
-				else if (ke.getKeyCode() == leftke) {
-				    left = false;
-				}
-				else if (ke.getKeyCode() == rightke) {
-				    right = false;
-				}
-				// firing
-				else if (ke.getKeyCode() == fireke){
-				    fire = false;
-				}
-				else if (ke.getKeyCode() == special1ke) {
-				    special1 = false;
-				}
-				else if (ke.getKeyCode() == special2ke) {
-					special2 = false;
-				}
-				else if (ke.getKeyCode() == special3ke) {
-					special3 = false;
-				}
 
-				break;
-			    }
-			}
-			return false;
-		    }
-		}
-		);
-	
-	
+                                                       case KeyEvent.KEY_RELEASED:
+                                                           // movement
+                                                           if (ke.getKeyCode() == upKey) {
+                                                               up = false;
+                                                           } else if (ke.getKeyCode() == downKey) {
+                                                               down = false;
+                                                           } else if (ke.getKeyCode() == leftKey) {
+                                                               left = false;
+                                                           } else if (ke.getKeyCode() == rightKey) {
+                                                               right = false;
+                                                           }
+                                                           // firing
+                                                           else if (ke.getKeyCode() == fireKey) {
+                                                               fire = false;
+                                                           } else if (ke.getKeyCode() == special1ke) {
+                                                               special1 = false;
+                                                           } else if (ke.getKeyCode() == special2ke) {
+                                                               special2 = false;
+                                                           } else if (ke.getKeyCode() == special3ke) {
+                                                               special3 = false;
+                                                           }
+
+                                                           break;
+                                                   }
+                                               }
+                                               return false;
+                                           }
+                                       }
+                );
+
+
     }
 
     public boolean getIsMouse1Pressed() {
-    	return isMouse1Pressed;
-	}
-	public boolean getIsMouse1Released() {
-    	return isMouse1Released;
-	}
-	public void resetIsMouse1Released() {
-    	isMouse1Released = false;
-	}
+        return isMouse1Pressed;
+    }
 
-	public MouseListener getMouseListener() {
-		return mouseListener;
-	}
+    public boolean getIsMouse1Released() {
+        return isMouse1Released;
+    }
+
+    public void resetIsMouse1Released() {
+        isMouse1Released = false;
+    }
+
+    public MouseListener getMouseListener() {
+        return mouseListener;
+    }
 
 }
 

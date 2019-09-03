@@ -11,7 +11,7 @@ public class SpawnPattern {
 
     List<EnemyShip> makePattern() {
         List<EnemyShip> ships = new ArrayList<>();
-        for(SpawnCluster cluster : spawnClusters) {
+        for (SpawnCluster cluster : spawnClusters) {
             ships.addAll(cluster.makeSpawns());
         }
 

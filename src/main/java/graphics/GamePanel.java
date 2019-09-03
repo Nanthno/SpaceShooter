@@ -14,7 +14,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ConcurrentModificationException;
 import java.util.List;
-import java.util.Random;
 
 class GamePanel extends JPanel {
 
@@ -27,7 +26,7 @@ class GamePanel extends JPanel {
         for (EnemyShip enemy : Controller.getEnemyArray()) {
             BufferedImage shipImage = GraphicsManager.getFrame(enemy.getType(), enemy.getFrame());
 
-            g.drawImage(shipImage, enemy.getx(), enemy.gety(), null);
+            g.drawImage(shipImage, enemy.getX(), enemy.getY(), null);
         }
 
         // draw player fired weapons
@@ -35,7 +34,7 @@ class GamePanel extends JPanel {
         for (PlayerWeaponParent w : playerWeapons) {
             BufferedImage img = GraphicsManager.getFrame(w.getType(), w.getFrame());
 
-            g.drawImage(img, w.getx(), w.gety(), null);
+            g.drawImage(img, w.getX(), w.getY(), null);
         }
 
         // draw enemy fired weapons
@@ -43,7 +42,7 @@ class GamePanel extends JPanel {
         for (EnemyWeaponParent w : enemyWeapons) {
             BufferedImage img = GraphicsManager.getFrame(w.getType(), w.getFrame());
 
-            g.drawImage(img, (int) w.getx(), (int) w.gety(), null);
+            g.drawImage(img, w.getX(), w.getY(), null);
         }
 
         // draw explosions
@@ -60,17 +59,17 @@ class GamePanel extends JPanel {
             g2d.rotate((Math.PI / 2) * rotation, img.getHeight() / 2, img.getWidth() / 2);
             g2d.drawRenderedImage(img, null);
             g2d.dispose();
-            g.drawImage(drawnImg, e.getx(), e.gety(), null);
+            g.drawImage(drawnImg, e.getX(), e.getY(), null);
         }
 
 
         LaserBlast blast = Controller.getLaserBlast();
         if (blast != null)
-            g.drawImage(GraphicsManager.getFrame(WeaponType.PLAYER_LASER_BLAST, blast.getFrame()), blast.getx(), 0, null);
+            g.drawImage(GraphicsManager.getFrame(WeaponType.PLAYER_LASER_BLAST, blast.getFrame()), blast.getX(), 0, null);
 
         // draw player ship
         PlayerShip ship = Controller.getPlayerShip();
-        g.drawImage(GraphicsManager.playerImages[ship.getFrame()], (int) ship.getx() + playerShake[0], (int) ship.gety() + playerShake[1], null);
+        g.drawImage(GraphicsManager.playerImages[ship.getFrame()], (int) ship.getX() + playerShake[0], (int) ship.getY() + playerShake[1], null);
 
         // at end
         g.dispose();

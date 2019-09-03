@@ -24,7 +24,7 @@ public class TimelineController implements Runnable {
     public void run() {
 
 
-        if(timelineQueue.size() == 0)
+        if (timelineQueue.size() == 0)
             return;
 
         long currentTime = System.currentTimeMillis();
@@ -38,7 +38,7 @@ public class TimelineController implements Runnable {
                 System.out.print(",");
                 Controller.updateSpawnProbabilities(timelineEvents.get(nextTimeStamp));
 
-                if(timelineQueue.size() == 0) {
+                if (timelineQueue.size() == 0) {
                     return;
                 }
 

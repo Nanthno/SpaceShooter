@@ -13,11 +13,11 @@ public class AnnihilationPath {
 
     private static final int minSilhouetteOverlap = 5;
 
-    List<EnemyShip> ships;
+    private List<EnemyShip> ships;
 
     List<Explosion> explosions;
 
-    Map<EnemyType, Integer> path;
+    private Map<EnemyType, Integer> path;
 
     public AnnihilationPath(List<EnemyShip> ships) {
         this.ships = ships;
@@ -28,7 +28,6 @@ public class AnnihilationPath {
         this.path = path;
         this.explosions = explosions;
     }
-
 
 
     public List<AnnihilationPath> findNextPaths() {
@@ -90,10 +89,11 @@ public class AnnihilationPath {
 
         return newMap;
     }
+
     private static List<EnemyShip> copyList(List<EnemyShip> ships) {
         List<EnemyShip> newShips = new ArrayList<>();
 
-        for(EnemyShip e : ships) {
+        for (EnemyShip e : ships) {
             newShips.add(e);
         }
 

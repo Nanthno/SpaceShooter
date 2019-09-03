@@ -44,6 +44,7 @@ public class EnemyShip {
         maxFrame = Globals.getEnemyShipsMaxFrames(type);
         init();
     }
+
     // this class is to be overridden as necessary
     void init() {
     }
@@ -61,19 +62,19 @@ public class EnemyShip {
     }
 
     protected boolean checkDead() {
-        return xPos < -1*radius;
+        return xPos < -1 * radius;
     }
 
-    public void killShip(int catalistSeperation) {
-        Controller.spawnExp((int) xPos, (int) yPos, radius, shipType, catalistSeperation);
-        Controller.addKillScore(shipType, catalistSeperation);
+    public void killShip(int catalystSeparation) {
+        Controller.spawnExp((int) xPos, (int) yPos, radius, shipType, catalystSeparation);
+        Controller.addKillScore(shipType, catalystSeparation);
     }
 
-    public int getx() {
+    public int getX() {
         return (int) xPos;
     }
 
-    public int gety() {
+    public int getY() {
         return (int) yPos;
     }
 
@@ -91,7 +92,7 @@ public class EnemyShip {
 
     public boolean collideWithWeapon(PlayerWeaponParent weapon) {
 
-        double dist = distance(weapon.getx(), weapon.gety(), weapon.getRadius(), xPos, yPos, radius);
+        double dist = distance(weapon.getX(), weapon.getY(), weapon.getRadius(), xPos, yPos, radius);
 
         double radiiSum = weapon.getRadius() + radius;
 
@@ -125,12 +126,12 @@ public class EnemyShip {
         double xDiff = xPos - x;
         double yDiff = yPos - y;
 
-        double hyp = Math.sqrt(xPos*xPos + yPos*yPos);
+        double hyp = Math.sqrt(xPos * xPos + yPos * yPos);
 
-        double frac = speed/hyp;
+        double fraction = speed / hyp;
 
-        xSpeed = frac * xDiff;
-        ySpeed = frac * yDiff;
+        xSpeed = fraction * xDiff;
+        ySpeed = fraction * yDiff;
 
     }
 

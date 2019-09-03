@@ -150,7 +150,7 @@ public class Controller {
             boolean kill = w.update();
             if (killMissiles && w.getType() == WeaponType.PLAYER_MISSILE && ((Missile) w).isArmed()) {
                 ((Missile) w).hitEnemy();
-            } else if (w.getx() < 1040 && !kill) {
+            } else if (w.getX() < 1040 && !kill) {
                 newPlayerBullets.add(w);
             }
         }
@@ -160,7 +160,7 @@ public class Controller {
         ArrayList<EnemyWeaponParent> newEnemyWeapons = new ArrayList<>();
         for (EnemyWeaponParent w : enemyFiredWeapons) {
             w.update();
-            if (w.getx() > 0) {
+            if (w.getX() > 0) {
                 newEnemyWeapons.add(w);
             }
         }
@@ -220,10 +220,10 @@ public class Controller {
 
             // checks for collision with laser blast
             if (laserBlast != null) {
-                int distance = Math.abs((laserBlast.getx() + laserBlast.getRadius()) - (e.getx() + e.getRadius()));
+                int distance = Math.abs((laserBlast.getX() + laserBlast.getRadius()) - (e.getX() + e.getRadius()));
                 if (distance < e.getRadius() + laserBlast.getRadius()) {
                     if (e.isKillable(LaserBlast.class)) {
-                        spawnExp(e.getx(), e.gety(), e.getRadius(), e.getType(), 0);
+                        spawnExp(e.getX(), e.getY(), e.getRadius(), e.getType(), 0);
                         enemyShips.remove(j);
                         continue;
                     }
@@ -237,7 +237,7 @@ public class Controller {
                     if (weapon.getType() == WeaponType.PLAYER_BULLET) {
                         PlayerBullet b = (PlayerBullet) weapon;
                         if (e.isKillable(PlayerBullet.class)) {
-                            spawnExp(e.getx(), e.gety(), e.getRadius(), e.getType(), 0);
+                            spawnExp(e.getX(), e.getY(), e.getRadius(), e.getType(), 0);
                             enemyShips.remove(j);
                         }
                         playerFiredWeapons.remove(i);
@@ -248,7 +248,7 @@ public class Controller {
                         playerFiredWeapons.remove(i);
                     }
                     if (weapon.getType() == WeaponType.PLAYER_BURST) {
-                        spawnExp(e.getx(), e.gety(), e.getRadius(), e.getType(), 0);
+                        spawnExp(e.getX(), e.getY(), e.getRadius(), e.getType(), 0);
                         enemyShips.remove(j);
                     }
                 }
@@ -262,8 +262,8 @@ public class Controller {
             for (int j = enemyShips.size() - 1; j >= 0; j--) {
                 EnemyShip enemy = enemyShips.get(j);
                 if (explosion.getStage() > explosion.getEffectiveStage() &&
-                        distance(explosion.getx(), explosion.gety(), explosion.getRadius(),
-                                enemy.getx(), enemy.gety(), enemy.getRadius()) < 2 * (enemy.getRadius() + explosion.getRadius())) {
+                        distance(explosion.getX(), explosion.getY(), explosion.getRadius(),
+                                enemy.getX(), enemy.getY(), enemy.getRadius()) < 2 * (enemy.getRadius() + explosion.getRadius())) {
                     if (enemy.isKillable(Explosion.class)) {
                         enemy.killShip(explosion.getCatalystSeparation() + 1);
                         enemyShips.remove(j);
@@ -277,8 +277,8 @@ public class Controller {
     static void checkPlayerEnemyCollision() {
         for (int i = enemyShips.size() - 1; i >= 0; i--) {
             EnemyShip e = enemyShips.get(i);
-            if (distance(e.getx(), e.gety(), e.getRadius(),
-                    player.getx(), player.gety(), player.getRadius()) < e.getRadius() + player.getRadius()) {
+            if (distance(e.getX(), e.getY(), e.getRadius(),
+                    player.getX(), player.getY(), player.getRadius()) < e.getRadius() + player.getRadius()) {
                 if (e.isKillable(PlayerShip.class)) {
                     e.killShip(0);
                     enemyShips.remove(i);
@@ -292,8 +292,8 @@ public class Controller {
     static void checkPlayerEnemyWeaponCollision() {
         for (int i = enemyFiredWeapons.size() - 1; i >= 0; i--) {
             EnemyWeaponParent w = enemyFiredWeapons.get(i);
-            if (distance(w.getx(), w.gety(), w.getRadius(),
-                    player.getx(), player.gety(), player.getRadius()) < w.getRadius() + player.getRadius()) {
+            if (distance(w.getX(), w.getY(), w.getRadius(),
+                    player.getX(), player.getY(), player.getRadius()) < w.getRadius() + player.getRadius()) {
                 enemyFiredWeapons.remove(i);
                 player.hitByWeapon(w);
                 audioManager.addSoundToFrame(AudioClipType.ENEMY_EMP_HIT);
@@ -319,14 +319,14 @@ public class Controller {
         spawnExp(x, y, shipR, explosionType, catalystSeparation);
     }
 
-    public static void spawnExp(int x, int y, int radius, ExplosionType explosionType, int catalystSeperation) {
+    public static void spawnExp(int x, int y, int radius, ExplosionType explosionType, int catalystSeparation) {
         x += radius;
         y += radius;
         int expRadius = Explosion.expRadii.get(explosionType);
         x -= expRadius;
         y -= expRadius;
 
-        explosions.add(new Explosion(x, y, catalystSeperation, explosionType));
+        explosions.add(new Explosion(x, y, catalystSeparation, explosionType));
 
         audioManager.addSoundToFrame(Globals.getExplosionAudioClipType(explosionType));
 
@@ -390,9 +390,9 @@ public class Controller {
         audioManager.addSoundToFrame(Globals.getWeaponAudioClipType(type));
     }
 
-    public static void addKillScore(EnemyType type, int catalistSeperation) {
+    public static void addKillScore(EnemyType type, int catalystSeparation) {
         int killPoints = Globals.getEnemyShipPointValue(type);
-        double multiplier = catalistSeperation / 2 + 1;
+        double multiplier = catalystSeparation / 2 + 1;
 
         killPoints *= multiplier;
         score += killPoints;
@@ -412,12 +412,12 @@ public class Controller {
 
     private static int[] makeShake(double x, double y, double shake) {
         Random rand = new Random();
-        double xFrac = rand.nextDouble() * 2;
+        double xFraction = rand.nextDouble() * 2;
         int xDirection = rand.nextInt(2) == 0 ? 1 : -1;
         int yDirection = rand.nextInt(2) == 0 ? 1 : -1;
 
-        int xShake = xDirection * (int) (xFrac * shake);
-        int yShake = yDirection * (int) ((1 - xFrac) * shake);
+        int xShake = xDirection * (int) (xFraction * shake);
+        int yShake = yDirection * (int) ((1 - xFraction) * shake);
 
         return new int[]{xShake, yShake};
 
@@ -472,11 +472,11 @@ public class Controller {
     }
 
     public static double getPlayerXPos() {
-        return player.getx();
+        return player.getX();
     }
 
     public static double getPlayerYPos() {
-        return player.gety();
+        return player.getY();
     }
 
     public static double getPlayerYSpeed() {

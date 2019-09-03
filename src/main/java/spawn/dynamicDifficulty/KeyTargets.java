@@ -30,8 +30,8 @@ public class KeyTargets {
 
         que.add(new AnnihilationPath(ships));
 
-        while(que.size() > 0) {
-            //TODO: make a breadth first search on the annihilationpaths to all paths in the first layer of possible annihilation
+        while (que.size() > 0) {
+            //TODO: make a breadth first search on the annihilation paths to all paths in the first layer of possible annihilation
         }
 
         return null;

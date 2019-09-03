@@ -25,11 +25,10 @@ public class EnemyAgile extends EnemyShip {
     @Override
     public boolean update() {
         int[] targetPos = findTargetPos();
-        if(xPos < pointOfNoReturn) {
+        if (xPos < pointOfNoReturn) {
             xSpeed = speed;
             ySpeed = 0;
-        }
-        else {
+        } else {
 
             setVector(targetPos[0], targetPos[1], speed);
         }
@@ -37,11 +36,10 @@ public class EnemyAgile extends EnemyShip {
         xPos -= xSpeed;
         yPos -= ySpeed;
 
-        if(yPos < radius) {
+        if (yPos < radius) {
             yPos = radius;
-        }
-        else if(yPos > Globals.screenHeight-radius) {
-            yPos = Globals.screenHeight-radius;
+        } else if (yPos > Globals.screenHeight - radius) {
+            yPos = Globals.screenHeight - radius;
         }
 
         return checkDead();

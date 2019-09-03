@@ -17,15 +17,15 @@ public class EnemyShielder extends EnemyShip {
     }
 
     private void createShield() {
-        int x = (int)xPos - Globals.getEnemyShipRadius(EnemyType.SHIELD) + radius;
-        int y = (int)yPos - Globals.getEnemyShipRadius(EnemyType.SHIELD) + radius;
+        int x = (int) xPos - Globals.getEnemyShipRadius(EnemyType.SHIELD) + radius;
+        int y = (int) yPos - Globals.getEnemyShipRadius(EnemyType.SHIELD) + radius;
 
         Controller.addEnemy(new EnemyShield(x, y, 0));
     }
 
     @Override
     public boolean checkDead() {
-        return xPos < -1.3*Globals.getEnemyShipRadius(EnemyType.SHIELD);
+        return xPos < -1.3 * Globals.getEnemyShipRadius(EnemyType.SHIELD);
     }
 
 

@@ -17,6 +17,8 @@ public class Globals {
 
     public static final int screenHeight = 640;
     public static final int screenWidth = 1024;
+    public static final int statusPanelWidth = 64;
+    public static final int gameWidth = screenWidth - statusPanelWidth;
 
     static final Map<EnemyType, Integer> enemyShipRadius = new HashMap<EnemyType, Integer>() {{
         put(EnemyType.BASIC, 8);
@@ -160,10 +162,6 @@ public class Globals {
 
     public static void addToWeaponMaxFrames(WeaponType type, int maxFrameCount) {
         weaponMaxFrames.put(type, maxFrameCount);
-    }
-
-    public static void setPlayerMaxFrames(int playerMaxFrames) {
-        Globals.playerMaxFrames = playerMaxFrames;
     }
 
     public static int getEnemyShipsMaxFrames(EnemyType type) {

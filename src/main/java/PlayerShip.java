@@ -5,8 +5,6 @@ import src.main.java.weapons.WeaponType;
 import src.main.java.weapons.enemyWeapons.EnemyWeaponParent;
 import src.main.java.weapons.playerWeapons.PlayerBullet;
 
-import java.util.Random;
-
 public class PlayerShip {
 
     double xPos = 64;
@@ -22,7 +20,7 @@ public class PlayerShip {
     int fire = 0;
     int fireHeat = 15;
     int overHeat = 12;
-    int cooloff = 3;
+    int coolOff = 3;
     int heat = 70;
     boolean overheated = false;
 
@@ -58,7 +56,7 @@ public class PlayerShip {
         if (heat > 0)
             heat--;
 
-        if (heat < cooloff) {
+        if (heat < coolOff) {
             overheated = false;
         }
 
@@ -77,23 +75,21 @@ public class PlayerShip {
 
         if (immobile < 0) {
             // movement
-            if (in.up && yPos > 0) {
+            if (Input.up && yPos > 0) {
                 yPos -= ySpeed;
                 yMove = -1;
-            }
-            else if (in.down && yPos < Globals.screenHeight - radius * 4) { // not really sure why it has to be 4 not 2 but it works
+            } else if (Input.down && yPos < Globals.screenHeight - radius * 4) { // not really sure why it has to be 4 not 2 but it works
                 yPos += ySpeed;
                 yMove = 1;
-            }
-            else {
+            } else {
                 yMove = 0;
             }
-            if (in.right && xPos < GraphicsManager.getWidth() - radius * 4)
+            if (Input.right && xPos < GraphicsManager.getWidth() - radius * 4)
                 xPos += xSpeed;
-            else if (in.left && xPos > 0)
+            else if (Input.left && xPos > 0)
                 xPos -= xSpeed;
             // firing
-            if (in.fire && fire < 0 && !overheated) {
+            if (Input.fire && fire < 0 && !overheated) {
                 Controller.firePlayerBullet(new PlayerBullet(xPos + 5, yPos + radius - 1, fire < -40));
                 fire = maxFire;
                 heat += fireHeat;
@@ -101,13 +97,13 @@ public class PlayerShip {
                     overheated = true;
                 }
             }
-            if (in.special1 && chargeCount > 0) {
+            if (Input.special1 && chargeCount > 0) {
                 Controller.fireBlast((int) xPos + radius / 2);
                 chargeCount--;
                 charge = 0;
             }
-            if (in.special2) {
-                if(missileArmed == 2) {
+            if (Input.special2) {
+                if (missileArmed == 2) {
                     Controller.killMissiles();
                     missileArmed = 0;
                 }
@@ -118,12 +114,11 @@ public class PlayerShip {
                     charge = 0;
                     missileArmed = 1;
                 }
-            }
-            else if (missileArmed == 1) {
+            } else if (missileArmed == 1) {
                 missileArmed = 2;
             }
-            if (in.special3 && chargeCount > 0) {
-                Controller.createBurst((int) xPos+radius, (int) yPos + radius);
+            if (Input.special3 && chargeCount > 0) {
+                Controller.createBurst((int) xPos + radius, (int) yPos + radius);
                 chargeCount--;
                 charge = 0;
             }
@@ -141,11 +136,11 @@ public class PlayerShip {
     }
 
 
-    public double getx() {
+    public double getX() {
         return xPos;
     }
 
-    public double gety() {
+    public double getY() {
         return yPos;
     }
 

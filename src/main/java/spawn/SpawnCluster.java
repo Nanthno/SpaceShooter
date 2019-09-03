@@ -27,21 +27,21 @@ public class SpawnCluster {
 
         int maxYPos = 0;
 
-        for(Spawn spawn : spawns) {
-            int x = spawn.getxPos();
-            int y = spawn.getyPos();
-            if(x < minXPos) {
+        for (Spawn spawn : spawns) {
+            int x = spawn.getXPos();
+            int y = spawn.getYPos();
+            if (x < minXPos) {
                 minXPos = x;
             }
-            if(y < minYPos) {
+            if (y < minYPos) {
                 minYPos = y;
             }
-            if(y > maxYPos) {
+            if (y > maxYPos) {
                 maxYPos = y;
             }
         }
 
-        for(Spawn spawn : spawns) {
+        for (Spawn spawn : spawns) {
             spawn.offset(minXPos, minYPos);
         }
 
@@ -49,7 +49,6 @@ public class SpawnCluster {
 
         height = maxYPos;
     }
-
 
 
     public void addOtherCluster(String position, String clusterID) {
@@ -95,8 +94,8 @@ public class SpawnCluster {
 
         // finds the offset by which to shift the ships such that they are centered properly
         for (Spawn spawn : spawns) {
-            int x = spawn.getxPos();
-            int y = spawn.getyPos();
+            int x = spawn.getXPos();
+            int y = spawn.getYPos();
             if (x > xOffset)
                 xOffset = x;
             if (y > yOffset)
@@ -128,13 +127,13 @@ public class SpawnCluster {
 
         List<EnemyShip> ships = new ArrayList<>();
 
-        int xOrigin = Globals.screenWidth+64; // addition prevents ships appearing partially on screen
+        int xOrigin = Globals.screenWidth + 32;
         int yOrigin = chooseY(minY, maxY);
 
         double speed = chooseSpeed();
 
         for (Spawn spawn : spawns) {
-            ships.add(spawn.makeEnemy(xPos+xOrigin, yPos+yOrigin, speed));
+            ships.add(spawn.makeEnemy(xPos + xOrigin, yPos + yOrigin, speed));
         }
 
         ships.addAll(unpackOtherClusters());
@@ -168,7 +167,7 @@ public class SpawnCluster {
     private int chooseY(int minY, int maxY) {
 
         Random rand = new Random();
-        int y = rand.nextInt((maxY-height) - minY) + minY;
+        int y = rand.nextInt((maxY - height) - minY) + minY;
         return y;
     }
 

@@ -7,7 +7,9 @@ import src.main.java.Globals;
 import src.main.java.ResourceFileType;
 
 import java.io.File;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AudioUtil {
 
@@ -23,10 +25,10 @@ public class AudioUtil {
 
         Map<AudioClipType, Sound[]> soundMap = new HashMap<>();
 
-        for(AudioClipType clip : audioClips) {
+        for (AudioClipType clip : audioClips) {
             File clipParentFile = new File(location + clip.toString().toLowerCase());
 
-            if(!clipParentFile.exists()) {
+            if (!clipParentFile.exists()) {
                 System.out.println(fileNotFoundBase + clip + " not found");
                 continue;
             }
@@ -38,7 +40,7 @@ public class AudioUtil {
                     .map(f -> TinySound.loadSound(f))
                     .toArray(Sound[]::new);
 
-            if(soundArray.length == 0) {
+            if (soundArray.length == 0) {
                 System.out.println(fileNotFoundBase + clip + " not found");
                 continue;
             }
@@ -50,7 +52,7 @@ public class AudioUtil {
         return soundMap;
     }
 
-    protected  static Map<MusicType, Music[]> loadMusic(boolean isExperiential) {
+    protected static Map<MusicType, Music[]> loadMusic(boolean isExperiential) {
         String fileNotFoundBase = makeFileNotFoundBase(isExperiential);
         String location = makeFileLocation(isExperiential);
 
@@ -60,10 +62,10 @@ public class AudioUtil {
 
         Map<MusicType, Music[]> soundMap = new HashMap<>();
 
-        for(MusicType clip : musicClips) {
+        for (MusicType clip : musicClips) {
             File clipParentFile = new File(location + "music_" + clip.toString().toLowerCase());
 
-            if(!clipParentFile.exists()) {
+            if (!clipParentFile.exists()) {
                 System.out.println(fileNotFoundBase + clip + " not found");
                 continue;
             }
@@ -75,7 +77,7 @@ public class AudioUtil {
                     .map(f -> TinySound.loadMusic(f))
                     .toArray(Music[]::new);
 
-            if(soundArray.length == 0) {
+            if (soundArray.length == 0) {
                 System.out.println(fileNotFoundBase + clip + " not found");
                 continue;
             }
@@ -89,10 +91,9 @@ public class AudioUtil {
 
     private static String makeFileNotFoundBase(boolean isExperiential) {
         String fileNotFoundBase;
-        if(isExperiential) {
+        if (isExperiential) {
             fileNotFoundBase = "Experiential sound for ";
-        }
-        else {
+        } else {
             fileNotFoundBase = "Default sound for ";
         }
 
@@ -101,10 +102,9 @@ public class AudioUtil {
 
     private static String makeFileLocation(boolean isExperiential) {
         String location = Globals.getResourceFile(ResourceFileType.SOUND);
-        if(isExperiential) {
+        if (isExperiential) {
             location += "experiential/";
-        }
-        else {
+        } else {
             location += "default/";
         }
 

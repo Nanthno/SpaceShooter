@@ -41,11 +41,11 @@ public class SpawnController {
         for (String clusterCode : spawnProbabilities.keySet()) {
             if (rand.nextDouble() < spawnProbabilities.get(clusterCode)) {
                 if (clusterCode.equals(shieldClusterCode)) {
-                if (lastShieldSpawn - shieldSpawnMinDelay < lastShieldSpawn)
-                    continue;
+                    if (lastShieldSpawn - shieldSpawnMinDelay < lastShieldSpawn)
+                        continue;
 
-                lastShieldSpawn = time;
-            }
+                    lastShieldSpawn = time;
+                }
                 enemiesToSpawn.addAll(allClusters.get(clusterCode).makeSpawns(minY, maxY));
             }
         }

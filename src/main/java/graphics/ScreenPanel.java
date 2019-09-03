@@ -124,7 +124,7 @@ public class ScreenPanel extends JPanel {
         BufferedImage game = gamePanel.drawGameScreenShot(playerShake);
         //BufferedImage mergedImages = ImageUtil.joinImages(status, game);
 
-        BufferedImage mergedImages = new BufferedImage(Globals.screenWidth + status.getWidth(), Globals.screenHeight, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage mergedImages = new BufferedImage(Globals.screenWidth, Globals.screenHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics g = mergedImages.getGraphics();
 
         g.drawImage(game, screenXShake + status.getWidth(), screenYShake, null);
@@ -137,7 +137,7 @@ public class ScreenPanel extends JPanel {
     }
 
     private BufferedImage drawHighScoreScreen() {
-        return highScorePanel.drawScreenshot();
+        return HighScorePanel.drawScreenshot();
     }
 
     private BufferedImage makeBackground() {
@@ -216,6 +216,12 @@ public class ScreenPanel extends JPanel {
             frameSizeChange = true;
             this.frameWidth = frameWidth;
         }
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(Globals.screenWidth,
+                Globals.screenHeight);
     }
 }
 

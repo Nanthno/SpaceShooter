@@ -24,12 +24,14 @@ public class WeaponParent {
         return false;
     }
 
-    public int getx() {
-        return (int)xPos;
+    public int getX() {
+        return (int) xPos;
     }
-    public int gety() {
-        return (int)yPos;
+
+    public int getY() {
+        return (int) yPos;
     }
+
     public int getRadius() {
         return radius;
     }
@@ -37,6 +39,7 @@ public class WeaponParent {
     public int getFrame() {
         return currentFrame;
     }
+
     public WeaponType getType() {
         return type;
     }

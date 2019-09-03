@@ -164,8 +164,8 @@ public class HighScorePanel {
             return;
 
         try {
-            FileOutputStream fout = new FileOutputStream(scoreFileLocation);
-            ObjectOutputStream out = new ObjectOutputStream(fout);
+            FileOutputStream fOut = new FileOutputStream(scoreFileLocation);
+            ObjectOutputStream out = new ObjectOutputStream(fOut);
             out.writeObject(scores);
         } catch (FileNotFoundException e) {
             e.printStackTrace();

@@ -24,9 +24,6 @@ public class LaserBlast extends PlayerWeaponParent {
     @Override
     public boolean update() {
         stage++;
-        if (stage == maxStage) {
-            return true;
-        }
-        return false;
+        return stage == maxStage;
     }
 }

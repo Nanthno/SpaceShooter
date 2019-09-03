@@ -26,10 +26,10 @@ public class DensityMap {
     private void populateDensity(List<EnemyShip> enemies) {
         List<int[]> densityKeys = new ArrayList<>();
         for (EnemyShip ship : enemies) {
-            if(ship.getType() == EnemyType.AGILE)
+            if (ship.getType() == EnemyType.AGILE)
                 continue;
-            int x = ship.getx();
-            int y = ship.gety();
+            int x = ship.getX();
+            int y = ship.getY();
             int radius = ship.getRadius();
             int[] key = {x, y, radius};
             density.put(key, 0.0);
@@ -76,15 +76,15 @@ public class DensityMap {
     }
 
     private int[] midPoint(int[] pointA, int[] pointB) {
-        int x = ((pointA[0]-pointA[2]) + (pointB[0]-pointB[2]))/2;
-        int y = ((pointA[1]-pointA[2]) + (pointB[1]-pointB[2]))/2;
+        int x = ((pointA[0] - pointA[2]) + (pointB[0] - pointB[2])) / 2;
+        int y = ((pointA[1] - pointA[2]) + (pointB[1] - pointB[2])) / 2;
 
         return new int[]{x, y};
     }
 
     private boolean overlappingShip(int[] pos, int[][] keys) {
         for (int[] key : keys) {
-            if (distance(key, pos)*2 < key[2]) {
+            if (distance(key, pos) * 2 < key[2]) {
                 return true;
             }
         }

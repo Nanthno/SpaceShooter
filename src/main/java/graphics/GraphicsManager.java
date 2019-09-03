@@ -17,7 +17,7 @@ public class GraphicsManager {
 
 
     // size of the screen
-    static int GAME_WIDTH = Globals.screenWidth;
+    static int GAME_WIDTH = Globals.gameWidth;
     static int GAME_HEIGHT = Globals.screenHeight;
     static int STATUS_WIDTH = 64;
     static int WIDTH = GAME_WIDTH + STATUS_WIDTH;
@@ -50,7 +50,6 @@ public class GraphicsManager {
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Catalyst");
-        frame.setSize(WIDTH, HEIGHT + 16); // without the +16, it cuts off the bottom of the screen
         frame.addMouseListener(Controller.getMouseListener());
 
         screenPanel = new ScreenPanel();
@@ -70,6 +69,7 @@ public class GraphicsManager {
 
 */
         frame.add(screenPanel);
+        frame.pack();
 
         frame.setVisible(true);
     }

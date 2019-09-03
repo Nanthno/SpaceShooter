@@ -39,7 +39,7 @@ public class TimelineUtil {
 
         Queue<TimeStampEvent> events = new LinkedList<>();
 
-        for(int i : timePoints) {
+        for (int i : timePoints) {
             events.add(timelineMap.get(i));
         }
 
@@ -61,7 +61,7 @@ public class TimelineUtil {
                         timeline.put(time, event);
                     }
                     time = Integer.parseInt(document[i].split(" ")[1]);
-                    if(timeline.containsKey(time))
+                    if (timeline.containsKey(time))
                         event = timeline.get(time);
                     else
                         event = new TimeStampEvent(time);
@@ -78,7 +78,7 @@ public class TimelineUtil {
                 }
 
             }
-            if(time != -1) {
+            if (time != -1) {
                 timeline.put(time, event);
             }
 

@@ -31,7 +31,7 @@ public class AudioManager {
 
     public AudioManager() {
         tinySound = new TinySound();
-        tinySound.init();
+        TinySound.init();
         loadAudioMaps();
         lastPlayed = primeLastPlayed();
         currentMusicVolume = mute ? 0 : maxMusicVolume;
@@ -45,8 +45,8 @@ public class AudioManager {
         return lastPlayed;
     }
 
-    public void setSoundType(boolean isExperiencial) {
-        experientialSound = isExperiencial;
+    public void setSoundType(boolean isExperiential) {
+        experientialSound = isExperiential;
         loadAudioMaps();
     }
 
@@ -107,7 +107,7 @@ public class AudioManager {
     }
 
     public void shutdown() {
-        tinySound.shutdown();
+        TinySound.shutdown();
     }
 
     public boolean isMuted() {
@@ -119,8 +119,7 @@ public class AudioManager {
         if (mute) {
             currentMusicVolume = 0;
             currentPlayingMusic.setVolume(0);
-        }
-        else {
+        } else {
             currentMusicVolume = maxMusicVolume;
             currentPlayingMusic.setVolume(maxMusicVolume);
         }

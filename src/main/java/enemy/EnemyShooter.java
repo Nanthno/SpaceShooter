@@ -25,13 +25,13 @@ public class EnemyShooter extends EnemyShip {
         setShooting();
 
 
-        if(!shooting)
+        if (!shooting)
             currentFrame = 0;
         return checkDead;
     }
 
     private void setShooting() {
-        if(shooting && currentFrame == maxFrame-1) {
+        if (shooting && currentFrame == maxFrame - 1) {
             shooting = false;
             return;
         }
@@ -39,7 +39,7 @@ public class EnemyShooter extends EnemyShip {
 
         Random rand = new Random();
         int val = rand.nextInt(maxShootingProbability);
-        if(val < shootingProbability) {
+        if (val < shootingProbability) {
             shooting = true;
             fireBullet();
         }
@@ -47,7 +47,7 @@ public class EnemyShooter extends EnemyShip {
     }
 
     private void fireBullet() {
-        Controller.spawnShooterEmp((int)xPos + radius - 2, (int)yPos + radius + 2, xSpeed);
+        Controller.spawnShooterEmp((int) xPos + radius - 2, (int) yPos + radius + 2, xSpeed);
     }
 
 }

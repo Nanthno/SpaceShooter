@@ -34,7 +34,7 @@ public class ClusterUtil {
                 String id = clusterFile.toString();
                 int marker = id.lastIndexOf('/');
                 int marker2 = id.indexOf(".cluster");
-                id = id.substring(marker+1, marker2);
+                id = id.substring(marker + 1, marker2);
 
                 marker = rawClusterData.get(0).indexOf(":");
 
@@ -54,7 +54,7 @@ public class ClusterUtil {
                 // processes the grid
                 for (int y = 2; y < rawClusterData.size(); y++) {
                     String line = rawClusterData.get(y);
-                    if(line.equals("END")) {
+                    if (line.equals("END")) {
                         y = rawClusterData.size();
                         continue;
                     }

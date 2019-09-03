@@ -29,7 +29,7 @@ public class Missile extends PlayerWeaponParent {
     }
 
     public void hitEnemy() {
-        Controller.spawnExp((int)xPos, (int)yPos, radius, ExplosionType.PROJECTILE, 0);
+        Controller.spawnExp((int) xPos, (int) yPos, radius, ExplosionType.PROJECTILE, 0);
     }
 
     @Override
@@ -37,14 +37,14 @@ public class Missile extends PlayerWeaponParent {
         xPos += xSpeed;
         yPos += ySpeed;
 
-        if(!armed)
+        if (!armed)
             arm();
 
         return false;
     }
 
     private void arm() {
-        if(System.currentTimeMillis() - spawnTime > armDelay) {
+        if (System.currentTimeMillis() - spawnTime > armDelay) {
             armed = true;
         }
     }

@@ -9,10 +9,10 @@ class Silhouette {
 
     protected Silhouette(EnemyShip ship) {
 
-        topY = ship.gety();
+        topY = ship.getY();
         botY = topY + ship.getRadius() * 2;
 
-        x = ship.getx();
+        x = ship.getX();
     }
 
     public int[] makeHashable() {

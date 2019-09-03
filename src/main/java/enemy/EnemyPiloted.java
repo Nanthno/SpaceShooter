@@ -14,10 +14,10 @@ public class EnemyPiloted extends EnemyShip {
 
     int maxBurstLength = 3;
     int currentBurst = 0;
-    int maxBurstCooldown = 5;
-    int burstCooldown = 0;
-    int maxCooldown = 40;
-    int cooldown = 0;
+    int maxBurstCoolDown = 5;
+    int burstCoolDown = 0;
+    int maxCoolDown = 40;
+    int coolDown = 0;
 
     public EnemyPiloted(int x, int y, double speed) {
         super(x, y, speed, EnemyType.PILOTED);
@@ -30,16 +30,16 @@ public class EnemyPiloted extends EnemyShip {
 
     @Override
     public boolean update() {
-        cooldown--;
+        coolDown--;
 
         double playerX = Controller.getPlayerXPos();
         double playerY = Controller.getPlayerYPos();
         double playerYSpeed = Controller.getPlayerYSpeed();
 
         double targetX = playerX + xDist;
-        double targetY = playerY + playerYSpeed * yLeadPerX*(xPos - playerX);
+        double targetY = playerY + playerYSpeed * yLeadPerX * (xPos - playerX);
 
-        if(Math.abs(targetX-xPos) < xTolerance) {
+        if (Math.abs(targetX - xPos) < xTolerance) {
             targetX = xPos;
         }
 
@@ -49,17 +49,17 @@ public class EnemyPiloted extends EnemyShip {
         xPos -= xSpeed;
         yPos -= ySpeed;
 
-        if(cooldown < 0 && Math.abs(playerY - yPos) < firingTolerance) {
-            cooldown = maxCooldown;
+        if (coolDown < 0 && Math.abs(playerY - yPos) < firingTolerance) {
+            coolDown = maxCoolDown;
             currentBurst = maxBurstLength;
-            burstCooldown = 0;
+            burstCoolDown = 0;
         }
 
-        if(currentBurst > 0) {
-            burstCooldown--;
-            if(burstCooldown < 0) {
+        if (currentBurst > 0) {
+            burstCoolDown--;
+            if (burstCoolDown < 0) {
                 fire();
-                burstCooldown = maxBurstCooldown;
+                burstCoolDown = maxBurstCoolDown;
                 currentBurst--;
             }
 
@@ -69,8 +69,8 @@ public class EnemyPiloted extends EnemyShip {
     }
 
     private void fire() {
-        Controller.spawnShooterEmp((int)xPos, (int)yPos + 2, xSpeed);
-        Controller.spawnShooterEmp((int)xPos, (int)yPos + radius*2 - 2, xSpeed);
+        Controller.spawnShooterEmp((int) xPos, (int) yPos + 2, xSpeed);
+        Controller.spawnShooterEmp((int) xPos, (int) yPos + radius * 2 - 2, xSpeed);
     }
 
 }

@@ -9,11 +9,11 @@ import java.util.Arrays;
 
 public class ImageUtil {
 
-    static BufferedImage[] loadAnimation(String directory) throws NullPointerException{
+    static BufferedImage[] loadAnimation(String directory) throws NullPointerException {
         System.out.println("loading animation from " + directory);
         File folder = new File(directory);
         File[] frameFiles = folder.listFiles();
-        if(frameFiles == null) {
+        if (frameFiles == null) {
             throw new NullPointerException("tried to load animation from " + directory + " but does not exist");
         }
         Arrays.sort(frameFiles);
@@ -49,13 +49,13 @@ public class ImageUtil {
 
     public static BufferedImage setAlpha(int alpha, BufferedImage image) {
         alpha %= 0xff;
-        for (int cx=0;cx<image.getWidth();cx++) {
-            for (int cy=0;cy<image.getHeight();cy++) {
+        for (int cx = 0; cx < image.getWidth(); cx++) {
+            for (int cy = 0; cy < image.getHeight(); cy++) {
                 int color = image.getRGB(cx, cy);
 
                 int mc = (alpha << 24) | 0x00ffffff;
-                int newcolor = color & mc;
-                image.setRGB(cx, cy, newcolor);
+                int newColor = color & mc;
+                image.setRGB(cx, cy, newColor);
 
             }
 
@@ -124,6 +124,7 @@ public class ImageUtil {
         return img;
 
     }
+
     // code adapted from http://www.java2s.com/Tutorials/Java/Graphics_How_to/Image/Copy_Join_two_buffered_image_into_one_image_side_by_side.htm
     public static BufferedImage joinImages(BufferedImage img1, BufferedImage img2) {
         int width = img1.getWidth() + img2.getWidth();

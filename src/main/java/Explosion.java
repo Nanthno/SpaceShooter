@@ -59,8 +59,8 @@ public class Explosion {
     }
 
     public Explosion(EnemyShip ship, int catalystSeparation) {
-        xPos = ship.getx();
-        yPos = ship.gety();
+        xPos = ship.getX();
+        yPos = ship.getY();
         expType = EnemyType.getExplosionType(ship.getType());
         this.catalystSeparation = catalystSeparation;
         radius = expRadii.get(expType);
@@ -79,17 +79,14 @@ public class Explosion {
             stage = 0;
         }
 
-        if (duration < 0) {
-            return true;
-        }
-        return false;
+        return duration < 0;
     }
 
-    public int getx() {
+    public int getX() {
         return xPos;
     }
 
-    public int gety() {
+    public int getY() {
         return yPos;
     }
 
