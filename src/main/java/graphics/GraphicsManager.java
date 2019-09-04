@@ -36,6 +36,8 @@ public class GraphicsManager {
     static Map<ExplosionType, BufferedImage[]> explosionImages;
 
     static BufferedImage[] playerImages;
+    static BufferedImage[] chargeImages;
+    static BufferedImage[] empZapping;
 
     static BufferedImage imageNotFound = makeImageNotFound();
     static BufferedImage[] animationNotFound = new BufferedImage[]{imageNotFound};
@@ -100,7 +102,9 @@ public class GraphicsManager {
         background = ImageUtil.loadImage(imageFile + "spaceLong.png");
         statusBars = ImageUtil.loadImage(imageFile + "statusPanel.png");
 
-        playerImages = ImageUtil.loadAnimation(imageFile + "player");
+        playerImages = ImageUtil.loadAnimation(imageFile + "player_ship2");
+        chargeImages = ImageUtil.loadAnimation(imageFile + "player_charge");
+        empZapping = ImageUtil.loadAnimation(imageFile + "emp_zapping");
 
         enemyImages = loadEnemyImages();
         weaponImages = loadWeaponImages();

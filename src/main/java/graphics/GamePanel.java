@@ -4,6 +4,7 @@ import src.main.java.Controller;
 import src.main.java.Explosion;
 import src.main.java.PlayerShip;
 import src.main.java.enemy.EnemyShip;
+import src.main.java.enemy.EnemyType;
 import src.main.java.weapons.WeaponType;
 import src.main.java.weapons.enemyWeapons.EnemyWeaponParent;
 import src.main.java.weapons.playerWeapons.LaserBlast;
@@ -12,6 +13,7 @@ import src.main.java.weapons.playerWeapons.PlayerWeaponParent;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.List;
 
@@ -23,7 +25,17 @@ class GamePanel extends JPanel {
 
         // draw enemy ships
         Graphics g = screenshot.getGraphics();
+        List<EnemyShip> shields = new ArrayList<>();
         for (EnemyShip enemy : Controller.getEnemyArray()) {
+            if(enemy.getType() == EnemyType.SHIELD) {
+                shields.add(enemy);
+                continue;
+            }
+            BufferedImage shipImage = GraphicsManager.getFrame(enemy.getType(), enemy.getFrame());
+
+            g.drawImage(shipImage, enemy.getX(), enemy.getY(), null);
+        }
+        for (EnemyShip enemy : shields) {
             BufferedImage shipImage = GraphicsManager.getFrame(enemy.getType(), enemy.getFrame());
 
             g.drawImage(shipImage, enemy.getX(), enemy.getY(), null);
@@ -69,7 +81,11 @@ class GamePanel extends JPanel {
 
         // draw player ship
         PlayerShip ship = Controller.getPlayerShip();
-        g.drawImage(GraphicsManager.playerImages[ship.getFrame()], (int) ship.getX() + playerShake[0], (int) ship.getY() + playerShake[1], null);
+        g.drawImage(GraphicsManager.playerImages[ship.getFrame(GraphicsManager.playerImages.length-1)], (int) ship.getX() + playerShake[0], (int) ship.getY() + playerShake[1], null);
+        g.drawImage(GraphicsManager.chargeImages[ship.getChargeFrame(GraphicsManager.chargeImages.length-1)], (int) ship.getX() + playerShake[0], (int) ship.getY() + playerShake[1], null);
+        if (ship.isZapped()) {
+            g.drawImage(GraphicsManager.empZapping[ship.getZapFrame(GraphicsManager.empZapping.length)], (int) ship.getX() + playerShake[0], (int) ship.getY() + playerShake[1], null);
+        }
 
         // at end
         g.dispose();

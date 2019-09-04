@@ -1,16 +1,19 @@
 Needed to finish the game:
 - make more spawn patterns
+- make timeline more detailed
+- maybe add a speed at the top which is added to the multiplier every tick
 - add various difficulty modes
-- make shield graphics better
-- fix screen size
-- clear out the TO-DO items
 - make menu better
 -- add the title of the game
 -- add highscore button
-- add zapped animation to player ship
+- make players able to put their names into the high score
+- add death transition
+-- your ship exploding if last hit was to you
+-- wave of destruction from the back if too many ships escaped
 
 Nice to have
 - rework the density map so that it works using a grid rather than the mess of math that it currently is
+- make missile explosion more flamboyant
 
 Notes for next time:
 -add laser sight for laser burst

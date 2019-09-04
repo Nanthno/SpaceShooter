@@ -164,7 +164,21 @@ public class PlayerShip {
         return maxCharge;
     }
 
-    public int getFrame() {
+    public int getChargeFrame(int maxFrame) {
+        int frame = (int)(maxFrame*1.0*charge/maxCharge);
+        System.out.println(frame);
+        return frame;
+    }
+    public int getFrame(int maxFrame) {
+        currentFrame++;
+        currentFrame = currentFrame % maxFrame;
         return currentFrame;
+    }
+
+    public boolean isZapped() {
+        return immobile > 0;
+    }
+    public int getZapFrame(int maxFrame) {
+        return (int)(maxFrame - (1.0*immobile/empDelay)*maxFrame);
     }
 }
