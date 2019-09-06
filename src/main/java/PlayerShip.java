@@ -166,7 +166,6 @@ public class PlayerShip {
 
     public int getChargeFrame(int maxFrame) {
         int frame = (int)(maxFrame*1.0*charge/maxCharge);
-        System.out.println(frame);
         return frame;
     }
     public int getFrame(int maxFrame) {

@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class Globals {
 
-    private static final boolean buildForJar = false;
+    private static final boolean buildForJar = true;
 
     public static final int screenHeight = 640;
     public static final int screenWidth = 1024;
