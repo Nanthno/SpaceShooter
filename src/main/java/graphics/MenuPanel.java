@@ -110,8 +110,6 @@ public class MenuPanel implements ActionListener {
 
         Point mousePoint = Controller.findMousePosition();
 
-        //setButtonStatus(menuStatus);
-
         if (menuStatus == MenuStatus.MAIN)
             screenshot = drawMainMenu(screenshot, g, mousePoint);
         else if (menuStatus == MenuStatus.CREDITS)
@@ -196,7 +194,7 @@ public class MenuPanel implements ActionListener {
                 null);
 
 
-        getButtonFrame(muteButtonOriginX + 32, muteButtonOriginY + muteButtonHeight, muteButtonWidth, muteButtonHeight + 5,
+        getButtonFrame(muteButtonOriginX, muteButtonOriginY, muteButtonWidth, muteButtonHeight + 5,
                 mousePoint, Button.MUTE);
         g.drawImage(muteButtonImages[Controller.isAudioMuted() ? 1 : 0],
                 muteButtonOriginX, muteButtonOriginY,

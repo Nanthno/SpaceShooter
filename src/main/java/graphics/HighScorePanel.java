@@ -47,7 +47,7 @@ public class HighScorePanel {
         Point mousePoint = Controller.findMousePosition();
 
         int menuButtonFrame = getButtonFrame(menuButtonOriginX, menuButtonOriginY, menuButtonWidth, menuButtonHeight, mousePoint, Button.MENU);
-        g.drawImage(menuButton[menuButtonFrame], menuButtonOriginX, menuButtonOriginY - 24, null);
+        g.drawImage(menuButton[menuButtonFrame], menuButtonOriginX, menuButtonOriginY, null);
 
         BufferedImage scoreImg = drawScores();
         g.drawImage(scoreImg, scoreboardXOrigin, scoreboardYOrigin, null);
