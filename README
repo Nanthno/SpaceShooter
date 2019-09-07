@@ -1,0 +1,29 @@
+#Running Instructions
+Run the jar file called SpaceShooter.jar
+If issues arise due to null pointer exceptions,
+it is very likely that you are missing the resources file needed.
+There must be a resources file in the same directory as the jar file.
+If you are missing this file, please redownload it from whatever source you got it originally
+
+#Making Your Own Modifications
+As the resource file is external to the jar file, it is very easy to modify things.
+If changing the images, please note that the directory structure is very specific and any modification to it may cause issues.
+Also, if you change the images for the items, note that it may cause issues to replace it with an image of different dimensions.
+To make different spawn structures and rates, follow the descriptions in the appropriate files to make a valid file.
+Audio changes should not cause any issues.
+
+#On the Experiential Audio Option
+Many may wonder at the "Experiential" audio option on the menu.
+All audio (except the music, although that may change) is recordings of my voice.
+"Why does this exist?" you may ask (and with very good reason). Well, I was explaining my game idea to a friend and she recommended this so I made it a thing.
+
+
+#On Reskins
+In making these resources external, I realize that reskins of this game are extremely easy.
+I have no opposition to you reskinning this game and publishing it as long as
+a) you do not claim the game as your own (although you may claim whatever changes you made)
+b) you give credit to me, Anthony Hanson, as the original creator
+c) if you are reskinning a reskin, please give credit to the original reskinner (to make this possible, please add your name and modifications at the bottom of this file under the reskin info section.)
+
+#Reskin Info
+[This is the original version of the game with no modifications. If you do a reskin, please list your name or psodoname and any modifications you made and remove this line]

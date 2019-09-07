@@ -1,4 +1,4 @@
-This software uses Finn Kuusisto's TinySound library. The following is the license for that library:
+This software uses Finn Kuusisto's TinySound library. The following is the license for that library as of July 30 of 2019:
 Copyright (c) 2012, Finn Kuusisto
 All rights reserved.
 
@@ -26,3 +26,5 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 All other code is written by Anthony Hanson or modified from users on Stack Overflow (noted in the comments at the top of files which use such code).
 You may use the code found here for any purposes (commercial or otherwise) under the condition that you do not claim it, or derivative code, as your own work.
 Credit for the code here is appreciated but not required.
+I, Anthony Hanson, am in no way and under no circumstances liable for any effects, wanted or otherwise, which may arise from
+use of the code or its derivatives
