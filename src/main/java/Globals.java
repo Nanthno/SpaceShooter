@@ -53,11 +53,11 @@ public class Globals {
     }};
 
     static final Map<ResourceFileType, String> resourceFileMap = new HashMap<ResourceFileType, String>() {{
-        put(ResourceFileType.IMAGE, "src/main/resources/images/");
-        put(ResourceFileType.SOUND, "src/main/resources/sound/");
-        put(ResourceFileType.CLUSTER, "src/main/resources/spawn/cluster/");
-        put(ResourceFileType.TIMELINE, "src/main/resources/spawn/timeline/");
-        put(ResourceFileType.MISC, "src/main/resources/misc/");
+        put(ResourceFileType.IMAGE, "resources/images/");
+        put(ResourceFileType.SOUND, "resources/sound/");
+        put(ResourceFileType.CLUSTER, "resources/spawn/cluster/");
+        put(ResourceFileType.TIMELINE, "resources/spawn/timeline/");
+        put(ResourceFileType.MISC, "resources/misc/");
 
     }};
 
@@ -185,7 +185,7 @@ public class Globals {
     }
 
     public static String getResourceFile(ResourceFileType type) {
-        String output = (buildForJar ? "SpaceShooter/" : "") + resourceFileMap.get(type);
+        String output = (buildForJar ? "" : "src/main/") + resourceFileMap.get(type);
         return output;
     }
 }
