@@ -21,6 +21,7 @@ public class SpawnController {
     private static String shieldClusterCode = "OS";
 
     private double speedMultiplier = 1;
+    private double speedIncrease = 0;
 
     public SpawnController() {
         startTime = System.currentTimeMillis();
@@ -33,6 +34,8 @@ public class SpawnController {
     }
 
     public List<EnemyShip> onTick() {
+
+        speedMultiplier += speedIncrease;
 
         Long time = System.currentTimeMillis();
 
@@ -61,6 +64,7 @@ public class SpawnController {
         }
 
         speedMultiplier = event.getSpeedMultiplier();
+        speedIncrease = event.getSpeedIncrease();
     }
 
     public Queue<TimeStampEvent> updateSpawnProbabilities(Queue<TimeStampEvent> events) {

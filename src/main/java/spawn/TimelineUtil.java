@@ -76,12 +76,21 @@ public class TimelineUtil {
                     event.addSpawn(document[i]);
                     continue;
                 }
-                if(document[i].startsWith("speed")) {
+                if(document[i].startsWith("speed ")) {
                     try {
                         double speed = Double.parseDouble(document[i].substring(5));
                         event.setSpeed(speed);
                     } catch(Exception e) {
                         System.out.println("Could not parse speed in timeline at line " + i);
+                        e.printStackTrace();
+                    }
+                }
+                if(document[i].startsWith("speedIncrease")) {
+                    try {
+                        double speedIncrease = Double.parseDouble(document[i].substring(13));
+                        event.setSpeedIncrease(speedIncrease);
+                    } catch(Exception e) {
+                        System.out.println("Could not parse speed increase in timeline at line " + i);
                         e.printStackTrace();
                     }
                 }

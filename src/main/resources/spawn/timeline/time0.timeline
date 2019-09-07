@@ -9,3 +9,4 @@ set AS 0.005
 set F1 0.005
 set OP 0.007
 speed 1
+speedIncrease 0.00003

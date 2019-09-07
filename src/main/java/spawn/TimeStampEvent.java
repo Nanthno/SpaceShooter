@@ -10,6 +10,7 @@ public class TimeStampEvent {
     private int triggerTime;
 
     private double speedMultiplier = 1;
+    private double speedIncrease = 0;
 
     // need to add functionality for specific spawns
 
@@ -39,6 +40,14 @@ public class TimeStampEvent {
 
     protected void setSpeed(double speed) {
         speedMultiplier = speed;
+    }
+
+    public void setSpeedIncrease(double speedIncrease) {
+        this.speedIncrease = speedIncrease;
+    }
+
+    public double getSpeedIncrease() {
+        return speedIncrease;
     }
 
     double getSpeedMultiplier() {
