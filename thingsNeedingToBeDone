@@ -9,6 +9,7 @@ Needed to finish the game:
 - add death transition
 -- your ship exploding if last hit was to you
 -- wave of destruction from the back if too many ships escaped
+- make license more explicitly safe
 
 Nice to have
 - rework the density map so that it works using a grid rather than the mess of math that it currently is
