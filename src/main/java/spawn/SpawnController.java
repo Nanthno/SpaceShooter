@@ -8,7 +8,7 @@ import java.util.*;
 public class SpawnController {
 
     static int minY = 32;
-    static int maxY = Globals.screenHeight - 32;
+    static int maxY = Globals.gameHeight - 32;
 
     Map<String, Double> spawnProbabilities = new HashMap<>();
 

@@ -40,8 +40,8 @@ public class EnemyAgile extends EnemyShip {
 
         if (yPos < radius) {
             yPos = radius;
-        } else if (yPos > Globals.screenHeight - radius) {
-            yPos = Globals.screenHeight - radius;
+        } else if (yPos > Globals.gameHeight - radius) {
+            yPos = Globals.gameHeight - radius;
         }
 
         return checkDead();

@@ -18,7 +18,7 @@ public class GraphicsManager {
 
     // size of the screen
     static int GAME_WIDTH = Globals.gameWidth;
-    static int GAME_HEIGHT = Globals.screenHeight;
+    static int GAME_HEIGHT = Globals.gameHeight;
     static int STATUS_WIDTH = 64;
     static int WIDTH = GAME_WIDTH + STATUS_WIDTH;
     static int HEIGHT = Globals.screenHeight;
@@ -31,6 +31,7 @@ public class GraphicsManager {
     // images
     static BufferedImage background;
     static BufferedImage statusBars;
+    static BufferedImage horizontalStatusBar;
     static Map<EnemyType, BufferedImage[]> enemyImages;
     static Map<WeaponType, BufferedImage[]> weaponImages;
     static Map<ExplosionType, BufferedImage[]> explosionImages;
@@ -101,6 +102,7 @@ public class GraphicsManager {
 
         background = ImageUtil.loadImage(imageFile + "spaceLong.png");
         statusBars = ImageUtil.loadImage(imageFile + "statusPanel.png");
+        horizontalStatusBar = ImageUtil.loadImage(imageFile + "statusPanelH.png");
 
         playerImages = ImageUtil.loadAnimation(imageFile + "player_ship2");
         chargeImages = ImageUtil.loadAnimation(imageFile + "player_charge");

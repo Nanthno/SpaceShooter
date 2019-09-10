@@ -18,6 +18,7 @@ public class ScreenPanel extends JPanel {
 
     final static int gameWidth = GraphicsManager.getWidth();
     final static int gameHeight = GraphicsManager.getHeight();
+    final static int screenHeight = GraphicsManager.HEIGHT;
     double gameScale = 1;
     int frameWidth = 0;
     int frameHeight = 0;
@@ -52,7 +53,6 @@ public class ScreenPanel extends JPanel {
         menuPanel = new MenuPanel();
         highScorePanel = new HighScorePanel();
         backgroundImgWidth = GraphicsManager.background.getWidth();
-
     }
 
     @Override
@@ -119,16 +119,14 @@ public class ScreenPanel extends JPanel {
 
         playerShake = updateShake(playerShake, maxPlayerShake);
 
-
-        BufferedImage status = statusPanel.drawStatus();
+        BufferedImage statusBar = statusPanel.drawHorizontalStatus();
         BufferedImage game = gamePanel.drawGameScreenShot(playerShake);
-        //BufferedImage mergedImages = ImageUtil.joinImages(status, game);
 
         BufferedImage mergedImages = new BufferedImage(Globals.screenWidth, Globals.screenHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics g = mergedImages.getGraphics();
 
-        g.drawImage(game, screenXShake + status.getWidth(), screenYShake, null);
-        g.drawImage(status, 0, 0, null);
+        g.drawImage(game, screenXShake, screenYShake, null);
+        g.drawImage(statusBar, 0, Globals.gameHeight, null);
 
         g.dispose();
 
@@ -141,7 +139,7 @@ public class ScreenPanel extends JPanel {
     }
 
     private BufferedImage makeBackground() {
-        BufferedImage newBackground = new BufferedImage((int) (gameWidth * gameScale), (int) (gameHeight * gameScale), BufferedImage.TYPE_INT_ARGB);
+        BufferedImage newBackground = new BufferedImage((int) (gameWidth * gameScale), (int) (screenHeight * gameScale), BufferedImage.TYPE_INT_ARGB);
         Graphics g = newBackground.getGraphics();
         g.setColor(new Color(168, 168, 168));
         g.drawRect(0, 0, frameWidth, frameHeight);

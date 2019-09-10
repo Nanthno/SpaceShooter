@@ -48,13 +48,13 @@ public class MenuPanel implements ActionListener {
 
     // for sound selection
     private final int soundButtonOriginX = Globals.screenWidth - 250;
-    private final int soundButtonOriginY = Globals.screenHeight - 100;
+    private final int soundButtonOriginY = Globals.gameHeight - 100;
     private final int soundButtonWidth = soundModeButtonImages[0].getWidth();
     private final int soundButtonHeight = soundModeButtonImages[0].getHeight();
 
     // for mute button
     private final int muteButtonOriginX = Globals.screenWidth - 350;
-    private final int muteButtonOriginY = Globals.screenHeight - 80;
+    private final int muteButtonOriginY = Globals.gameHeight - 80;
     private final int muteButtonWidth = muteButtonImages[0].getWidth();
     private final int muteButtonHeight = muteButtonImages[0].getHeight();
 
@@ -104,7 +104,7 @@ public class MenuPanel implements ActionListener {
 
 
     protected BufferedImage drawScreenshot() {
-        BufferedImage screenshot = new BufferedImage(GraphicsManager.getWidth(), GraphicsManager.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        BufferedImage screenshot = new BufferedImage(GraphicsManager.getWidth(), GraphicsManager.HEIGHT, BufferedImage.TYPE_INT_ARGB);
 
         Graphics g = screenshot.createGraphics();
 
@@ -165,7 +165,7 @@ public class MenuPanel implements ActionListener {
 
     private BufferedImage drawButtons(Point mousePoint) {
         BufferedImage buttons = new BufferedImage(Globals.screenWidth,
-                Globals.screenHeight,
+                Globals.gameHeight,
                 BufferedImage.TYPE_INT_ARGB);
 
         Graphics g = buttons.createGraphics();

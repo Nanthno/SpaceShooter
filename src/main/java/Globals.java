@@ -15,10 +15,12 @@ public class Globals {
 
     private static final boolean buildForJar = false;
 
-    public static final int screenHeight = 640;
     public static final int screenWidth = 1024;
     public static final int statusPanelWidth = 64;
+    public static final int statusPanelHeight = 64;
     public static final int gameWidth = screenWidth - statusPanelWidth;
+    public static final int gameHeight = 640;
+    public static final int screenHeight = gameHeight + statusPanelHeight;
 
     static final Map<EnemyType, Integer> enemyShipRadius = new HashMap<EnemyType, Integer>() {{
         put(EnemyType.BASIC, 8);

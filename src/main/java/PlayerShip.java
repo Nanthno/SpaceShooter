@@ -78,7 +78,7 @@ public class PlayerShip {
             if (Input.up && yPos > 0) {
                 yPos -= ySpeed;
                 yMove = -1;
-            } else if (Input.down && yPos < Globals.screenHeight - radius * 4) { // not really sure why it has to be 4 not 2 but it works
+            } else if (Input.down && yPos < Globals.gameHeight - radius * 2) {
                 yPos += ySpeed;
                 yMove = 1;
             } else {
