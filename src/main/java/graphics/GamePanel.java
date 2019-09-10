@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.List;
 
-class GamePanel extends JPanel {
+class GamePanel {
 
 
     protected BufferedImage drawGameScreenShot(int[] playerShake) throws ConcurrentModificationException {

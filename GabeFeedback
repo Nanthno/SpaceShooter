@@ -1,7 +1,52 @@
 health goes down less when ram
 health pack drop
 missle/beam different or triple load
+- multi load would be represented by a bar split into three segments
+slow emp movement speed
 key mapping
 deflector/ramming shield as R
+T as time slow (slows time allowing you to zoom around the screen filling the screen with bullets and everything then time resumes and everything is destroyed
 hyper drive jump where it marks your point, you zoom forward destroying everything in your way and then teleport back
+ability power up
+- missle has larger blast
+- laser sends out regular beam + three backwards (one back, one 45 deg to each side)
+- burst sends out multiple burst waves
+- deflector shield increases ship speed, lasts longer
+-- drops on certain length chain
+varying usage cost
+missle-50
+shield-15
+- drains over time (10 seconds from max)
+- can hold it for as long as you want
+pulse-100
+beam-25
+time 150
+-drains over around 5 seconds
+needs at least 25 to start
+
+0-25Red,25-50 orange, 50-100 yellow, 100-150 green, full blue
+status bar would have symbol for each ability with a dot next to each signifying when you can use it
+move status bar to bottom of the screen
+
+instructions screen
+
+split piloted into two types
+- change color to make higher contrast
+- current has stun lock when one on either side
+1) attacks head on with a single shot (maybe two in a line (not parallel)
+-- larger bullets (can see them comming)
+-- keeps grey color
+-- stays further back
+2) current ones
+-- make orange/blue
+-- increase reload delay
+-- when one is on you, the others hang back
+---- feels like AI is smarter
+---- cycle, if one on you for too long, leaves and gives another a shot
+------ have an attack pattern
+3) one that loops behind you then makes a loop around your screen then come back for another pass
+-- would have to be very distinctive
+
+
+
 
