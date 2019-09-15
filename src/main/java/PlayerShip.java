@@ -5,6 +5,9 @@ import src.main.java.weapons.WeaponType;
 import src.main.java.weapons.enemyWeapons.EnemyWeaponParent;
 import src.main.java.weapons.playerWeapons.PlayerBullet;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class PlayerShip {
 
     double xPos = 64;
@@ -26,9 +29,13 @@ public class PlayerShip {
 
     // manages special actions
     int charge = 0;
-    int maxCharge = 100;
-    int chargeCount = 0;
-    int maxChargeCount = 1;
+    int maxCharge = 150;
+    private Map<WeaponType, Integer> weaponCost = new HashMap<WeaponType, Integer>() {{
+        put(WeaponType.PLAYER_LASER_BLAST, 50);
+        put(WeaponType.PLAYER_BURST, 100);
+        put(WeaponType.PLAYER_MISSILE, 75);
+
+    }};
 
     final int radius = 12;
 
@@ -66,13 +73,6 @@ public class PlayerShip {
 
         }
 
-        if (charge == maxCharge && chargeCount < maxChargeCount) {
-            chargeCount++;
-            if (chargeCount < maxChargeCount) {
-                charge = 0;
-            }
-        }
-
         if (immobile < 0) {
             // movement
             if (Input.up && yPos > 0) {
@@ -97,10 +97,9 @@ public class PlayerShip {
                     overheated = true;
                 }
             }
-            if (Input.special1 && chargeCount > 0) {
+            if (Input.special1 && charge > weaponCost.get(WeaponType.PLAYER_LASER_BLAST)) {
                 Controller.fireBlast((int) xPos + radius / 2);
-                chargeCount--;
-                charge = 0;
+                charge -= weaponCost.get(WeaponType.PLAYER_LASER_BLAST);
             }
             if (Input.special2) {
                 if (missileArmed == 2) {
@@ -108,19 +107,17 @@ public class PlayerShip {
                     missileArmed = 0;
                 }
 
-                if (chargeCount > 0) {
+                if (charge > weaponCost.get(WeaponType.PLAYER_MISSILE)) {
                     Controller.createMissile((int) xPos + radius / 2, (int) yPos + radius / 2);
-                    chargeCount--;
-                    charge = 0;
+                    charge -= weaponCost.get(WeaponType.PLAYER_MISSILE);
                     missileArmed = 1;
                 }
             } else if (missileArmed == 1) {
                 missileArmed = 2;
             }
-            if (Input.special3 && chargeCount > 0) {
+            if (Input.special3 && charge > weaponCost.get(WeaponType.PLAYER_BURST)) {
                 Controller.createBurst((int) xPos + radius, (int) yPos + radius);
-                chargeCount--;
-                charge = 0;
+                charge -= weaponCost.get(WeaponType.PLAYER_BURST);
             }
         }
 
@@ -165,9 +162,10 @@ public class PlayerShip {
     }
 
     public int getChargeFrame(int maxFrame) {
-        int frame = (int)(maxFrame*1.0*charge/maxCharge);
+        int frame = (int) (maxFrame * 1.0 * charge / maxCharge);
         return frame;
     }
+
     public int getFrame(int maxFrame) {
         currentFrame++;
         currentFrame = currentFrame % maxFrame;
@@ -177,7 +175,8 @@ public class PlayerShip {
     public boolean isZapped() {
         return immobile > 0;
     }
+
     public int getZapFrame(int maxFrame) {
-        return (int)(maxFrame - (1.0*immobile/empDelay)*maxFrame);
+        return (int) (maxFrame - (1.0 * immobile / empDelay) * maxFrame);
     }
 }
