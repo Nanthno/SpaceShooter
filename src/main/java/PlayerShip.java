@@ -29,6 +29,8 @@ public class PlayerShip {
 
     // manages special actions
     int charge = 0;
+    int minDelay = 15;
+    int delay = 0;
     int maxCharge = 150;
     private Map<WeaponType, Integer> weaponCost = new HashMap<WeaponType, Integer>() {{
         put(WeaponType.PLAYER_LASER_BLAST, 50);
@@ -60,6 +62,7 @@ public class PlayerShip {
     public void update() {
         immobile--;
         fire--;
+        delay--;
         if (heat > 0)
             heat--;
 
@@ -97,31 +100,38 @@ public class PlayerShip {
                     overheated = true;
                 }
             }
-            if (Input.special1 && charge > weaponCost.get(WeaponType.PLAYER_LASER_BLAST)) {
-                Controller.fireBlast((int) xPos + radius / 2);
-                charge -= weaponCost.get(WeaponType.PLAYER_LASER_BLAST);
-            }
-            if (Input.special2) {
-                if (missileArmed == 2) {
-                    Controller.killMissiles();
-                    missileArmed = 0;
-                }
 
-                if (charge > weaponCost.get(WeaponType.PLAYER_MISSILE)) {
-                    Controller.createMissile((int) xPos + radius / 2, (int) yPos + radius / 2);
-                    charge -= weaponCost.get(WeaponType.PLAYER_MISSILE);
-                    missileArmed = 1;
+            if (delay < 0) {
+                if (Input.special1 && charge > weaponCost.get(WeaponType.PLAYER_LASER_BLAST)) {
+                    Controller.fireBlast((int) xPos + radius / 2);
+                    charge -= weaponCost.get(WeaponType.PLAYER_LASER_BLAST);
+                    delay = minDelay;
                 }
-            } else if (missileArmed == 1) {
-                missileArmed = 2;
+                if (Input.special2) {
+                    if (missileArmed == 2) {
+                        Controller.killMissiles();
+                        missileArmed = 0;
+                    }
+
+                    if (charge > weaponCost.get(WeaponType.PLAYER_MISSILE)) {
+                        Controller.createMissile((int) xPos + radius / 2, (int) yPos + radius / 2);
+                        charge -= weaponCost.get(WeaponType.PLAYER_MISSILE);
+                        delay = minDelay;
+                        missileArmed = 1;
+                    }
+                } else if (missileArmed == 1) {
+                    missileArmed = 2;
+                }
+                if (Input.special3 && charge > weaponCost.get(WeaponType.PLAYER_BURST)) {
+                    Controller.createBurst((int) xPos + radius, (int) yPos + radius);
+                    charge -= weaponCost.get(WeaponType.PLAYER_BURST);
+                    delay = minDelay;
+                }
             }
-            if (Input.special3 && charge > weaponCost.get(WeaponType.PLAYER_BURST)) {
-                Controller.createBurst((int) xPos + radius, (int) yPos + radius);
-                charge -= weaponCost.get(WeaponType.PLAYER_BURST);
-            }
+
         }
-
     }
+
 
     void hitByWeapon(EnemyWeaponParent weapon) {
         if (weapon.getType() == WeaponType.ENEMY_EMP) {
