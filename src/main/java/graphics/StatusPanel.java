@@ -57,7 +57,6 @@ class StatusPanel extends JPanel {
     }
 
     private BufferedImage drawChargeBar(int charge, int maxFillValue) {
-        System.out.println(charge);
         double ratio = chargeWidth/maxFillValue;
         BufferedImage bar = new BufferedImage(chargeWidth, chargeHeight, BufferedImage.TYPE_INT_RGB);
         Graphics g = bar.getGraphics();
@@ -69,7 +68,7 @@ class StatusPanel extends JPanel {
 
             int startX = (int)(value*ratio);
             int endX = (int)(charge*ratio);
-            g.fillRect(startX, 0, endX, chargeHeight);
+            g.fillRect(startX, 0, endX - startX,  chargeHeight);
         }
 
         g.dispose();
