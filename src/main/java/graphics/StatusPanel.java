@@ -16,13 +16,17 @@ class StatusPanel extends JPanel {
     static final Color healthFill = new Color(0, 230, 0);
     static final Color healthBack = new Color(200, 0, 0);
 
-    static final Color heatFill = new Color(255, 0, 0);
-    static final Color heatBack = new Color(0, 200, 255);
-
     static final int chargeWidth = 200;
     static final int chargeHeight = 10;
+    static final Color[] fillColors = new Color[]{
+            new Color(255, 0, 0),
+            new Color(255, 128, 0),
+            new Color(255, 255, 0),
+            new Color(0, 255, 0),
+            new Color(0, 200, 255)};
+    static final int[] fillValues = new int[]{0, 50, 100, 150, 200, Integer.MAX_VALUE};
     static final Color chargeFill = new Color(0, 200, 255);
-    static final Color chargeBack = new Color(255, 0, 0);
+    static final Color chargeBack = new Color(70, 70, 70);
 
     protected BufferedImage drawHorizontalStatus() {
 
@@ -43,14 +47,33 @@ class StatusPanel extends JPanel {
                 maxHealth, healthDisplayValue);
         g.drawImage(healthBar, 16, 16, null);
 
-        BufferedImage chargeBar = drawHorizontalBar(chargeWidth, chargeHeight, chargeFill, chargeBack,
-                maxCharge, charge);
+        BufferedImage chargeBar = drawChargeBar(charge, maxCharge);
         g.drawImage(chargeBar, 300, 16, null);
 
         BufferedImage scoreValue = ImageUtil.stringToImage(String.valueOf(score), chargeFill);
         g.drawImage(scoreValue, 48, 40, null);
 
         return panelImg;
+    }
+
+    private BufferedImage drawChargeBar(int charge, int maxFillValue) {
+        System.out.println(charge);
+        double ratio = chargeWidth/maxFillValue;
+        BufferedImage bar = new BufferedImage(chargeWidth, chargeHeight, BufferedImage.TYPE_INT_RGB);
+        Graphics g = bar.getGraphics();
+        g.setColor(chargeBack);
+        g.fillRect(0,0,chargeWidth, chargeHeight);
+        for(int i = 0; fillValues[i] <= charge; i++) {
+            int value = fillValues[i];
+            g.setColor(fillColors[i]);
+
+            int startX = (int)(value*ratio);
+            int endX = (int)(charge*ratio);
+            g.fillRect(startX, 0, endX, chargeHeight);
+        }
+
+        g.dispose();
+        return bar;
     }
 
     private BufferedImage drawHorizontalBar(int width, int height, Color fillColor, Color backColor,

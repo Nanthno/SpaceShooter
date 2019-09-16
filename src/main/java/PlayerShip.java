@@ -31,7 +31,7 @@ public class PlayerShip {
     int charge = 0;
     int minDelay = 15;
     int delay = 0;
-    int maxCharge = 150;
+    int maxCharge = 200;
     private Map<WeaponType, Integer> weaponCost = new HashMap<WeaponType, Integer>() {{
         put(WeaponType.PLAYER_LASER_BLAST, 50);
         put(WeaponType.PLAYER_BURST, 100);
