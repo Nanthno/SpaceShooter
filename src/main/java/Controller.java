@@ -126,7 +126,6 @@ public class Controller {
     }
 
     static void updateGame() {
-        // health -= 10;
         if (health < 0) {
             setGameState(GameState.HIGH_SCORE);
             HighScorePanel.addScore(score);
@@ -167,7 +166,7 @@ public class Controller {
         enemyFiredWeapons = newEnemyWeapons;
 
         if (laserBlast != null) {
-            boolean destroy = laserBlast.update();
+            boolean destroy = laserBlast.update(player.getX());
             if (destroy) {
                 laserBlast = null;
             }
@@ -285,7 +284,9 @@ public class Controller {
                 if (e.isKillable(PlayerShip.class)) {
                     e.killShip(0);
                     enemyShips.remove(i);
-                    health -= 3;
+                    if(!player.getShieldOn()) {
+                        health -= 3;
+                    }
                 }
 
             }

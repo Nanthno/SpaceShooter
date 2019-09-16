@@ -1,6 +1,3 @@
-health pack drop
-missle/beam different or triple load
-- multi load would be represented by a bar split into three segments
 slow emp movement speed
 key mapping
 deflector/ramming shield as R
@@ -12,20 +9,11 @@ ability power up
 - burst sends out multiple burst waves
 - deflector shield increases ship speed, lasts longer
 -- drops on certain length chain
-varying usage cost
-missle-50
-shield-15
-- drains over time (10 seconds from max)
-- can hold it for as long as you want
-pulse-100
-beam-25
-time 150
--drains over around 5 seconds
-needs at least 25 to start
 
-0-25Red,25-50 orange, 50-100 yellow, 100-150 green, full blue
+
+
 status bar would have symbol for each ability with a dot next to each signifying when you can use it
-move status bar to bottom of the screen
+
 
 instructions screen
 
@@ -46,6 +34,19 @@ split piloted into two types
 3) one that loops behind you then makes a loop around your screen then come back for another pass
 -- would have to be very distinctive
 
-
-
-
+Done:
+health pack drop
+missle/beam different or triple load
+- multi load would be represented by a bar split into three segments
+varying usage cost
+missle-50
+shield-15
+- drains over time (10 seconds from max)
+- can hold it for as long as you want
+pulse-100
+beam-25
+time 150
+-drains over around 5 seconds
+needs at least 25 to start
+0-25Red,25-50 orange, 50-100 yellow, 100-150 green, full blue
+move status bar to bottom of the screen

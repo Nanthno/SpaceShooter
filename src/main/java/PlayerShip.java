@@ -54,6 +54,12 @@ public class PlayerShip {
     //// 0 = no missiles, 1 = missiles exist but not primed, 2 = missiles exist and primed
     static int missileArmed = 0;
 
+    private boolean shieldOn = false;
+    private final int minShieldCost = 20;
+    private int minShieldRemaining = 0;
+    private int shieldCost = 2;
+    private int shieldFrame = 0;
+
     public PlayerShip() {
         in = new Input();
         maxFrames = Globals.getPlayerMaxFrames();
@@ -129,11 +135,35 @@ public class PlayerShip {
                 }
             }
 
+            if (Input.special4) {
+                if (!shieldOn && charge >= minShieldCost) {
+                    shieldOn = true;
+                    minShieldRemaining = minShieldCost;
+                    shieldFrame = 0;
+                }
+            } else if (minShieldRemaining <= 0) {
+                shieldOn = false;
+            }
+            if (shieldOn) {
+                charge -= shieldCost;
+                minShieldRemaining -= shieldCost;
+                shieldFrame++;
+            }
+
+            if (charge < 0) {
+                shieldOn = false;
+                charge = 0;
+            }
+
         }
     }
 
 
     void hitByWeapon(EnemyWeaponParent weapon) {
+        if (shieldOn)
+            return;
+
+
         if (weapon.getType() == WeaponType.ENEMY_EMP) {
             if (immobile < invinciblePeriod)
                 immobile = empDelay;
@@ -173,6 +203,8 @@ public class PlayerShip {
 
     public int getChargeFrame(int maxFrame) {
         int frame = (int) (maxFrame * 1.0 * charge / maxCharge);
+        if(frame > maxFrame)
+            frame %= maxFrame;
         return frame;
     }
 
@@ -188,5 +220,14 @@ public class PlayerShip {
 
     public int getZapFrame(int maxFrame) {
         return (int) (maxFrame - (1.0 * immobile / empDelay) * maxFrame);
+    }
+
+    public int getShieldFrame(int maxFrame) {
+        int frame = shieldFrame % maxFrame;
+        return frame;
+    }
+
+    public boolean getShieldOn() {
+        return shieldOn;
     }
 }

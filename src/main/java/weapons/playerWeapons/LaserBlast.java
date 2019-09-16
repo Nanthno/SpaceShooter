@@ -21,8 +21,8 @@ public class LaserBlast extends PlayerWeaponParent {
 
 
     // returns true if the blast should be destroyed
-    @Override
-    public boolean update() {
+    public boolean update(double xPos) {
+        this.xPos = xPos;
         stage++;
         return stage == maxStage;
     }
