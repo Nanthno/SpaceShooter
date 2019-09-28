@@ -103,7 +103,7 @@ public class GraphicsManager {
 
         background = ImageUtil.loadImage(imageFile + "spaceLong.png");
         statusBars = ImageUtil.loadImage(imageFile + "statusPanel.png");
-        horizontalStatusBar = ImageUtil.loadImage(imageFile + "statusPanelH.png");
+        horizontalStatusBar = ImageUtil.loadImage(imageFile + "statusPanelH2.png");
 
         playerImages = ImageUtil.loadAnimation(imageFile + "player_ship2");
         chargeImages = ImageUtil.loadAnimation(imageFile + "player_charge");

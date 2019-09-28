@@ -13,8 +13,8 @@ public class Input {
     private static int leftKey = KeyEvent.VK_LEFT;
     private static int rightKey = KeyEvent.VK_RIGHT;
     private static int fireKey = KeyEvent.VK_SPACE;
-    private static int special1ke = KeyEvent.VK_Q;
-    private static int special2ke = KeyEvent.VK_W;
+    private static int special1ke = KeyEvent.VK_W;
+    private static int special2ke = KeyEvent.VK_Q;
     private static int special3ke = KeyEvent.VK_E;
     private static int special4ke = KeyEvent.VK_R;
     // booleans for storing if a key is pressed
