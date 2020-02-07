@@ -25,8 +25,8 @@ import java.util.*;
 public class Controller {
 
 
-    static int health = 100;
-    static int maxHealth = 100;
+    static int health = 0;
+    static int maxHealth = 0;
 
     static GraphicsManager graphicsManager;
     static AudioManager audioManager;

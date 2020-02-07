@@ -47,14 +47,14 @@ public class MenuPanel implements ActionListener {
     private final Color creditsColor = new Color(255, 255, 255);
 
     // for sound selection
-    private final int soundButtonOriginX = Globals.screenWidth - 250;
-    private final int soundButtonOriginY = Globals.gameHeight - 100;
+    private final int soundButtonOriginX = Globals.screenWidth - 300;
+    private final int soundButtonOriginY = Globals.gameHeight - 50;
     private final int soundButtonWidth = soundModeButtonImages[0].getWidth();
     private final int soundButtonHeight = soundModeButtonImages[0].getHeight();
 
     // for mute button
-    private final int muteButtonOriginX = Globals.screenWidth - 350;
-    private final int muteButtonOriginY = Globals.gameHeight - 80;
+    private final int muteButtonOriginX = Globals.screenWidth - 400;
+    private final int muteButtonOriginY = Globals.gameHeight - 30;
     private final int muteButtonWidth = muteButtonImages[0].getWidth();
     private final int muteButtonHeight = muteButtonImages[0].getHeight();
 

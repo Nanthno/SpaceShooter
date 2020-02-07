@@ -5,6 +5,7 @@ package src.main.java.graphics;
 
 
 import src.main.java.*;
+import sun.security.ssl.Debug;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -18,15 +19,17 @@ public class HighScorePanel {
 
     static String[][] scores;
     static int currentRunPlace = -1;
+    static int currentRunScore = 0;
 
     static final int textSize = 12;
     static final int scoreYSpacing = 20;
-    static final int scoreboardWidth = 200;
+    static final int scoreboardWidth = 300;
+    static final int scoreboardHeight = 200;
     static final int scoreboardXOrigin = Globals.screenWidth / 2 - scoreboardWidth / 2;
     static final int scoreboardYOrigin = 100;
-    static final Color textColor = new Color(100, 50, 200);
-    static final Color currentRunTextColor = new Color(0, 150, 255);
-    static final Font font = new Font("Monospaced Bold", Font.PLAIN, textSize);
+    static final Color textColor = new Color(0, 173, 21);
+    static final String fontName = "Monospaced Bold";
+    static final int fontType = Font.PLAIN;
 
     private enum Button {
         NONE,
@@ -58,30 +61,39 @@ public class HighScorePanel {
     }
 
     private static BufferedImage drawScores() {
-        int currentYPos = 0;
-        int lineSize = textSize + scoreYSpacing;
-        BufferedImage img = new BufferedImage(scoreboardWidth,
-                scores.length * lineSize,
-                BufferedImage.TYPE_INT_ARGB);
+
+        System.out.println(currentRunPlace);
+
+        BufferedImage img = new BufferedImage(scoreboardWidth, scoreboardHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics g = img.getGraphics();
+        if(currentRunPlace != 0) {
+            g.drawImage(drawWord("Highscore:", textColor, 36), 0, 0, null);
 
-        for (int i = 0; i < scores.length; i++) {
-            Color scoreColor = i == currentRunPlace ? currentRunTextColor : textColor;
-            String[] score = scores[i];
-            BufferedImage playerNameImg = drawWord((i + 1) + ". " + score[0], scoreColor);
-            g.drawImage(playerNameImg, 0, currentYPos, null);
+            g.drawImage(drawWord(scores[0][1], textColor, 24), 0, 50, null);
 
-            BufferedImage scoreImg = drawWord(score[1], scoreColor);
-            g.drawImage(scoreImg, scoreboardWidth - scoreImg.getWidth(), currentYPos, null);
+            g.drawImage(drawWord("Your Score:", textColor, 20), 0, 100, null);
 
-            currentYPos += lineSize;
+            g.drawImage(drawWord(String.valueOf(currentRunScore), textColor, 20), 0, 130, null);
         }
+        else {
+            g.drawImage(drawWord("New Highscore:", textColor, 36), 0, 0, null);
+
+            g.drawImage(drawWord(String.valueOf(currentRunScore), textColor, 24), 0, 50, null);
+
+            g.drawImage(drawWord("Previous Highscore:", textColor, 20), 0, 100, null);
+
+            g.drawImage(drawWord(String.valueOf(scores[1][1]), textColor, 20), 0, 130, null);
+        }
+
         g.dispose();
 
         return img;
     }
 
-    private static BufferedImage drawWord(String word, Color color) {
+    private static BufferedImage drawWord(String word, Color color, int fontSize) {
+
+        Font font = new Font(fontName, fontType, fontSize);
+
         BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
         Graphics g = img.getGraphics();
         g.setFont(font);
@@ -102,6 +114,9 @@ public class HighScorePanel {
 
     public static void addScore(int score) {
         currentRunPlace = -1;
+
+        currentRunScore = score;
+
         String[] scoreNode = new String[]{"<Player>", String.valueOf(score)};
 
         int placing = -1;
