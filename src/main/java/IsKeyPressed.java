@@ -3,27 +3,27 @@ package src.main.java;// Code from https://stackoverflow.com/questions/18037576/
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-public class IsKeyPressed {
+class IsKeyPressed {
     // KeyEvents for controlling ship1
-    private static int up1ke = KeyEvent.VK_W;
-    private static int down1ke = KeyEvent.VK_S;
-    private static int left1ke = KeyEvent.VK_A;
-    private static int right1ke = KeyEvent.VK_D;
+    private static final int up1ke = KeyEvent.VK_W;
+    private static final int down1ke = KeyEvent.VK_S;
+    private static final int left1ke = KeyEvent.VK_A;
+    private static final int right1ke = KeyEvent.VK_D;
     // booleans for storing if a key is pressed
-    static volatile boolean up1 = false;
-    static volatile boolean down1 = false;
-    static volatile boolean left1 = false;
-    static volatile boolean right1 = false;
+    private static volatile boolean up1 = false;
+    private static volatile boolean down1 = false;
+    private static volatile boolean left1 = false;
+    private static volatile boolean right1 = false;
     // KeyEvents for controlling ship2
-    private static int up2ke = KeyEvent.VK_UP;
-    private static int down2ke = KeyEvent.VK_DOWN;
-    private static int left2ke = KeyEvent.VK_LEFT;
-    private static int right2ke = KeyEvent.VK_RIGHT;
+    private static final int up2ke = KeyEvent.VK_UP;
+    private static final int down2ke = KeyEvent.VK_DOWN;
+    private static final int left2ke = KeyEvent.VK_LEFT;
+    private static final int right2ke = KeyEvent.VK_RIGHT;
     // booleans for storing if a key is pressed
-    static volatile boolean up2 = false;
-    static volatile boolean down2 = false;
-    static volatile boolean left2 = false;
-    static volatile boolean right2 = false;
+    private static volatile boolean up2 = false;
+    private static volatile boolean down2 = false;
+    private static volatile boolean left2 = false;
+    private static volatile boolean right2 = false;
 
     public static boolean getUp1() {
         synchronized (IsKeyPressed.class) {

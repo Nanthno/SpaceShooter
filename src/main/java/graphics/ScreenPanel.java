@@ -11,21 +11,18 @@ import java.util.ConcurrentModificationException;
 
 public class ScreenPanel extends JPanel {
 
-    StatusPanel statusPanel;
-    GamePanel gamePanel;
-    MenuPanel menuPanel;
-    HighScorePanel highScorePanel;
+    private final StatusPanel statusPanel;
+    private final GamePanel gamePanel;
+    private final MenuPanel menuPanel;
 
-    final static int gameWidth = GraphicsManager.getWidth();
-    final static int gameHeight = GraphicsManager.getHeight();
-    final static int screenHeight = GraphicsManager.HEIGHT;
-    double gameScale = 1;
-    int frameWidth = 0;
-    int frameHeight = 0;
-    int gameXOrigin = 0;
-    int gameYOrigin = 0;
+    private final static int gameWidth = GraphicsManager.getWidth();
+    private final static int gameHeight = GraphicsManager.getHeight();
+    private final static int screenHeight = GraphicsManager.HEIGHT;
+    private double gameScale = 1;
+    private int frameWidth = 0;
+    private int frameHeight = 0;
 
-    boolean frameSizeChange = false;
+    private boolean frameSizeChange = false;
 
     private enum Button {
         NONE,
@@ -36,22 +33,20 @@ public class ScreenPanel extends JPanel {
         MENU
     }
 
-    int currentBackgroundX = 0;
+    private int currentBackgroundX = 0;
     private static final int backgroundScrollRate = 1;
-    int backgroundImgWidth;
+    private final int backgroundImgWidth;
 
-    int screenXShake = 0;
-    int screenYShake = 0;
-    int maxScreenShake = 12;
+    private int screenXShake = 0;
+    private int screenYShake = 0;
 
-    int[] playerShake = new int[]{0, 0};
-    int maxPlayerShake = 10;
+    private int[] playerShake = new int[]{0, 0};
 
     public ScreenPanel() {
         statusPanel = new StatusPanel();
         gamePanel = new GamePanel();
         menuPanel = new MenuPanel();
-        highScorePanel = new HighScorePanel();
+        HighScorePanel highScorePanel = new HighScorePanel();
         backgroundImgWidth = GraphicsManager.background.getWidth();
     }
 
@@ -86,7 +81,7 @@ public class ScreenPanel extends JPanel {
         if (frameSizeChange) {
             double xScale = frameWidth * 1.0 / gameWidth;
             double yScale = frameHeight * 1.0 / gameHeight;
-            gameScale = xScale < yScale ? xScale : yScale;
+            gameScale = Math.min(xScale, yScale);
 
             double drawGameWidth = gameWidth * gameScale;
             double drawGameHeight = gameHeight * gameScale;
@@ -94,8 +89,8 @@ public class ScreenPanel extends JPanel {
             double xScaleDiff = frameWidth - drawGameWidth;
             double yScaleDiff = frameHeight - drawGameHeight;
 
-            gameXOrigin = (int) (xScaleDiff / 2);
-            gameYOrigin = (int) (yScaleDiff / 2);
+            int gameXOrigin = (int) (xScaleDiff / 2);
+            int gameYOrigin = (int) (yScaleDiff / 2);
             frameSizeChange = false;
         }
 
@@ -113,10 +108,12 @@ public class ScreenPanel extends JPanel {
     }
 
     private BufferedImage drawPlayingScreen() {
+        int maxScreenShake = 12;
         int[] newScreenShake = updateShake(screenXShake, screenYShake, maxScreenShake);
         screenXShake = newScreenShake[0];
         screenYShake = newScreenShake[1];
 
+        int maxPlayerShake = 10;
         playerShake = updateShake(playerShake, maxPlayerShake);
 
         BufferedImage statusBar = statusPanel.drawHorizontalStatus();

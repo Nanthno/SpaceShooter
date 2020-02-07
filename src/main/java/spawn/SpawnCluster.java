@@ -7,17 +7,17 @@ import java.util.*;
 
 public class SpawnCluster {
 
-    int xPos;
-    int yPos;
-    double minSpeed;
-    double maxSpeed;
-    int height;
+    private int xPos;
+    private int yPos;
+    private double minSpeed;
+    private double maxSpeed;
+    private int height;
 
-    List<Spawn> spawns = new ArrayList<>();
+    private final List<Spawn> spawns = new ArrayList<>();
 
 
     // used for finishing creation of the cluster by adding other clusters
-    Map<String, List<int[]>> nestedClusters = new HashMap<>();
+    private final Map<String, List<int[]>> nestedClusters = new HashMap<>();
 
 
     // changes all the spawns such that the top-left one is at position (0,0)
@@ -70,7 +70,7 @@ public class SpawnCluster {
         spawns.add(spawn);
     }
 
-    protected List<EnemyShip> makeSpawns() {
+    List<EnemyShip> makeSpawns() {
 
         List<EnemyShip> ships = new ArrayList<>();
 
@@ -85,7 +85,7 @@ public class SpawnCluster {
         return ships;
     }
 
-    List<EnemyShip> makeSpawnsByCenter(int xCenter, int yCenter) {
+    private List<EnemyShip> makeSpawnsByCenter(int xCenter, int yCenter) {
 
         List<EnemyShip> ships = new ArrayList<>();
 
@@ -144,8 +144,7 @@ public class SpawnCluster {
 
     private double chooseSpeed() {
         Random rand = new Random();
-        double speed = minSpeed + (rand.nextDouble() * (maxSpeed - minSpeed));
-        return speed;
+        return minSpeed + (rand.nextDouble() * (maxSpeed - minSpeed));
     }
 
     private List<EnemyShip> unpackOtherClusters() {
@@ -167,8 +166,7 @@ public class SpawnCluster {
     private int chooseY(int minY, int maxY) {
 
         Random rand = new Random();
-        int y = rand.nextInt((maxY - height) - minY) + minY;
-        return y;
+        return rand.nextInt((maxY - height) - minY) + minY;
     }
 
     public void setMinSpeed(double minSpeed) {

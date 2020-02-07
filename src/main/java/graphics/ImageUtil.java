@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class ImageUtil {
+class ImageUtil {
 
     static BufferedImage[] loadAnimation(String directory) throws NullPointerException {
         System.out.println("loading animation from " + directory);
@@ -47,7 +47,7 @@ public class ImageUtil {
 
     }
 
-    public static BufferedImage setAlpha(int alpha, BufferedImage image) {
+    private static BufferedImage setAlpha(int alpha, BufferedImage image) {
         alpha %= 0xff;
         for (int cx = 0; cx < image.getWidth(); cx++) {
             for (int cy = 0; cy < image.getHeight(); cy++) {
@@ -64,11 +64,10 @@ public class ImageUtil {
         return image;
     }
 
-    static BufferedImage loadImage(File file) {
+    private static BufferedImage loadImage(File file) {
 
         try {
-            BufferedImage img = ImageIO.read(file);
-            return img;
+            return ImageIO.read(file);
         } catch (IOException e) {
             System.out.println("Failed to load image at " + file);
             e.printStackTrace();

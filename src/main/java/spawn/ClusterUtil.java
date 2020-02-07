@@ -11,9 +11,9 @@ import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
 
-public class ClusterUtil {
+class ClusterUtil {
 
-    static File clusterDirectory = new File(Globals.getResourceFile(ResourceFileType.CLUSTER));
+    private static final File clusterDirectory = new File(Globals.getResourceFile(ResourceFileType.CLUSTER));
 
     static HashMap<String, SpawnCluster> createSpawnClusters() {
         HashMap<String, SpawnCluster> clusters = new HashMap<>();

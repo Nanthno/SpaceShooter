@@ -12,7 +12,6 @@ public class Missile extends PlayerWeaponParent {
     private final long spawnTime;
 
     private boolean armed = false;
-    private int armDelay = 50;
 
     public Missile(double x, double y) {
         type = WeaponType.PLAYER_MISSILE;
@@ -44,6 +43,7 @@ public class Missile extends PlayerWeaponParent {
     }
 
     private void arm() {
+        int armDelay = 50;
         if (System.currentTimeMillis() - spawnTime > armDelay) {
             armed = true;
         }

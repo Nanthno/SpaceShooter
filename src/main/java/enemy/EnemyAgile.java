@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class EnemyAgile extends EnemyShip {
 
-    double speed;
+    private double speed;
     private static final int pointOfNoReturn = 50;
     private static int initialMovement = 100;
 
@@ -77,9 +77,7 @@ public class EnemyAgile extends EnemyShip {
 
         double dist = Globals.distance(pos, new int[]{(int) xPos, (int) yPos});
 
-        double posValue = posDensity / dist;
-
-        return posValue;
+        return posDensity / dist;
     }
 
     @Override

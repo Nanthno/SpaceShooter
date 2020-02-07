@@ -11,11 +11,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AudioUtil {
+class AudioUtil {
 
     private static final String fileExtensions = ".*\\.wav";
 
-    protected static Map<AudioClipType, Sound[]> loadSounds(boolean isExperiential) {
+    static Map<AudioClipType, Sound[]> loadSounds(boolean isExperiential) {
         String fileNotFoundBase = makeFileNotFoundBase(isExperiential);
         String location = makeFileLocation(isExperiential);
 
@@ -52,7 +52,7 @@ public class AudioUtil {
         return soundMap;
     }
 
-    protected static Map<MusicType, Music[]> loadMusic(boolean isExperiential) {
+    static Map<MusicType, Music[]> loadMusic(boolean isExperiential) {
         String fileNotFoundBase = makeFileNotFoundBase(isExperiential);
         String location = makeFileLocation(isExperiential);
 

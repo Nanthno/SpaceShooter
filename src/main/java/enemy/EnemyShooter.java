@@ -7,10 +7,9 @@ import java.util.Random;
 
 public class EnemyShooter extends EnemyShip {
 
-    boolean shooting = false;
+    private boolean shooting = false;
 
     private static final int maxShootingProbability = 300;
-    double shootingProbability = 1;
 
     public EnemyShooter(int x, int y, double xSpeed) {
         super(x, y, xSpeed, EnemyType.SHOOTER);
@@ -39,6 +38,7 @@ public class EnemyShooter extends EnemyShip {
 
         Random rand = new Random();
         int val = rand.nextInt(maxShootingProbability);
+        double shootingProbability = 1;
         if (val < shootingProbability) {
             shooting = true;
             fireBullet();

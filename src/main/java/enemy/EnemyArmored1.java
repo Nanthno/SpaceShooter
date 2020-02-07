@@ -2,6 +2,7 @@ package src.main.java.enemy;
 
 import src.main.java.weapons.playerWeapons.PlayerBullet;
 
+
 public class EnemyArmored1 extends EnemyShip {
 
     public EnemyArmored1(int x, int y, double xSpeed) {

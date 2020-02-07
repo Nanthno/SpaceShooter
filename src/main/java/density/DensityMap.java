@@ -10,10 +10,10 @@ import java.util.Set;
 
 public class DensityMap {
 
-    final static int holeRadius = 32;
+    private final static int holeRadius = 32;
 
-    HashMap<int[], Double> density;
-    HashMap<int[], Double> holes;
+    private final HashMap<int[], Double> density;
+    private final HashMap<int[], Double> holes;
 
     public DensityMap(List<EnemyShip> enemies) {
         density = new HashMap<>();
@@ -53,7 +53,7 @@ public class DensityMap {
         }
     }
 
-    static double distance(int[] pointA, int[] pointB) {
+    private static double distance(int[] pointA, int[] pointB) {
         int x1 = pointA[0];
         int y1 = pointA[1];
         if (pointA.length > 2) {
@@ -94,7 +94,7 @@ public class DensityMap {
     private void populateHoles() {
         // creates all holes
         Set<int[]> keySet = density.keySet();
-        int[][] keys = keySet.stream().toArray(int[][]::new);
+        int[][] keys = keySet.toArray(new int[0][]);
 
         for (int i = 0; i < keys.length; i++) {
             int[] key1 = keys[i];
@@ -139,10 +139,6 @@ public class DensityMap {
                 }
             }
         }
-    }
-
-    public HashMap<int[], Double> getDensity() {
-        return density;
     }
 
     public HashMap<int[], Double> getHoles() {

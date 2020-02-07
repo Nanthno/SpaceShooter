@@ -6,27 +6,16 @@ import java.util.Random;
 
 public class EnemyPiloted extends EnemyShip {
 
-    double speed;
+    private double speed;
 
-    int xDist = 100;
-    int xTolerance = 0;
-    double yLeadPerX = 0.1;
+    private int currentBurst = 0;
+    private int burstCoolDown = 0;
+    private int coolDown = 0;
 
-    int firingTolerance = 30;
+    private int id;
 
-    int maxBurstLength = 3;
-    int currentBurst = 0;
-    int maxBurstCoolDown = 5;
-    int burstCoolDown = 0;
-    int maxCoolDown = 40;
-    int coolDown = 0;
-
-    Assignment assignment;
-    int id;
-
-    double targetX;
-    double targetY;
-    double targetYSpeed;
+    private double targetX;
+    private double targetY;
 
     public EnemyPiloted(int x, int y, double speed) {
         super(x, y, speed, EnemyType.PILOTED);
@@ -41,15 +30,16 @@ public class EnemyPiloted extends EnemyShip {
     private void updateAssignment() {
         Random rand = new Random();
         if(rand.nextDouble() < 0.1) {
-            assignment = EnemyMaster.requestAssignment(id, this.shipType);
+            Assignment assignment = EnemyMaster.requestAssignment(this.shipType);
         }
     }
 
     private void setTargetPos() {
         //if(assignment == Assignment.ATTACK) {
-            targetX = Controller.getPlayerXPos() + xDist;
+        int xDist = 100;
+        targetX = Controller.getPlayerXPos() + xDist;
             targetY = Controller.getPlayerYPos();
-            targetYSpeed = Controller.getPlayerYSpeed();
+        double targetYSpeed = Controller.getPlayerYSpeed();
         //}
     }
 
@@ -62,10 +52,12 @@ public class EnemyPiloted extends EnemyShip {
         //double playerX = Controller.getPlayerXPos();
         double playerY = Controller.getPlayerYPos();
         double playerYSpeed = Controller.getPlayerYSpeed();
+        double yLeadPerX = 0.1;
         double trueTargetY = targetY + playerYSpeed * yLeadPerX * (xPos - targetX);
         //double targetX = playerX + xDist;
         //double targetY = playerY + playerYSpeed * yLeadPerX * (xPos - playerX);
 
+        int xTolerance = 0;
         if (Math.abs(targetX - xPos) < xTolerance) {
             targetX = xPos;
         }
@@ -77,8 +69,11 @@ public class EnemyPiloted extends EnemyShip {
         xPos -= xSpeed;
         yPos -= ySpeed;
 
+        int firingTolerance = 30;
         if (coolDown < 0 && Math.abs(playerY - yPos) < firingTolerance) {
+            int maxCoolDown = 40;
             coolDown = maxCoolDown;
+            int maxBurstLength = 3;
             currentBurst = maxBurstLength;
             burstCoolDown = 0;
         }
@@ -87,6 +82,7 @@ public class EnemyPiloted extends EnemyShip {
             burstCoolDown--;
             if (burstCoolDown < 0) {
                 fire();
+                int maxBurstCoolDown = 5;
                 burstCoolDown = maxBurstCoolDown;
                 currentBurst--;
             }

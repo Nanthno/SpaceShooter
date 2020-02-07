@@ -16,13 +16,13 @@ public class Globals {
     private static final boolean buildForJar = false;
 
     public static final int screenWidth = 1024;
-    public static final int statusPanelWidth = 64;
-    public static final int statusPanelHeight = 64;
+    private static final int statusPanelWidth = 64;
+    private static final int statusPanelHeight = 64;
     public static final int gameWidth = screenWidth - statusPanelWidth;
     public static final int gameHeight = 640;
     public static final int screenHeight = gameHeight + statusPanelHeight;
 
-    static final Map<EnemyType, Integer> enemyShipRadius = new HashMap<EnemyType, Integer>() {{
+    private static final Map<EnemyType, Integer> enemyShipRadius = new HashMap<EnemyType, Integer>() {{
         put(EnemyType.BASIC, 8);
         put(EnemyType.FUEL, 12);
         put(EnemyType.AGILE, 12);
@@ -34,7 +34,7 @@ public class Globals {
     }};
 
 
-    static final Map<EnemyType, Integer> enemyShipPointValue = new HashMap<EnemyType, Integer>() {{
+    private static final Map<EnemyType, Integer> enemyShipPointValue = new HashMap<EnemyType, Integer>() {{
         put(EnemyType.BASIC, 11);
         put(EnemyType.FUEL, 20);
         put(EnemyType.AGILE, 30);
@@ -54,7 +54,7 @@ public class Globals {
         put(EnemyType.PILOTED, EnemyPiloted.class);
     }};
 
-    static final Map<ResourceFileType, String> resourceFileMap = new HashMap<ResourceFileType, String>() {{
+    private static final Map<ResourceFileType, String> resourceFileMap = new HashMap<ResourceFileType, String>() {{
         put(ResourceFileType.IMAGE, "resources/images/");
         put(ResourceFileType.SOUND, "resources/sound/");
         put(ResourceFileType.CLUSTER, "resources/spawn/cluster/");
@@ -63,14 +63,14 @@ public class Globals {
 
     }};
 
-    static final Map<ExplosionType, AudioClipType> explosionAudioClips = makeExplosionAudioClipsMap();
-    static final Map<WeaponType, AudioClipType> weaponAudioClips = makeWeaponAudioClipsMap();
+    private static final Map<ExplosionType, AudioClipType> explosionAudioClips = makeExplosionAudioClipsMap();
+    private static final Map<WeaponType, AudioClipType> weaponAudioClips = makeWeaponAudioClipsMap();
 
-    static Map<ExplosionType, Integer> explosionTypeMaxFrames = new HashMap<>();
+    private static final Map<ExplosionType, Integer> explosionTypeMaxFrames = new HashMap<>();
 
-    static Map<EnemyType, Integer> enemyShipsMaxFrames = new HashMap<>();
-    static Map<WeaponType, Integer> weaponMaxFrames = new HashMap<>();
-    static int playerMaxFrames;
+    private static final Map<EnemyType, Integer> enemyShipsMaxFrames = new HashMap<>();
+    private static final Map<WeaponType, Integer> weaponMaxFrames = new HashMap<>();
+    private static int playerMaxFrames;
 
     private static Map<WeaponType, AudioClipType> makeWeaponAudioClipsMap() {
         Map<WeaponType, AudioClipType> clipsMap = new HashMap<>();
@@ -113,14 +113,6 @@ public class Globals {
 
     public static int getEnemyShipPointValue(EnemyType type) {
         return enemyShipPointValue.get(type);
-    }
-
-    public static double distance(double x1, double x2, double y1, double y2) {
-
-        double dx = Math.abs(x1 - x2);
-        double dy = Math.abs(y1 - y2);
-
-        return Math.sqrt(dx * dx + dy * dy);
     }
 
     public static double distance(int[] pointA, int[] pointB) {
@@ -187,7 +179,6 @@ public class Globals {
     }
 
     public static String getResourceFile(ResourceFileType type) {
-        String output = (buildForJar ? "" : "src/main/") + resourceFileMap.get(type);
-        return output;
+        return (buildForJar ? "" : "src/main/") + resourceFileMap.get(type);
     }
 }

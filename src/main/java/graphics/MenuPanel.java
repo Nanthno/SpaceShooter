@@ -11,10 +11,8 @@ import java.util.Map;
 
 public class MenuPanel implements ActionListener {
 
-    String creditsFile = Globals.getResourceFile(ResourceFileType.MISC) + "credits";
-    BufferedImage credits = drawCreditsImage();
-    int creditsX = 50;
-    int creditsY = 100;
+    private final String creditsFile = Globals.getResourceFile(ResourceFileType.MISC) + "credits";
+    private final BufferedImage credits = drawCreditsImage();
 
     private static final BufferedImage[] backButtonImages = ImageUtil.loadAnimation(GraphicsManager.imageFolderPath + "backButton");
     private static final BufferedImage[] playButtonImages = ImageUtil.loadAnimation(GraphicsManager.imageFolderPath + "buttonPlay");
@@ -22,7 +20,7 @@ public class MenuPanel implements ActionListener {
     private static final BufferedImage[] soundModeButtonImages = ImageUtil.loadAnimation(GraphicsManager.imageFolderPath + "audioSelectorButtons");
     private static final BufferedImage[] muteButtonImages = ImageUtil.loadAnimation(GraphicsManager.imageFolderPath + "buttonMute");
 
-    private Map<Button, BufferedImage[]> buttonMap = new HashMap<Button, BufferedImage[]>() {{
+    private final Map<Button, BufferedImage[]> buttonMap = new HashMap<Button, BufferedImage[]>() {{
         put(Button.PLAY, playButtonImages);
         put(Button.CREDITS, creditsButtonImages);
         put(Button.BACK, backButtonImages);
@@ -32,33 +30,20 @@ public class MenuPanel implements ActionListener {
 
     // for main
     private final Button[] buttonOrder = new Button[]{Button.PLAY, Button.CREDITS};
-    private final int buttonYOffset = 32;
     private final int buttonOriginX = 32;
     private final int buttonOriginY = 32;
     private final int buttonWidth;
     private final int buttonHeight;
 
-    // for credits
-    private final int backButtonOriginX = 64;
-    private final int backButtonOriginY = 64;
     private final int backButtonWidth = backButtonImages[0].getWidth();
     private final int backButtonHeight = backButtonImages[0].getHeight();
-    private final int creditsLineSplit = 16;
     private final Color creditsColor = new Color(255, 255, 255);
 
-    // for sound selection
-    private final int soundButtonOriginX = Globals.screenWidth - 300;
-    private final int soundButtonOriginY = Globals.gameHeight - 50;
     private final int soundButtonWidth = soundModeButtonImages[0].getWidth();
     private final int soundButtonHeight = soundModeButtonImages[0].getHeight();
 
-    // for mute button
-    private final int muteButtonOriginX = Globals.screenWidth - 400;
-    private final int muteButtonOriginY = Globals.gameHeight - 30;
     private final int muteButtonWidth = muteButtonImages[0].getWidth();
     private final int muteButtonHeight = muteButtonImages[0].getHeight();
-
-    Button currentClick = Button.NONE;
 
 
     private enum Button {
@@ -76,11 +61,11 @@ public class MenuPanel implements ActionListener {
         CREDITS
     }
 
-    private Input input;
+    private final Input input;
 
     private MenuStatus menuStatus = MenuStatus.MAIN;
 
-    protected MenuPanel() {
+    MenuPanel() {
         // setupButtons();
 
         input = Controller.getInput();
@@ -92,8 +77,8 @@ public class MenuPanel implements ActionListener {
             for (BufferedImage button : buttonImages) {
                 int width = button.getWidth();
                 int height = button.getHeight();
-                largestWidth = largestWidth > width ? largestWidth : width;
-                largestHeight = largestHeight > height ? largestHeight : height;
+                largestWidth = Math.max(largestWidth, width);
+                largestHeight = Math.max(largestHeight, height);
             }
         }
         buttonHeight = largestHeight;
@@ -103,7 +88,7 @@ public class MenuPanel implements ActionListener {
     }
 
 
-    protected BufferedImage drawScreenshot() {
+    BufferedImage drawScreenshot() {
         BufferedImage screenshot = new BufferedImage(GraphicsManager.getWidth(), GraphicsManager.HEIGHT, BufferedImage.TYPE_INT_ARGB);
 
         Graphics g = screenshot.createGraphics();
@@ -124,6 +109,7 @@ public class MenuPanel implements ActionListener {
     private BufferedImage drawCreditsImage() {
         String creditsString = FileUtil.readFileToString(creditsFile);
         String[] creditsLines = creditsString.split("\\n");
+        int creditsLineSplit = 16;
         BufferedImage creditsImage = new BufferedImage(1000, creditsLines.length * creditsLineSplit, BufferedImage.TYPE_INT_ARGB);
         Graphics g = creditsImage.getGraphics();
 
@@ -140,14 +126,17 @@ public class MenuPanel implements ActionListener {
     }
 
     private BufferedImage drawCredits(BufferedImage screenshot, Graphics g, Point mousePoint) {
+        int backButtonOriginY = 64;// for credits
+        int backButtonOriginX = 64;
         int buttonValue = getButtonFrame(backButtonOriginX, backButtonOriginY, backButtonWidth, backButtonHeight, mousePoint, Button.BACK);
         BufferedImage backButtonImg = backButtonImages[buttonValue];
 
         g.drawImage(backButtonImg, backButtonOriginX, backButtonOriginY, null);
         if (buttonValue != 2) {
-            currentClick = Button.NONE;
         }
 
+        int creditsY = 100;
+        int creditsX = 50;
         g.drawImage(credits, creditsX, creditsY, null);
 
         g.dispose();
@@ -172,12 +161,15 @@ public class MenuPanel implements ActionListener {
 
         boolean mouseStillOnCurrentClick = false;
 
+        int soundButtonOriginY = Globals.gameHeight - 50;// for sound selection
+        int soundButtonOriginX = Globals.screenWidth - 300;
         int buttonNumber = getButtonFrame(soundButtonOriginX + 24, soundButtonOriginY + soundButtonHeight, soundButtonWidth + 24, soundButtonHeight,
                 mousePoint, Button.SOUND_SELECTION);
 
         for (int i = 0; i < buttonOrder.length; i++) {
             Button currentButton = buttonOrder[i];
             BufferedImage[] buttonImages = buttonMap.get(currentButton);
+            int buttonYOffset = 32;
             int yPos = i * (buttonYOffset + buttonHeight);
 
             if (buttonNumber == 2) {
@@ -194,14 +186,15 @@ public class MenuPanel implements ActionListener {
                 null);
 
 
+        int muteButtonOriginY = Globals.gameHeight - 30;// for mute button
+        int muteButtonOriginX = Globals.screenWidth - 400;
         getButtonFrame(muteButtonOriginX, muteButtonOriginY, muteButtonWidth, muteButtonHeight + 5,
                 mousePoint, Button.MUTE);
         g.drawImage(muteButtonImages[Controller.isAudioMuted() ? 1 : 0],
                 muteButtonOriginX, muteButtonOriginY,
                 null);
 
-        if (mouseStillOnCurrentClick == false) {
-            currentClick = Button.NONE;
+        if (!mouseStillOnCurrentClick) {
         }
         return buttons;
     }
@@ -212,16 +205,12 @@ public class MenuPanel implements ActionListener {
                 if (input.getIsMouse1Released()) {
                     if (button == Button.PLAY) {
                         Controller.setGameState(GameState.PLAYING);
-                        currentClick = Button.NONE;
                     } else if (button == Button.CREDITS) {
                         menuStatus = MenuStatus.CREDITS;
-                        currentClick = Button.NONE;
                     } else if (button == Button.BACK) {
                         menuStatus = MenuStatus.MAIN;
-                        currentClick = Button.NONE;
                     } else if (button == Button.SOUND_SELECTION) {
                         Controller.toggleSoundMode();
-                        currentClick = Button.NONE;
                     } else if (button == Button.MUTE) {
                         Controller.toggleMute();
                     }
@@ -239,9 +228,8 @@ public class MenuPanel implements ActionListener {
         int mouseX = (int) mousePoint.getX();
         int mouseY = (int) mousePoint.getY();
 
-        boolean onButton = mouseX >= x && mouseX <= x + width &&
+        return mouseX >= x && mouseX <= x + width &&
                 mouseY >= y && mouseY <= y + height;
-        return onButton;
     }
 
     @Override

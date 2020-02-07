@@ -7,8 +7,8 @@ import java.util.Random;
 
 public class PlayerBullet extends PlayerWeaponParent {
 
-    static final double bulletXSpeed = 7;
-    static final double yVariance = 0.2;
+    private static final double bulletXSpeed = 7;
+    private static final double yVariance = 0.2;
 
     public PlayerBullet(double x, double y, boolean straightShot) {
         type = WeaponType.PLAYER_BULLET;

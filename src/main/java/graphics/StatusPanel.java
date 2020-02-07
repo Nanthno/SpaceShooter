@@ -8,27 +8,26 @@ import java.awt.image.BufferedImage;
 
 class StatusPanel extends JPanel {
 
-    int healthDisplayValue = 0;
-    int heatDisplayValue = 0;
+    private int healthDisplayValue = 0;
 
-    static final int healthWidth = 200;
-    static final int healthHeight = 10;
-    static final Color healthFill = new Color(0, 230, 0);
-    static final Color healthBack = new Color(200, 0, 0);
+    private static final int healthWidth = 200;
+    private static final int healthHeight = 10;
+    private static final Color healthFill = new Color(0, 230, 0);
+    private static final Color healthBack = new Color(200, 0, 0);
 
-    static final int chargeWidth = 200;
-    static final int chargeHeight = 10;
-    static final Color[] fillColors = new Color[]{
+    private static final int chargeWidth = 200;
+    private static final int chargeHeight = 10;
+    private static final Color[] fillColors = new Color[]{
             new Color(255, 0, 0),
             new Color(255, 128, 0),
             new Color(255, 255, 0),
             new Color(0, 255, 0),
             new Color(0, 200, 255)};
-    static final int[] fillValues = new int[]{0, 50, 100, 150, 200, Integer.MAX_VALUE};
-    static final Color chargeFill = new Color(0, 200, 255);
-    static final Color chargeBack = new Color(70, 70, 70);
+    private static final int[] fillValues = new int[]{0, 50, 100, 150, 200, Integer.MAX_VALUE};
+    private static final Color chargeFill = new Color(0, 200, 255);
+    private static final Color chargeBack = new Color(70, 70, 70);
 
-    protected BufferedImage drawHorizontalStatus() {
+    BufferedImage drawHorizontalStatus() {
 
         int score = Controller.getScore();
         int health = Controller.getHealth();
@@ -37,13 +36,13 @@ class StatusPanel extends JPanel {
         int maxCharge = Controller.getMaxCharge();
 
 
-        updateDisplayValues(health, 0);
+        updateDisplayValues(health);
 
         BufferedImage panelImg = ImageUtil.copyImage(GraphicsManager.horizontalStatusBar);
         Graphics g = panelImg.getGraphics();
 
         // place the health and heat bars on the proper positions on the status panel
-        BufferedImage healthBar = drawHorizontalBar(healthWidth, healthHeight, healthFill, healthBack,
+        BufferedImage healthBar = drawHorizontalBar(
                 maxHealth, healthDisplayValue);
         g.drawImage(healthBar, 16, 16, null);
 
@@ -80,23 +79,22 @@ class StatusPanel extends JPanel {
         return bar;
     }
 
-    private BufferedImage drawHorizontalBar(int width, int height, Color fillColor, Color backColor,
-                                            int maxValue, int displayValue) {
+    private BufferedImage drawHorizontalBar(int maxValue, int displayValue) {
 
-        BufferedImage bar = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        BufferedImage bar = new BufferedImage(StatusPanel.healthWidth, StatusPanel.healthHeight, BufferedImage.TYPE_INT_RGB);
 
         Graphics g = bar.getGraphics();
-        g.setColor(backColor);
-        g.fillRect(0, 0, width, height);
-        g.setColor(fillColor);
-        g.fillRect(0, 0, (int) (displayValue * (width * 1.0 / maxValue)), height);
+        g.setColor(StatusPanel.healthBack);
+        g.fillRect(0, 0, StatusPanel.healthWidth, StatusPanel.healthHeight);
+        g.setColor(StatusPanel.healthFill);
+        g.fillRect(0, 0, (int) (displayValue * (StatusPanel.healthWidth * 1.0 / maxValue)), StatusPanel.healthHeight);
 
         g.dispose();
         return bar;
     }
 
 
-    private void updateDisplayValues(int health, int heat) {
+    private void updateDisplayValues(int health) {
 
         if (healthDisplayValue > health) {
             healthDisplayValue -= 2;
@@ -104,6 +102,5 @@ class StatusPanel extends JPanel {
             healthDisplayValue++;
         }
 
-        heatDisplayValue = heat;
     }
 }

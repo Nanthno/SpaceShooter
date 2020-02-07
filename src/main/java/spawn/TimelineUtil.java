@@ -10,7 +10,7 @@ import java.util.*;
 
 public class TimelineUtil {
 
-    static final File timelineDirectory = new File(Globals.getResourceFile(ResourceFileType.TIMELINE));
+    private static final File timelineDirectory = new File(Globals.getResourceFile(ResourceFileType.TIMELINE));
 
 
     public static Map<Integer, TimeStampEvent> readTimelines() {

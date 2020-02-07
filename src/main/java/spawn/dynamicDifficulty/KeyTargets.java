@@ -6,7 +6,7 @@ import src.main.java.enemy.EnemyType;
 
 import java.util.*;
 
-public class KeyTargets {
+class KeyTargets {
 
     private static final int minSilhouetteOverlap = 5;
 
@@ -22,10 +22,9 @@ public class KeyTargets {
 
         List<AnnihilationPath> solution = findAnnihilationPaths(ships);
 
-        return;
     }
 
-    protected static List<AnnihilationPath> findAnnihilationPaths(List<EnemyShip> ships) {
+    private static List<AnnihilationPath> findAnnihilationPaths(List<EnemyShip> ships) {
         Queue<AnnihilationPath> que = new LinkedList<>();
 
         que.add(new AnnihilationPath(ships));
@@ -61,13 +60,12 @@ public class KeyTargets {
 
                     if (isBotOverlap && isTopOverlap) {
                         silValid = false;
-                        continue;
                     } else if (isTopOverlap) {
                         int overlap = sil1.topY - sil2.botY;
-                        topOverlap = overlap > topOverlap ? overlap : topOverlap;
+                        topOverlap = Math.max(overlap, topOverlap);
                     } else if (isBotOverlap) {
                         int overlap = sil2.topY - sil1.botY;
-                        botOverlap = overlap < botOverlap ? overlap : botOverlap;
+                        botOverlap = Math.min(overlap, botOverlap);
                     }
                 }
             }

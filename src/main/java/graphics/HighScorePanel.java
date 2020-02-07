@@ -5,7 +5,6 @@ package src.main.java.graphics;
 
 
 import src.main.java.*;
-import sun.security.ssl.Debug;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -15,26 +14,22 @@ public class HighScorePanel {
 
     private static final String scoreFileLocation = Globals.getResourceFile(ResourceFileType.MISC) + "highscores.data";
 
-    private static BufferedImage[] menuButton = ImageUtil.loadAnimation(Globals.getResourceFile(ResourceFileType.IMAGE) + "buttonMenu");
+    private static final BufferedImage[] menuButton = ImageUtil.loadAnimation(Globals.getResourceFile(ResourceFileType.IMAGE) + "buttonMenu");
 
-    static String[][] scores;
-    static int currentRunPlace = -1;
-    static int currentRunScore = 0;
+    private static String[][] scores;
+    private static int currentRunPlace = -1;
+    private static int currentRunScore = 0;
 
-    static final int scoreboardWidth = 300;
-    static final int scoreboardHeight = 200;
-    static final int scoreboardXOrigin = Globals.screenWidth / 2 - scoreboardWidth / 2;
-    static final int scoreboardYOrigin = 100;
-    static final Color textColor = new Color(0, 173, 21);
-    static final String fontName = "Monospaced Bold";
-    static final int fontType = Font.PLAIN;
+    private static final int scoreboardWidth = 300;
+    private static final int scoreboardHeight = 200;
+    private static final int scoreboardXOrigin = Globals.screenWidth / 2 - scoreboardWidth / 2;
+    private static final int scoreboardYOrigin = 100;
+    private static final Color textColor = new Color(0, 173, 21);
+    private static final String fontName = "Monospaced Bold";
+    private static final int fontType = Font.PLAIN;
 
-    private enum Button {
-        NONE,
-        MENU
-    }
 
-    private static Input input = Controller.getInput();
+    private static final Input input = Controller.getInput();
 
     private static final int menuButtonOriginX = 64;
     private static final int menuButtonOriginY = 64;
@@ -49,8 +44,12 @@ public class HighScorePanel {
 
         Point mousePoint = Controller.findMousePosition();
 
-        int menuButtonFrame = getButtonFrame(menuButtonOriginX, menuButtonOriginY, menuButtonWidth, menuButtonHeight, mousePoint, Button.MENU);
+        int menuButtonFrame = getButtonFrame(mousePoint);
         g.drawImage(menuButton[menuButtonFrame], menuButtonOriginX, menuButtonOriginY, null);
+
+        if(scoreboardImage == null) {
+            scoreboardImage = drawScores();
+        }
 
         BufferedImage scoreImg = scoreboardImage;
         g.drawImage(scoreImg, scoreboardXOrigin, scoreboardYOrigin, null);
@@ -60,37 +59,37 @@ public class HighScorePanel {
         return screenshot;
     }
 
-    private static void drawScores() {
+    private static BufferedImage drawScores() {
 
         System.out.println(currentRunPlace);
 
         BufferedImage img = new BufferedImage(scoreboardWidth, scoreboardHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics g = img.getGraphics();
         if(currentRunPlace != 0) {
-            g.drawImage(drawWord("Highscore:", textColor, 36), 0, 0, null);
+            g.drawImage(drawWord("Highscore:", 36), 0, 0, null);
 
-            g.drawImage(drawWord(scores[0][1], textColor, 24), 0, 50, null);
+            g.drawImage(drawWord(scores[0][1], 24), 0, 50, null);
 
-            g.drawImage(drawWord("Your Score:", textColor, 20), 0, 100, null);
+            g.drawImage(drawWord("Your Score:", 20), 0, 100, null);
 
-            g.drawImage(drawWord(String.valueOf(currentRunScore), textColor, 20), 0, 130, null);
+            g.drawImage(drawWord(String.valueOf(currentRunScore), 20), 0, 130, null);
         }
         else {
-            g.drawImage(drawWord("New Highscore:", textColor, 36), 0, 0, null);
+            g.drawImage(drawWord("New Highscore:", 36), 0, 0, null);
 
-            g.drawImage(drawWord(String.valueOf(currentRunScore), textColor, 24), 0, 50, null);
+            g.drawImage(drawWord(String.valueOf(currentRunScore), 24), 0, 50, null);
 
-            g.drawImage(drawWord("Previous Highscore:", textColor, 20), 0, 100, null);
+            g.drawImage(drawWord("Previous Highscore:", 20), 0, 100, null);
 
-            g.drawImage(drawWord(String.valueOf(scores[1][1]), textColor, 20), 0, 130, null);
+            g.drawImage(drawWord(String.valueOf(scores[1][1]), 20), 0, 130, null);
         }
 
         g.dispose();
 
-        scoreboardImage = img;
+        return img;
     }
 
-    private static BufferedImage drawWord(String word, Color color, int fontSize) {
+    private static BufferedImage drawWord(String word, int fontSize) {
 
         Font font = new Font(fontName, fontType, fontSize);
 
@@ -105,7 +104,7 @@ public class HighScorePanel {
         img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         g = img.getGraphics();
         g.setFont(font);
-        g.setColor(color);
+        g.setColor(HighScorePanel.textColor);
         g.drawString(word, 0, fm.getAscent());
         g.dispose();
 
@@ -160,12 +159,9 @@ public class HighScorePanel {
 
         scores = populateEmptyScore(scores);
 
-        drawScores();
-
-        return;
     }
 
-    public static String[][] populateEmptyScore(String[][] array) {
+    private static String[][] populateEmptyScore(String[][] array) {
         if (array == null)
             array = new String[10][2];
 
@@ -177,7 +173,7 @@ public class HighScorePanel {
         return array;
     }
 
-    public static void saveScores() {
+    private static void saveScores() {
         if (scores == null)
             return;
 
@@ -192,14 +188,12 @@ public class HighScorePanel {
         }
     }
 
-    private static int getButtonFrame(int xPos, int yPos, int width, int height, Point mousePoint, Button button) {
-        if (mouseOverlap(mousePoint, xPos, yPos, width, height)) {
+    private static int getButtonFrame(Point mousePoint) {
+        if (mouseOverlap(mousePoint, HighScorePanel.menuButtonOriginX, HighScorePanel.menuButtonOriginY, HighScorePanel.menuButtonWidth, HighScorePanel.menuButtonHeight)) {
             if (input.getIsMouse1Pressed()) {
                 if (input.getIsMouse1Released()) {
-                    if (button == Button.MENU) {
-                        Controller.setGameState(GameState.MENU);
-                        saveScores();
-                    }
+                    Controller.setGameState(GameState.MENU);
+                    saveScores();
 
                     input.resetIsMouse1Released();
                 }
@@ -215,9 +209,12 @@ public class HighScorePanel {
         int mouseX = (int) mousePoint.getX();
         int mouseY = (int) mousePoint.getY();
 
-        boolean onButton = mouseX >= x && mouseX <= x + width &&
+        return mouseX >= x && mouseX <= x + width &&
                 mouseY >= y && mouseY <= y + height;
-        return onButton;
+    }
+
+    public static void clearScoreBoardImage() {
+        scoreboardImage = null;
     }
 
 }

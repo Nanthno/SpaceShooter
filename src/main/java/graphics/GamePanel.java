@@ -19,7 +19,7 @@ import java.util.List;
 class GamePanel {
 
 
-    protected BufferedImage drawGameScreenShot(int[] playerShake) throws ConcurrentModificationException {
+    BufferedImage drawGameScreenShot(int[] playerShake) throws ConcurrentModificationException {
         BufferedImage screenshot = new BufferedImage(GraphicsManager.getWidth(), GraphicsManager.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
         // draw enemy ships

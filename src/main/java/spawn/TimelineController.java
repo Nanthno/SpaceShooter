@@ -4,11 +4,11 @@ import src.main.java.Controller;
 
 import java.util.*;
 
-public class TimelineController implements Runnable {
+class TimelineController implements Runnable {
 
-    Map<Integer, TimeStampEvent> timelineEvents;
-    Queue<Integer> timelineQueue;
-    long startTime;
+    private final Map<Integer, TimeStampEvent> timelineEvents;
+    private final Queue<Integer> timelineQueue;
+    private long startTime;
 
     double speedMultiplier = 1;
 

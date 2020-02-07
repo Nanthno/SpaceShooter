@@ -4,8 +4,6 @@ import src.main.java.Controller;
 import src.main.java.Globals;
 import src.main.java.weapons.playerWeapons.PlayerWeaponParent;
 
-import java.awt.*;
-
 public class EnemyShip {
 
     // default x position
@@ -20,8 +18,8 @@ public class EnemyShip {
     int currentFrame = 0;
     int maxFrame;
 
-    EnemyType shipType;
-    int radius;
+    final EnemyType shipType;
+    final int radius;
 
     public EnemyShip(int x, int y, double xSpeed, EnemyType type) {
         xPos = x;
@@ -49,7 +47,7 @@ public class EnemyShip {
 
     }
 
-    protected boolean checkDead() {
+    boolean checkDead() {
         return xPos < -1 * radius;
     }
 
@@ -105,11 +103,7 @@ public class EnemyShip {
     }
 
 
-    public void setMaxFrame(int maxFrame) {
-        this.maxFrame = maxFrame;
-    }
-
-    protected void setVector(double x, double y, double speed) {
+    void setVector(double x, double y, double speed) {
 
         double xDiff = xPos - x;
         double yDiff = yPos - y;

@@ -7,7 +7,7 @@ class Silhouette {
     final int botY;
     final int x;
 
-    protected Silhouette(EnemyShip ship) {
+    Silhouette(EnemyShip ship) {
 
         topY = ship.getY();
         botY = topY + ship.getRadius() * 2;

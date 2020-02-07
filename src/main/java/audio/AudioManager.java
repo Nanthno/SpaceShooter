@@ -11,26 +11,23 @@ import java.util.Random;
 
 public class AudioManager {
 
-    TinySound tinySound;
-
-    boolean experientialSound = false;
+    private boolean experientialSound = false;
 
     private static Map<AudioClipType, Sound[]> soundClips;
 
     private static Map<MusicType, Music[]> musicClips;
 
     private static Music currentPlayingMusic;
-    private static double maxMusicVolume = 0.4;
+    private static final double maxMusicVolume = 0.4;
     private static double currentMusicVolume;
-    Map<AudioClipType, Integer> soundFrame = new HashMap<>();
-    Map<AudioClipType, Long> lastPlayed;
-    int playDelay = 10;
+    private Map<AudioClipType, Integer> soundFrame = new HashMap<>();
+    private final Map<AudioClipType, Long> lastPlayed;
 
-    boolean mute = false;
+    private boolean mute = false;
 
 
     public AudioManager() {
-        tinySound = new TinySound();
+        TinySound tinySound = new TinySound();
         TinySound.init();
         loadAudioMaps();
         lastPlayed = primeLastPlayed();
@@ -66,8 +63,9 @@ public class AudioManager {
         if (!mute) {
             for (AudioClipType audio : soundFrame.keySet()) {
                 long timeSinceLastPlayed = frame - lastPlayed.get(audio);
+                int playDelay = 10;
                 if (timeSinceLastPlayed > playDelay) {
-                    playClip(audio, soundFrame.get(audio));
+                    playClip(audio);
                     lastPlayed.put(audio, frame);
                 }
             }
@@ -76,7 +74,7 @@ public class AudioManager {
         }
     }
 
-    private void playClip(AudioClipType audio, int clipCount) {
+    private void playClip(AudioClipType audio) {
 
         if (soundClips.containsKey(audio)) {
             chooseClip(soundClips.get(audio)).play();

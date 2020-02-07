@@ -6,13 +6,10 @@ import src.main.java.enemy.*;
 class Spawn {
 
     // these positions are relative to the spawn cluster position
-    int xPos;
-    int yPos;
+    private int xPos;
+    private int yPos;
 
-    double minSpeed;
-    double maxSpeed;
-
-    EnemyType type;
+    private final EnemyType type;
 
     public Spawn(int xCenter, int yCenter, double minSpeed, double maxSpeed, EnemyType type) {
 
@@ -21,8 +18,6 @@ class Spawn {
 
         this.xPos = xPos;
         this.yPos = yPos;
-        this.minSpeed = minSpeed;
-        this.maxSpeed = maxSpeed;
         this.type = type;
 
     }

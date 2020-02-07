@@ -7,18 +7,12 @@ import java.util.*;
 
 public class SpawnController {
 
-    static int minY = 32;
-    static int maxY = Globals.gameHeight - 32;
+    private final Map<String, Double> spawnProbabilities = new HashMap<>();
 
-    Map<String, Double> spawnProbabilities = new HashMap<>();
-
-    static HashMap<String, SpawnCluster> allClusters;
+    private static HashMap<String, SpawnCluster> allClusters;
     private static long startTime = 0;
 
-    // in milliseconds
-    private static int shieldSpawnMinDelay = 1000;
     private static long lastShieldSpawn;
-    private static String shieldClusterCode = "OS";
 
     private double speedMultiplier = 1;
     private double speedIncrease = 0;
@@ -45,12 +39,17 @@ public class SpawnController {
 
         for (String clusterCode : spawnProbabilities.keySet()) {
             if (rand.nextDouble() < spawnProbabilities.get(clusterCode)) {
+                String shieldClusterCode = "OS";
                 if (clusterCode.equals(shieldClusterCode)) {
+                    // in milliseconds
+                    int shieldSpawnMinDelay = 1000;
                     if (lastShieldSpawn - shieldSpawnMinDelay < lastShieldSpawn)
                         continue;
 
                     lastShieldSpawn = time;
                 }
+                int maxY = Globals.gameHeight - 32;
+                int minY = 32;
                 enemiesToSpawn.addAll(allClusters.get(clusterCode).makeSpawns(minY, maxY, speedMultiplier));
             }
         }

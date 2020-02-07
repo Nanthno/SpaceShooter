@@ -9,9 +9,9 @@ import java.util.Set;
 
 public class EnemyShield extends EnemyShip {
 
-    double innerRadius = 5;
+    private double innerRadius = 5;
 
-    static Set<WeaponType> indestructibleWeapons;
+    private static Set<WeaponType> indestructibleWeapons;
 
     private static Set<WeaponType> buildIndestructibleWeaponsSet() {
         HashSet<WeaponType> output = new HashSet<>();

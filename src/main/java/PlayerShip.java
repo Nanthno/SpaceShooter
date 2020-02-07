@@ -10,59 +10,47 @@ import java.util.Map;
 
 public class PlayerShip {
 
-    double xPos = 64;
-    double yPos = GraphicsManager.getHeight() / 2;
-    double xSpeed = 4;
-    double ySpeed = 4;
+    private double xPos = 64;
+    private double yPos = GraphicsManager.getHeight() / 2;
+    final double ySpeed = 4;
 
     double yMove = 0;
 
 
-    // manages how fast the player can fire
-    int maxFire = 3;
-    int fire = 0;
-    int fireHeat = 15;
-    int overHeat = 12;
-    int coolOff = 3;
-    int heat = 70;
-    boolean overheated = false;
+    private int fire = 0;
+    private final int overHeat = 12;
+    private int heat = 70;
+    private boolean overheated = false;
 
     // manages special actions
-    int charge = 0;
-    int minDelay = 15;
-    int delay = 0;
-    int maxCharge = 200;
-    private Map<WeaponType, Integer> weaponCost = new HashMap<WeaponType, Integer>() {{
+    private int charge = 0;
+    private int delay = 0;
+    private final int maxCharge = 200;
+    private final Map<WeaponType, Integer> weaponCost = new HashMap<WeaponType, Integer>() {{
         put(WeaponType.PLAYER_LASER_BLAST, 50);
         put(WeaponType.PLAYER_BURST, 100);
         put(WeaponType.PLAYER_MISSILE, 75);
 
     }};
 
-    final int radius = 12;
+    private final int radius = 12;
 
-    Input in;
+    private int currentFrame = 0;
 
-    int maxFrames;
-    int currentFrame = 0;
-
-    int immobile = 0;
-    int invinciblePeriod = -10;
-    int empDelay = 30;
+    private int immobile = 0;
+    private final int empDelay = 30;
 
     // used to ensure that the player releases the weapon_player_missile fire button before sending a killMissile to Controller
     //// 0 = no missiles, 1 = missiles exist but not primed, 2 = missiles exist and primed
-    static int missileArmed = 0;
+    private static int missileArmed = 0;
 
     private boolean shieldOn = false;
-    private final int minShieldCost = 20;
     private int minShieldRemaining = 0;
-    private int shieldCost = 2;
     private int shieldFrame = 0;
 
     public PlayerShip() {
-        in = new Input();
-        maxFrames = Globals.getPlayerMaxFrames();
+        Input in = new Input();
+        int maxFrames = Globals.getPlayerMaxFrames();
     }
 
     public void update() {
@@ -72,6 +60,7 @@ public class PlayerShip {
         if (heat > 0)
             heat--;
 
+        int coolOff = 3;
         if (heat < coolOff) {
             overheated = false;
         }
@@ -93,6 +82,7 @@ public class PlayerShip {
             } else {
                 yMove = 0;
             }
+            double xSpeed = 4;
             if (Input.right && xPos < GraphicsManager.getWidth() - radius * 4)
                 xPos += xSpeed;
             else if (Input.left && xPos > 0)
@@ -100,7 +90,10 @@ public class PlayerShip {
             // firing
             if (Input.fire && fire < 0 && !overheated) {
                 Controller.firePlayerBullet(new PlayerBullet(xPos + 5, yPos + radius - 1, fire < -40));
+                // manages how fast the player can fire
+                int maxFire = 3;
                 fire = maxFire;
+                int fireHeat = 15;
                 heat += fireHeat;
                 if (heat > overHeat) {
                     overheated = true;
@@ -108,6 +101,7 @@ public class PlayerShip {
             }
 
             if (delay < 0) {
+                int minDelay = 15;
                 if (Input.special1 && charge > weaponCost.get(WeaponType.PLAYER_LASER_BLAST)) {
                     Controller.fireBlast((int) xPos + radius / 2);
                     charge -= weaponCost.get(WeaponType.PLAYER_LASER_BLAST);
@@ -136,6 +130,7 @@ public class PlayerShip {
             }
 
             if (Input.special4) {
+                int minShieldCost = 20;
                 if (!shieldOn && charge >= minShieldCost) {
                     shieldOn = true;
                     minShieldRemaining = minShieldCost;
@@ -145,6 +140,7 @@ public class PlayerShip {
                 shieldOn = false;
             }
             if (shieldOn) {
+                int shieldCost = 2;
                 charge -= shieldCost;
                 minShieldRemaining -= shieldCost;
                 shieldFrame++;
@@ -165,6 +161,7 @@ public class PlayerShip {
 
 
         if (weapon.getType() == WeaponType.ENEMY_EMP) {
+            int invinciblePeriod = -10;
             if (immobile < invinciblePeriod)
                 immobile = empDelay;
         } else { // this should never happen
@@ -223,8 +220,7 @@ public class PlayerShip {
     }
 
     public int getShieldFrame(int maxFrame) {
-        int frame = shieldFrame % maxFrame;
-        return frame;
+        return shieldFrame % maxFrame;
     }
 
     public boolean getShieldOn() {

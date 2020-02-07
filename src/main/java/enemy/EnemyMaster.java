@@ -1,29 +1,20 @@
 package src.main.java.enemy;
 
 import java.util.HashMap;
-import java.util.HashSet;
 
-public class EnemyMaster {
+class EnemyMaster {
 
-    static int maxPilotedLockOn = 3;
+    private static final HashMap<Integer, Assignment> pilotedAttacking = new HashMap<>();
+    private static int lastID = 0;
 
-    static HashMap<Integer, Assignment> pilotedAttacking = new HashMap<>();
-    static int lastID = 0;
-
-    protected static int requestID() {
+    static int requestID() {
         lastID++;
         return lastID;
     }
 
-    protected static void idKilled(int id) {
-        if (pilotedAttacking.containsKey(id)) {
-            pilotedAttacking.remove(id);
-        }
-
-    }
-
-    protected static Assignment requestAssignment(int id, EnemyType type) {
+    static Assignment requestAssignment(EnemyType type) {
         if (type == EnemyType.PILOTED) {
+            int maxPilotedLockOn = 3;
             if (pilotedAttacking.keySet().size() < maxPilotedLockOn) {
                 return Assignment.ATTACK;
             }

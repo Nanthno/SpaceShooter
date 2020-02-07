@@ -9,13 +9,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AnnihilationPath {
+class AnnihilationPath {
 
     private static final int minSilhouetteOverlap = 5;
 
-    private List<EnemyShip> ships;
-
-    List<Explosion> explosions;
+    private final List<EnemyShip> ships;
 
     private Map<EnemyType, Integer> path;
 
@@ -23,10 +21,9 @@ public class AnnihilationPath {
         this.ships = ships;
     }
 
-    public AnnihilationPath(List<EnemyShip> ships, Map<EnemyType, Integer> path, List<Explosion> explosions) {
+    private AnnihilationPath(List<EnemyShip> ships, Map<EnemyType, Integer> path, List<Explosion> explosions) {
         this.ships = ships;
         this.path = path;
-        this.explosions = explosions;
     }
 
 
@@ -54,13 +51,12 @@ public class AnnihilationPath {
 
                     if (isBotOverlap && isTopOverlap) {
                         silValid = false;
-                        continue;
                     } else if (isTopOverlap) {
                         int overlap = sil1.topY - sil2.botY;
-                        topOverlap = overlap > topOverlap ? overlap : topOverlap;
+                        topOverlap = Math.max(overlap, topOverlap);
                     } else if (isBotOverlap) {
                         int overlap = sil2.topY - sil1.botY;
-                        botOverlap = overlap < botOverlap ? overlap : botOverlap;
+                        botOverlap = Math.min(overlap, botOverlap);
                     }
                 }
             }

@@ -17,39 +17,37 @@ public class GraphicsManager {
 
 
     // size of the screen
-    static int GAME_WIDTH = Globals.gameWidth;
+    private static final int GAME_WIDTH = Globals.gameWidth;
     static int GAME_HEIGHT = Globals.gameHeight;
-    static int STATUS_WIDTH = 64;
-    static int WIDTH = GAME_WIDTH + STATUS_WIDTH;
-    static int HEIGHT = Globals.screenHeight;
+    private static final int STATUS_WIDTH = 64;
+    static final int WIDTH = GAME_WIDTH + STATUS_WIDTH;
+    static final int HEIGHT = Globals.screenHeight;
 
     static final String imageFolderPath = Globals.getResourceFile(ResourceFileType.IMAGE);
 
-    JFrame frame;
-    ScreenPanel screenPanel;
+    private final ScreenPanel screenPanel;
 
     // images
     static BufferedImage background;
-    static BufferedImage statusBars;
     static BufferedImage horizontalStatusBar;
-    static Map<EnemyType, BufferedImage[]> enemyImages;
-    static Map<WeaponType, BufferedImage[]> weaponImages;
-    static Map<ExplosionType, BufferedImage[]> explosionImages;
+    private static Map<EnemyType, BufferedImage[]> enemyImages;
+    private static Map<WeaponType, BufferedImage[]> weaponImages;
+    private static Map<ExplosionType, BufferedImage[]> explosionImages;
 
     static BufferedImage[] playerImages;
     static BufferedImage[] chargeImages;
     static BufferedImage[] empZapping;
     static BufferedImage[] rammingShield;
 
-    static BufferedImage imageNotFound = makeImageNotFound();
-    static BufferedImage[] animationNotFound = new BufferedImage[]{imageNotFound};
+    private static final BufferedImage imageNotFound = makeImageNotFound();
+    private static final BufferedImage[] animationNotFound = new BufferedImage[]{imageNotFound};
 
     public GraphicsManager() {
 
         // load the images for the game
         loadImages();
 
-        frame = new JFrame();
+        JFrame frame = new JFrame();
         frame.setResizable(false);
         frame.setLayout(new BorderLayout());
 
@@ -72,7 +70,7 @@ public class GraphicsManager {
         screenPanel.repaint();
     }
 
-    public static BufferedImage[] getAnimation(Object type) {
+    private static BufferedImage[] getAnimation(Object type) {
         if (type instanceof EnemyType)
             return enemyImages.get(type);
 
@@ -95,14 +93,14 @@ public class GraphicsManager {
     }
 
     // loads the images for the game
-    void loadImages() {
+    private void loadImages() {
 
         String imageFile = Globals.getResourceFile(ResourceFileType.IMAGE);
 
         System.out.println("loading images from " + imageFile);
 
         background = ImageUtil.loadImage(imageFile + "spaceLong.png");
-        statusBars = ImageUtil.loadImage(imageFile + "statusPanel.png");
+        BufferedImage statusBars = ImageUtil.loadImage(imageFile + "statusPanel.png");
         horizontalStatusBar = ImageUtil.loadImage(imageFile + "statusPanelH2.png");
 
         playerImages = ImageUtil.loadAnimation(imageFile + "player_ship2");

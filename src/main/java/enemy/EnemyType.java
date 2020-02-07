@@ -16,7 +16,7 @@ public enum EnemyType {
     SHOOTER,
     PILOTED;
 
-    static Map<String, String> enemyHash = new HashMap<String, String>() {{
+    private static final Map<String, String> enemyHash = new HashMap<String, String>() {{
         put("b", "BASIC");
         put("f", "FUEL");
         put("a", "AGILE");
@@ -26,7 +26,7 @@ public enum EnemyType {
         put("p", "PILOTED");
     }};
 
-    static Map<EnemyType, ExplosionType> explosionTypes = new HashMap<EnemyType, ExplosionType>() {{
+    private static final Map<EnemyType, ExplosionType> explosionTypes = new HashMap<EnemyType, ExplosionType>() {{
         put(BASIC, ExplosionType.SMALL);
         put(FUEL, ExplosionType.FUEL);
         put(AGILE, ExplosionType.MEDIUM);

@@ -9,38 +9,38 @@ import java.util.Random;
 
 public class Explosion {
 
-    int xPos = -1;
-    int yPos = -1;
+    private int xPos = -1;
+    private int yPos = -1;
 
-    double xSpeed;
-    double ySpeed;
+    private double xSpeed;
+    private double ySpeed;
 
-    int maxDuration;
-    int duration;
+    private int maxDuration;
+    private int duration;
 
-    int stage = 0;
-    int effectiveStage = 2;
-    int maxStage;
+    private int stage = 0;
+    private int effectiveStage = 2;
+    private int maxStage;
 
-    int radius;
+    private int radius;
 
-    int rotation = -1;
+    private int rotation = -1;
 
-    ExplosionType expType;
+    private ExplosionType expType;
 
-    int catalystSeparation = 0;
+    private int catalystSeparation = 0;
 
-    static final Map<ExplosionType, Integer> effectiveStageTypes = new HashMap<ExplosionType, Integer>() {{
+    private static final Map<ExplosionType, Integer> effectiveStageTypes = new HashMap<ExplosionType, Integer>() {{
         put(ExplosionType.PROJECTILE, 3);
     }};
 
-    static Map<ExplosionType, Integer> expRadii = new HashMap<ExplosionType, Integer>() {{
+    static final Map<ExplosionType, Integer> expRadii = new HashMap<ExplosionType, Integer>() {{
         put(ExplosionType.SMALL, 8);
         put(ExplosionType.MEDIUM, 24);
         put(ExplosionType.FUEL, 32);
         put(ExplosionType.PROJECTILE, 48);
     }};
-    static Map<ExplosionType, Integer> expDuration = new HashMap<ExplosionType, Integer>() {{
+    private static final Map<ExplosionType, Integer> expDuration = new HashMap<ExplosionType, Integer>() {{
         put(ExplosionType.SMALL, 35);
         put(ExplosionType.MEDIUM, 40);
         put(ExplosionType.FUEL, 40);

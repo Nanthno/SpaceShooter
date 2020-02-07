@@ -5,9 +5,9 @@ import java.util.Map;
 
 public class TimeStampEvent {
 
-    private Map<String, Double> spawnProbabilityMap = new HashMap<>();
+    private final Map<String, Double> spawnProbabilityMap = new HashMap<>();
 
-    private int triggerTime;
+    private final int triggerTime;
 
     private double speedMultiplier = 1;
     private double speedIncrease = 0;
@@ -38,7 +38,7 @@ public class TimeStampEvent {
         return triggerTime;
     }
 
-    protected void setSpeed(double speed) {
+    void setSpeed(double speed) {
         speedMultiplier = speed;
     }
 

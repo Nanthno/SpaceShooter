@@ -5,9 +5,9 @@ import src.main.java.enemy.EnemyShip;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpawnPattern {
+class SpawnPattern {
 
-    List<SpawnCluster> spawnClusters = new ArrayList<SpawnCluster>();
+    private final List<SpawnCluster> spawnClusters = new ArrayList<SpawnCluster>();
 
     List<EnemyShip> makePattern() {
         List<EnemyShip> ships = new ArrayList<>();

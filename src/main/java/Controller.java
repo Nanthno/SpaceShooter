@@ -25,51 +25,51 @@ import java.util.*;
 public class Controller {
 
 
-    static int health = 0;
-    static int maxHealth = 0;
+    private static int health = 0;
+    private static final int maxHealth = 0;
 
-    static GraphicsManager graphicsManager;
-    static AudioManager audioManager;
+    private static GraphicsManager graphicsManager;
+    private static AudioManager audioManager;
 
-    static boolean isSoundExperiential = false;
+    private static boolean isSoundExperiential = false;
 
-    static volatile List<EnemyShip> enemyShips = new ArrayList<>();
+    private static volatile List<EnemyShip> enemyShips = new ArrayList<>();
 
-    static PlayerShip player = new PlayerShip();
-    static ArrayList<PlayerWeaponParent> playerFiredWeapons = new ArrayList<>();
-    static LaserBlast laserBlast = null;
+    private static PlayerShip player = new PlayerShip();
+    private static ArrayList<PlayerWeaponParent> playerFiredWeapons = new ArrayList<>();
+    private static LaserBlast laserBlast = null;
 
-    static ArrayList<EnemyWeaponParent> enemyFiredWeapons = new ArrayList<>();
+    private static ArrayList<EnemyWeaponParent> enemyFiredWeapons = new ArrayList<>();
 
-    static ArrayList<Explosion> explosions = new ArrayList<>();
+    private static ArrayList<Explosion> explosions = new ArrayList<>();
 
-    static DensityMap densityMap;
+    private static DensityMap densityMap;
 
-    static final int frameRate = 15;
+    private static final int frameRate = 15;
 
-    static SpawnController spawnController = new SpawnController();
+    private static final SpawnController spawnController = new SpawnController();
 
     private static final Queue<TimeStampEvent> fullTimeline = TimelineUtil.readTimelinesToQueue();
     private static Queue<TimeStampEvent> timeline = null;
 
-    static int score = 0;
+    private static int score = 0;
 
-    static GameState gameState;
+    private static GameState gameState;
 
-    static Input input;
+    private static Input input;
 
-    static List<EnemyShip> newEnemyShips = new ArrayList<>();
+    private static List<EnemyShip> newEnemyShips = new ArrayList<>();
 
-    static boolean killMissiles = false;
+    private static boolean killMissiles = false;
 
-    static long frameCount = 0;
+    private static long frameCount = 0;
 
-    static double escapingEnemyTracker = 0;
-    static final double escapingEnemyPerFrameReduction = 0.1;
-    static final int defaultHealthLossPerEnemy = 10;
+    private static double escapingEnemyTracker = 0;
+    private static final double escapingEnemyPerFrameReduction = 0.1;
+    private static final int defaultHealthLossPerEnemy = 10;
 
-    static final int laserBlastShake = 2;
-    static final Map<ExplosionType, Integer> explosionShake = new HashMap<ExplosionType, Integer>() {{
+    private static final int laserBlastShake = 2;
+    private static final Map<ExplosionType, Integer> explosionShake = new HashMap<ExplosionType, Integer>() {{
         put(ExplosionType.SMALL, 2);
         put(ExplosionType.MEDIUM, 5);
         put(ExplosionType.FUEL, 6);
@@ -77,7 +77,7 @@ public class Controller {
     }};
 
     // used to prevent an update from running if another update is currently running
-    static boolean isUpdating = false;
+    private static boolean isUpdating = false;
 
     public static void main(String[] args) {
 
@@ -101,7 +101,7 @@ public class Controller {
 
     }
 
-    static void resetGame() {
+    private static void resetGame() {
         health = maxHealth;
         enemyShips = new ArrayList<>();
         enemyFiredWeapons = new ArrayList<>();
@@ -110,11 +110,11 @@ public class Controller {
         score = 0;
     }
 
-    static void resetTimeline() {
+    private static void resetTimeline() {
         timeline = new LinkedList<>(fullTimeline);
     }
 
-    static void update() {
+    private static void update() {
         if (!isUpdating) {
             isUpdating = true;
             if (gameState == GameState.PLAYING) {
@@ -125,7 +125,7 @@ public class Controller {
         }
     }
 
-    static void updateGame() {
+    private static void updateGame() {
         if (health < 0) {
             setGameState(GameState.HIGH_SCORE);
             HighScorePanel.addScore(score);
@@ -207,13 +207,13 @@ public class Controller {
             audioManager.playSoundFrame(frameCount);
     }
 
-    static void shipEscaped() {
+    private static void shipEscaped() {
         escapingEnemyTracker++;
         int healthLoss = (int) Math.pow(defaultHealthLossPerEnemy, 1 / escapingEnemyTracker);
         health -= healthLoss;
     }
 
-    static void checkEnemyBulletCollision() {
+    private static void checkEnemyBulletCollision() {
         for (int j = enemyShips.size() - 1; j >= 0; j--) {
             EnemyShip e = enemyShips.get(j);
 
@@ -235,7 +235,6 @@ public class Controller {
                 PlayerWeaponParent weapon = playerFiredWeapons.get(i);
                 if (e.collideWithWeapon(weapon)) {
                     if (weapon.getType() == WeaponType.PLAYER_BULLET) {
-                        PlayerBullet b = (PlayerBullet) weapon;
                         if (e.isKillable(PlayerBullet.class)) {
                             double[] speed = e.getSpeed();
                             spawnExp(e.getX(), e.getY(), speed[0], speed[1], e.getRadius(), e.getType(), 0);
@@ -258,7 +257,7 @@ public class Controller {
         }
     }
 
-    static void checkEnemyExplosionCollision() {
+    private static void checkEnemyExplosionCollision() {
         for (int i = explosions.size() - 1; i >= 0; i--) {
             Explosion explosion = explosions.get(i);
             for (int j = enemyShips.size() - 1; j >= 0; j--) {
@@ -276,7 +275,7 @@ public class Controller {
         }
     }
 
-    static void checkPlayerEnemyCollision() {
+    private static void checkPlayerEnemyCollision() {
         for (int i = enemyShips.size() - 1; i >= 0; i--) {
             EnemyShip e = enemyShips.get(i);
             if (distance(e.getX(), e.getY(), e.getRadius(),
@@ -293,7 +292,7 @@ public class Controller {
         }
     }
 
-    static void checkPlayerEnemyWeaponCollision() {
+    private static void checkPlayerEnemyWeaponCollision() {
         for (int i = enemyFiredWeapons.size() - 1; i >= 0; i--) {
             EnemyWeaponParent w = enemyFiredWeapons.get(i);
             if (distance(w.getX(), w.getY(), w.getRadius(),
@@ -305,7 +304,7 @@ public class Controller {
         }
     }
 
-    static double distance(double x1, double y1, int r1, double x2, double y2, int r2) {
+    private static double distance(double x1, double y1, int r1, double x2, double y2, int r2) {
         x1 += r1;
         y1 += r1;
         x2 += r2;
@@ -334,7 +333,7 @@ public class Controller {
 
         audioManager.addSoundToFrame(Globals.getExplosionAudioClipType(explosionType));
 
-        int[] shake = makeShake(x, y, explosionShake.get(explosionType));
+        int[] shake = makeShake(explosionShake.get(explosionType));
 
         graphicsManager.addScreenShake(shake);
     }
@@ -344,7 +343,7 @@ public class Controller {
         spawnController.updateSpawnProbabilities(event);
     }
 
-    public static void gameLoop() {
+    private static void gameLoop() {
         Timer t = new Timer();
         t.schedule(new TimerTask() {
             @Override
@@ -390,7 +389,7 @@ public class Controller {
         playWeaponSound(WeaponType.ENEMY_EMP);
     }
 
-    static void playWeaponSound(WeaponType type) {
+    private static void playWeaponSound(WeaponType type) {
         audioManager.addSoundToFrame(Globals.getWeaponAudioClipType(type));
     }
 
@@ -414,7 +413,7 @@ public class Controller {
         return mousePos;
     }
 
-    private static int[] makeShake(double x, double y, double shake) {
+    private static int[] makeShake(double shake) {
         Random rand = new Random();
         double xFraction = rand.nextDouble() * 2;
         int xDirection = rand.nextInt(2) == 0 ? 1 : -1;
@@ -434,9 +433,11 @@ public class Controller {
         enemyFiredWeapons = new ArrayList<>();
         explosions = new ArrayList<>();
 
+        HighScorePanel.clearScoreBoardImage();
+
     }
 
-    public static void shutdown() {
+    private static void shutdown() {
         audioManager.shutdown();
     }
 
@@ -474,14 +475,6 @@ public class Controller {
 
     public static int getMaxHealth() {
         return maxHealth;
-    }
-
-    public static int getPlayerMaxHeat() {
-        return player.getMaxHeat();
-    }
-
-    public static int getPlayerHeat() {
-        return player.getHeat();
     }
 
     public static double getPlayerXPos() {

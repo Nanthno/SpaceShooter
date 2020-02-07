@@ -8,15 +8,15 @@ import java.awt.event.MouseListener;
 public class Input {
 
     // KeyEvents for controlling ship1
-    private static int upKey = KeyEvent.VK_UP;
-    private static int downKey = KeyEvent.VK_DOWN;
-    private static int leftKey = KeyEvent.VK_LEFT;
-    private static int rightKey = KeyEvent.VK_RIGHT;
-    private static int fireKey = KeyEvent.VK_SPACE;
-    private static int special1ke = KeyEvent.VK_W;
-    private static int special2ke = KeyEvent.VK_Q;
-    private static int special3ke = KeyEvent.VK_E;
-    private static int special4ke = KeyEvent.VK_R;
+    private static final int upKey = KeyEvent.VK_UP;
+    private static final int downKey = KeyEvent.VK_DOWN;
+    private static final int leftKey = KeyEvent.VK_LEFT;
+    private static final int rightKey = KeyEvent.VK_RIGHT;
+    private static final int fireKey = KeyEvent.VK_SPACE;
+    private static final int special1ke = KeyEvent.VK_W;
+    private static final int special2ke = KeyEvent.VK_Q;
+    private static final int special3ke = KeyEvent.VK_E;
+    private static final int special4ke = KeyEvent.VK_R;
     // booleans for storing if a key is pressed
     static volatile boolean up = false;
     static volatile boolean down = false;
@@ -27,10 +27,10 @@ public class Input {
     static volatile boolean special2 = false;
     static volatile boolean special3 = false;
     static volatile boolean special4 = false;
-    static volatile boolean isMouse1Pressed = false;
-    static volatile boolean isMouse1Released = false;
+    private static volatile boolean isMouse1Pressed = false;
+    private static volatile boolean isMouse1Released = false;
 
-    MouseListener mouseListener;
+    private final MouseListener mouseListener;
 
     public Input() {
         IsKeyPressed.makeKeyboardManager();
