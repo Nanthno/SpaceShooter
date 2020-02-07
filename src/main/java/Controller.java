@@ -427,6 +427,15 @@ public class Controller {
 
     }
 
+    private static void clearActiveData() {
+        enemyShips = new ArrayList<>();
+        playerFiredWeapons = new ArrayList<>();
+        laserBlast = null;
+        enemyFiredWeapons = new ArrayList<>();
+        explosions = new ArrayList<>();
+
+    }
+
     public static void shutdown() {
         audioManager.shutdown();
     }
@@ -529,6 +538,8 @@ public class Controller {
     }
 
     public static void setGameState(GameState newGameState) {
+        clearActiveData();
+
         if (newGameState == GameState.PLAYING) {
             SpawnController.setStartTime(System.currentTimeMillis());
             resetGame();
@@ -541,6 +552,7 @@ public class Controller {
         if (newGameState == GameState.HIGH_SCORE) {
             audioManager.playMusic(MusicType.HIGHSCORE);
             HighScorePanel.loadScores();
+
         }
 
         gameState = newGameState;

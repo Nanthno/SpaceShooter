@@ -21,8 +21,6 @@ public class HighScorePanel {
     static int currentRunPlace = -1;
     static int currentRunScore = 0;
 
-    static final int textSize = 12;
-    static final int scoreYSpacing = 20;
     static final int scoreboardWidth = 300;
     static final int scoreboardHeight = 200;
     static final int scoreboardXOrigin = Globals.screenWidth / 2 - scoreboardWidth / 2;
@@ -43,6 +41,8 @@ public class HighScorePanel {
     private static final int menuButtonWidth = menuButton[0].getWidth();
     private static final int menuButtonHeight = menuButton[0].getHeight();
 
+    private static BufferedImage scoreboardImage = null;
+
     static BufferedImage drawScreenshot() {
         BufferedImage screenshot = new BufferedImage(GraphicsManager.WIDTH, GraphicsManager.HEIGHT, BufferedImage.TYPE_INT_ARGB);
         Graphics g = screenshot.getGraphics();
@@ -52,7 +52,7 @@ public class HighScorePanel {
         int menuButtonFrame = getButtonFrame(menuButtonOriginX, menuButtonOriginY, menuButtonWidth, menuButtonHeight, mousePoint, Button.MENU);
         g.drawImage(menuButton[menuButtonFrame], menuButtonOriginX, menuButtonOriginY, null);
 
-        BufferedImage scoreImg = drawScores();
+        BufferedImage scoreImg = scoreboardImage;
         g.drawImage(scoreImg, scoreboardXOrigin, scoreboardYOrigin, null);
 
         g.dispose();
@@ -60,7 +60,7 @@ public class HighScorePanel {
         return screenshot;
     }
 
-    private static BufferedImage drawScores() {
+    private static void drawScores() {
 
         System.out.println(currentRunPlace);
 
@@ -87,7 +87,7 @@ public class HighScorePanel {
 
         g.dispose();
 
-        return img;
+        scoreboardImage = img;
     }
 
     private static BufferedImage drawWord(String word, Color color, int fontSize) {
@@ -159,6 +159,9 @@ public class HighScorePanel {
         }
 
         scores = populateEmptyScore(scores);
+
+        drawScores();
+
         return;
     }
 
