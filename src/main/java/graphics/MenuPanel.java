@@ -19,6 +19,7 @@ public class MenuPanel implements ActionListener {
     private static final BufferedImage[] creditsButtonImages = ImageUtil.loadAnimation(GraphicsManager.imageFolderPath + "buttonCredits");
     private static final BufferedImage[] soundModeButtonImages = ImageUtil.loadAnimation(GraphicsManager.imageFolderPath + "audioSelectorButtons");
     private static final BufferedImage[] muteButtonImages = ImageUtil.loadAnimation(GraphicsManager.imageFolderPath + "buttonMute");
+    private static final BufferedImage catalystTitle = ImageUtil.loadImage(GraphicsManager.imageFolderPath + "catalystTitle.png");
 
     private final Map<Button, BufferedImage[]> buttonMap = new HashMap<Button, BufferedImage[]>() {{
         put(Button.PLAY, playButtonImages);
@@ -29,9 +30,12 @@ public class MenuPanel implements ActionListener {
     }};
 
     // for main
+    private final int titleOriginX = 64;
+    private final int titleOriginY = 32;
+
     private final Button[] buttonOrder = new Button[]{Button.PLAY, Button.CREDITS};
-    private final int buttonOriginX = 32;
-    private final int buttonOriginY = 32;
+    private final int buttonOriginX = 64;
+    private final int buttonOriginY = 200;
     private final int buttonWidth;
     private final int buttonHeight;
 
@@ -47,7 +51,6 @@ public class MenuPanel implements ActionListener {
 
 
     private enum Button {
-        NONE,
         PLAY,
         CREDITS,
         BACK,
@@ -135,8 +138,8 @@ public class MenuPanel implements ActionListener {
         if (buttonValue != 2) {
         }
 
-        int creditsY = 100;
-        int creditsX = 50;
+        int creditsY = 150;
+        int creditsX = 64;
         g.drawImage(credits, creditsX, creditsY, null);
 
         g.dispose();
@@ -145,6 +148,9 @@ public class MenuPanel implements ActionListener {
 
     private BufferedImage drawMainMenu(BufferedImage screenshot, Graphics g, Point mousePoint) {
         BufferedImage buttons = drawButtons(mousePoint);
+
+        g.drawImage(catalystTitle, titleOriginX, titleOriginY, null);
+
         g.drawImage(buttons, buttonOriginX, buttonOriginY, null);
 
         g.dispose();
@@ -163,7 +169,7 @@ public class MenuPanel implements ActionListener {
 
         int soundButtonOriginY = Globals.gameHeight - 50;// for sound selection
         int soundButtonOriginX = Globals.screenWidth - 300;
-        int buttonNumber = getButtonFrame(soundButtonOriginX + 24, soundButtonOriginY + soundButtonHeight, soundButtonWidth + 24, soundButtonHeight,
+        int buttonNumber = getButtonFrame(soundButtonOriginX + buttonOriginX, soundButtonOriginY + soundButtonHeight, soundButtonWidth + 24, soundButtonHeight,
                 mousePoint, Button.SOUND_SELECTION);
 
         for (int i = 0; i < buttonOrder.length; i++) {
@@ -182,13 +188,14 @@ public class MenuPanel implements ActionListener {
         }
 
         g.drawImage(soundModeButtonImages[Controller.getIsSoundExperiential() ? 1 : 0],
-                soundButtonOriginX, soundButtonOriginY,
+                soundButtonOriginX, soundButtonOriginY-buttonOriginY+50,
                 null);
 
 
-        int muteButtonOriginY = Globals.gameHeight - 30;// for mute button
-        int muteButtonOriginX = Globals.screenWidth - 400;
-        getButtonFrame(muteButtonOriginX, muteButtonOriginY, muteButtonWidth, muteButtonHeight + 5,
+        int muteButtonOriginY = Globals.gameHeight - 181;// for mute button
+        int muteButtonOriginX = Globals.screenWidth - 390;
+        getButtonFrame(muteButtonOriginX+buttonOriginX, muteButtonOriginY+buttonOriginY,
+                muteButtonWidth, muteButtonHeight + 5,
                 mousePoint, Button.MUTE);
         g.drawImage(muteButtonImages[Controller.isAudioMuted() ? 1 : 0],
                 muteButtonOriginX, muteButtonOriginY,
