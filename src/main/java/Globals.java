@@ -43,7 +43,7 @@ public class Globals {
         put(EnemyType.SHOOTER, 40);
         put(EnemyType.PILOTED, 30);
     }};
-    static final Map<EnemyType, Class> enemyTypeClasses = new HashMap<EnemyType, Class>() {{
+    /*static final Map<EnemyType, Class> enemyTypeClasses = new HashMap<EnemyType, Class>() {{
         put(EnemyType.BASIC, EnemyBasic.class);
         put(EnemyType.FUEL, EnemyFuel.class);
         put(EnemyType.AGILE, EnemyAgile.class);
@@ -52,7 +52,7 @@ public class Globals {
         put(EnemyType.ARMORED1, EnemyArmored1.class);
         put(EnemyType.SHOOTER, EnemyShooter.class);
         put(EnemyType.PILOTED, EnemyPiloted.class);
-    }};
+    }};*/
 
     private static final Map<ResourceFileType, String> resourceFileMap = new HashMap<ResourceFileType, String>() {{
         put(ResourceFileType.IMAGE, "resources/images/");
@@ -70,12 +70,11 @@ public class Globals {
 
     private static final Map<EnemyType, Integer> enemyShipsMaxFrames = new HashMap<>();
     private static final Map<WeaponType, Integer> weaponMaxFrames = new HashMap<>();
-    private static int playerMaxFrames;
 
     private static Map<WeaponType, AudioClipType> makeWeaponAudioClipsMap() {
         Map<WeaponType, AudioClipType> clipsMap = new HashMap<>();
 
-        Set<String> audioClipStrings = Arrays.stream(AudioClipType.values()).map(c -> c.toString()).collect(Collectors.toSet());
+        Set<String> audioClipStrings = Arrays.stream(AudioClipType.values()).map(Enum::toString).collect(Collectors.toSet());
 
         for (WeaponType weaponType : WeaponType.values()) {
             String clipName = weaponType.toString() + "_FIRED";
@@ -93,7 +92,7 @@ public class Globals {
 
         Map<ExplosionType, AudioClipType> clipsMap = new HashMap<>();
 
-        Set<String> audioClipStrings = Arrays.stream(AudioClipType.values()).map(c -> c.toString()).collect(Collectors.toSet());
+        Set<String> audioClipStrings = Arrays.stream(AudioClipType.values()).map(Enum::toString).collect(Collectors.toSet());
 
         for (ExplosionType expType : ExplosionType.values()) {
             String clipName = expType.toString() + "_EXPLOSION";
@@ -164,10 +163,6 @@ public class Globals {
 
     public static int getWeaponMaxFrames(WeaponType type) {
         return weaponMaxFrames.get(type);
-    }
-
-    public static int getPlayerMaxFrames() {
-        return playerMaxFrames;
     }
 
     public static AudioClipType getExplosionAudioClipType(ExplosionType explosionType) {

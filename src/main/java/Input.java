@@ -66,70 +66,66 @@ public class Input {
         // Code from https://stackoverflow.com/questions/18037576/how-do-i-check-if-the-user-is-pressing-a-key
         // creates input updater
         KeyboardFocusManager.getCurrentKeyboardFocusManager()
-                .addKeyEventDispatcher(new KeyEventDispatcher() {
+                .addKeyEventDispatcher(ke -> {
+                    synchronized (IsKeyPressed.class) {
 
-                                           @Override
-                                           public boolean dispatchKeyEvent(KeyEvent ke) {
-                                               synchronized (IsKeyPressed.class) {
+                        switch (ke.getID()) {
+                            case KeyEvent.KEY_PRESSED:
+                                // movement
+                                if (ke.getKeyCode() == upKey) {
+                                    up = true;
+                                } else if (ke.getKeyCode() == downKey) {
+                                    down = true;
+                                } else if (ke.getKeyCode() == leftKey) {
+                                    left = true;
+                                } else if (ke.getKeyCode() == rightKey) {
+                                    right = true;
+                                }
+                                // firing
+                                else if (ke.getKeyCode() == fireKey) {
+                                    fire = true;
+                                } else if (ke.getKeyCode() == special1ke) {
+                                    special1 = true;
+                                } else if (ke.getKeyCode() == special2ke) {
+                                    special2 = true;
+                                } else if (ke.getKeyCode() == special3ke) {
+                                    special3 = true;
+                                } else if (ke.getKeyCode() == special4ke) {
+                                    special4 = true;
+                                }
 
-                                                   switch (ke.getID()) {
-                                                       case KeyEvent.KEY_PRESSED:
-                                                           // movement
-                                                           if (ke.getKeyCode() == upKey) {
-                                                               up = true;
-                                                           } else if (ke.getKeyCode() == downKey) {
-                                                               down = true;
-                                                           } else if (ke.getKeyCode() == leftKey) {
-                                                               left = true;
-                                                           } else if (ke.getKeyCode() == rightKey) {
-                                                               right = true;
-                                                           }
-                                                           // firing
-                                                           else if (ke.getKeyCode() == fireKey) {
-                                                               fire = true;
-                                                           } else if (ke.getKeyCode() == special1ke) {
-                                                               special1 = true;
-                                                           } else if (ke.getKeyCode() == special2ke) {
-                                                               special2 = true;
-                                                           } else if (ke.getKeyCode() == special3ke) {
-                                                               special3 = true;
-                                                           } else if (ke.getKeyCode() == special4ke) {
-                                                               special4 = true;
-                                                           }
-
-                                                           break;
+                                break;
 
 
-                                                       case KeyEvent.KEY_RELEASED:
-                                                           // movement
-                                                           if (ke.getKeyCode() == upKey) {
-                                                               up = false;
-                                                           } else if (ke.getKeyCode() == downKey) {
-                                                               down = false;
-                                                           } else if (ke.getKeyCode() == leftKey) {
-                                                               left = false;
-                                                           } else if (ke.getKeyCode() == rightKey) {
-                                                               right = false;
-                                                           }
-                                                           // firing
-                                                           else if (ke.getKeyCode() == fireKey) {
-                                                               fire = false;
-                                                           } else if (ke.getKeyCode() == special1ke) {
-                                                               special1 = false;
-                                                           } else if (ke.getKeyCode() == special2ke) {
-                                                               special2 = false;
-                                                           } else if (ke.getKeyCode() == special3ke) {
-                                                               special3 = false;
-                                                           } else if (ke.getKeyCode() == special4ke) {
-                                                               special4 = false;
-                                                           }
+                            case KeyEvent.KEY_RELEASED:
+                                // movement
+                                if (ke.getKeyCode() == upKey) {
+                                    up = false;
+                                } else if (ke.getKeyCode() == downKey) {
+                                    down = false;
+                                } else if (ke.getKeyCode() == leftKey) {
+                                    left = false;
+                                } else if (ke.getKeyCode() == rightKey) {
+                                    right = false;
+                                }
+                                // firing
+                                else if (ke.getKeyCode() == fireKey) {
+                                    fire = false;
+                                } else if (ke.getKeyCode() == special1ke) {
+                                    special1 = false;
+                                } else if (ke.getKeyCode() == special2ke) {
+                                    special2 = false;
+                                } else if (ke.getKeyCode() == special3ke) {
+                                    special3 = false;
+                                } else if (ke.getKeyCode() == special4ke) {
+                                    special4 = false;
+                                }
 
-                                                           break;
-                                                   }
-                                               }
-                                               return false;
-                                           }
-                                       }
+                                break;
+                        }
+                    }
+                    return false;
+                }
                 );
 
 

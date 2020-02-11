@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ConcurrentModificationException;
 
-public class ScreenPanel extends JPanel {
+class ScreenPanel extends JPanel {
 
     private final StatusPanel statusPanel;
     private final GamePanel gamePanel;
@@ -19,19 +19,10 @@ public class ScreenPanel extends JPanel {
     private final static int gameHeight = GraphicsManager.getHeight();
     private final static int screenHeight = GraphicsManager.HEIGHT;
     private double gameScale = 1;
-    private int frameWidth = 0;
-    private int frameHeight = 0;
+    private final int frameWidth = 0;
+    private final int frameHeight = 0;
 
     private boolean frameSizeChange = false;
-
-    private enum Button {
-        NONE,
-        PLAY,
-        CREDITS,
-        BACK,
-        SOUND_SELECTION,
-        MENU
-    }
 
     private int currentBackgroundX = 0;
     private static final int backgroundScrollRate = 1;
@@ -46,7 +37,6 @@ public class ScreenPanel extends JPanel {
         statusPanel = new StatusPanel();
         gamePanel = new GamePanel();
         menuPanel = new MenuPanel();
-        HighScorePanel highScorePanel = new HighScorePanel();
         backgroundImgWidth = GraphicsManager.background.getWidth();
     }
 
@@ -83,14 +73,6 @@ public class ScreenPanel extends JPanel {
             double yScale = frameHeight * 1.0 / gameHeight;
             gameScale = Math.min(xScale, yScale);
 
-            double drawGameWidth = gameWidth * gameScale;
-            double drawGameHeight = gameHeight * gameScale;
-
-            double xScaleDiff = frameWidth - drawGameWidth;
-            double yScaleDiff = frameHeight - drawGameHeight;
-
-            int gameXOrigin = (int) (xScaleDiff / 2);
-            int gameYOrigin = (int) (yScaleDiff / 2);
             frameSizeChange = false;
         }
 
@@ -197,21 +179,6 @@ public class ScreenPanel extends JPanel {
         playerShake = new int[]{playerShake[0] + x, playerShake[1] + y};
     }
 
-
-    // these are supposed to be used for scaling up the frame size but the scaling thing doesn't work
-    public void setFrameHeight(int frameHeight) {
-        if (frameHeight != this.frameHeight) {
-            frameSizeChange = true;
-            this.frameHeight = frameHeight;
-        }
-    }
-
-    public void setFrameWidth(int frameWidth) {
-        if (frameWidth != this.frameWidth) {
-            frameSizeChange = true;
-            this.frameWidth = frameWidth;
-        }
-    }
 
     @Override
     public Dimension getPreferredSize() {

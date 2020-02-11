@@ -120,8 +120,7 @@ public class DensityMap {
         }
 
         // finds holes which are near each others and mutually strengthens them
-        List<int[]> holeKeys = new ArrayList<>();
-        holeKeys.addAll(holes.keySet());
+        List<int[]> holeKeys = new ArrayList<>(holes.keySet());
         for (int i = 0; i < holeKeys.size(); i++) {
             int[] key1 = holeKeys.get(i);
             for (int k = i + 1; k < holeKeys.size(); k++) {

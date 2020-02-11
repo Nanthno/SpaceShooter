@@ -58,8 +58,7 @@ class GamePanel {
 
         // draw explosions
         List<Explosion> exp = Controller.getExplosions();
-        for (int i = 0; i < exp.size(); i++) {
-            Explosion e = exp.get(i);
+        for (Explosion e : exp) {
             BufferedImage img = GraphicsManager.getFrame(e.getExpType(), e.getStage());
             int height = img.getHeight();
             int width = img.getWidth();

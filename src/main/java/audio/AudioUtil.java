@@ -10,6 +10,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 class AudioUtil {
 
@@ -35,9 +36,9 @@ class AudioUtil {
 
             File[] clipFiles = clipParentFile.listFiles();
 
-            Sound[] soundArray = Arrays.stream(clipFiles)
+            Sound[] soundArray = Arrays.stream(Objects.requireNonNull(clipFiles))
                     .filter(f -> f.toString().matches(fileExtensions))
-                    .map(f -> TinySound.loadSound(f))
+                    .map(TinySound::loadSound)
                     .toArray(Sound[]::new);
 
             if (soundArray.length == 0) {
@@ -72,9 +73,9 @@ class AudioUtil {
 
             File[] clipFiles = clipParentFile.listFiles();
 
-            Music[] soundArray = Arrays.stream(clipFiles)
+            Music[] soundArray = Arrays.stream(Objects.requireNonNull(clipFiles))
                     .filter(f -> f.toString().matches(fileExtensions))
-                    .map(f -> TinySound.loadMusic(f))
+                    .map(TinySound::loadMusic)
                     .toArray(Music[]::new);
 
             if (soundArray.length == 0) {

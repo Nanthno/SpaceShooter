@@ -18,7 +18,6 @@ public class PlayerShip {
 
 
     private int fire = 0;
-    private final int overHeat = 12;
     private int heat = 70;
     private boolean overheated = false;
 
@@ -48,10 +47,6 @@ public class PlayerShip {
     private int minShieldRemaining = 0;
     private int shieldFrame = 0;
 
-    public PlayerShip() {
-        Input in = new Input();
-        int maxFrames = Globals.getPlayerMaxFrames();
-    }
 
     public void update() {
         immobile--;
@@ -91,10 +86,10 @@ public class PlayerShip {
             if (Input.fire && fire < 0 && !overheated) {
                 Controller.firePlayerBullet(new PlayerBullet(xPos + 5, yPos + radius - 1, fire < -40));
                 // manages how fast the player can fire
-                int maxFire = 3;
-                fire = maxFire;
+                fire = 3;
                 int fireHeat = 15;
                 heat += fireHeat;
+                int overHeat = 12;
                 if (heat > overHeat) {
                     overheated = true;
                 }
@@ -182,13 +177,6 @@ public class PlayerShip {
         return radius;
     }
 
-    int getHeat() {
-        return heat;
-    }
-
-    int getMaxHeat() {
-        return overHeat;
-    }
 
     int getCharge() {
         return charge;

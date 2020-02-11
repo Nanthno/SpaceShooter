@@ -18,7 +18,6 @@ public class GraphicsManager {
 
     // size of the screen
     private static final int GAME_WIDTH = Globals.gameWidth;
-    static int GAME_HEIGHT = Globals.gameHeight;
     private static final int STATUS_WIDTH = 64;
     static final int WIDTH = GAME_WIDTH + STATUS_WIDTH;
     static final int HEIGHT = Globals.screenHeight;
@@ -100,7 +99,6 @@ public class GraphicsManager {
         System.out.println("loading images from " + imageFile);
 
         background = ImageUtil.loadImage(imageFile + "spaceLong.png");
-        BufferedImage statusBars = ImageUtil.loadImage(imageFile + "statusPanel.png");
         horizontalStatusBar = ImageUtil.loadImage(imageFile + "statusPanelH2.png");
 
         playerImages = ImageUtil.loadAnimation(imageFile + "player_ship2");

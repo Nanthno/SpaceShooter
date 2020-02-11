@@ -7,7 +7,7 @@ import src.main.java.weapons.playerWeapons.PlayerWeaponParent;
 public class EnemyShip {
 
     // default x position
-    double xPos = 1030;
+    double xPos;
 
     // defined on instantiation by the controller
     double yPos;
@@ -18,7 +18,7 @@ public class EnemyShip {
     int currentFrame = 0;
     int maxFrame;
 
-    final EnemyType shipType;
+    private final EnemyType shipType;
     final int radius;
 
     public EnemyShip(int x, int y, double xSpeed, EnemyType type) {

@@ -151,9 +151,7 @@ public class HighScorePanel {
             scores = (String[][]) in.readObject();
         } catch (FileNotFoundException e) {
             System.out.println("The highscore file does not exist. Creating new one...");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
 
@@ -181,15 +179,13 @@ public class HighScorePanel {
             FileOutputStream fOut = new FileOutputStream(scoreFileLocation);
             ObjectOutputStream out = new ObjectOutputStream(fOut);
             out.writeObject(scores);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private static int getButtonFrame(Point mousePoint) {
-        if (mouseOverlap(mousePoint, HighScorePanel.menuButtonOriginX, HighScorePanel.menuButtonOriginY, HighScorePanel.menuButtonWidth, HighScorePanel.menuButtonHeight)) {
+        if (mouseOverlap(mousePoint)) {
             if (input.getIsMouse1Pressed()) {
                 if (input.getIsMouse1Released()) {
                     Controller.setGameState(GameState.MENU);
@@ -205,12 +201,12 @@ public class HighScorePanel {
 
     }
 
-    private static boolean mouseOverlap(Point mousePoint, int x, int y, int width, int height) {
+    private static boolean mouseOverlap(Point mousePoint) {
         int mouseX = (int) mousePoint.getX();
         int mouseY = (int) mousePoint.getY();
 
-        return mouseX >= x && mouseX <= x + width &&
-                mouseY >= y && mouseY <= y + height;
+        return mouseX >= HighScorePanel.menuButtonOriginX && mouseX <= HighScorePanel.menuButtonOriginX + HighScorePanel.menuButtonWidth &&
+                mouseY >= HighScorePanel.menuButtonOriginY && mouseY <= HighScorePanel.menuButtonOriginY + HighScorePanel.menuButtonHeight;
     }
 
     public static void clearScoreBoardImage() {

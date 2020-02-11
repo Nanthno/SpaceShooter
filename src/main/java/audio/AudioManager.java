@@ -27,7 +27,6 @@ public class AudioManager {
 
 
     public AudioManager() {
-        TinySound tinySound = new TinySound();
         TinySound.init();
         loadAudioMaps();
         lastPlayed = primeLastPlayed();

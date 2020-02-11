@@ -1,6 +1,5 @@
 package src.main.java.weapons.playerWeapons;
 
-import src.main.java.Globals;
 import src.main.java.weapons.WeaponType;
 
 public class LaserBlast extends PlayerWeaponParent {
@@ -13,8 +12,6 @@ public class LaserBlast extends PlayerWeaponParent {
         stage = 0;
         effectiveStage = 2;
         maxStage = 7;
-
-        int maxFrames = Globals.getWeaponMaxFrames(WeaponType.PLAYER_LASER_BLAST);
     }
 
 

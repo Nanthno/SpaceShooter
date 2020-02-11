@@ -74,52 +74,49 @@ class IsKeyPressed {
     }
 
     public static void makeKeyboardManager() {
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
-            @Override
-            public boolean dispatchKeyEvent(KeyEvent ke) {
-                synchronized (IsKeyPressed.class) {
-                    switch (ke.getID()) {
-                        case KeyEvent.KEY_PRESSED:
-                            if (ke.getKeyCode() == up1ke) {
-                                up1 = true;
-                            } else if (ke.getKeyCode() == down1ke) {
-                                down1 = true;
-                            } else if (ke.getKeyCode() == left1ke) {
-                                left1 = true;
-                            } else if (ke.getKeyCode() == right1ke) {
-                                right1 = true;
-                            } else if (ke.getKeyCode() == up2ke) {
-                                up2 = true;
-                            } else if (ke.getKeyCode() == down2ke) {
-                                down2 = true;
-                            } else if (ke.getKeyCode() == left2ke) {
-                                left2 = true;
-                            } else if (ke.getKeyCode() == right2ke) {
-                                right2 = true;
-                            }
-                            break;
-                        case KeyEvent.KEY_RELEASED:
-                            if (ke.getKeyCode() == up1ke) {
-                                up1 = false;
-                            } else if (ke.getKeyCode() == down1ke) {
-                                down1 = false;
-                            } else if (ke.getKeyCode() == left1ke) {
-                                left1 = false;
-                            } else if (ke.getKeyCode() == right1ke) {
-                                right1 = false;
-                            } else if (ke.getKeyCode() == up2ke) {
-                                up2 = false;
-                            } else if (ke.getKeyCode() == down2ke) {
-                                down2 = false;
-                            } else if (ke.getKeyCode() == left2ke) {
-                                left2 = false;
-                            } else if (ke.getKeyCode() == right2ke) {
-                                right2 = false;
-                            }
-                            break;
-                    }
-                    return false;
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(ke -> {
+            synchronized (IsKeyPressed.class) {
+                switch (ke.getID()) {
+                    case KeyEvent.KEY_PRESSED:
+                        if (ke.getKeyCode() == up1ke) {
+                            up1 = true;
+                        } else if (ke.getKeyCode() == down1ke) {
+                            down1 = true;
+                        } else if (ke.getKeyCode() == left1ke) {
+                            left1 = true;
+                        } else if (ke.getKeyCode() == right1ke) {
+                            right1 = true;
+                        } else if (ke.getKeyCode() == up2ke) {
+                            up2 = true;
+                        } else if (ke.getKeyCode() == down2ke) {
+                            down2 = true;
+                        } else if (ke.getKeyCode() == left2ke) {
+                            left2 = true;
+                        } else if (ke.getKeyCode() == right2ke) {
+                            right2 = true;
+                        }
+                        break;
+                    case KeyEvent.KEY_RELEASED:
+                        if (ke.getKeyCode() == up1ke) {
+                            up1 = false;
+                        } else if (ke.getKeyCode() == down1ke) {
+                            down1 = false;
+                        } else if (ke.getKeyCode() == left1ke) {
+                            left1 = false;
+                        } else if (ke.getKeyCode() == right1ke) {
+                            right1 = false;
+                        } else if (ke.getKeyCode() == up2ke) {
+                            up2 = false;
+                        } else if (ke.getKeyCode() == down2ke) {
+                            down2 = false;
+                        } else if (ke.getKeyCode() == left2ke) {
+                            left2 = false;
+                        } else if (ke.getKeyCode() == right2ke) {
+                            right2 = false;
+                        }
+                        break;
                 }
+                return false;
             }
         });
     }

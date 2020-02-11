@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 class ClusterUtil {
 
@@ -18,16 +19,11 @@ class ClusterUtil {
     static HashMap<String, SpawnCluster> createSpawnClusters() {
         HashMap<String, SpawnCluster> clusters = new HashMap<>();
 
-        File[] clusterFiles = clusterDirectory.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File file, String name) {
-                return name.toLowerCase().endsWith(".cluster");
-            }
-        });
+        File[] clusterFiles = clusterDirectory.listFiles((file, name) -> name.toLowerCase().endsWith(".cluster"));
 
         System.out.println("Loading cluster data from " + clusterDirectory);
 
-        for (File clusterFile : clusterFiles) {
+        for (File clusterFile : Objects.requireNonNull(clusterFiles)) {
             try {
                 SpawnCluster cluster = new SpawnCluster();
                 List<String> rawClusterData = Files.readAllLines(clusterFile.toPath());
@@ -69,8 +65,6 @@ class ClusterUtil {
 
                             Spawn spawn = new Spawn(x * spacing,
                                     y * spacing,
-                                    minSpeed,
-                                    maxSpeed,
                                     type);
 
                             cluster.addSpawn(spawn);
@@ -98,7 +92,7 @@ class ClusterUtil {
         return clusters;
     }
 
-    private static boolean clusterFileFormattedCorrectly(List<String> file) {
+    /*private static boolean clusterFileFormattedCorrectly(List<String> file) {
 
         boolean correct = file.size() >= 4;
         correct &= file.get(0).matches("id:[a-zA-Z][a-zA-Z]");
@@ -109,12 +103,5 @@ class ClusterUtil {
 
         return correct;
 
-    }
-
-    static SpawnPattern[] createSpawnPatterns(HashMap<String, SpawnCluster> clusters) {
-
-
-        return null;
-    }
-
+    }*/
 }

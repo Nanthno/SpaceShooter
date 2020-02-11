@@ -89,11 +89,9 @@ public class Controller {
         resetGame();
 
 
-        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-            public void run() {
-                System.out.println("In shutdown hook");
-                Controller.shutdown();
-            }
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            System.out.println("In shutdown hook");
+            Controller.shutdown();
         }, "Shutdown-thread"));
 
 
@@ -173,8 +171,7 @@ public class Controller {
         }
 
         // updates enemyShips
-        for (int i = 0; i < enemyShips.size(); i++) {
-            EnemyShip e = enemyShips.get(i);
+        for (EnemyShip e : enemyShips) {
             boolean offScreen = e.update();
             if (offScreen) {
                 if (e.getType() != EnemyType.SHIELD)

@@ -11,7 +11,7 @@ class Spawn {
 
     private final EnemyType type;
 
-    public Spawn(int xCenter, int yCenter, double minSpeed, double maxSpeed, EnemyType type) {
+    public Spawn(int xCenter, int yCenter, EnemyType type) {
 
         int xPos = xCenter - Globals.getEnemyShipRadius(type);
         int yPos = yCenter - Globals.getEnemyShipRadius(type);
@@ -23,7 +23,7 @@ class Spawn {
     }
 
     EnemyShip makeEnemy(int clusterX, int clusterY, double speed) {
-        EnemyShip ship = null;
+        EnemyShip ship;
 
         if (type == EnemyType.AGILE)
             ship = new EnemyAgile(clusterX + xPos, clusterY + yPos, speed);

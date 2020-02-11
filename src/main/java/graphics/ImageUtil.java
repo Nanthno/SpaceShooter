@@ -29,41 +29,6 @@ class ImageUtil {
 
     }
 
-    static BufferedImage[] loadAnimation(String directory, int alpha) {
-        File folder = new File(directory);
-        File[] frameFiles = folder.listFiles();
-
-        Arrays.sort(frameFiles);
-
-        BufferedImage[] animation = new BufferedImage[frameFiles.length];
-
-        for (int i = 0; i < frameFiles.length; i++) {
-            BufferedImage image = loadImage(frameFiles[i]);
-            image = setAlpha(alpha, image);
-            animation[i] = image;
-        }
-
-        return animation;
-
-    }
-
-    private static BufferedImage setAlpha(int alpha, BufferedImage image) {
-        alpha %= 0xff;
-        for (int cx = 0; cx < image.getWidth(); cx++) {
-            for (int cy = 0; cy < image.getHeight(); cy++) {
-                int color = image.getRGB(cx, cy);
-
-                int mc = (alpha << 24) | 0x00ffffff;
-                int newColor = color & mc;
-                image.setRGB(cx, cy, newColor);
-
-            }
-
-        }
-
-        return image;
-    }
-
     private static BufferedImage loadImage(File file) {
 
         try {
@@ -122,17 +87,5 @@ class ImageUtil {
 
         return img;
 
-    }
-
-    // code adapted from http://www.java2s.com/Tutorials/Java/Graphics_How_to/Image/Copy_Join_two_buffered_image_into_one_image_side_by_side.htm
-    public static BufferedImage joinImages(BufferedImage img1, BufferedImage img2) {
-        int width = img1.getWidth() + img2.getWidth();
-        int height = Math.max(img1.getHeight(), img2.getHeight());
-        BufferedImage newImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2 = newImage.createGraphics();
-        g2.drawImage(img1, null, 0, 0);
-        g2.drawImage(img2, null, img1.getWidth(), 0);
-        g2.dispose();
-        return newImage;
     }
 }

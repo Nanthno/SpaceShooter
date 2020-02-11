@@ -16,15 +16,10 @@ public class TimelineUtil {
     public static Map<Integer, TimeStampEvent> readTimelines() {
         Map<Integer, TimeStampEvent> timeline = new HashMap<>();
 
-        File[] timelineFiles = timelineDirectory.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File file, String name) {
-                return name.endsWith(".timeline");
-            }
-        });
+        File[] timelineFiles = timelineDirectory.listFiles((file, name) -> name.endsWith(".timeline"));
 
-        for (File file : timelineFiles) {
-            timeline = unpackFile(file, timeline);
+        for (File file : Objects.requireNonNull(timelineFiles)) {
+            unpackFile(file, timeline);
         }
 
         return timeline;
@@ -33,8 +28,7 @@ public class TimelineUtil {
     public static Queue<TimeStampEvent> readTimelinesToQueue() {
         Map<Integer, TimeStampEvent> timelineMap = readTimelines();
 
-        List<Integer> timePoints = new ArrayList<Integer>();
-        timePoints.addAll(timelineMap.keySet());
+        List<Integer> timePoints = new ArrayList<>(timelineMap.keySet());
         Collections.sort(timePoints);
 
         Queue<TimeStampEvent> events = new LinkedList<>();
@@ -50,7 +44,7 @@ public class TimelineUtil {
 
         try {
             List<String> documentList = Files.readAllLines(file.toPath());
-            String[] document = documentList.toArray(new String[documentList.size()]);
+            String[] document = documentList.toArray(new String[0]);
 
 
             TimeStampEvent event = null;
@@ -69,17 +63,17 @@ public class TimelineUtil {
                 }
 
                 if (document[i].startsWith("set")) {
-                    event.addSet(document[i]);
+                    Objects.requireNonNull(event).addSet(document[i]);
                     continue;
                 }
                 if (document[i].startsWith("spawn")) {
-                    event.addSpawn(document[i]);
+                    Objects.requireNonNull(event).addSpawn(document[i]);
                     continue;
                 }
                 if(document[i].startsWith("speed ")) {
                     try {
                         double speed = Double.parseDouble(document[i].substring(5));
-                        event.setSpeed(speed);
+                        Objects.requireNonNull(event).setSpeed(speed);
                     } catch(Exception e) {
                         System.out.println("Could not parse speed in timeline at line " + i);
                         e.printStackTrace();
@@ -88,7 +82,7 @@ public class TimelineUtil {
                 if(document[i].startsWith("speedIncrease")) {
                     try {
                         double speedIncrease = Double.parseDouble(document[i].substring(13));
-                        event.setSpeedIncrease(speedIncrease);
+                        Objects.requireNonNull(event).setSpeedIncrease(speedIncrease);
                     } catch(Exception e) {
                         System.out.println("Could not parse speed increase in timeline at line " + i);
                         e.printStackTrace();

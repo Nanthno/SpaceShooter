@@ -17,10 +17,9 @@ class TimelineController implements Runnable {
 
         startTime = System.currentTimeMillis();
 
-        List<Integer> timeStamps = new ArrayList<Integer>();
-        timeStamps.addAll(timelineEvents.keySet());
+        List<Integer> timeStamps = new ArrayList<>(timelineEvents.keySet());
         Collections.sort(timeStamps);
-        timelineQueue = new LinkedList<Integer>(timeStamps);
+        timelineQueue = new LinkedList<>(timeStamps);
     }
 
     public void run() {

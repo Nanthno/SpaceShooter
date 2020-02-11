@@ -52,8 +52,7 @@ public class EnemyAgile extends EnemyShip {
 
         Map<int[], Double> holes = densityMap.getHoles();
 
-        List<int[]> holeKeys = new ArrayList<>();
-        holeKeys.addAll(holes.keySet());
+        List<int[]> holeKeys = new ArrayList<>(holes.keySet());
 
         int[] targetPos = new int[2];
         double targetPosValue = -1;

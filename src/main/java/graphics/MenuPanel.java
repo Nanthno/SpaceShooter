@@ -29,10 +29,6 @@ public class MenuPanel implements ActionListener {
 
     }};
 
-    // for main
-    private final int titleOriginX = 64;
-    private final int titleOriginY = 32;
-
     private final Button[] buttonOrder = new Button[]{Button.PLAY, Button.CREDITS};
     private final int buttonOriginX = 64;
     private final int buttonOriginY = 200;
@@ -98,10 +94,11 @@ public class MenuPanel implements ActionListener {
 
         Point mousePoint = Controller.findMousePosition();
 
-        if (menuStatus == MenuStatus.MAIN)
-            screenshot = drawMainMenu(screenshot, g, mousePoint);
-        else if (menuStatus == MenuStatus.CREDITS)
-            screenshot = drawCredits(screenshot, g, mousePoint);
+        if (menuStatus == MenuStatus.MAIN) {
+            drawMainMenu(screenshot, g, mousePoint);
+        } else if (menuStatus == MenuStatus.CREDITS) {
+            drawCredits(screenshot, g, mousePoint);
+        }
 
 
         g.dispose();
@@ -135,8 +132,6 @@ public class MenuPanel implements ActionListener {
         BufferedImage backButtonImg = backButtonImages[buttonValue];
 
         g.drawImage(backButtonImg, backButtonOriginX, backButtonOriginY, null);
-        if (buttonValue != 2) {
-        }
 
         int creditsY = 150;
         int creditsX = 64;
@@ -149,6 +144,8 @@ public class MenuPanel implements ActionListener {
     private BufferedImage drawMainMenu(BufferedImage screenshot, Graphics g, Point mousePoint) {
         BufferedImage buttons = drawButtons(mousePoint);
 
+        int titleOriginY = 32;// for main
+        int titleOriginX = 64;
         g.drawImage(catalystTitle, titleOriginX, titleOriginY, null);
 
         g.drawImage(buttons, buttonOriginX, buttonOriginY, null);
@@ -201,8 +198,6 @@ public class MenuPanel implements ActionListener {
                 muteButtonOriginX, muteButtonOriginY,
                 null);
 
-        if (!mouseStillOnCurrentClick) {
-        }
         return buttons;
     }
 
