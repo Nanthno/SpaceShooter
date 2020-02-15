@@ -20,7 +20,6 @@ class AudioUtil {
         String fileNotFoundBase = makeFileNotFoundBase(isExperiential);
         String location = makeFileLocation(isExperiential);
 
-        System.out.println("loading sfx from " + location);
 
         AudioClipType[] audioClips = AudioClipType.values();
 
@@ -36,7 +35,7 @@ class AudioUtil {
 
             File[] clipFiles = clipParentFile.listFiles();
 
-            Sound[] soundArray = Arrays.stream(Objects.requireNonNull(clipFiles))
+            Sound[] soundArray = Arrays.stream(clipFiles)
                     .filter(f -> f.toString().matches(fileExtensions))
                     .map(TinySound::loadSound)
                     .toArray(Sound[]::new);
@@ -57,7 +56,6 @@ class AudioUtil {
         String fileNotFoundBase = makeFileNotFoundBase(isExperiential);
         String location = makeFileLocation(isExperiential);
 
-        System.out.println("loading music from " + location);
 
         MusicType[] musicClips = MusicType.values();
 
@@ -73,7 +71,7 @@ class AudioUtil {
 
             File[] clipFiles = clipParentFile.listFiles();
 
-            Music[] soundArray = Arrays.stream(Objects.requireNonNull(clipFiles))
+            Music[] soundArray = Arrays.stream(clipFiles)
                     .filter(f -> f.toString().matches(fileExtensions))
                     .map(TinySound::loadMusic)
                     .toArray(Music[]::new);

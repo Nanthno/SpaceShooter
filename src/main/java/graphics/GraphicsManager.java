@@ -96,7 +96,6 @@ public class GraphicsManager {
 
         String imageFile = Globals.getResourceFile(ResourceFileType.IMAGE);
 
-        System.out.println("loading images from " + imageFile);
 
         background = ImageUtil.loadImage(imageFile + "spaceLong.png");
         horizontalStatusBar = ImageUtil.loadImage(imageFile + "statusPanelH2.png");

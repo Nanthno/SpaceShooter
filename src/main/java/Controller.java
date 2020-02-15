@@ -25,8 +25,8 @@ import java.util.*;
 public class Controller {
 
 
-    private static int health = 0;
-    private static final int maxHealth = 0;
+    private static int health = 100;
+    private static final int maxHealth = 100;
 
     private static GraphicsManager graphicsManager;
     private static AudioManager audioManager;
@@ -90,7 +90,6 @@ public class Controller {
 
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            System.out.println("In shutdown hook");
             Controller.shutdown();
         }, "Shutdown-thread"));
 

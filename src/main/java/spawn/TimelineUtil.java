@@ -18,7 +18,7 @@ public class TimelineUtil {
 
         File[] timelineFiles = timelineDirectory.listFiles((file, name) -> name.endsWith(".timeline"));
 
-        for (File file : Objects.requireNonNull(timelineFiles)) {
+        for (File file : timelineFiles) {
             unpackFile(file, timeline);
         }
 
@@ -63,17 +63,17 @@ public class TimelineUtil {
                 }
 
                 if (document[i].startsWith("set")) {
-                    Objects.requireNonNull(event).addSet(document[i]);
+                    event.addSet(document[i]);
                     continue;
                 }
                 if (document[i].startsWith("spawn")) {
-                    Objects.requireNonNull(event).addSpawn(document[i]);
+                    event.addSpawn(document[i]);
                     continue;
                 }
                 if(document[i].startsWith("speed ")) {
                     try {
                         double speed = Double.parseDouble(document[i].substring(5));
-                        Objects.requireNonNull(event).setSpeed(speed);
+                        event.setSpeed(speed);
                     } catch(Exception e) {
                         System.out.println("Could not parse speed in timeline at line " + i);
                         e.printStackTrace();
@@ -82,7 +82,7 @@ public class TimelineUtil {
                 if(document[i].startsWith("speedIncrease")) {
                     try {
                         double speedIncrease = Double.parseDouble(document[i].substring(13));
-                        Objects.requireNonNull(event).setSpeedIncrease(speedIncrease);
+                        event.setSpeedIncrease(speedIncrease);
                     } catch(Exception e) {
                         System.out.println("Could not parse speed increase in timeline at line " + i);
                         e.printStackTrace();

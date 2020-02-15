@@ -36,7 +36,6 @@ class TimelineController implements Runnable {
             long secondsPassed = (currentTime - startTime) / 1000;
 
             if (secondsPassed > nextTimeStamp) {
-                System.out.print(",");
                 Controller.updateSpawnProbabilities(timelineEvents.get(nextTimeStamp));
 
                 if (timelineQueue.size() == 0) {

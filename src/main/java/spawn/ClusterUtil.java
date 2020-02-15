@@ -5,12 +5,10 @@ import src.main.java.ResourceFileType;
 import src.main.java.enemy.EnemyType;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 class ClusterUtil {
 
@@ -21,9 +19,7 @@ class ClusterUtil {
 
         File[] clusterFiles = clusterDirectory.listFiles((file, name) -> name.toLowerCase().endsWith(".cluster"));
 
-        System.out.println("Loading cluster data from " + clusterDirectory);
-
-        for (File clusterFile : Objects.requireNonNull(clusterFiles)) {
+        for (File clusterFile : clusterFiles) {
             try {
                 SpawnCluster cluster = new SpawnCluster();
                 List<String> rawClusterData = Files.readAllLines(clusterFile.toPath());

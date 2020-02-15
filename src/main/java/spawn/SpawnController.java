@@ -71,7 +71,7 @@ public class SpawnController {
 
         long secondsPassed = (System.currentTimeMillis() - startTime) / 1000;
 
-        if (Objects.requireNonNull(event).getTriggerTime() < secondsPassed) {
+        if (event.getTriggerTime() < secondsPassed) {
             events.remove();
 
             updateSpawnProbabilities(event);

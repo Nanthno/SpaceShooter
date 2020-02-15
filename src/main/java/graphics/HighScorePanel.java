@@ -61,8 +61,6 @@ public class HighScorePanel {
 
     private static BufferedImage drawScores() {
 
-        System.out.println(currentRunPlace);
-
         BufferedImage img = new BufferedImage(scoreboardWidth, scoreboardHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics g = img.getGraphics();
         if(currentRunPlace != 0) {
